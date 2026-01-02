@@ -4,3 +4,4 @@ dist/
 coverage/
 test-output/
 data/*.json
+!data/*.sample.json
