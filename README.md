@@ -118,3 +118,42 @@ Los datos se guardan en `data/monster_high_features.json` con el siguiente forma
 ## ⚠️ Nota Legal
 
 Este proyecto es con fines educativos y de aprendizaje. El contenido extraído pertenece a sus respectivos autores y a la comunidad de Fandom.
+
+---
+
+## 🎓 El Viaje de Refactorización: De Monolito a Modular (Caso de Estudio)
+
+Este repositorio no solo es una herramienta funcional, sino también un ejemplo práctico de cómo aplicar ingeniería de software para transformar código "Legacy" en una arquitectura moderna y mantenible.
+
+### 🏛️ 1. El Punto de Partida: El Monolito
+Originalmente, el proyecto era un archivo único en JavaScript. Aunque funcionaba, presentaba tres grandes retos:
+*   **Acoplamiento Fuerte**: La lógica de red estaba mezclada con el parseo HTML y la lógica de negocio.
+*   **Imposible de Testear**: Para probar cualquier cambio, era necesario realizar peticiones reales a Internet.
+*   **Fragilidad**: Modificar el scraper podía romper accidentalmente la forma en que se guardaban los datos.
+
+### 🏗️ 2. La Transformación: Principios Aplicados
+
+Para resolver estos problemas, aplicamos los siguientes pilares de diseño:
+
+#### **SOLID & Clean Code**
+*   **S (Responsabilidad Única)**: Cada clase tiene una misión clara (Scraper, AI, Storage).
+*   **D (Inversión de Dependencias)**: Los servicios ya no crean sus herramientas (como Axios), sino que las "reciben" por el constructor. Esto nos permitió inyectar "Fakes" durante los tests para simular la red sin internet real.
+
+#### **TDD (Test-Driven Development) & XP**
+Seguimos una metodología de **Extreme Programming**:
+1.  **RED**: Escribimos el test que define el comportamiento deseado (y falla).
+2.  **GREEN**: Escribimos el código mínimo para que el test pase.
+3.  **REFACTOR**: Limpiamos y optimizamos el código con la seguridad de que el test nos protege.
+
+#### **No Mocks Policy**
+En lugar de usar mocks técnicos complejos que se acoplan a la implementación, usamos **Objects Fakes** reales. Por ejemplo, un `FakeHttpClient` que se comporta como uno de verdad pero devuelve HTML estático. Esto hace que nuestros tests sean más robustos y documenten mejor el negocio.
+
+### 🔄 3. Comparativa Educativa
+
+| Característica | Antes (Legacy JS) | Ahora (Modular TS) |
+| :--- | :--- | :--- |
+| **Confianza** | Manual ("Ojalá no se rompa") | Alta (Tests automáticos cubren ~90% de la lógica) |
+| **Legibilidad** | Un solo archivo denso | Estructura de carpetas por responsabilidades |
+| **Evolución** | Arriesgada | Segura mediante contratos definidos (Interfaces) |
+
+Este proceso demuestra que **invertir en arquitectura no es perder tiempo, sino ganar velocidad y calidad** a largo plazo.
