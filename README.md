@@ -115,6 +115,35 @@ Los datos se guardan en `data/monster_high_features.json` con el siguiente forma
 }
 ```
 
+---
+
+## 🤖 Configuración de Agentes IA por IDE
+
+Para que tu asistente de IA (Cursor, Copilot, etc.) siga estrictamente las reglas de este proyecto (XP, TDD, Clean Code), debes asegurarte de que estén en la ruta que tu IDE espera.
+
+Este proyecto guarda sus reglas maestras en `.agent/rules/`. Sigue estas instrucciones según tu editor:
+
+### 1. Antigravity (Estructura Actual)
+Si usas el agente **Antigravity**, ya está todo listo. El agente lee automáticamente las reglas de:
+*   `./.agent/rules/*.md`
+
+### 2. Cursor (Recomendado)
+Cursor utiliza un sistema modular de reglas alojado en la carpeta `.cursor/rules/`. Para activarlas:
+1.  Crea la carpeta `.cursor/rules/` en la raíz del proyecto.
+2.  Copia los archivos de `.agent/rules/*.md` a la nueva carpeta `.cursor/rules/`.
+3.  **Ruta final**: `./.cursor/rules/tdd.md`, `./.cursor/rules/coding-standards.md`, etc.
+4.  Reinicia el chat de Cursor para que indexe las reglas.
+
+### 3. VS Code + GitHub Copilot
+GitHub Copilot permite definir instrucciones de proyecto mediante archivos de Markdown:
+*   **Opción Global**: Crea el archivo `./.github/copilot-instructions.md` y pega el contenido de las reglas de `.agent/rules/`.
+*   **Opción Modular**: Copia los archivos a `./.github/instructions/`. Copilot usará estos archivos como contexto para sus respuestas.
+
+#### 💡 Tip Pro: Enlaces Simbólicos
+Para evitar duplicar archivos, puedes crear enlaces simbólicos (symlinks) desde la carpeta de tu IDE hacia `.agent/rules/`. Así, cualquier mejora en las reglas se aplicará a todos tus asistentes automáticamente.
+
+---
+
 ## ⚠️ Nota Legal
 
 Este proyecto es con fines educativos y de aprendizaje. El contenido extraído pertenece a sus respectivos autores y a la comunidad de Fandom.
