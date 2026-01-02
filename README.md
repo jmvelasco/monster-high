@@ -47,64 +47,55 @@ GROQ_API_KEY=tu_clave_api_aqui
 
 ## 🏃‍♂️ Uso
 
-El proyecto cuenta con un script principal `index.js` que orquesta todo el proceso.
+El proyecto utiliza **TypeScript** y se puede ejecutar directamente usando `ts-node` o mediante scripts de `npm`.
 
-Para ejecutar el scraper completo junto con la generación de resúmenes:
-
-```bash
-node index.js
-```
-
-### Comportamiento del Script
-El script `ejecutarScrapingCompletoConResumenIA` realizará los siguientes pasos:
-1. Obtendrá la lista de personajes.
-2. Iterará sobre cada uno para extraer sus detalles.
-3. Enviará la información a la IA para generar un resumen narrativo.
-4. Guardará el progreso incrementalmente en un archivo `personajes_infantil.json` (o similar, según configuración).
-
-## 👨‍💻 Desarrollo, TypeScript y Tests
-
-El proyecto ha sido migrado para soportar **TypeScript**, lo que permite un desarrollo más seguro y escalable.
-
-### Ejecución de archivos TypeScript
-No es necesario compilar manualmente para desarrollo. Puedes usar `ts-node` para ejecutar scripts `.ts` directamente:
+### Ejecutar el Scraper
+Para ejecutar el pipeline completo (scraping + IA + guardado):
 
 ```bash
-# Ejecutar un script de prueba
-npx ts-node test-setup.ts
+npm start
 ```
 
-### Compilación
-Si deseas generar los archivos JavaScript para producción:
+### Comportamiento del Pipeline
+El orquestador en `src/index.ts` realiza los siguientes pasos de forma automatizada:
+1. **Escaneo**: Obtiene la lista completa de personajes.
+2. **Extracción**: Itera sobre cada personaje para obtener sus detalles técnicos y secciones.
+3. **Magia con IA**: Envía la información al `AIService` para generar un cuento personalizado para Cloe.
+4. **Guardado Incremental**: Los resultados se guardan en tiempo real en `data/monster_high_features.json` usando el `JsonRepository`.
 
-```bash
-npx tsc
-```
-Los archivos compilados se generarán en la carpeta `dist/`.
+## 📂 Estructura del Proyecto (Arquitectura Modular)
 
-### Testing con Jest
-El proyecto utiliza **Jest** para pruebas unitarias. La configuración soporta tanto archivos Javascript como TypeScript.
+El código ha sido refactorizado siguiendo principios **SOLID** y **DIP** (Inversión de Dependencias):
 
-Para ejecutar la batería de tests:
+- `src/index.ts`: Punto de entrada y orquestador del pipeline.
+- `src/config/`: Configuración centralizada de URLs, API Keys y parámetros de IA.
+- `src/domain/`: Definición de interfaces y modelos de datos (Contratos).
+- `src/services/`: Capa de servicios desacoplados.
+  - `scraper/WikiScraper.ts`: Lógica de extracción HTML.
+  - `ai/AIService.ts`: Adaptador para la API de Groq (Llama 3).
+  - `storage/JsonRepository.ts`: Persistencia de datos en sistema de archivos.
+- `src/utils/`: Utilidades generales (ej. sleep para rate limiting).
+
+## 🧪 Testing y Calidad (TDD)
+
+Este proyecto sigue una metodología de **Extreme Programming (XP)** y **Test-Driven Development (TDD)**. 
+
+### Ejecutar Pruebas
+Todos los servicios core están cubiertos por tests unitarios que garantizan su correcto funcionamiento sin depender de servicios externos (No Mocks policy, usando Fakes).
 
 ```bash
 npm test
 ```
 
-### Notas de Configuración
-- **tsconfig.json**: Configurado en modo `strict` para asegurar la calidad del código, con compatibilidad para módulos `commonjs` y `es2020`.
-- **jest.config.js**: Configurado con `ts-jest` para procesar archivos TypeScript automáticamente.
-
-
-## 📂 Estructura del Proyecto
-
-- `index.js`: Lógica principal del scraper. Contiene funciones para extraer listados, detalles y orquestar el flujo de trabajo.
-- `ia-adaptor.js`: Módulo encargado de la comunicación con la API de Groq. Contiene el prompt de sistema para adaptar el texto a un público infantil.
-- `monster_high.json` / `personajes_infantil.json`: Archivos de salida generados con la data scrapeada.
+### Cobertura
+Se mantiene una cobertura superior al 85% en la lógica de negocio. Los tests validan:
+- Correcta extracción de datos HTML (WikiScraper).
+- Manejo de errores y reintentos por rate limit (AIService).
+- Gestión de archivos y directorios (JsonRepository).
 
 ## 📄 Formato de Salida
 
-El JSON resultante tendrá una estructura similar a esta para cada personaje:
+Los datos se guardan en `data/monster_high_features.json` con el siguiente formato:
 
 ```json
 {
@@ -117,8 +108,9 @@ El JSON resultante tendrá una estructura similar a esta para cada personaje:
   },
   "resumen_global": "¡Hola Cloe! Draculaura es una vampiresa muy dulce...",
   "secciones": {
-    "biografía": { ... },
-    "relaciones": { ... }
+    "personalidad": {
+      "carácter": ["Es muy dulce y amigable."]
+    }
   }
 }
 ```
