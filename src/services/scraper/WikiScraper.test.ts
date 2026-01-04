@@ -3,15 +3,15 @@
 // 1. [x] getCharacterList with empty HTML returns empty array
 // 2. [x] getCharacterList with one character extracts name and URL
 // 3. [x] getCharacterList with multiple characters extracts all
-// 4. [ ] getCharacterDetails returns null when request fails
-// 5. [ ] getCharacterDetails extracts basic name
-// 6. [ ] getCharacterDetails extracts info_tecnica (infobox)
-// 7. [ ] getCharacterDetails extracts sections H2/H3
+// 4. [x] getCharacterDetails returns null when request fails
+// 5. [x] getCharacterDetails extracts basic name
+// 6. [x] getCharacterDetails extracts technicalInfo (infobox)
+// 7. [x] getCharacterDetails extracts sections H2/H3
+
 
 import { WikiScraper } from './WikiScraper';
 import { config } from '../../config/config';
 
-// Fake HTTP Client for testing
 class FakeHttpClient {
     private responses: Map<string, string> = new Map();
 
@@ -21,29 +21,24 @@ class FakeHttpClient {
 
     async get(url: string): Promise<{ data: string }> {
         const data = this.responses.get(url);
-        if (!data) {
-            throw new Error(`No mock response for ${url}`);
-        }
+        if (!data) throw new Error(`No mock response for ${url}`);
         return { data };
     }
 }
 
 describe('The Wiki Scraper', () => {
 
-    // Test 1: Simplest case
     test('returns empty list when HTML contains no characters', async () => {
         const fakeClient = new FakeHttpClient();
         const emptyHtml = '<html><body></body></html>';
         fakeClient.mockResponse(config.urls.charactersCategory, emptyHtml);
 
         const scraper = new WikiScraper(fakeClient as any);
-
         const characters = await scraper.getCharacterList();
 
         expect(characters).toEqual([]);
     });
 
-    // Test 2: One character
     test('extracts name and URL from single character link', async () => {
         const fakeClient = new FakeHttpClient();
         const htmlWithOneCharacter = `
@@ -56,15 +51,13 @@ describe('The Wiki Scraper', () => {
         fakeClient.mockResponse(config.urls.charactersCategory, htmlWithOneCharacter);
 
         const scraper = new WikiScraper(fakeClient as any);
-
         const characters = await scraper.getCharacterList();
 
         expect(characters).toEqual([
-            { nombre: 'Draculaura', url: 'https://monsterhigh.fandom.com/es/wiki/Draculaura' }
+            { name: 'Draculaura', url: 'https://monsterhigh.fandom.com/es/wiki/Draculaura' }
         ]);
     });
 
-    // Test 3: Multiple characters
     test('extracts all characters from list with multiple entries', async () => {
         const fakeClient = new FakeHttpClient();
         const htmlWithMultiple = `
@@ -79,27 +72,21 @@ describe('The Wiki Scraper', () => {
         fakeClient.mockResponse(config.urls.charactersCategory, htmlWithMultiple);
 
         const scraper = new WikiScraper(fakeClient as any);
-
         const characters = await scraper.getCharacterList();
 
         expect(characters).toHaveLength(3);
-        expect(characters[0]).toEqual({ nombre: 'Draculaura', url: 'https://monsterhigh.fandom.com/es/wiki/Draculaura' });
-        expect(characters[2]?.nombre).toBe('Clawdeen Wolf');
+        expect(characters[0]).toEqual({ name: 'Draculaura', url: 'https://monsterhigh.fandom.com/es/wiki/Draculaura' });
+        expect(characters[2]?.name).toBe('Clawdeen Wolf');
     });
 
-    // Test 4: Error handling
     test('returns null when character page request fails', async () => {
         const fakeClient = new FakeHttpClient();
-        // No mockResponse set, so it will throw
-
         const scraper = new WikiScraper(fakeClient as any);
-
         const details = await scraper.getCharacterDetails('https://invalid.url');
 
         expect(details).toBeNull();
     });
 
-    // Test 5: Basic name extraction
     test('extracts character name from page title', async () => {
         const fakeClient = new FakeHttpClient();
         const htmlWithName = `
@@ -112,13 +99,11 @@ describe('The Wiki Scraper', () => {
         fakeClient.mockResponse('https://test.url', htmlWithName);
 
         const scraper = new WikiScraper(fakeClient as any);
+        const character = await scraper.getCharacterDetails('https://test.url');
 
-        const details = await scraper.getCharacterDetails('https://test.url');
-
-        expect(details?.nombre).toBe('Draculaura');
+        expect(character?.name).toBe('Draculaura');
     });
 
-    // Test 6: Infobox extraction
     test('extracts technical information from infobox', async () => {
         const fakeClient = new FakeHttpClient();
         const htmlWithInfobox = `
@@ -139,14 +124,12 @@ describe('The Wiki Scraper', () => {
         fakeClient.mockResponse('https://test.url', htmlWithInfobox);
 
         const scraper = new WikiScraper(fakeClient as any);
+        const character = await scraper.getCharacterDetails('https://test.url');
 
-        const details = await scraper.getCharacterDetails('https://test.url');
-
-        expect(details?.info_tecnica.edad).toBe('1600');
-        expect(details?.info_tecnica.padres).toBe('Conde Drácula');
+        expect(character?.technicalInfo.edad).toBe('1600');
+        expect(character?.technicalInfo.padres).toBe('Conde Drácula');
     });
 
-    // Test 7: Sections extraction
     test('extracts sections with H2 and H3 structure', async () => {
         const fakeClient = new FakeHttpClient();
         const htmlWithSections = `
@@ -156,19 +139,20 @@ describe('The Wiki Scraper', () => {
                     <h2><span class="mw-headline" id="Personalidad">Personalidad</span></h2>
                     <h3>Carácter</h3>
                     <p>Es muy dulce y amigable.</p>
-                    <h3>Gustos</h3>
-                    <p>Le encanta el color rosa.</p>
+                    <h3>Estilo y físico</h3>
+                    <p>Draculaura tiene cabello color negro con mechas rosas.</p>
                 </body>
             </html>
         `;
         fakeClient.mockResponse('https://test.url', htmlWithSections);
 
         const scraper = new WikiScraper(fakeClient as any);
+        const character = await scraper.getCharacterDetails('https://test.url');
 
-        const details = await scraper.getCharacterDetails('https://test.url');
+        expect(character?.sections.personalidad).toBeDefined();
+        expect(character?.sections.personalidad?.caracter).toEqual(['Es muy dulce y amigable.']);
+        expect(character?.sections.personalidad?.estiloYFisico).toEqual(['Draculaura tiene cabello color negro con mechas rosas.']);
 
-        expect(details?.secciones.personalidad).toBeDefined();
-        expect(details?.secciones.personalidad?.carácter).toEqual(['Es muy dulce y amigable.']);
-        expect(details?.secciones.personalidad?.gustos).toEqual(['Le encanta el color rosa.']);
     });
+
 });

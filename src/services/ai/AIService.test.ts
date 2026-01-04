@@ -5,10 +5,10 @@
 // 3. [x] generateCharacterSummary handles API errors gracefully
 // 4. [x] generateCharacterSummary retries on rate limit (429)
 
-import { AIService } from './AIService';
-import { CharacterSections } from '../../domain/character';
 
-// Fake Groq Client for testing
+import { AIService } from './AIService';
+import { Character, CharacterSections } from '../../domain/Character';
+
 class FakeGroqClient {
     private mockResponse: string | null = null;
     private shouldError: boolean = false;
@@ -43,7 +43,7 @@ class FakeGroqClient {
                     choices: [
                         {
                             message: {
-                                content: this.mockResponse || '¡Hola Cloe! Este es un personaje mágico.'
+                                content: this.mockResponse || 'Hello Cloe! This is a magical character.'
                             }
                         }
                     ]
@@ -55,56 +55,64 @@ class FakeGroqClient {
 
 describe('The AI Service', () => {
 
-    // Test 1: Empty sections
     test('returns default message when character has no section data', async () => {
         const fakeClient = new FakeGroqClient();
         const aiService = new AIService(fakeClient as any);
-        const emptySections: CharacterSections = {};
+        const character = Character.fromDetails({
+            name: 'TestChar',
+            url: 'http://test.com',
+            technicalInfo: {},
+            sections: {}
+        });
 
-        const summary = await aiService.generateCharacterSummary('TestChar', emptySections);
+        const summary = await aiService.generateCharacterSummary(character);
 
-        expect(summary).toBe('¡Un secreto mágico por descubrir!');
+        expect(summary).toBe('A magical secret yet to be discovered!');
     });
 
-    // Test 2: Builds context correctly
     test('generates summary using character section data', async () => {
         const fakeClient = new FakeGroqClient();
-        fakeClient.setMockResponse('¡Hola Cloe! Draculaura es una vampiresa muy dulce.');
+        fakeClient.setMockResponse('Hello Cloe! Draculaura is a very sweet vampire.');
         const aiService = new AIService(fakeClient as any);
 
-        const sections: CharacterSections = {
-            personalidad: {
-                caracter: ['Es muy amigable y dulce.']
+        const character = Character.fromDetails({
+            name: 'Draculaura',
+            url: 'http://test.com',
+            technicalInfo: {},
+            sections: {
+                personality: {
+                    character: ['She is very friendly and sweet.']
+                }
             }
-        };
+        });
 
-        const summary = await aiService.generateCharacterSummary('Draculaura', sections);
+        const summary = await aiService.generateCharacterSummary(character);
 
-        expect(summary).toBe('¡Hola Cloe! Draculaura es una vampiresa muy dulce.');
+        expect(summary).toBe('Hello Cloe! Draculaura is a very sweet vampire.');
         expect(fakeClient.getCallCount()).toBe(1);
     });
 
-    // Test 3: Error handling
     test('returns fallback message when API fails', async () => {
         const fakeClient = new FakeGroqClient();
         fakeClient.setError(500);
         const aiService = new AIService(fakeClient as any);
 
-        const sections: CharacterSections = {
-            bio: { info: ['Some data'] }
-        };
+        const character = Character.fromDetails({
+            name: 'TestChar',
+            url: 'http://test.com',
+            technicalInfo: {},
+            sections: { bio: { info: ['Some data'] } }
+        });
 
-        const summary = await aiService.generateCharacterSummary('TestChar', sections);
+        const summary = await aiService.generateCharacterSummary(character);
 
-        expect(summary).toBe('¡La historia de este personaje está oculta en la niebla mágica!');
+        expect(summary).toBe("This character's story is hidden in the magical mist!");
     });
 
-    // Test 4: Rate limit retry (this test is slow due to retry delay)
     test('retries when rate limit is hit', async () => {
         const fakeClient = new FakeGroqClient();
         let attemptCount = 0;
 
-        // Override to fail first time, succeed second time
         fakeClient.chat.completions.create = async () => {
             attemptCount++;
             if (attemptCount === 1) {
@@ -120,13 +128,17 @@ describe('The AI Service', () => {
         };
 
         const aiService = new AIService(fakeClient as any);
-        const sections: CharacterSections = {
-            bio: { info: ['data'] }
-        };
+        const character = Character.fromDetails({
+            name: 'TestChar',
+            url: 'http://test.com',
+            technicalInfo: {},
+            sections: { bio: { info: ['data'] } }
+        });
 
-        const summary = await aiService.generateCharacterSummary('TestChar', sections);
+        const summary = await aiService.generateCharacterSummary(character);
 
         expect(summary).toBe('Success after retry');
         expect(attemptCount).toBe(2);
-    }, 20000); // Increased timeout for retry delay
+    }, 20000);
 });
+

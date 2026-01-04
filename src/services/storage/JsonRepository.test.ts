@@ -33,12 +33,12 @@ describe('The JSON Repository', () => {
         expect(dirExists).toBe(true);
     });
 
-    // Test 2: Writes JSON correctly
+
     test('writes character data to JSON file with proper formatting', async () => {
         const repository = new JsonRepository(testOutputDir, testOutputFile);
         const testData = [
-            { nombre: 'Draculaura', edad: 1600 },
-            { nombre: 'Frankie', edad: 15 }
+            { name: 'Draculaura', age: 1600 },
+            { name: 'Frankie', age: 15 }
         ];
 
         await repository.saveAll(testData);
