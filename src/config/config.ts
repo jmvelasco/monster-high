@@ -22,11 +22,12 @@ export const config = {
     },
     storage: {
         outputDir: path.resolve(__dirname, '../../data'), // Saving to a data folder outside src
-        outputFile: "monster_high_features.json"
+        outputFile: "monster_high_characters.json"
     }
 };
 
-// Validar variables requeridas
+
+// Validate required variables
 if (!config.ai.apiKey) {
     console.warn("⚠️  WARNING: GROQ_API_KEY is not set in .env file. AI features will fail.");
 }

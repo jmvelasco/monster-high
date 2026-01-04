@@ -2,11 +2,11 @@
 import { WikiScraper } from './services/scraper/WikiScraper';
 import { AIService } from './services/ai/AIService';
 import { JsonRepository } from './services/storage/JsonRepository';
-import { ProcessedCharacter } from './domain/character';
+import { Character } from './domain/Character';
 import { sleep } from './utils/sleep';
 import { config } from './config/config';
 
-async function main() {
+async function runPipeline() {
     console.log("🚀 Starting Monster High Scraper Pipeline...");
 
     const scraper = new WikiScraper();
@@ -14,40 +14,27 @@ async function main() {
     const repository = new JsonRepository();
 
     try {
-        // 1. Get List
-        const characters = await scraper.getCharacterList();
-        console.log(`📋 Found ${characters.length} characters.`);
+        const characterLinks = await scraper.getCharacterList();
+        console.log(`📋 Found ${characterLinks.length} characters.`);
 
-        const results: ProcessedCharacter[] = [];
+        const processedCharacters: Character[] = [];
 
-        // 2. Process each character
-        for (const [index, charLink] of characters.entries()) {
-            console.log(`\n▶️ [${index + 1}/${characters.length}] Processing: ${charLink.nombre}`);
+        for (const [index, link] of characterLinks.entries()) {
+            console.log(`\n▶️ [${index + 1}/${characterLinks.length}] Processing: ${link.name}`);
 
-            // 2.1 Scrape Details
-            const details = await scraper.getCharacterDetails(charLink.url);
-
-            if (!details) {
-                console.warn(`⚠️ Skipping ${charLink.nombre} (No details found).`);
+            const character = await scraper.getCharacterDetails(link.url);
+            if (!character) {
+                console.warn(`⚠️ Skipping ${link.name} (No details found).`);
                 continue;
             }
 
-            // 2.2 Generate AI Summary
             console.log(`   ✨ Generating magic story for Cloe...`);
-            const summary = await aiService.generateCharacterSummary(details.nombre, details.secciones);
+            const story = await aiService.generateCharacterSummary(character);
+            const enrichedCharacter = character.withGlobalStory(story);
 
-            // 2.3 Construct Final Object
-            const processedChar: ProcessedCharacter = {
-                ...details,
-                resumen_global: summary
-            };
+            processedCharacters.push(enrichedCharacter);
+            await repository.saveAll(processedCharacters);
 
-            results.push(processedChar);
-
-            // 2.4 Save (Incremental)
-            await repository.saveAll(results);
-
-            // 2.5 Rate Limiting
             await sleep(config.scraping.rateLimitDelay);
         }
 
@@ -59,5 +46,4 @@ async function main() {
     }
 }
 
-// Execute
-main();
+runPipeline();

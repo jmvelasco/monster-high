@@ -2,7 +2,6 @@
 trigger: always_on
 ---
 
-
 # Coding Standards
 
 To maintain code quality, I follow strict standards for names, functions, and classes.
@@ -22,6 +21,7 @@ To maintain code quality, I follow strict standards for names, functions, and cl
 - Allowed generic suffixes: DTO, Repository, Factory, Mapper, UseCase, Service
 - Avoid comments if you can use a self-explanatory name. Comments only in extreme cases that code cannot explain
 - Constants use camelCase, not SCREAMING_SNAKE_CASE
+- Use camelCase style for naming
 - Never use underscore prefix for private members
 - Avoid magic strings, better use enums or literal types to represent fixed sets of values
 
