@@ -22,7 +22,7 @@ export const config = {
     },
     storage: {
         outputDir: path.resolve(__dirname, '../../data'), // Saving to a data folder outside src
-        outputFile: "monster_high_characters.json"
+        outputFile: "monsterHighCharacters.json"
     }
 };
 
