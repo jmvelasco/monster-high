@@ -6,8 +6,8 @@
 // 4. [x] generateCharacterSummary retries on rate limit (429)
 
 
-import { AIService } from './AIService';
-import { Character } from '../../domain/Character';
+import { Character } from '../../../domain/Character';
+import { AIService } from '../../../infrastructure/ai/AIService';
 
 class FakeGroqClient {
     private mockResponse: string | null = null;

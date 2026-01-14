@@ -4,12 +4,12 @@
 // 2. [x] saveAll writes JSON file correctly
 // 3. [x] saveAll overwrites existing file
 
-import { JsonRepository } from './JsonRepository';
 import fs from 'fs/promises';
 import path from 'path';
+import { JsonRepository } from '../../../infrastructure/storage/JsonRepository';
 
 // Test directory
-const testOutputDir = path.join(__dirname, '../../../test-output');
+const testOutputDir = path.join(__dirname, '../../test-output');
 const testOutputFile = 'test-characters.json';
 
 describe('The JSON Repository', () => {
