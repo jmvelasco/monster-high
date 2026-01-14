@@ -1,5 +1,5 @@
 
-import { Character, CharacterSections } from '../src/domain/Character';
+import { Character, CharacterSections } from '../../domain/Character';
 
 describe('Character Model', () => {
     const mockSections: CharacterSections = {

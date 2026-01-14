@@ -9,8 +9,8 @@
 // 7. [x] getCharacterDetails extracts sections H2/H3
 
 
-import { WikiScraper } from './WikiScraper';
-import { config } from '../../config/config';
+import { config } from '../../../config/config';
+import { WikiScraper } from '../../../infrastructure/scraper/WikiScraper';
 
 class FakeHttpClient {
     private responses: Map<string, string> = new Map();

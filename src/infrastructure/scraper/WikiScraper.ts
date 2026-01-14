@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 import * as cheerio from 'cheerio';
 import { config } from '../../config/config';
-import { CharacterLink, TechnicalInfo, CharacterSections, Section, Character } from '../../domain/Character';
+import { Character, CharacterLink, CharacterSections, Section, TechnicalInfo } from '../../domain/Character';
 import { CharacterScraper } from '../../domain/CharacterScraper';
 
 export class WikiScraper implements CharacterScraper {
@@ -106,7 +106,9 @@ export class WikiScraper implements CharacterScraper {
     }
 
     private parseSubsection($: cheerio.CheerioAPI, heading: cheerio.Cheerio<any>, section: Section): void {
-        const title = this.toCamelCase(heading.text().trim());
+        // Try to get text from span.mw-headline first (real Fandom HTML), fallback to heading text if not found
+        const headlineSpan = heading.find("span.mw-headline").text().trim();
+        const title = this.toCamelCase(headlineSpan || heading.text().trim());
         const paragraphs: string[] = [];
         let cursor = heading.next();
 
