@@ -20,7 +20,7 @@ export const config = {
     rateLimitDelay: 15000,
   },
   storage: {
-    outputDir: path.resolve(__dirname, '../../data'), // Saving to a data folder outside src
+    outputDir: path.resolve(__dirname, '../../../data'), // Adjusted path for monorepo structure
     outputFile: 'monsterHighCharacters.json',
   },
 };

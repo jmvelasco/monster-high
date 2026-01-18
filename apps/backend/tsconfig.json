@@ -5,6 +5,8 @@
     "lib": ["ES2020"],
     "moduleResolution": "node",
     "jsx": "react",
+    "outDir": "./lib",
+    "rootDir": "./src",
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -30,5 +32,14 @@
       "node",
       "jest"
     ]
-  }
+  },
+  "include": ["src/**/*"],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts",
+    "**/*.test.ts",
+    "lib",
+    "coverage",
+    "dist"
+  ]
 }
