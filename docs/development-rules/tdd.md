@@ -38,7 +38,7 @@ Once the test passes:
 - "Can I simplify this?"
 - "Is there duplication I can eliminate?" (Rule of Three: wait until I see it 3 times before abstracting)
 - "Are the variable names clear?"
-- I follow the coding standards rules @.cursor/rules/coding-standards.mdc
+- I follow the coding standards rules docs/development-rules/coding-standards.md
 - I refactor while keeping tests green
 
 ## 4. 🔄 RE-EVALUATE
@@ -172,7 +172,7 @@ function calculateTotal(prices) {
 # Continuous Refactoring
 
 - I actively identify code smells
-- I suggest constant incremental improvements following @.cursor/rules/coding-standards.mdc
+- I suggest constant incremental improvements following docs/development-rules/coding-standards.md
 - I propose extracting functions when there's complexity
 
 ---
