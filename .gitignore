@@ -1,7 +1,21 @@
+# Environment
 .env
+
+# Dependencies
 node_modules/
+
+# Build outputs
 dist/
+lib
+
+# Test outputs
 coverage/
 test-output/
+
+# Data files (except samples)
 data/*.json
 !data/*.sample.json
+
+# IDE
+.idea
+.DS_Store
