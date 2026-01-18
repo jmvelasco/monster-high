@@ -1,143 +1,142 @@
-
 // TODO List:
 // 1. [x] generateCharacterSummary returns default text when sections are empty
 // 2. [x] generateCharacterSummary builds context from sections correctly
 // 3. [x] generateCharacterSummary handles API errors gracefully
 // 4. [x] generateCharacterSummary retries on rate limit (429)
 
-
 import { Character } from '../../../domain/Character';
 import { AIService } from '../../../infrastructure/ai/AIService';
 
 class FakeGroqClient {
-    private mockResponse: string | null = null;
-    private shouldError: boolean = false;
-    private errorStatus?: number;
-    private callCount: number = 0;
+  private mockResponse: string | null = null;
+  private shouldError: boolean = false;
+  private errorStatus?: number;
+  private callCount: number = 0;
 
-    setMockResponse(response: string) {
-        this.mockResponse = response;
-    }
+  setMockResponse(response: string) {
+    this.mockResponse = response;
+  }
 
-    setError(status: number) {
-        this.shouldError = true;
-        this.errorStatus = status;
-    }
+  setError(status: number) {
+    this.shouldError = true;
+    this.errorStatus = status;
+  }
 
-    getCallCount(): number {
-        return this.callCount;
-    }
+  getCallCount(): number {
+    return this.callCount;
+  }
 
-    chat = {
-        completions: {
-            create: async (params: any) => {
-                this.callCount++;
+  chat = {
+    completions: {
+      create: async () => {
+        this.callCount++;
 
-                if (this.shouldError) {
-                    const error: any = new Error('API Error');
-                    error.status = this.errorStatus;
-                    throw error;
-                }
-
-                return {
-                    choices: [
-                        {
-                            message: {
-                                content: this.mockResponse || 'Hello Cloe! This is a magical character.'
-                            }
-                        }
-                    ]
-                };
-            }
+        if (this.shouldError) {
+          const error: any = new Error('API Error');
+          error.status = this.errorStatus;
+          throw error;
         }
-    };
+
+        return {
+          choices: [
+            {
+              message: {
+                content: this.mockResponse || 'Hello Cloe! This is a magical character.',
+              },
+            },
+          ],
+        };
+      },
+    },
+  };
 }
 
 describe('The AI Service', () => {
-
-    test('returns default message when character has no section data', async () => {
-        const fakeClient = new FakeGroqClient();
-        const aiService = new AIService(fakeClient as any);
-        const character = Character.fromDetails({
-            name: 'TestChar',
-            url: 'http://test.com',
-            technicalInfo: {},
-            sections: {}
-        });
-
-        const summary = await aiService.generateCharacterSummary(character);
-
-        expect(summary).toBe('A magical secret yet to be discovered!');
+  test('returns default message when character has no section data', async () => {
+    const fakeClient = new FakeGroqClient();
+    const aiService = new AIService(fakeClient as any);
+    const character = Character.fromDetails({
+      name: 'TestChar',
+      url: 'http://test.com',
+      technicalInfo: {},
+      sections: {},
     });
 
-    test('generates summary using character section data', async () => {
-        const fakeClient = new FakeGroqClient();
-        fakeClient.setMockResponse('Hello Cloe! Draculaura is a very sweet vampire.');
-        const aiService = new AIService(fakeClient as any);
+    const summary = await aiService.generateCharacterSummary(character);
 
-        const character = Character.fromDetails({
-            name: 'Draculaura',
-            url: 'http://test.com',
-            technicalInfo: {},
-            sections: {
-                personality: {
-                    character: ['She is very friendly and sweet.']
-                }
-            }
-        });
+    expect(summary).toBe('A magical secret yet to be discovered!');
+  });
 
-        const summary = await aiService.generateCharacterSummary(character);
+  test('generates summary using character section data', async () => {
+    const fakeClient = new FakeGroqClient();
+    fakeClient.setMockResponse('Hello Cloe! Draculaura is a very sweet vampire.');
+    const aiService = new AIService(fakeClient as any);
 
-        expect(summary).toBe('Hello Cloe! Draculaura is a very sweet vampire.');
-        expect(fakeClient.getCallCount()).toBe(1);
+    const character = Character.fromDetails({
+      name: 'Draculaura',
+      url: 'http://test.com',
+      technicalInfo: {},
+      sections: {
+        personality: {
+          character: ['She is very friendly and sweet.'],
+        },
+      },
     });
 
-    test('returns fallback message when API fails', async () => {
-        const fakeClient = new FakeGroqClient();
-        fakeClient.setError(500);
-        const aiService = new AIService(fakeClient as any);
+    const summary = await aiService.generateCharacterSummary(character);
 
-        const character = Character.fromDetails({
-            name: 'TestChar',
-            url: 'http://test.com',
-            technicalInfo: {},
-            sections: { bio: { info: ['Some data'] } }
-        });
+    expect(summary).toBe('Hello Cloe! Draculaura is a very sweet vampire.');
+    expect(fakeClient.getCallCount()).toBe(1);
+  });
 
-        const summary = await aiService.generateCharacterSummary(character);
+  test('returns fallback message when API fails', async () => {
+    const fakeClient = new FakeGroqClient();
+    fakeClient.setError(500);
+    const aiService = new AIService(fakeClient as any);
 
-        expect(summary).toBe("This character's story is hidden in the magical mist!");
+    const character = Character.fromDetails({
+      name: 'TestChar',
+      url: 'http://test.com',
+      technicalInfo: {},
+      sections: { bio: { info: ['Some data'] } },
     });
 
-    test('retries when rate limit is hit', async () => {
-        const fakeClient = new FakeGroqClient();
-        let attemptCount = 0;
+    const summary = await aiService.generateCharacterSummary(character);
 
-        fakeClient.chat.completions.create = async () => {
-            attemptCount++;
-            if (attemptCount === 1) {
-                const error: any = new Error('Rate limit');
-                error.status = 429;
-                throw error;
-            }
-            return {
-                choices: [{
-                    message: { content: 'Success after retry' }
-                }]
-            };
-        };
+    expect(summary).toBe("This character's story is hidden in the magical mist!");
+  });
 
-        const aiService = new AIService(fakeClient as any);
-        const character = Character.fromDetails({
-            name: 'TestChar',
-            url: 'http://test.com',
-            technicalInfo: {},
-            sections: { bio: { info: ['data'] } }
-        });
+  test('retries when rate limit is hit', async () => {
+    const fakeClient = new FakeGroqClient();
+    let attemptCount = 0;
 
-        const summary = await aiService.generateCharacterSummary(character);
+    fakeClient.chat.completions.create = async () => {
+      attemptCount++;
+      if (attemptCount === 1) {
+        const error: any = new Error('Rate limit');
+        error.status = 429;
+        throw error;
+      }
+      return {
+        choices: [
+          {
+            message: { content: 'Success after retry' },
+          },
+        ],
+      };
+    };
 
-        expect(summary).toBe('Success after retry');
-        expect(attemptCount).toBe(2);
-    }, 20000);
+    const aiService = new AIService(fakeClient as any);
+    const character = Character.fromDetails({
+      name: 'TestChar',
+      url: 'http://test.com',
+      technicalInfo: {},
+      sections: { bio: { info: ['data'] } },
+    });
+
+    const summary = await aiService.generateCharacterSummary(character);
+
+    expect(summary).toBe('Success after retry');
+    expect(attemptCount).toBe(2);
+  }, 20000);
 });
