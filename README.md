@@ -130,6 +130,13 @@ cp .env.example .env
 # Editar .env y agregar tu GROQ_API_KEY
 ```
 
+### 🛠️ VSCode Setup (Opcional)
+
+Si usas **VSCode**, el proyecto incluye configuración optimizada con tasks para TDD workflow. Ver [.vscode/README.md](.vscode/README.md) para:
+- Tasks disponibles (TDD Watch Mode, Validate Symlinks, etc.)
+- Atajos de teclado
+- Settings configurados
+
 ### Comandos Principales
 
 #### Desde la raíz del monorepo:
