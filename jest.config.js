@@ -1,24 +1,16 @@
+/**
+ * Jest configuration for monorepo
+ * Uses projects to delegate testing to each workspace
+ */
 module.exports = {
-  preset: 'ts-jest',
-  testEnvironment: 'node',
-  roots: ['<rootDir>/src'],
-  testMatch: ['**/__tests__/**/*.ts', '**/?(*.)+(spec|test).ts'],
+  projects: ['<rootDir>/apps/*/jest.config.js'],
+  coverageDirectory: '<rootDir>/coverage',
   collectCoverageFrom: [
-    'src/**/*.{ts,tsx}',
-    '!src/**/*.d.ts',
-    '!src/**/*.test.ts',
-    '!src/**/*.spec.ts',
+    'apps/**/src/**/*.{ts,tsx}',
+    '!apps/**/src/**/*.d.ts',
+    '!apps/**/src/**/*.test.ts',
+    '!apps/**/src/**/*.spec.ts',
   ],
-  coverageDirectory: 'coverage',
-  coverageReporters: ['text', 'lcov', 'html'],
-  coverageThreshold: {
-    global: {
-      branches: 80,
-      functions: 80,
-      lines: 80,
-      statements: 80,
-    },
-  },
-  modulePathIgnorePatterns: ['<rootDir>/dist/', '<rootDir>/lib/'],
+  modulePathIgnorePatterns: ['<rootDir>/dist/', '<rootDir>/lib/', '<rootDir>/node_modules/'],
   verbose: true,
 };

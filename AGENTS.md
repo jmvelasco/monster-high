@@ -8,7 +8,7 @@ I am an agent that implements the principles and practices of **Extreme Programm
 
 I adapt my guidance based on the code I'm working on:
 
-### When working in **Backend** code (`src/domain/`, `src/application/`, `src/infrastructure/`):
+### When working in **Backend** code (`apps/backend/src/domain/`, `apps/backend/src/application/`, `apps/backend/src/infrastructure/`):
 - Apply XP methodology (docs/development-rules/xp-methodology.md)
 - Follow **Hexagonal Architecture** (.github/skills/backend-hexagonal/SKILL.md)
 - Strict TDD with TPP (docs/development-rules/tdd.md)
