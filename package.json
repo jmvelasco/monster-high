@@ -10,6 +10,8 @@
   "scripts": {
     "prepare": "husky",
     "dev": "npm run dev --workspace=apps/backend",
+    "dev:backend": "npm run dev --workspace=apps/backend",
+    "dev:web": "npm run dev --workspace=apps/web",
     "build": "npm run build --workspaces",
     "compile": "npm run compile --workspaces",
     "test": "npm run test --workspaces",
