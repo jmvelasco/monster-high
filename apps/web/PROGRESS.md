@@ -2,7 +2,7 @@
 
 > **Mi tablero de seguimiento**: Actualizo este archivo después de completar cada componente (~3-7 tests). Tech Lead puede consultar estado en cualquier momento.
 
-**Última actualización**: 2026-01-19  
+**Última actualización**: 2026-01-20  
 **Desarrollador**: Agente XP  
 **Tech Lead**: José Manuel Velasco
 
@@ -24,23 +24,23 @@
 ## Estado de Fases
 
 ### ✅ Fase 0: Setup & Configuración
-- [ ] Crear proyecto Vite con template react-ts
-- [ ] Configurar npm workspace en package.json raíz
-- [ ] Instalar dependencias (React 19, SWR, React Router, Vitest, etc.)
-- [ ] Configurar Vitest (vitest.config.ts)
-- [ ] Configurar TypeScript (tsconfig.json - strict mode)
-- [ ] Configurar ESLint + Prettier
-- [ ] Copiar `monsterHighCharacters.json` → `public/api/characters.json`
-- [ ] Copiar fuente Gruenewald VA (woff2) → `public/fonts/`
-- [ ] Crear `src/styles/fonts.css` con @font-face
-- [ ] Crear `src/styles/global.css` (reset + variables CSS)
-- [ ] Crear tipos TypeScript en `src/types/character.ts` (copiar de TECHNICAL-SPEC.md)
-- [ ] Configurar rutas básicas en App.tsx
-- [ ] Configurar SWR (revalidateOnFocus: false, dedupingInterval: 60000)
-- [ ] Crear/buscar placeholder temática Monster High
-- [ ] **Commit**: `chore: initialize frontend workspace`
+- [x] Crear proyecto Vite con template react-ts
+- [x] Configurar npm workspace en package.json raíz
+- [x] Instalar dependencias (React 19, SWR, React Router, Vitest, etc.)
+- [x] Configurar Vitest (vitest.config.ts)
+- [x] Configurar TypeScript (tsconfig.json - strict mode)
+- [x] Configurar ESLint + Prettier
+- [x] Copiar `monsterHighCharacters.json` → `public/api/characters.json`
+- [x] Copiar fuente Gruenewald VA (woff2) → `public/fonts/`
+- [x] Crear `src/styles/fonts.css` con @font-face
+- [x] Crear `src/styles/global.css` (reset + variables CSS)
+- [x] Crear tipos TypeScript en `src/types/character.ts` (copiar de TECHNICAL-SPEC.md)
+- [x] Configurar rutas básicas en App.tsx
+- [x] Configurar SWR (revalidateOnFocus: false, dedupingInterval: 60000)
+- [x] Crear/buscar placeholder temática Monster High
+- [x] **Commit**: `chore: initialize frontend workspace`
 
-**Estado**: ⏳ Pendiente de OK del Tech Lead
+**Estado**: ✅ Completado
 
 ---
 
