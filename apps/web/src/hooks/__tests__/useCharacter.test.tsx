@@ -78,5 +78,22 @@ describe('useCharacter', () => {
     expect(result.current.data).toBeUndefined()
   })
 
-  // TODO: Test 3 - Maneja loading state
+  // TODO: Test 3 - Maneja loading state (IN PROGRESS)
+  it('maneja loading state', () => {
+    // Arrange
+    globalThis.fetch = vi.fn(
+      () =>
+        new Promise(() => {
+          /* never resolves */
+        })
+    )
+
+    // Act
+    const { result } = renderHook(() => useCharacter('any-slug'), { wrapper })
+
+    // Assert
+    expect(result.current.isLoading).toBe(true)
+    expect(result.current.data).toBeUndefined()
+    expect(result.current.error).toBeUndefined()
+  })
 })
