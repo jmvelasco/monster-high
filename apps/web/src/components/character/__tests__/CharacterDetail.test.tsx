@@ -166,7 +166,25 @@ describe('CharacterDetail', () => {
     expect(story).toHaveClass('global-story')
   })
 
-  // TODO: Test 8 - Muestra placeholder si globalStory es undefined
+  // TODO: Test 8 - Muestra placeholder si globalStory es undefined (IN PROGRESS)
+  it('muestra placeholder si globalStory es undefined', () => {
+    // Arrange
+    const character: Character = {
+      name: 'Spectra Vondergeist',
+      url: 'https://example.com',
+      technicalInfo: {},
+      sections: {},
+    }
+
+    // Act
+    const { container } = render(<CharacterDetail character={character} />)
+
+    // Assert - No debe renderizar sección de historia
+    const storySection = container.querySelector('.global-story')
+    expect(storySection).not.toBeInTheDocument()
+  })
+
+  // TODO: Test 9 - Muestra placeholder si globalStory es ""
   // BLOQUE 3: Historia (3 tests)
   // BLOQUE 4: Layout responsive (2 tests)
   // BLOQUE 5: Navegación (1 test)
