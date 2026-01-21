@@ -5,6 +5,6 @@ interface CharacterCardProps {
   variant: 'list' | 'favorite'
 }
 
-export function CharacterCard() {
-  return null
+export function CharacterCard({ character }: CharacterCardProps) {
+  return <div>{character.name}</div>
 }
