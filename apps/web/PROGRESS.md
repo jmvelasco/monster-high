@@ -2,7 +2,7 @@
 
 > **Mi tablero de seguimiento**: Actualizo este archivo después de completar cada componente (~3-7 tests). Tech Lead puede consultar estado en cualquier momento.
 
-**Última actualización**: 2026-01-21  
+**Última actualización**: 2026-01-21 23:22  
 **Desarrollador**: Agente XP  
 **Tech Lead**: José Manuel Velasco
 
@@ -12,12 +12,12 @@
 
 | Métrica | Actual | Target | Estado |
 |---------|--------|--------|--------|
-| **Tests Passing** | 9/9 | N/A | ✅ Card + Grid |
+| **Tests Passing** | 13/13 | N/A | ✅ Card + Grid + Hook |
 | **Coverage Lines** | 100% | 80% | ✅ Superado |
 | **Coverage Functions** | 100% | 80% | ✅ Superado |
 | **Coverage Branches** | 100% | 80% | ✅ Superado |
 | **Bundle Size (gzip)** | N/A | <150KB | ⏳ Pendiente build |
-| **Componentes Completos** | 2/13 | 13 | 🔄 En progreso |
+| **Componentes Completos** | 3/13 | 13 | 🔄 En progreso |
 
 ---
 
@@ -82,16 +82,16 @@
 
 #### Hook: useCharacters.ts
 
-**Estado del Ciclo TDD**: -
+**Estado del Ciclo TDD**: ✅ Completado
 
 **Test Cases**:
 
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Retorna loading state inicialmente
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Fetches personajes desde /api/characters.json
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Retorna error si fetch falla
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Cachea resultado con SWR
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | Retorna loading state inicialmente
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | Fetches personajes desde /api/characters.json
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | Retorna error si fetch falla
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | Cachea resultado con SWR
 
-**Coverage**: - | **Commits**: 0
+**Coverage**: 100% (4/4 tests) | **Commits**: 7
 
 ---
 
@@ -110,10 +110,10 @@
 ---
 
 **Resumen Fase 1**: 
-- **Componentes**: 2/4 🔄 (CharacterCard ✅, CharacterGrid ✅)
-- **Tests**: 9/13 🔄 (69% completado - sin responsive)
+- **Componentes**: 3/4 🔄 (CharacterCard ✅, CharacterGrid ✅, useCharacters ✅)
+- **Tests**: 13/16 🔄 (81% completado - sin responsive)
 - **Coverage**: 100% Lines/Functions/Branches ✅
-- **Commits**: 16 (TDD disciplinado: RED-GREEN-REFACTOR)
+- **Commits**: 23 (TDD disciplinado: RED-GREEN-REFACTOR)
 
 ---
 
@@ -418,4 +418,4 @@
 
 ---
 
-**Última actualización**: 2026-01-19 | **Estado General**: ⏳ Pendiente de inicio
+**Última actualización**: 2026-01-21 23:22 | **Estado General**: 🔄 Fase 1 - 81% completado (falta CharacterListPage)
