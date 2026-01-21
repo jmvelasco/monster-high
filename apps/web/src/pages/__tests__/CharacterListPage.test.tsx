@@ -44,4 +44,20 @@ describe('CharacterListPage', () => {
     expect(screen.getByAltText('Draculaura')).toBeInTheDocument();
     expect(screen.getByAltText('Clawdeen')).toBeInTheDocument();
   });
+
+  it('muestra error state si fetch falla', () => {
+    vi.mocked(useCharactersModule.useCharacters).mockReturnValue({
+      data: undefined,
+      error: new Error('Failed to fetch'),
+      isLoading: false,
+    });
+
+    render(
+      <BrowserRouter>
+        <CharacterListPage />
+      </BrowserRouter>
+    );
+
+    expect(screen.getByText(/error/i)).toBeInTheDocument();
+  });
 });
