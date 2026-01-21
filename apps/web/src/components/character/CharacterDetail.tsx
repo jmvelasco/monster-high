@@ -29,6 +29,9 @@ export function CharacterDetail({ character }: CharacterDetailProps) {
           )
         })}
       </div>
+      {character.globalStory && (
+        <div className="global-story">{character.globalStory}</div>
+      )}
     </div>
   )
 }
