@@ -1,11 +1,12 @@
 import { useCharacters } from '../hooks/useCharacters';
+import { CharacterGrid } from '../components/character/CharacterGrid';
 
 export function CharacterListPage() {
-  const { isLoading } = useCharacters();
+  const { data, isLoading } = useCharacters();
 
   if (isLoading) {
     return <div>Cargando personajes...</div>;
   }
 
-  return <div>CharacterListPage</div>;
+  return <CharacterGrid characters={data || []} />;
 }

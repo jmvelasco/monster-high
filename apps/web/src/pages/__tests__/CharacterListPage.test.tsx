@@ -1,13 +1,16 @@
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { BrowserRouter } from 'react-router-dom';
 import type { Character } from '../../types/character';
 import { CharacterListPage } from '../CharacterListPage';
 import * as useCharactersModule from '../../hooks/useCharacters';
 
 vi.mock('../../hooks/useCharacters');
-vi.mock('../../components/character/CharacterGrid');
 
 describe('CharacterListPage', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
   it('muestra loading state mientras carga', () => {
     vi.mocked(useCharactersModule.useCharacters).mockReturnValue({
       data: undefined,
@@ -22,8 +25,8 @@ describe('CharacterListPage', () => {
 
   it('renderiza CharacterGrid con personajes', () => {
     const mockCharacters: Character[] = [
-      { name: 'Draculaura', image: '', sections: {}, url: '', technicalInfo: {} },
-      { name: 'Clawdeen', image: '', sections: {}, url: '', technicalInfo: {} },
+      { name: 'Draculaura', image: 'draculaura.jpg', sections: {}, url: '', technicalInfo: {} },
+      { name: 'Clawdeen', image: 'clawdeen.jpg', sections: {}, url: '', technicalInfo: {} },
     ];
 
     vi.mocked(useCharactersModule.useCharacters).mockReturnValue({
@@ -32,14 +35,13 @@ describe('CharacterListPage', () => {
       isLoading: false,
     });
 
-    const CharacterGrid = vi.fn(() => <div>Mocked CharacterGrid</div>);
-    vi.mocked(require('../../components/character/CharacterGrid')).CharacterGrid = CharacterGrid;
-
-    render(<CharacterListPage />);
-
-    expect(CharacterGrid).toHaveBeenCalledWith(
-      expect.objectContaining({ characters: mockCharacters }),
-      expect.anything()
+    render(
+      <BrowserRouter>
+        <CharacterListPage />
+      </BrowserRouter>
     );
+
+    expect(screen.getByAltText('Draculaura')).toBeInTheDocument();
+    expect(screen.getByAltText('Clawdeen')).toBeInTheDocument();
   });
 });
