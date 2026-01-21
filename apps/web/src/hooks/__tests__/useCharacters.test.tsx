@@ -69,4 +69,30 @@ describe('useCharacters', () => {
     expect(result.current.error?.message).toBe('Failed to fetch characters')
     expect(result.current.data).toBeUndefined()
   })
+
+  it('cachea resultado con SWR', async () => {
+    const mockCharacters: Character[] = [{ name: 'Clawdeen', image: '', sections: {}, url: '', technicalInfo: {} }]
+
+    globalThis.fetch = vi.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve(mockCharacters),
+      } as Response)
+    )
+
+    const { result: result1 } = renderHook(() => useCharacters(), { wrapper })
+    
+    await waitFor(() => {
+      expect(result1.current.isLoading).toBe(false)
+    })
+
+    const { result: result2 } = renderHook(() => useCharacters(), { wrapper })
+
+    await waitFor(() => {
+      expect(result2.current.isLoading).toBe(false)
+    })
+
+    expect(result2.current.data).toEqual(mockCharacters)
+    expect(globalThis.fetch).toHaveBeenCalledTimes(1)
+  })
 })
