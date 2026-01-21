@@ -1,7 +1,8 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { renderHook, waitFor } from '@testing-library/react'
 import { SWRConfig } from 'swr'
 import { useCharacter } from '../useCharacter'
+import type { Character } from '../../types/character'
 
 const wrapper = ({ children }: { children: React.ReactNode }) => (
   <SWRConfig value={{ provider: () => new Map(), dedupingInterval: 0 }}>
@@ -10,9 +11,29 @@ const wrapper = ({ children }: { children: React.ReactNode }) => (
 )
 
 describe('useCharacter', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
   // TODO: Test 1 - Retorna personaje por slug (IN PROGRESS)
   it('retorna personaje por slug', async () => {
     // Arrange
+    const mockCharacters: Character[] = [
+      {
+        name: 'Draculaura',
+        url: 'https://example.com/draculaura',
+        technicalInfo: { edad: '1600' },
+        sections: {},
+      },
+    ]
+
+    globalThis.fetch = vi.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve(mockCharacters),
+      } as Response)
+    )
+
     const slug = 'draculaura'
 
     // Act
