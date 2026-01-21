@@ -184,7 +184,26 @@ describe('CharacterDetail', () => {
     expect(storySection).not.toBeInTheDocument()
   })
 
-  // TODO: Test 9 - Muestra placeholder si globalStory es ""
+  // TODO: Test 9 - Muestra placeholder si globalStory es "" (IN PROGRESS)
+  it('muestra placeholder si globalStory es ""', () => {
+    // Arrange
+    const character: Character = {
+      name: 'Operetta',
+      url: 'https://example.com',
+      technicalInfo: {},
+      sections: {},
+      globalStory: '',
+    }
+
+    // Act
+    const { container } = render(<CharacterDetail character={character} />)
+
+    // Assert - No debe renderizar sección de historia
+    const storySection = container.querySelector('.global-story')
+    expect(storySection).not.toBeInTheDocument()
+  })
+
+  // BLOQUE 4: Layout responsive
   // BLOQUE 3: Historia (3 tests)
   // BLOQUE 4: Layout responsive (2 tests)
   // BLOQUE 5: Navegación (1 test)
