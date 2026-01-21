@@ -45,6 +45,37 @@ describe('CharacterDetail', () => {
   })
 
   // BLOQUE 2: Ficha técnica (4 tests)
+  
+  // TODO: Test 3 - Muestra todos los campos de technicalInfo presentes (IN PROGRESS)
+  it('muestra todos los campos de technicalInfo presentes', () => {
+    // Arrange
+    const character: Character = {
+      name: 'Clawdeen Wolf',
+      url: 'https://example.com',
+      technicalInfo: {
+        edad: '15',
+        sexo: 'Femenino',
+        ocupacion: 'Estudiante',
+        mascota: 'Crescent',
+      },
+      sections: {},
+    }
+
+    // Act
+    render(<CharacterDetail character={character} />)
+
+    // Assert
+    expect(screen.getByText('Edad:')).toBeInTheDocument()
+    expect(screen.getByText('15')).toBeInTheDocument()
+    expect(screen.getByText('Sexo:')).toBeInTheDocument()
+    expect(screen.getByText('Femenino')).toBeInTheDocument()
+    expect(screen.getByText('Ocupación:')).toBeInTheDocument()
+    expect(screen.getByText('Estudiante')).toBeInTheDocument()
+    expect(screen.getByText('Mascota:')).toBeInTheDocument()
+    expect(screen.getByText('Crescent')).toBeInTheDocument()
+  })
+
+  // TODO: Test 4 - Maneja campos opcionales (undefined) sin romper UI
   // BLOQUE 3: Historia (3 tests)
   // BLOQUE 4: Layout responsive (2 tests)
   // BLOQUE 5: Navegación (1 test)
