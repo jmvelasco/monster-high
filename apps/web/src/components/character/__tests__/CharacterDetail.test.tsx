@@ -203,8 +203,8 @@ describe('CharacterDetail', () => {
     expect(storySection).not.toBeInTheDocument()
   })
 
-  // BLOQUE 4: Layout responsive
-  // BLOQUE 3: Historia (3 tests)
-  // BLOQUE 4: Layout responsive (2 tests)
-  // BLOQUE 5: Navegación (1 test)
+  // BLOQUE 4: Layout responsive (2 tests) - DIFERIDO A FASE 5
+  
+  // BLOQUE 5: Navegación - N/A (responsabilidad de CharacterDetailPage)
 })
+
