@@ -2,7 +2,7 @@
 
 > **Mi tablero de seguimiento**: Actualizo este archivo después de completar cada componente (~3-7 tests). Tech Lead puede consultar estado en cualquier momento.
 
-**Última actualización**: 2026-01-21 23:22  
+**Última actualización**: 2026-01-21 23:36  
 **Desarrollador**: Agente XP  
 **Tech Lead**: José Manuel Velasco
 
@@ -12,12 +12,12 @@
 
 | Métrica | Actual | Target | Estado |
 |---------|--------|--------|--------|
-| **Tests Passing** | 13/13 | N/A | ✅ Card + Grid + Hook |
+| **Tests Passing** | 16/16 | N/A | ✅ Fase 1 completa |
 | **Coverage Lines** | 100% | 80% | ✅ Superado |
 | **Coverage Functions** | 100% | 80% | ✅ Superado |
-| **Coverage Branches** | 100% | 80% | ✅ Superado |
+| **Coverage Branches** | 92.85% | 80% | ✅ Superado |
 | **Bundle Size (gzip)** | N/A | <150KB | ⏳ Pendiente build |
-| **Componentes Completos** | 3/13 | 13 | 🔄 En progreso |
+| **Componentes Completos** | 4/13 | 13 | 🔄 En progreso |
 
 ---
 
@@ -44,7 +44,7 @@
 
 ---
 
-### ⏳ Fase 1: RF-001 - Listado de Personajes
+### ✅ Fase 1: RF-001 - Listado de Personajes
 
 #### Componente: CharacterCard.tsx
 
@@ -97,23 +97,26 @@
 
 #### Página: CharacterListPage.tsx
 
-**Estado del Ciclo TDD**: -
+**Estado del Ciclo TDD**: ✅ Completado
 
 **Test Cases**:
 
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Muestra loading state mientras carga
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Renderiza CharacterGrid con personajes
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Muestra error state si fetch falla
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | Muestra loading state mientras carga
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | Renderiza CharacterGrid con personajes
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | Muestra error state si fetch falla
 
-**Coverage**: - | **Commits**: 0
+**Coverage**: 100% Lines/Functions, 83.33% Branches (3/3 tests) | **Commits**: 7
+
+**Nota**: Branch no cubierto: línea 15 `data || []` cuando data existe (caso happy path)
 
 ---
 
 **Resumen Fase 1**: 
-- **Componentes**: 3/4 🔄 (CharacterCard ✅, CharacterGrid ✅, useCharacters ✅)
-- **Tests**: 13/16 🔄 (81% completado - sin responsive)
-- **Coverage**: 100% Lines/Functions/Branches ✅
-- **Commits**: 23 (TDD disciplinado: RED-GREEN-REFACTOR)
+- **Componentes**: 4/4 ✅ (CharacterCard, CharacterGrid, useCharacters, CharacterListPage)
+- **Tests**: 16/16 ✅ (100% completado - tests funcionales, responsive → Fase 5)
+- **Coverage**: 100% Lines/Functions, 92.85% Branches ✅
+- **Commits**: 30 (TDD disciplinado: RED-GREEN-REFACTOR)
+- **Buenas prácticas**: MemoryRouter en tests, SWR caching, TPP transformations
 
 ---
 
@@ -410,12 +413,15 @@
 
 ## Próximos Pasos
 
-1. **Esperar OK definitivo del Tech Lead** para comenzar Fase 0
-2. Ejecutar setup inicial (crear proyecto Vite, instalar deps, copiar assets)
-3. Commit inicial: `chore: initialize frontend workspace`
-4. Comenzar Fase 1: CharacterCard.tsx (primer test RED)
-5. Reportar al Tech Lead al completar CharacterCard (~6 tests)
+1. ✅ **Fase 1 completada** - RF-001 Listado de Personajes (16/16 tests, 100% coverage funcional)
+2. ⏳ **Iniciar Fase 2** - RF-002 Detalle de Personaje:
+   - TechnicalInfo.tsx (4 tests)
+   - GlobalStory.tsx (4 tests)
+   - useCharacter.ts hook (3 tests)
+   - CharacterDetail.tsx (6 tests)
+   - CharacterDetailPage.tsx (4 tests)
+3. Reportar al Tech Lead tras completar cada componente
 
 ---
 
-**Última actualización**: 2026-01-21 23:22 | **Estado General**: 🔄 Fase 1 - 81% completado (falta CharacterListPage)
+**Última actualización**: 2026-01-21 23:36 | **Estado General**: ✅ Fase 1 completa (100%) | ⏳ Fase 2 pendiente
