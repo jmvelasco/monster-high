@@ -13,9 +13,9 @@
 | Métrica | Actual | Target | Estado |
 |---------|--------|--------|--------|
 | **Tests Passing** | 6/6 | N/A | ✅ CharacterCard |
-| **Coverage Lines** | N/A | 80% | ⏳ Pendiente pkg |
-| **Coverage Functions** | N/A | 80% | ⏳ Pendiente pkg |
-| **Coverage Branches** | N/A | 80% | ⏳ Pendiente pkg |
+| **Coverage Lines** | 100% | 80% | ✅ Superado |
+| **Coverage Functions** | 100% | 80% | ✅ Superado |
+| **Coverage Branches** | 100% | 80% | ✅ Superado |
 | **Bundle Size (gzip)** | N/A | <150KB | ⏳ Pendiente build |
 | **Componentes Completos** | 1/13 | 13 | 🔄 En progreso |
 
@@ -112,7 +112,7 @@
 **Resumen Fase 1**: 
 - **Componentes**: 1/4 ⏳ (CharacterCard ✅)
 - **Tests**: 6/19 🔄 (32% completado)
-- **Coverage**: Pendiente instalación @vitest/coverage-v8
+- **Coverage**: 100% Lines/Functions/Branches ✅
 - **Commits**: 11 (TDD disciplinado: RED-GREEN-REFACTOR)
 
 ---
