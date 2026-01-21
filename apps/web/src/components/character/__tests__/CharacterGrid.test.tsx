@@ -22,4 +22,16 @@ describe('CharacterGrid', () => {
     // Assert
     expect(screen.getByText(/no hay personajes/i)).toBeInTheDocument()
   })
+
+  it('muestra un personaje', () => {
+    // Act
+    render(
+      <BrowserRouter>
+        <CharacterGrid characters={[mockCharacter]} />
+      </BrowserRouter>
+    )
+
+    // Assert
+    expect(screen.getByText('Draculaura')).toBeInTheDocument()
+  })
 })
