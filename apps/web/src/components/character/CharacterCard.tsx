@@ -6,5 +6,10 @@ interface CharacterCardProps {
 }
 
 export function CharacterCard({ character }: CharacterCardProps) {
-  return <div>{character.name}</div>
+  return (
+    <div>
+      <img src={character.image} alt={character.name} />
+      <div>{character.name}</div>
+    </div>
+  )
 }
