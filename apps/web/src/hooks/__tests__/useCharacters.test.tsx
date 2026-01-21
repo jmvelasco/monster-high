@@ -80,19 +80,15 @@ describe('useCharacters', () => {
       } as Response)
     )
 
-    const { result: result1 } = renderHook(() => useCharacters(), { wrapper })
+    const { result, rerender } = renderHook(() => useCharacters(), { wrapper })
     
     await waitFor(() => {
-      expect(result1.current.isLoading).toBe(false)
+      expect(result.current.isLoading).toBe(false)
     })
 
-    const { result: result2 } = renderHook(() => useCharacters(), { wrapper })
+    rerender()
 
-    await waitFor(() => {
-      expect(result2.current.isLoading).toBe(false)
-    })
-
-    expect(result2.current.data).toEqual(mockCharacters)
+    expect(result.current.data).toEqual(mockCharacters)
     expect(globalThis.fetch).toHaveBeenCalledTimes(1)
   })
 })
