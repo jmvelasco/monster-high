@@ -6,9 +6,11 @@ interface CharacterCardProps {
 }
 
 export function CharacterCard({ character }: CharacterCardProps) {
+  const imageSrc = character.image || '/images/placeholder-character.svg'
+
   return (
     <div>
-      <img src={character.image} alt={character.name} />
+      <img src={imageSrc} alt={character.name} />
       <div>{character.name}</div>
     </div>
   )
