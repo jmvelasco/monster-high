@@ -1,4 +1,6 @@
+import { Link } from 'react-router-dom'
 import type { Character } from '../../types/character'
+import { generateSlug } from '../../utils/slugUtils'
 
 interface CharacterCardProps {
   character: Character
@@ -7,11 +9,12 @@ interface CharacterCardProps {
 
 export function CharacterCard({ character, variant }: CharacterCardProps) {
   const imageSrc = character.image || '/images/placeholder-character.svg'
+  const slug = generateSlug(character.name)
 
   return (
-    <div>
+    <Link to={`/character/${slug}`}>
       <img src={imageSrc} alt={character.name} />
       {variant === 'list' && <div>{character.name}</div>}
-    </div>
+    </Link>
   )
 }
