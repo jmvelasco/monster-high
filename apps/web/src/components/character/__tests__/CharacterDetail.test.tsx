@@ -123,7 +123,28 @@ describe('CharacterDetail', () => {
     expect(screen.queryByText('Ocupación:')).not.toBeInTheDocument()
   })
 
-  // TODO: Test 6 - Formatea labels correctamente (capitalización)
+  // TODO: Test 6 - Formatea labels correctamente (capitalización) (IN PROGRESS)
+  it('formatea labels correctamente (capitalización)', () => {
+    // Arrange
+    const character: Character = {
+      name: 'Ghoulia Yelps',
+      url: 'https://example.com',
+      technicalInfo: {
+        ocupacion: 'Estudiante',
+        mejoresAmigos: 'Cleo de Nile',
+      },
+      sections: {},
+    }
+
+    // Act
+    render(<CharacterDetail character={character} />)
+
+    // Assert
+    expect(screen.getByText('Ocupación:')).toBeInTheDocument()
+    expect(screen.getByText('Mejores Amigos:')).toBeInTheDocument()
+  })
+
+  // BLOQUE 3: Historia (globalStory)
   // BLOQUE 3: Historia (3 tests)
   // BLOQUE 4: Layout responsive (2 tests)
   // BLOQUE 5: Navegación (1 test)
