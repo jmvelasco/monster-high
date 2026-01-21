@@ -99,7 +99,31 @@ describe('CharacterDetail', () => {
     expect(screen.queryByText('Mascota:')).not.toBeInTheDocument()
   })
 
-  // TODO: Test 5 - Maneja campos vacíos ("") sin mostrarlos
+  // TODO: Test 5 - Maneja campos vacíos ("") sin mostrarlos (IN PROGRESS)
+  it('maneja campos vacíos ("") sin mostrarlos', () => {
+    // Arrange
+    const character: Character = {
+      name: 'Cleo de Nile',
+      url: 'https://example.com',
+      technicalInfo: {
+        edad: '16',
+        sexo: '',
+        ocupacion: '',
+      },
+      sections: {},
+    }
+
+    // Act
+    render(<CharacterDetail character={character} />)
+
+    // Assert
+    expect(screen.getByText('Edad:')).toBeInTheDocument()
+    expect(screen.getByText('16')).toBeInTheDocument()
+    expect(screen.queryByText('Sexo:')).not.toBeInTheDocument()
+    expect(screen.queryByText('Ocupación:')).not.toBeInTheDocument()
+  })
+
+  // TODO: Test 6 - Formatea labels correctamente (capitalización)
   // BLOQUE 3: Historia (3 tests)
   // BLOQUE 4: Layout responsive (2 tests)
   // BLOQUE 5: Navegación (1 test)
