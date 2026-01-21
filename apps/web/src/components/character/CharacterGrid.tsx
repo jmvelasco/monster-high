@@ -1,3 +1,4 @@
+import { CharacterCard } from './CharacterCard'
 import type { Character } from '../../types/character'
 
 interface CharacterGridProps {
@@ -9,5 +10,11 @@ export function CharacterGrid({ characters }: CharacterGridProps) {
     return <div>No hay personajes disponibles</div>
   }
 
-  return null
+  return (
+    <div>
+      {characters.map(character => (
+        <CharacterCard key={character.name} character={character} variant="list" />
+      ))}
+    </div>
+  )
 }
