@@ -4,6 +4,15 @@ interface CharacterDetailProps {
   character: Character
 }
 
+const TECHNICAL_INFO_LABELS: Record<string, string> = {
+  edad: 'Edad:',
+  sexo: 'Sexo:',
+  ocupacion: 'Ocupación:',
+  mascota: 'Mascota:',
+  familiares: 'Familiares:',
+  mejoresAmigos: 'Mejores Amigos:',
+}
+
 export function CharacterDetail({ character }: CharacterDetailProps) {
   const imageSrc = character.image || '/images/placeholder-character.svg'
 
@@ -11,26 +20,14 @@ export function CharacterDetail({ character }: CharacterDetailProps) {
     <div>
       <img src={imageSrc} alt={character.name} />
       <div>
-        {character.technicalInfo.edad && (
-          <div>
-            <span>Edad:</span> <span>{character.technicalInfo.edad}</span>
-          </div>
-        )}
-        {character.technicalInfo.sexo && (
-          <div>
-            <span>Sexo:</span> <span>{character.technicalInfo.sexo}</span>
-          </div>
-        )}
-        {character.technicalInfo.ocupacion && (
-          <div>
-            <span>Ocupación:</span> <span>{character.technicalInfo.ocupacion}</span>
-          </div>
-        )}
-        {character.technicalInfo.mascota && (
-          <div>
-            <span>Mascota:</span> <span>{character.technicalInfo.mascota}</span>
-          </div>
-        )}
+        {Object.entries(character.technicalInfo).map(([key, value]) => {
+          if (!value) return null
+          return (
+            <div key={key}>
+              <span>{TECHNICAL_INFO_LABELS[key]}</span> <span>{value}</span>
+            </div>
+          )
+        })}
       </div>
     </div>
   )
