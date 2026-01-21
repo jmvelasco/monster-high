@@ -1,7 +1,7 @@
-import { describe, it, expect } from 'vitest'
 import { render, screen } from '@testing-library/react'
+import { describe, expect, it } from 'vitest'
+import type { Character } from '../../../types/character'
 import { CharacterDetail } from '../CharacterDetail'
-import type { Character } from '../../types/character'
 
 describe('CharacterDetail', () => {
   // BLOQUE 1: Imagen del personaje

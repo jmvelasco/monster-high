@@ -5,5 +5,9 @@ interface CharacterDetailProps {
 }
 
 export function CharacterDetail({ character }: CharacterDetailProps) {
-  return <div></div>
+  return (
+    <div>
+      <img src={character.image} alt={character.name} />
+    </div>
+  )
 }

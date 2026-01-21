@@ -1,8 +1,8 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { renderHook, waitFor } from '@testing-library/react'
 import { SWRConfig } from 'swr'
-import { useCharacter } from '../useCharacter'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import type { Character } from '../../types/character'
+import { useCharacter } from '../useCharacter'
 
 const wrapper = ({ children }: { children: React.ReactNode }) => (
   <SWRConfig value={{ provider: () => new Map(), dedupingInterval: 0 }}>
@@ -81,12 +81,6 @@ describe('useCharacter', () => {
   // TODO: Test 3 - Maneja loading state (IN PROGRESS)
   it('maneja loading state', () => {
     // Arrange
-    globalThis.fetch = vi.fn(
-      () =>
-        new Promise(() => {
-          /* never resolves */
-        })
-    )
 
     // Act
     const { result } = renderHook(() => useCharacter('any-slug'), { wrapper })
