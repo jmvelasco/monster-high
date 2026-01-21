@@ -5,13 +5,13 @@ interface CharacterCardProps {
   variant: 'list' | 'favorite'
 }
 
-export function CharacterCard({ character }: CharacterCardProps) {
+export function CharacterCard({ character, variant }: CharacterCardProps) {
   const imageSrc = character.image || '/images/placeholder-character.svg'
 
   return (
     <div>
       <img src={imageSrc} alt={character.name} />
-      <div>{character.name}</div>
+      {variant === 'list' && <div>{character.name}</div>}
     </div>
   )
 }
