@@ -75,7 +75,31 @@ describe('CharacterDetail', () => {
     expect(screen.getByText('Crescent')).toBeInTheDocument()
   })
 
-  // TODO: Test 4 - Maneja campos opcionales (undefined) sin romper UI
+  // TODO: Test 4 - Maneja campos opcionales (undefined) sin romper UI (IN PROGRESS)
+  it('maneja campos opcionales (undefined) sin romper UI', () => {
+    // Arrange
+    const character: Character = {
+      name: 'Lagoona Blue',
+      url: 'https://example.com',
+      technicalInfo: {
+        edad: '15',
+        // sexo, ocupacion, mascota undefined
+      },
+      sections: {},
+    }
+
+    // Act
+    render(<CharacterDetail character={character} />)
+
+    // Assert
+    expect(screen.getByText('Edad:')).toBeInTheDocument()
+    expect(screen.getByText('15')).toBeInTheDocument()
+    expect(screen.queryByText('Sexo:')).not.toBeInTheDocument()
+    expect(screen.queryByText('Ocupación:')).not.toBeInTheDocument()
+    expect(screen.queryByText('Mascota:')).not.toBeInTheDocument()
+  })
+
+  // TODO: Test 5 - Maneja campos vacíos ("") sin mostrarlos
   // BLOQUE 3: Historia (3 tests)
   // BLOQUE 4: Layout responsive (2 tests)
   // BLOQUE 5: Navegación (1 test)
