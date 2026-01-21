@@ -34,4 +34,25 @@ describe('CharacterGrid', () => {
     // Assert
     expect(screen.getByText('Draculaura')).toBeInTheDocument()
   })
+
+  it('muestra múltiples personajes en grid', () => {
+    // Arrange
+    const characters: Character[] = [
+      { ...mockCharacter, name: 'Draculaura' },
+      { ...mockCharacter, name: 'Clawdeen Wolf' },
+      { ...mockCharacter, name: 'Frankie Stein' },
+    ]
+
+    // Act
+    render(
+      <BrowserRouter>
+        <CharacterGrid characters={characters} />
+      </BrowserRouter>
+    )
+
+    // Assert
+    expect(screen.getByText('Draculaura')).toBeInTheDocument()
+    expect(screen.getByText('Clawdeen Wolf')).toBeInTheDocument()
+    expect(screen.getByText('Frankie Stein')).toBeInTheDocument()
+  })
 })
