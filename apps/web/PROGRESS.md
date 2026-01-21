@@ -17,7 +17,7 @@
 | **Coverage Functions** | 100% | 80% | ✅ Superado |
 | **Coverage Branches** | 92.85% | 80% | ✅ Superado |
 | **Bundle Size (gzip)** | N/A | <150KB | ⏳ Pendiente build |
-| **Componentes Completos** | 4/13 | 13 | 🔄 En progreso |
+| **Componentes Completos** | 4/12 | 12 | 🔄 En progreso |
 
 ---
 
@@ -122,50 +122,37 @@
 
 ### ⏳ Fase 2: RF-002 - Detalle de Personaje
 
-#### Componente: TechnicalInfo.tsx
-
-**Estado del Ciclo TDD**: -
-
-**Test Cases**:
-
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Muestra todos los campos de technicalInfo
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Maneja campos opcionales (undefined)
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Maneja campos vacíos ("")
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Formato correcto de labels
-
-**Coverage**: - | **Commits**: 0
-
----
-
-#### Componente: GlobalStory.tsx
-
-**Estado del Ciclo TDD**: -
-
-**Test Cases**:
-
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Renderiza historia con fuente Gruenewald VA
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Muestra placeholder si globalStory es undefined
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Muestra placeholder si globalStory es ""
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Concatena sections correctamente
-
-**Coverage**: - | **Commits**: 0
-
----
-
 #### Componente: CharacterDetail.tsx
 
 **Estado del Ciclo TDD**: -
 
-**Test Cases**:
+**Test Cases** (ordenados simple → complejo):
 
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Muestra imagen del personaje
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Renderiza TechnicalInfo component
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Renderiza GlobalStory component
+**Bloque 1: Imagen del personaje**
+- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Muestra imagen del personaje con alt text
+- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Muestra placeholder si imagen es undefined
+
+**Bloque 2: Ficha técnica (technicalInfo)**
+- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Muestra todos los campos de technicalInfo presentes
+- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Maneja campos opcionales (undefined) sin romper UI
+- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Maneja campos vacíos ("") sin mostrarlos
+- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Formatea labels correctamente (capitalización)
+
+**Bloque 3: Historia (globalStory)**
+- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Renderiza globalStory con fuente Gruenewald VA
+- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Muestra placeholder si globalStory es undefined
+- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Muestra placeholder si globalStory es ""
+
+**Bloque 4: Layout responsive**
 - [ ] 🤔 → 🔴 → 🟢 → 🔵 | Layout 2 columnas en desktop (>1024px)
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Layout 1 columna en mobile (<768px)
+- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Layout 1 columna en mobile (<1024px)
+
+**Bloque 5: Navegación**
 - [ ] 🤔 → 🔴 → 🟢 → 🔵 | Botón "Volver" navega correctamente
 
 **Coverage**: - | **Commits**: 0
+
+**Nota arquitectural**: Componente único cohesivo (imagen + ficha técnica + historia) siguiendo principio KISS. No requiere subcomponentes ya que no se reutilizan.
 
 ---
 
@@ -199,8 +186,8 @@
 ---
 
 **Resumen Fase 2**:
-- **Componentes**: 0/4 ⏳
-- **Tests**: 0/21 ⏳
+- **Componentes**: 0/3 ⏳ (CharacterDetail, useCharacter, CharacterDetailPage)
+- **Tests**: 0/19 ⏳ (12 CharacterDetail + 3 useCharacter + 4 CharacterDetailPage)
 - **Coverage**: 0% ⏳
 - **Commits**: 0
 
@@ -415,10 +402,8 @@
 
 1. ✅ **Fase 1 completada** - RF-001 Listado de Personajes (16/16 tests, 100% coverage funcional)
 2. ⏳ **Iniciar Fase 2** - RF-002 Detalle de Personaje:
-   - TechnicalInfo.tsx (4 tests)
-   - GlobalStory.tsx (4 tests)
+   - CharacterDetail.tsx (12 tests - componente cohesivo: imagen + ficha + historia)
    - useCharacter.ts hook (3 tests)
-   - CharacterDetail.tsx (6 tests)
    - CharacterDetailPage.tsx (4 tests)
 3. Reportar al Tech Lead tras completar cada componente
 
