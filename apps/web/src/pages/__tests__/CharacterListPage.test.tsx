@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { BrowserRouter } from 'react-router-dom';
+import { MemoryRouter } from 'react-router-dom';
 import type { Character } from '../../types/character';
 import { CharacterListPage } from '../CharacterListPage';
 import * as useCharactersModule from '../../hooks/useCharacters';
@@ -36,9 +36,9 @@ describe('CharacterListPage', () => {
     });
 
     render(
-      <BrowserRouter>
+      <MemoryRouter>
         <CharacterListPage />
-      </BrowserRouter>
+      </MemoryRouter>
     );
 
     expect(screen.getByAltText('Draculaura')).toBeInTheDocument();
@@ -53,9 +53,9 @@ describe('CharacterListPage', () => {
     });
 
     render(
-      <BrowserRouter>
+      <MemoryRouter>
         <CharacterListPage />
-      </BrowserRouter>
+      </MemoryRouter>
     );
 
     expect(screen.getByText(/error/i)).toBeInTheDocument();
