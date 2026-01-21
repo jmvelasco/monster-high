@@ -145,6 +145,28 @@ describe('CharacterDetail', () => {
   })
 
   // BLOQUE 3: Historia (globalStory)
+  
+  // TODO: Test 7 - Renderiza globalStory con fuente Gruenewald VA (IN PROGRESS)
+  it('renderiza globalStory con fuente Gruenewald VA', () => {
+    // Arrange
+    const character: Character = {
+      name: 'Deuce Gorgon',
+      url: 'https://example.com',
+      technicalInfo: {},
+      sections: {},
+      globalStory: 'Deuce es el hijo de Medusa y tiene el poder de convertir a las personas en piedra con su mirada.',
+    }
+
+    // Act
+    render(<CharacterDetail character={character} />)
+
+    // Assert
+    const story = screen.getByText(/Deuce es el hijo de Medusa/)
+    expect(story).toBeInTheDocument()
+    expect(story).toHaveClass('global-story')
+  })
+
+  // TODO: Test 8 - Muestra placeholder si globalStory es undefined
   // BLOQUE 3: Historia (3 tests)
   // BLOQUE 4: Layout responsive (2 tests)
   // BLOQUE 5: Navegación (1 test)
