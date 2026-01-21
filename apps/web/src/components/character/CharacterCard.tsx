@@ -13,7 +13,7 @@ export function CharacterCard({ character, variant }: CharacterCardProps) {
 
   return (
     <Link to={`/character/${slug}`}>
-      <img src={imageSrc} alt={character.name} />
+      <img src={imageSrc} alt={character.name} loading="lazy" />
       {variant === 'list' && <div>{character.name}</div>}
     </Link>
   )
