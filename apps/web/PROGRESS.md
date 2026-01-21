@@ -12,12 +12,12 @@
 
 | Métrica | Actual | Target | Estado |
 |---------|--------|--------|--------|
-| **Tests Passing** | 6/6 | N/A | ✅ CharacterCard |
+| **Tests Passing** | 9/9 | N/A | ✅ Card + Grid |
 | **Coverage Lines** | 100% | 80% | ✅ Superado |
 | **Coverage Functions** | 100% | 80% | ✅ Superado |
 | **Coverage Branches** | 100% | 80% | ✅ Superado |
 | **Bundle Size (gzip)** | N/A | <150KB | ⏳ Pendiente build |
-| **Componentes Completos** | 1/13 | 13 | 🔄 En progreso |
+| **Componentes Completos** | 2/13 | 13 | 🔄 En progreso |
 
 ---
 
@@ -65,18 +65,18 @@
 
 #### Componente: CharacterGrid.tsx
 
-**Estado del Ciclo TDD**: -
+**Estado del Ciclo TDD**: ✅ Completado (tests funcionales, responsive → Fase 5)
 
 **Test Cases**:
 
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Muestra mensaje vacío cuando no hay personajes
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Muestra un personaje
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Muestra múltiples personajes (3+) en grid
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Grid responsive: 2 cols mobile
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Grid responsive: 3 cols tablet
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Grid responsive: 4 cols desktop
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | Muestra mensaje vacío cuando no hay personajes
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | Muestra un personaje
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | Muestra múltiples personajes (3+) en grid
+- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Grid responsive: 2 cols mobile (Fase 5)
+- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Grid responsive: 3 cols tablet (Fase 5)
+- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Grid responsive: 4 cols desktop (Fase 5)
 
-**Coverage**: - | **Commits**: 0
+**Coverage**: 100% (3/3 tests funcionales) | **Commits**: 5
 
 ---
 
@@ -110,10 +110,10 @@
 ---
 
 **Resumen Fase 1**: 
-- **Componentes**: 1/4 ⏳ (CharacterCard ✅)
-- **Tests**: 6/19 🔄 (32% completado)
+- **Componentes**: 2/4 🔄 (CharacterCard ✅, CharacterGrid ✅)
+- **Tests**: 9/13 🔄 (69% completado - sin responsive)
 - **Coverage**: 100% Lines/Functions/Branches ✅
-- **Commits**: 11 (TDD disciplinado: RED-GREEN-REFACTOR)
+- **Commits**: 16 (TDD disciplinado: RED-GREEN-REFACTOR)
 
 ---
 
