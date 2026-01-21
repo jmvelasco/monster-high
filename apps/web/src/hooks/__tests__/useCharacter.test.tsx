@@ -46,6 +46,37 @@ describe('useCharacter', () => {
     })
   })
 
-  // TODO: Test 2 - Retorna undefined si slug no existe
+  // TODO: Test 2 - Retorna undefined si slug no existe (IN PROGRESS)
+  it('retorna undefined si slug no existe', async () => {
+    // Arrange
+    const mockCharacters: Character[] = [
+      {
+        name: 'Draculaura',
+        url: 'https://example.com/draculaura',
+        technicalInfo: {},
+        sections: {},
+      },
+    ]
+
+    globalThis.fetch = vi.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve(mockCharacters),
+      } as Response)
+    )
+
+    const slug = 'personaje-inexistente'
+
+    // Act
+    const { result } = renderHook(() => useCharacter(slug), { wrapper })
+
+    // Assert
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false)
+    })
+
+    expect(result.current.data).toBeUndefined()
+  })
+
   // TODO: Test 3 - Maneja loading state
 })
