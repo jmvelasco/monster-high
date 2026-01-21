@@ -50,4 +50,23 @@ describe('useCharacters', () => {
     expect(result.current.data).toEqual(mockCharacters)
     expect(globalThis.fetch).toHaveBeenCalledWith('/api/characters.json')
   })
+
+  it('retorna error si fetch falla', async () => {
+    globalThis.fetch = vi.fn(() =>
+      Promise.resolve({
+        ok: false,
+        status: 404,
+      } as Response)
+    )
+
+    const { result } = renderHook(() => useCharacters(), { wrapper })
+
+    await waitFor(() => {
+      expect(result.current.isLoading).toBe(false)
+    })
+
+    expect(result.current.error).toBeDefined()
+    expect(result.current.error?.message).toBe('Failed to fetch characters')
+    expect(result.current.data).toBeUndefined()
+  })
 })
