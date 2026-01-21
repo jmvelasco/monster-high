@@ -45,4 +45,26 @@ describe('CharacterCard', () => {
     const img = screen.getByRole('img', { name: 'Draculaura' })
     expect(img).toHaveAttribute('src', 'https://example.com/draculaura.jpg')
   })
+
+  it('muestra placeholder cuando no hay imagen', () => {
+    // Arrange
+    const character: Character = {
+      name: 'Draculaura',
+      url: 'https://example.com',
+      technicalInfo: {},
+      sections: {},
+      image: undefined,
+    }
+
+    // Act
+    render(
+      <BrowserRouter>
+        <CharacterCard character={character} variant="list" />
+      </BrowserRouter>
+    )
+
+    // Assert
+    const img = screen.getByRole('img', { name: 'Draculaura' })
+    expect(img).toHaveAttribute('src', '/images/placeholder-character.svg')
+  })
 })
