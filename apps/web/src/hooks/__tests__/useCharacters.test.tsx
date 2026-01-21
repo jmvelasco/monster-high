@@ -1,5 +1,6 @@
 import { renderHook, waitFor } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { SWRConfig } from 'swr'
 import type { Character } from '../../types/character'
 import { useCharacters } from '../useCharacters'
 
@@ -8,8 +9,12 @@ describe('useCharacters', () => {
     vi.clearAllMocks()
   })
 
+  const wrapper = ({ children }: { children: React.ReactNode }) => (
+    <SWRConfig value={{ provider: () => new Map(), dedupingInterval: 0 }}>{children}</SWRConfig>
+  )
+
   it('retorna loading state inicialmente', () => {
-    const { result } = renderHook(() => useCharacters())
+    const { result } = renderHook(() => useCharacters(), { wrapper })
 
     expect(result.current.isLoading).toBe(true)
     expect(result.current.data).toBeUndefined()
@@ -36,7 +41,7 @@ describe('useCharacters', () => {
       } as Response)
     )
 
-    const { result } = renderHook(() => useCharacters())
+    const { result } = renderHook(() => useCharacters(), { wrapper })
 
     await waitFor(() => {
       expect(result.current.isLoading).toBe(false)
