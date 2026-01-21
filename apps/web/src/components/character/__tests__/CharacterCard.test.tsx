@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
+import userEvent from '@testing-library/user-event'
 import { CharacterCard } from '../CharacterCard'
 import type { Character } from '../../../types/character'
 
@@ -106,5 +107,29 @@ describe('CharacterCard', () => {
 
     // Assert
     expect(screen.queryByText('Draculaura')).not.toBeInTheDocument()
+  })
+
+  it('navega a detalle on click', async () => {
+    // Arrange
+    const user = userEvent.setup()
+    const character: Character = {
+      name: 'Draculaura',
+      url: 'https://example.com',
+      technicalInfo: {},
+      sections: {},
+    }
+
+    // Act
+    render(
+      <BrowserRouter>
+        <CharacterCard character={character} variant="list" />
+      </BrowserRouter>
+    )
+
+    const card = screen.getByRole('link')
+    await user.click(card)
+
+    // Assert
+    expect(card).toHaveAttribute('href', '/character/draculaura')
   })
 })
