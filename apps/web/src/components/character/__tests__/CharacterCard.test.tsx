@@ -67,4 +67,44 @@ describe('CharacterCard', () => {
     const img = screen.getByRole('img', { name: 'Draculaura' })
     expect(img).toHaveAttribute('src', '/images/placeholder-character.svg')
   })
+
+  it('aplica variant="list" correctamente', () => {
+    // Arrange
+    const character: Character = {
+      name: 'Draculaura',
+      url: 'https://example.com',
+      technicalInfo: {},
+      sections: {},
+    }
+
+    // Act
+    render(
+      <BrowserRouter>
+        <CharacterCard character={character} variant="list" />
+      </BrowserRouter>
+    )
+
+    // Assert
+    expect(screen.getByText('Draculaura')).toBeInTheDocument()
+  })
+
+  it('aplica variant="favorite" correctamente', () => {
+    // Arrange
+    const character: Character = {
+      name: 'Draculaura',
+      url: 'https://example.com',
+      technicalInfo: {},
+      sections: {},
+    }
+
+    // Act
+    render(
+      <BrowserRouter>
+        <CharacterCard character={character} variant="favorite" />
+      </BrowserRouter>
+    )
+
+    // Assert
+    expect(screen.queryByText('Draculaura')).not.toBeInTheDocument()
+  })
 })
