@@ -1,4 +1,6 @@
 import type { Character } from '../../types/character'
+import { useFavorites } from '../../hooks/useFavorites'
+import { generateSlug } from '../../utils/slugUtils'
 import styles from './CharacterDetail.module.css'
 
 interface CharacterDetailProps {
@@ -15,11 +17,17 @@ const TECHNICAL_INFO_LABELS: Record<string, string> = {
 }
 
 export function CharacterDetail({ character }: CharacterDetailProps) {
+  const { toggleFavorite, isFavorite } = useFavorites()
+  const slug = generateSlug(character.name)
+  const isFav = isFavorite(slug)
   const imageSrc = character.image || '/images/placeholder-character.svg'
 
   return (
     <div>
       <img src={imageSrc} alt={character.name} />
+      <button onClick={() => toggleFavorite(slug)}>
+        {isFav ? '❤️ Favorito' : '🤍 Agregar a Favoritos'}
+      </button>
       <div>
         {Object.entries(character.technicalInfo).map(([key, value]) => {
           if (!value) return null
