@@ -1,4 +1,4 @@
-import { saveFavorite, getFavorites, removeFavorite, isFavorite } from '../favoritesStorage'
+import { getFavorites, saveFavorite, removeFavorite } from '../favoritesStorage'
 
 describe('favoritesStorage', () => {
   beforeEach(() => {
@@ -20,6 +20,18 @@ describe('favoritesStorage', () => {
       localStorage.setItem('monster-high-favorites', JSON.stringify(['draculaura', 'clawdeen-wolf']))
 
       expect(getFavorites()).toEqual(['draculaura', 'clawdeen-wolf'])
+    })
+  })
+
+  describe('removeFavorite', () => {
+    it('elimina slug de localStorage', () => {
+      localStorage.setItem('monster-high-favorites', JSON.stringify(['draculaura', 'clawdeen-wolf']))
+      
+      removeFavorite('draculaura')
+
+      expect(localStorage.getItem('monster-high-favorites')).toBe(
+        JSON.stringify(['clawdeen-wolf'])
+      )
     })
   })
 })
