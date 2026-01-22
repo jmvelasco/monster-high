@@ -1,8 +1,8 @@
-import { beforeEach, describe, expect, it } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
-import { FavoritesPage } from '../FavoritesPage'
+import { beforeEach, describe, expect, it } from 'vitest'
 import { resetFavoritesState } from '../../__tests__/test-utils'
+import { FavoritesPage } from '../FavoritesPage'
 
 const renderWithRouter = (component: React.ReactElement) => {
   return render(<BrowserRouter>{component}</BrowserRouter>)
@@ -36,5 +36,12 @@ describe('FavoritesPage', () => {
     // Verifica que el componente CharacterCard está siendo renderizado
     // (busca por atributo data-testid que CharacterCard debe tener)
     expect(screen.getByTestId('character-card-draculaura')).toBeInTheDocument()
+  })
+
+  it('muestra botón para explorar personajes cuando no hay favoritos', () => {
+    renderWithRouter(<FavoritesPage />)
+
+    const button = screen.getByRole('button', { name: /explorar personajes/i })
+    expect(button).toBeInTheDocument()
   })
 })
