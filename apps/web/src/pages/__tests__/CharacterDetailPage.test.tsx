@@ -4,6 +4,7 @@ import { SWRConfig } from 'swr'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import type { Character } from '../../types/character'
 import { CharacterDetailPage } from '../CharacterDetailPage'
+import { resetFavoritesState } from '../../__tests__/test-utils'
 
 const mockCharacters: Character[] = [
   {
@@ -30,6 +31,7 @@ const wrapper = ({ children }: { children: React.ReactNode }) => (
 )
 
 beforeEach(() => {
+  resetFavoritesState()
   globalThis.fetch = vi.fn(() =>
     Promise.resolve({
       ok: true,
@@ -108,6 +110,25 @@ describe('CharacterDetailPage', () => {
     // Assert - Si el componente se renderiza correctamente, significa que obtuvo el slug
     await waitFor(() => {
       expect(screen.getByAltText('Draculaura')).toBeInTheDocument()
+    })
+  })
+
+  // TODO: Test 5 - Muestra botón de favoritos con estado correcto (IN PROGRESS)
+  it('muestra botón de favoritos sin estado de favorito', async () => {
+    // Arrange & Act
+    render(
+      <MemoryRouter initialEntries={['/character/draculaura']}>
+        <Routes>
+          <Route path="/character/:slug" element={<CharacterDetailPage />} />
+        </Routes>
+      </MemoryRouter>,
+      { wrapper }
+    )
+
+    // Assert
+    await waitFor(() => {
+      const button = screen.getByRole('button', { name: /favorito|agregar a favoritos/i })
+      expect(button).toBeInTheDocument()
     })
   })
 })
