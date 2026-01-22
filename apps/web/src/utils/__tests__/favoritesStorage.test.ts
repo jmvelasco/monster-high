@@ -13,6 +13,17 @@ describe('favoritesStorage', () => {
         JSON.stringify(['draculaura'])
       )
     })
+
+    it('agrega slug a favoritos existentes sin duplicar', () => {
+      localStorage.setItem('monster-high-favorites', JSON.stringify(['clawdeen-wolf']))
+      
+      saveFavorite('draculaura')
+
+      expect(JSON.parse(localStorage.getItem('monster-high-favorites')!)).toEqual(
+        expect.arrayContaining(['draculaura', 'clawdeen-wolf'])
+      )
+      expect(JSON.parse(localStorage.getItem('monster-high-favorites')!).length).toBe(2)
+    })
   })
 
   describe('getFavorites', () => {
