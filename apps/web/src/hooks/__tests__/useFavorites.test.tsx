@@ -50,6 +50,23 @@ describe('useFavorites', () => {
     expect(result.current.isFavorite('draculaura')).toBe(true)
     expect(result.current.isFavorite('clawdeen-wolf')).toBe(false)
   })
+
+  it('sincroniza favoritos después de toggle', () => {
+    const { result } = renderHook(() => useFavorites())
+    expect(result.current.favorites).toEqual([])
+
+    act(() => {
+      result.current.toggleFavorite('draculaura')
+    })
+
+    expect(result.current.favorites).toEqual(['draculaura'])
+
+    act(() => {
+      result.current.toggleFavorite('clawdeen-wolf')
+    })
+
+    expect(result.current.favorites).toEqual(['draculaura', 'clawdeen-wolf'])
+  })
 })
 
 
