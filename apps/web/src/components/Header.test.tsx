@@ -17,4 +17,21 @@ describe('Header', () => {
     // Assert
     expect(screen.getByText(expectedTitle)).toBeInTheDocument()
   })
+
+  it('muestra link a "Todos los Personajes"', () => {
+    // Arrange
+    const expectedLinkText = 'Todos los Personajes'
+
+    // Act
+    render(
+      <BrowserRouter>
+        <Header />
+      </BrowserRouter>
+    )
+
+    // Assert
+    const link = screen.getByRole('link', { name: expectedLinkText })
+    expect(link).toBeInTheDocument()
+    expect(link).toHaveAttribute('href', '/characters')
+  })
 })
