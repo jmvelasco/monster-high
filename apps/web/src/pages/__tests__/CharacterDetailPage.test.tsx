@@ -2,9 +2,9 @@ import { render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { SWRConfig } from 'swr'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { resetFavoritesState } from '../../__tests__/test-utils'
 import type { Character } from '../../types/character'
 import { CharacterDetailPage } from '../CharacterDetailPage'
-import { resetFavoritesState } from '../../__tests__/test-utils'
 
 const mockCharacters: Character[] = [
   {
@@ -41,9 +41,7 @@ beforeEach(() => {
 })
 
 describe('CharacterDetailPage', () => {
-  // TODO: Test 1 - Muestra loading state mientras carga (IN PROGRESS)
   it('muestra loading state mientras carga', () => {
-    // Arrange & Act
     render(
       <MemoryRouter initialEntries={['/character/draculaura']}>
         <Routes>
@@ -53,13 +51,10 @@ describe('CharacterDetailPage', () => {
       { wrapper }
     )
 
-    // Assert
     expect(screen.getByText(/cargando/i)).toBeInTheDocument()
   })
 
-  // TODO: Test 2 - Renderiza CharacterDetail con datos (IN PROGRESS)
   it('renderiza CharacterDetail con datos', async () => {
-    // Arrange & Act
     render(
       <MemoryRouter initialEntries={['/character/draculaura']}>
         <Routes>
@@ -69,7 +64,6 @@ describe('CharacterDetailPage', () => {
       { wrapper }
     )
 
-    // Assert - Verificar que CharacterDetail se renderizó con datos
     await waitFor(() => {
       expect(screen.getByAltText('Draculaura')).toBeInTheDocument()
     })
@@ -77,9 +71,7 @@ describe('CharacterDetailPage', () => {
     expect(screen.getByText(/vampira vegetariana/i)).toBeInTheDocument()
   })
 
-  // TODO: Test 3 - Muestra 404 si slug no existe (IN PROGRESS)
   it('muestra 404 si slug no existe', async () => {
-    // Arrange & Act
     render(
       <MemoryRouter initialEntries={['/character/personaje-inexistente']}>
         <Routes>
@@ -89,15 +81,12 @@ describe('CharacterDetailPage', () => {
       { wrapper }
     )
 
-    // Assert
     await waitFor(() => {
       expect(screen.getByText(/personaje no encontrado/i)).toBeInTheDocument()
     })
   })
 
-  // TODO: Test 4 - Obtiene slug de URL params (IN PROGRESS)
   it('obtiene slug de URL params', async () => {
-    // Arrange & Act
     render(
       <MemoryRouter initialEntries={['/character/draculaura']}>
         <Routes>
@@ -107,15 +96,12 @@ describe('CharacterDetailPage', () => {
       { wrapper }
     )
 
-    // Assert - Si el componente se renderiza correctamente, significa que obtuvo el slug
     await waitFor(() => {
       expect(screen.getByAltText('Draculaura')).toBeInTheDocument()
     })
   })
 
-  // TODO: Test 5 - Muestra botón de favoritos con estado correcto (IN PROGRESS)
   it('muestra botón de favoritos sin estado de favorito', async () => {
-    // Arrange & Act
     render(
       <MemoryRouter initialEntries={['/character/draculaura']}>
         <Routes>
@@ -125,7 +111,6 @@ describe('CharacterDetailPage', () => {
       { wrapper }
     )
 
-    // Assert
     await waitFor(() => {
       const button = screen.getByRole('button', { name: /favorito|agregar a favoritos/i })
       expect(button).toBeInTheDocument()
