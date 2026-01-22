@@ -1,10 +1,24 @@
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { useCharacters } from '../../hooks/useCharacters'
 import { FavoritesPage } from '../FavoritesPage'
 
+// Mock del hook
+vi.mock('../../hooks/useCharacters')
+
 describe('FavoritesPage - Accesibilidad', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
   it('titulo h1 accesible cuando no hay favoritos', () => {
     // Arrange - localStorage vacío
+    vi.mocked(useCharacters).mockReturnValue({
+      data: [],
+      error: undefined,
+      isLoading: false,
+    })
     localStorage.clear()
 
     // Act
@@ -20,8 +34,13 @@ describe('FavoritesPage - Accesibilidad', () => {
     expect(heading).toHaveTextContent('Mis Favoritos')
   })
 
-  it('botón de navegación tiene atributo accesible', () => {
+  it('botón para explorar es accesible', () => {
     // Arrange
+    vi.mocked(useCharacters).mockReturnValue({
+      data: [],
+      error: undefined,
+      isLoading: false,
+    })
     localStorage.clear()
 
     // Act
@@ -32,12 +51,17 @@ describe('FavoritesPage - Accesibilidad', () => {
     )
 
     // Assert - Busco botón de exploración
-    const button = screen.getByRole('button', { name: 'Explorar Personajes' })
+    const button = screen.getByRole('button', { name: /Explorar Personajes/i })
     expect(button).toBeInTheDocument()
   })
 
   it('página tiene estructura semántica correcta', () => {
     // Arrange
+    vi.mocked(useCharacters).mockReturnValue({
+      data: [],
+      error: undefined,
+      isLoading: false,
+    })
     localStorage.clear()
 
     // Act

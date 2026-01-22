@@ -23,24 +23,29 @@ export function CharacterDetail({ character }: CharacterDetailProps) {
   const imageSrc = character.image || '/images/placeholder-character.svg'
 
   return (
-    <article>
-      <img src={imageSrc} alt={character.name} />
-      <button onClick={() => toggleFavorite(slug)}>
-        {isFav ? '❤️ Favorito' : '🤍 Agregar a Favoritos'}
-      </button>
-      <div>
-        {Object.entries(character.technicalInfo).map(([key, value]) => {
-          if (!value) return null
-          return (
-            <div key={key}>
-              <span>{TECHNICAL_INFO_LABELS[key]}</span> <span>{value}</span>
-            </div>
-          )
-        })}
+    <article className={styles.detail}>
+      <div className={styles.imageContainer}>
+        <img src={imageSrc} alt={character.name} className={styles.image} />
+        <button className={styles.favoriteButton} onClick={() => toggleFavorite(slug)}>
+          {isFav ? '❤️ Favorito' : '🤍 Agregar a Favoritos'}
+        </button>
       </div>
-      {character.globalStory && (
-        <div className={styles.globalStory}>{character.globalStory}</div>
-      )}
+      <div className={styles.infoContainer}>
+        <div className={styles.technicalInfo}>
+          {Object.entries(character.technicalInfo).map(([key, value]) => {
+            if (!value) return null
+            return (
+              <div key={key} className={styles.infoRow}>
+                <span className={styles.infoLabel}>{TECHNICAL_INFO_LABELS[key]}</span>
+                <span className={styles.infoValue}>{value}</span>
+              </div>
+            )
+          })}
+        </div>
+        {character.globalStory && (
+          <div className={styles.globalStory}>{character.globalStory}</div>
+        )}
+      </div>
     </article>
   )
 }
