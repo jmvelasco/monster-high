@@ -6,7 +6,8 @@ export function saveFavorite(slug: string): void {
 }
 
 export function getFavorites(): string[] {
-  return []
+  const stored = localStorage.getItem(STORAGE_KEY)
+  return stored ? JSON.parse(stored) : []
 }
 
 export function removeFavorite(slug: string): void {
