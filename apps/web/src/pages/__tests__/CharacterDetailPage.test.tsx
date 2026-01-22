@@ -73,7 +73,23 @@ describe('CharacterDetailPage', () => {
     expect(screen.getByText(/vampira vegetariana/i)).toBeInTheDocument()
   })
 
-  // TODO: Test 3 - Muestra 404 si slug no existe
-  // TODO: Test 3 - Muestra 404 si slug no existe
+  // TODO: Test 3 - Muestra 404 si slug no existe (IN PROGRESS)
+  it('muestra 404 si slug no existe', async () => {
+    // Arrange & Act
+    render(
+      <MemoryRouter initialEntries={['/character/personaje-inexistente']}>
+        <Routes>
+          <Route path="/character/:slug" element={<CharacterDetailPage />} />
+        </Routes>
+      </MemoryRouter>,
+      { wrapper }
+    )
+
+    // Assert
+    await waitFor(() => {
+      expect(screen.getByText(/personaje no encontrado/i)).toBeInTheDocument()
+    })
+  })
+
   // TODO: Test 4 - Obtiene slug de URL params
 })
