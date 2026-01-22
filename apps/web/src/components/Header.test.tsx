@@ -70,7 +70,6 @@ describe('Header', () => {
   it('muestra hamburger button en mobile (<768px)', () => {
     // Arrange
     window.innerWidth = 500 // Mobile width
-    const expectedButtonLabel = 'Abrir menú'
 
     // Act
     render(
@@ -80,7 +79,7 @@ describe('Header', () => {
     )
 
     // Assert
-    const hamburgerButton = screen.getByRole('button', { name: expectedButtonLabel })
+    const hamburgerButton = screen.getByRole('button', { name: 'Abrir menú de navegación' })
     expect(hamburgerButton).toBeInTheDocument()
   })
 
@@ -102,5 +101,25 @@ describe('Header', () => {
     expect(charactersLink).toHaveAttribute('href')
     expect(favoritesLink).toHaveAttribute('href')
     // NavLink es por defecto accesible por teclado
+  })
+
+  it('ARIA labels apropiados', () => {
+    // Arrange
+    window.innerWidth = 500 // Mobile
+    const expectedHeaderLabel = 'Navegación principal'
+
+    // Act
+    render(
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>
+    )
+
+    // Assert
+    const header = screen.getByRole('banner')
+    expect(header).toHaveAttribute('aria-label', expectedHeaderLabel)
+
+    const hamburgerButton = screen.getByRole('button', { name: 'Abrir menú de navegación' })
+    expect(hamburgerButton).toHaveAttribute('aria-label', 'Abrir menú de navegación')
   })
 })
