@@ -17,5 +17,5 @@ export function removeFavorite(slug: string): void {
 }
 
 export function isFavorite(slug: string): boolean {
-  return false
+  return getFavorites().includes(slug)
 }
