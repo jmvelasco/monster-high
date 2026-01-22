@@ -1,7 +1,8 @@
 const STORAGE_KEY = 'monster-high-favorites'
 
 export function saveFavorite(slug: string): void {
-  // Placeholder para compilar
+  const favorites = [slug]
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(favorites))
 }
 
 export function getFavorites(): string[] {
