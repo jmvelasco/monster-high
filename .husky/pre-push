@@ -1,1 +1,20 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# Bloquear push directo a main
+while read local_ref local_sha remote_ref remote_sha
+do
+  if [[ "$remote_ref" == "refs/heads/main" ]]; then
+    echo "❌ BLOQUEADO: No se permite push directo a 'main'"
+    echo ""
+    echo "Para hacer cambios en main, debes:"
+    echo "  1. Hacer commit en tu rama de trabajo (ej: frontend-development)"
+    echo "  2. Hacer push a esa rama"
+    echo "  3. Crear una Pull Request en GitHub"
+    echo "  4. Esperar aprobación y que pasen los tests"
+    echo "  5. Mergear a través de GitHub"
+    echo ""
+    exit 1
+  fi
+done
 npm run validate
