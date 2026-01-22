@@ -11,7 +11,9 @@ export function getFavorites(): string[] {
 }
 
 export function removeFavorite(slug: string): void {
-  // Placeholder para compilar
+  const favorites = getFavorites()
+  const filtered = favorites.filter(s => s !== slug)
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(filtered))
 }
 
 export function isFavorite(slug: string): boolean {
