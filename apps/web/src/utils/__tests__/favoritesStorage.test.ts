@@ -53,4 +53,29 @@ describe('favoritesStorage', () => {
       expect(isFavorite('draculaura')).toBe(true)
     })
   })
+
+  describe('Graceful degradation', () => {
+    it('usa memoria en lugar de localStorage cuando no está disponible', () => {
+      // Simular localStorage no disponible
+      const originalLocalStorage = globalThis.localStorage
+      Object.defineProperty(globalThis, 'localStorage', {
+        value: {
+          getItem: () => { throw new Error('localStorage not available') },
+          setItem: () => { throw new Error('localStorage not available') },
+          clear: () => {}
+        },
+        writable: true
+      })
+
+      try {
+        saveFavorite('draculaura')
+        expect(getFavorites()).toContain('draculaura')
+      } finally {
+        Object.defineProperty(globalThis, 'localStorage', {
+          value: originalLocalStorage,
+          writable: true
+        })
+      }
+    })
+  })
 })
