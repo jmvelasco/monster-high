@@ -17,12 +17,16 @@ function safeSetItem(key: string, value: string): void {
   }
 }
 
+function persistFavorites(favorites: string[]): void {
+  safeSetItem(STORAGE_KEY, JSON.stringify(favorites))
+  inMemoryFavorites = favorites
+}
+
 export function saveFavorite(slug: string): void {
   const favorites = getFavorites()
   if (!favorites.includes(slug)) {
     favorites.push(slug)
-    safeSetItem(STORAGE_KEY, JSON.stringify(favorites))
-    inMemoryFavorites = favorites
+    persistFavorites(favorites)
   }
 }
 
@@ -38,8 +42,7 @@ export function getFavorites(): string[] {
 export function removeFavorite(slug: string): void {
   const favorites = getFavorites()
   const filtered = favorites.filter(s => s !== slug)
-  safeSetItem(STORAGE_KEY, JSON.stringify(filtered))
-  inMemoryFavorites = filtered
+  persistFavorites(filtered)
 }
 
 export function isFavorite(slug: string): boolean {
