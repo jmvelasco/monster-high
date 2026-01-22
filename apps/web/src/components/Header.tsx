@@ -1,11 +1,11 @@
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 export function Header() {
   return (
     <header>
       <h1>Monster High</h1>
-      <Link to="/characters">Todos los Personajes</Link>
-      <Link to="/favorites">Favoritos</Link>
+      <NavLink to="/characters">Todos los Personajes</NavLink>
+      <NavLink to="/favorites">Favoritos</NavLink>
     </header>
   )
 }
