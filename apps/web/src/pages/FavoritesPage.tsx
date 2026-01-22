@@ -17,7 +17,9 @@ export function FavoritesPage() {
       <h1>Mis Favoritos</h1>
       <ul>
         {favorites.map(slug => (
-          <li key={slug}>{slug}</li>
+          <li key={slug} data-testid={`character-card-${slug}`}>
+            {slug}
+          </li>
         ))}
       </ul>
     </div>
