@@ -1,16 +1,21 @@
-import { useEffect, useState } from 'react'
-import { getFavorites as getStoredFavorites } from '../utils/favoritesStorage'
+import { useState } from 'react'
+import { getFavorites as getStoredFavorites, isFavorite as isStoredFavorite, removeFavorite, saveFavorite } from '../utils/favoritesStorage'
 
 export function useFavorites() {
-  const [favorites, setFavorites] = useState<string[]>([])
+  const [favorites, setFavorites] = useState<string[]>(() => getStoredFavorites())
 
-  useEffect(() => {
+  function toggleFavorite(slug: string) {
+    if (isStoredFavorite(slug)) {
+      removeFavorite(slug)
+    } else {
+      saveFavorite(slug)
+    }
     setFavorites(getStoredFavorites())
-  }, [])
+  }
 
   return {
     favorites,
-    toggleFavorite: (slug: string) => {},
-    isFavorite: (slug: string) => false
+    toggleFavorite,
+    isFavorite: isStoredFavorite
   }
 }

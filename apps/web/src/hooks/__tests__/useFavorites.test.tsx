@@ -1,9 +1,11 @@
 import { act, renderHook } from '@testing-library/react'
+import { __resetInMemoryFavorites } from '../../utils/favoritesStorage'
 import { useFavorites } from '../useFavorites'
 
 describe('useFavorites', () => {
   beforeEach(() => {
     localStorage.clear()
+    __resetInMemoryFavorites()
   })
 
   it('retorna array vacío cuando no hay favoritos', () => {
