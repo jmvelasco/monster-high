@@ -27,4 +27,14 @@ describe('FavoritesPage', () => {
     expect(screen.getByText('draculaura')).toBeInTheDocument()
     expect(screen.getByText('clawdeen-wolf')).toBeInTheDocument()
   })
+
+  it('renderiza CharacterCard para cada favorito', () => {
+    localStorage.setItem('monster-high-favorites', JSON.stringify(['draculaura']))
+    
+    renderWithRouter(<FavoritesPage />)
+
+    // Verifica que el componente CharacterCard está siendo renderizado
+    // (busca por atributo data-testid que CharacterCard debe tener)
+    expect(screen.getByTestId('character-card-draculaura')).toBeInTheDocument()
+  })
 })
