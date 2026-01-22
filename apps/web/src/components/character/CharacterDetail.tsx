@@ -1,4 +1,5 @@
 import type { Character } from '../../types/character'
+import styles from './CharacterDetail.module.css'
 
 interface CharacterDetailProps {
   character: Character
@@ -30,7 +31,7 @@ export function CharacterDetail({ character }: CharacterDetailProps) {
         })}
       </div>
       {character.globalStory && (
-        <div className="global-story">{character.globalStory}</div>
+        <div className={styles.globalStory}>{character.globalStory}</div>
       )}
     </div>
   )
