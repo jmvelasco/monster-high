@@ -3,6 +3,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { resetFavoritesState } from '../../__tests__/test-utils'
 import { FavoritesPage } from '../FavoritesPage'
+import { removeFavorite } from '../../utils/favoritesStorage'
 
 const renderWithRouter = (component: React.ReactElement) => {
   return render(<BrowserRouter>{component}</BrowserRouter>)
@@ -43,5 +44,25 @@ describe('FavoritesPage', () => {
 
     const button = screen.getByRole('button', { name: /explorar personajes/i })
     expect(button).toBeInTheDocument()
+  })
+
+  it('se actualiza cuando se elimina un favorito', () => {
+    localStorage.setItem('monster-high-favorites', JSON.stringify(['draculaura', 'clawdeen-wolf']))
+    
+    const { rerender } = renderWithRouter(<FavoritesPage />)
+    
+    // Verifica que ambos favoritos están presentes
+    expect(screen.getByText('draculaura')).toBeInTheDocument()
+    expect(screen.getByText('clawdeen-wolf')).toBeInTheDocument()
+    
+    // Elimina un favorito del storage
+    removeFavorite('draculaura')
+    
+    // Re-renderiza el componente
+    rerender(<BrowserRouter><FavoritesPage /></BrowserRouter>)
+    
+    // Verifica que el favorito eliminado ya no está
+    expect(screen.queryByText('draculaura')).not.toBeInTheDocument()
+    expect(screen.getByText('clawdeen-wolf')).toBeInTheDocument()
   })
 })
