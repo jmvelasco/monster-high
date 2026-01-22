@@ -48,3 +48,8 @@ export function removeFavorite(slug: string): void {
 export function isFavorite(slug: string): boolean {
   return getFavorites().includes(slug)
 }
+
+// Para testing: resetea el estado en memoria
+export function __resetInMemoryFavorites(): void {
+  inMemoryFavorites = []
+}
