@@ -1,5 +1,5 @@
-import type { Character } from '../../types/character'
 import { useFavorites } from '../../hooks/useFavorites'
+import type { Character } from '../../types/character'
 import { generateSlug } from '../../utils/slugUtils'
 import styles from './CharacterDetail.module.css'
 
