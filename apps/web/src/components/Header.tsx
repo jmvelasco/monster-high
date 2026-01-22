@@ -5,9 +5,13 @@ export function Header() {
   const isMobile = useIsMobile()
 
   return (
-    <header>
+    <header aria-label="Navegación principal">
       <h1>Monster High</h1>
-      {isMobile && <button>Abrir menú</button>}
+      {isMobile && (
+        <button aria-label="Abrir menú de navegación">
+          Abrir menú
+        </button>
+      )}
       <NavLink to="/characters">Todos los Personajes</NavLink>
       <NavLink to="/favorites">Favoritos</NavLink>
     </header>
