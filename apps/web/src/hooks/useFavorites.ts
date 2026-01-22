@@ -2,7 +2,10 @@ import { useState } from 'react'
 import { getFavorites as getStoredFavorites, isFavorite as isStoredFavorite, removeFavorite, saveFavorite } from '../utils/favoritesStorage'
 
 export function useFavorites() {
-  const [favorites, setFavorites] = useState<string[]>(() => getStoredFavorites())
+  const [, setUpdateTrigger] = useState(0)
+  
+  // Always read from storage to ensure freshness
+  const favorites = getStoredFavorites()
 
   function toggleFavorite(slug: string) {
     if (isStoredFavorite(slug)) {
@@ -10,7 +13,8 @@ export function useFavorites() {
     } else {
       saveFavorite(slug)
     }
-    setFavorites(getStoredFavorites())
+    // Trigger re-render
+    setUpdateTrigger(prev => prev + 1)
   }
 
   return {
