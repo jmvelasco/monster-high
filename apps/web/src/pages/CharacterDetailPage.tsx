@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom'
-import { useCharacter } from '../hooks/useCharacter'
 import { CharacterDetail } from '../components/character/CharacterDetail'
+import { useCharacter } from '../hooks/useCharacter'
 
 export function CharacterDetailPage() {
   const { slug } = useParams<{ slug: string }>()
