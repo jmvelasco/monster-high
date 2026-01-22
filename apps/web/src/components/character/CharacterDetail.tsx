@@ -23,7 +23,7 @@ export function CharacterDetail({ character }: CharacterDetailProps) {
   const imageSrc = character.image || '/images/placeholder-character.svg'
 
   return (
-    <div>
+    <article>
       <img src={imageSrc} alt={character.name} />
       <button onClick={() => toggleFavorite(slug)}>
         {isFav ? '❤️ Favorito' : '🤍 Agregar a Favoritos'}
@@ -41,6 +41,6 @@ export function CharacterDetail({ character }: CharacterDetailProps) {
       {character.globalStory && (
         <div className={styles.globalStory}>{character.globalStory}</div>
       )}
-    </div>
+    </article>
   )
 }
