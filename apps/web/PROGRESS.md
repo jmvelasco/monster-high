@@ -2,7 +2,7 @@
 
 > **Mi tablero de seguimiento**: Actualizo este archivo después de completar cada componente (~3-7 tests). Tech Lead puede consultar estado en cualquier momento.
 
-**Última actualización**: 2026-01-21 23:36  
+**Última actualización**: 2026-01-22 00:59  
 **Desarrollador**: Agente XP  
 **Tech Lead**: José Manuel Velasco
 
@@ -12,12 +12,12 @@
 
 | Métrica | Actual | Target | Estado |
 |---------|--------|--------|--------|
-| **Tests Passing** | 16/16 | N/A | ✅ Fase 1 completa |
-| **Coverage Lines** | 100% | 80% | ✅ Superado |
+| **Tests Passing** | 29/29 | N/A | 🔄 Fase 2 en progreso |
+| **Coverage Lines** | 87.5% | 80% | ✅ Superado |
 | **Coverage Functions** | 100% | 80% | ✅ Superado |
-| **Coverage Branches** | 92.85% | 80% | ✅ Superado |
+| **Coverage Branches** | 76.66% | 80% | ⚠️ Bajo target (CharacterDetailPage 1/4 tests) |
 | **Bundle Size (gzip)** | N/A | <150KB | ⏳ Pendiente build |
-| **Componentes Completos** | 4/12 | 12 | 🔄 En progreso |
+| **Componentes Completos** | 6.33/12 | 12 | 🔄 En progreso |
 
 ---
 
@@ -124,33 +124,32 @@
 
 #### Componente: CharacterDetail.tsx
 
-**Estado del Ciclo TDD**: -
+**Estado del Ciclo TDD**: ✅ Completado (tests funcionales, responsive → Fase 5)
 
 **Test Cases** (ordenados simple → complejo):
 
 **Bloque 1: Imagen del personaje**
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Muestra imagen del personaje con alt text
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Muestra placeholder si imagen es undefined
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | Muestra imagen del personaje con alt text
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | Muestra placeholder si imagen es undefined
 
 **Bloque 2: Ficha técnica (technicalInfo)**
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Muestra todos los campos de technicalInfo presentes
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Maneja campos opcionales (undefined) sin romper UI
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Maneja campos vacíos ("") sin mostrarlos
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Formatea labels correctamente (capitalización)
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | Muestra todos los campos de technicalInfo presentes
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | Maneja campos opcionales (undefined) sin romper UI
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | Maneja campos vacíos ("") sin mostrarlos
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | Formatea labels correctamente (capitalización)
 
 **Bloque 3: Historia (globalStory)**
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Renderiza globalStory con fuente Gruenewald VA
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Muestra placeholder si globalStory es undefined
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Muestra placeholder si globalStory es ""
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | Renderiza globalStory con fuente Gruenewald VA
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | Muestra placeholder si globalStory es undefined
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | Muestra placeholder si globalStory es ""
 
-**Bloque 4: Layout responsive**
+**Bloque 4: Layout responsive (DIFERIDO A FASE 5)**
 - [ ] 🤔 → 🔴 → 🟢 → 🔵 | Layout 2 columnas en desktop (>1024px)
 - [ ] 🤔 → 🔴 → 🟢 → 🔵 | Layout 1 columna en mobile (<1024px)
 
-**Bloque 5: Navegación**
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Botón "Volver" navega correctamente
+**Bloque 5: Navegación (N/A - responsabilidad de CharacterDetailPage)**
 
-**Coverage**: - | **Commits**: 0
+**Coverage**: 100% (9/9 tests funcionales) | **Commits**: 19
 
 **Nota arquitectural**: Componente único cohesivo (imagen + ficha técnica + historia) siguiendo principio KISS. No requiere subcomponentes ya que no se reutilizan.
 
@@ -158,38 +157,39 @@
 
 #### Hook: useCharacter.ts
 
-**Estado del Ciclo TDD**: -
+**Estado del Ciclo TDD**: ✅ Completado
 
 **Test Cases**:
 
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Retorna personaje por slug
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Retorna undefined si slug no existe
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Maneja loading state
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | Retorna personaje por slug
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | Retorna undefined si slug no existe
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | Maneja loading state
 
-**Coverage**: - | **Commits**: 0
+**Coverage**: 100% (3/3 tests) | **Commits**: 6
 
 ---
 
 #### Página: CharacterDetailPage.tsx
 
-**Estado del Ciclo TDD**: -
+**Estado del Ciclo TDD**: 🔄 En progreso (1/4 tests)
 
 **Test Cases**:
 
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Muestra loading state mientras carga
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | Muestra loading state mientras carga
 - [ ] 🤔 → 🔴 → 🟢 → 🔵 | Renderiza CharacterDetail con datos
 - [ ] 🤔 → 🔴 → 🟢 → 🔵 | Muestra 404 si slug no existe
 - [ ] 🤔 → 🔴 → 🟢 → 🔵 | Obtiene slug de URL params
 
-**Coverage**: - | **Commits**: 0
+**Coverage**: 44.44% Lines, 25% Branches (1/4 tests) | **Commits**: 2
 
 ---
 
 **Resumen Fase 2**:
-- **Componentes**: 0/3 ⏳ (CharacterDetail, useCharacter, CharacterDetailPage)
-- **Tests**: 0/19 ⏳ (12 CharacterDetail + 3 useCharacter + 4 CharacterDetailPage)
-- **Coverage**: 0% ⏳
-- **Commits**: 0
+- **Componentes**: 2.25/3 🔄 (useCharacter ✅, CharacterDetail ✅ 9/12 funcionales, CharacterDetailPage 🔄 1/4)
+- **Tests**: 13/19 🔄 (9 CharacterDetail + 3 useCharacter + 1 CharacterDetailPage)
+- **Coverage**: 100% componentes completos, 44.44% CharacterDetailPage ⏳
+- **Commits**: 27 (TDD disciplinado: RED-GREEN-REFACTOR)
+- **Buenas prácticas**: MemoryRouter, SWR, TPP, TECHNICAL_INFO_LABELS map, generateSlug helper
 
 ---
 
@@ -409,4 +409,4 @@
 
 ---
 
-**Última actualización**: 2026-01-21 23:36 | **Estado General**: ✅ Fase 1 completa (100%) | ⏳ Fase 2 pendiente
+**Última actualización**: 2026-01-22 00:59 | **Estado General**: ✅ Fase 1 (100%) | 🔄 Fase 2 (68% - 13/19 tests)
