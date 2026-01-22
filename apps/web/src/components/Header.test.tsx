@@ -34,4 +34,21 @@ describe('Header', () => {
     expect(link).toBeInTheDocument()
     expect(link).toHaveAttribute('href', '/characters')
   })
+
+  it('muestra link a "Favoritos"', () => {
+    // Arrange
+    const expectedLinkText = 'Favoritos'
+
+    // Act
+    render(
+      <BrowserRouter>
+        <Header />
+      </BrowserRouter>
+    )
+
+    // Assert
+    const link = screen.getByRole('link', { name: expectedLinkText })
+    expect(link).toBeInTheDocument()
+    expect(link).toHaveAttribute('href', '/favorites')
+  })
 })
