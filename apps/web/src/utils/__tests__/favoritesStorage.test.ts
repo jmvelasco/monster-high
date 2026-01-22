@@ -1,8 +1,10 @@
+import { beforeEach, describe, expect, it } from 'vitest'
 import { getFavorites, isFavorite, removeFavorite, saveFavorite } from '../favoritesStorage'
+import { resetFavoritesState } from '../../__tests__/test-utils'
 
 describe('favoritesStorage', () => {
   beforeEach(() => {
-    localStorage.clear()
+    resetFavoritesState()
   })
 
   describe('saveFavorite', () => {

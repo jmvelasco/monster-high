@@ -49,7 +49,10 @@ export function isFavorite(slug: string): boolean {
   return getFavorites().includes(slug)
 }
 
-// Para testing: resetea el estado en memoria
-export function __resetInMemoryFavorites(): void {
+/**
+ * @internal Testing only - resets in-memory fallback state
+ * Used by test-utils.ts to ensure clean state between tests
+ */
+export function __resetFavoritesForTesting(): void {
   inMemoryFavorites = []
 }
