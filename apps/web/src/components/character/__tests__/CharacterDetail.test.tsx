@@ -5,8 +5,7 @@ import { CharacterDetail } from '../CharacterDetail'
 
 describe('CharacterDetail', () => {
   // BLOQUE 1: Imagen del personaje
-  
-  // TODO: Test 1 - Muestra imagen del personaje con alt text (IN PROGRESS)
+
   it('muestra imagen del personaje con alt text', () => {
     // Arrange
     const character: Character = {
@@ -26,7 +25,6 @@ describe('CharacterDetail', () => {
     expect(image).toHaveAttribute('src', 'https://example.com/draculaura.jpg')
   })
 
-  // TODO: Test 2 - Muestra placeholder si imagen es undefined (IN PROGRESS)
   it('muestra placeholder si imagen es undefined', () => {
     // Arrange
     const character: Character = {
@@ -44,9 +42,8 @@ describe('CharacterDetail', () => {
     expect(image).toHaveAttribute('src', '/images/placeholder-character.svg')
   })
 
-  // BLOQUE 2: Ficha técnica (4 tests)
-  
-  // TODO: Test 3 - Muestra todos los campos de technicalInfo presentes (IN PROGRESS)
+  // BLOQUE 2: Ficha técnica
+
   it('muestra todos los campos de technicalInfo presentes', () => {
     // Arrange
     const character: Character = {
@@ -75,7 +72,6 @@ describe('CharacterDetail', () => {
     expect(screen.getByText('Crescent')).toBeInTheDocument()
   })
 
-  // TODO: Test 4 - Maneja campos opcionales (undefined) sin romper UI (IN PROGRESS)
   it('maneja campos opcionales (undefined) sin romper UI', () => {
     // Arrange
     const character: Character = {
@@ -99,7 +95,6 @@ describe('CharacterDetail', () => {
     expect(screen.queryByText('Mascota:')).not.toBeInTheDocument()
   })
 
-  // TODO: Test 5 - Maneja campos vacíos ("") sin mostrarlos (IN PROGRESS)
   it('maneja campos vacíos ("") sin mostrarlos', () => {
     // Arrange
     const character: Character = {
@@ -123,7 +118,6 @@ describe('CharacterDetail', () => {
     expect(screen.queryByText('Ocupación:')).not.toBeInTheDocument()
   })
 
-  // TODO: Test 6 - Formatea labels correctamente (capitalización) (IN PROGRESS)
   it('formatea labels correctamente (capitalización)', () => {
     // Arrange
     const character: Character = {
@@ -145,8 +139,7 @@ describe('CharacterDetail', () => {
   })
 
   // BLOQUE 3: Historia (globalStory)
-  
-  // TODO: Test 7 - Renderiza globalStory con fuente Gruenewald VA (IN PROGRESS)
+
   it('renderiza globalStory con fuente Gruenewald VA', () => {
     // Arrange
     const character: Character = {
@@ -167,7 +160,6 @@ describe('CharacterDetail', () => {
     expect(story.className).toMatch(/globalStory/)
   })
 
-  // TODO: Test 8 - Muestra placeholder si globalStory es undefined (IN PROGRESS)
   it('muestra placeholder si globalStory es undefined', () => {
     // Arrange
     const character: Character = {
@@ -185,7 +177,6 @@ describe('CharacterDetail', () => {
     expect(storySection).not.toBeInTheDocument()
   })
 
-  // TODO: Test 9 - Muestra placeholder si globalStory es "" (IN PROGRESS)
   it('muestra placeholder si globalStory es ""', () => {
     // Arrange
     const character: Character = {
@@ -204,8 +195,7 @@ describe('CharacterDetail', () => {
     expect(storySection).not.toBeInTheDocument()
   })
 
-  // BLOQUE 4: Layout responsive (2 tests) - DIFERIDO A FASE 5
-  
+  // BLOQUE 4: Layout responsive - DIFERIDO A FASE 5
   // BLOQUE 5: Navegación - N/A (responsabilidad de CharacterDetailPage)
 })
 
