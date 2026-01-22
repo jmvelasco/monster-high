@@ -1,13 +1,20 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Layout } from './components/Layout'
+import { CharacterDetailPage } from './pages/CharacterDetailPage'
+import { CharacterListPage } from './pages/CharacterListPage'
+import { FavoritesPage } from './pages/FavoritesPage'
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<div>Monster High - Home (Placeholder)</div>} />
-        <Route path="/character/:slug" element={<div>Character Detail (Placeholder)</div>} />
-        <Route path="/favorites" element={<div>Favorites (Placeholder)</div>} />
-      </Routes>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<CharacterListPage />} />
+          <Route path="/characters" element={<CharacterListPage />} />
+          <Route path="/character/:slug" element={<CharacterDetailPage />} />
+          <Route path="/favorites" element={<FavoritesPage />} />
+        </Routes>
+      </Layout>
     </BrowserRouter>
   )
 }
