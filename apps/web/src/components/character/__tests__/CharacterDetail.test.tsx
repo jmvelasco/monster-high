@@ -163,7 +163,8 @@ describe('CharacterDetail', () => {
     // Assert
     const story = screen.getByText(/Deuce es el hijo de Medusa/)
     expect(story).toBeInTheDocument()
-    expect(story).toHaveClass('global-story')
+    // Verificar que tiene la clase CSS Module aplicada (comienza con globalStory)
+    expect(story.className).toMatch(/globalStory/)
   })
 
   // TODO: Test 8 - Muestra placeholder si globalStory es undefined (IN PROGRESS)
