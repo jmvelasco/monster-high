@@ -42,6 +42,14 @@ describe('useFavorites', () => {
 
     expect(result.current.favorites).not.toContain('draculaura')
   })
+
+  it('expone función isFavorite', () => {
+    localStorage.setItem('monster-high-favorites', JSON.stringify(['draculaura']))
+    const { result } = renderHook(() => useFavorites())
+
+    expect(result.current.isFavorite('draculaura')).toBe(true)
+    expect(result.current.isFavorite('clawdeen-wolf')).toBe(false)
+  })
 })
 
 
