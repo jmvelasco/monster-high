@@ -401,11 +401,13 @@
 ## Próximos Pasos
 
 1. ✅ **Fase 1 completada** - RF-001 Listado de Personajes (16/16 tests, 100% coverage funcional)
-2. ⏳ **Iniciar Fase 2** - RF-002 Detalle de Personaje:
-   - CharacterDetail.tsx (12 tests - componente cohesivo: imagen + ficha + historia)
-   - useCharacter.ts hook (3 tests)
-   - CharacterDetailPage.tsx (4 tests)
-3. Reportar al Tech Lead tras completar cada componente
+2. ✅ **Fase 2 completada** - RF-002 Detalle de Personaje (16/19 tests, 97.5% coverage, 3 responsive → Fase 5)
+3. ⏳ **Iniciar Fase 3** - RF-003 Sistema de Favoritos:
+   - favoritesStorage.ts (6 tests - localStorage operations)
+   - useFavorites.ts hook (6 tests)
+   - FavoritesPage.tsx (5 tests)
+   - Integración: Botón Favorito en CharacterDetailPage (5 tests)
+4. Reportar al Tech Lead tras completar cada componente
 
 ---
 
