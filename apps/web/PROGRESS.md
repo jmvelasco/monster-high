@@ -287,45 +287,93 @@
 
 ---
 
-### ⏳ Fase 4: RF-004 - Navegación Global
+### 🔄 Fase 4: RF-004 - Navegación Global
+
+**Estado**: ✅ COMPLETADO (2026-01-22 22:25)
 
 #### Componente: Header.tsx
 
-**Estado del Ciclo TDD**: -
+**Estado del Ciclo TDD**: ✅ Completado
 
-**Test Cases**:
+**Test Cases** (ordenados simple → complejo):
 
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Muestra logo/título Monster High
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Muestra link a "Todos los Personajes"
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Muestra link a "Favoritos"
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Resalta ruta activa
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Hamburger menu en mobile (<768px)
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Navegación por teclado funcional
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | ARIA labels apropiados
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | Muestra logo/título Monster High
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | Muestra link a "Todos los Personajes"
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | Muestra link a "Favoritos"
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | Resalta ruta activa
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | Hamburger menu en mobile (<768px)
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | Navegación por teclado funcional
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | ARIA labels apropiados
 
-**Coverage**: - | **Commits**: 0
+**Coverage**: 100% (7/7 tests) | **Commits**: 12
+
+**Decisiones técnicas**:
+- NavLink de React Router para resaltar ruta activa (aria-current="page" automático)
+- useIsMobile() hook para detectar breakpoint 768px (mobile/desktop)
+- Hamburger button solo visible en mobile con aria-label
+- Header semántico con `<header>` (role="banner") para accesibilidad
+- MemoryRouter en tests en lugar de BrowserRouter para mejor aislamiento
 
 ---
 
 #### Componente: Layout.tsx
 
-**Estado del Ciclo TDD**: -
+**Estado del Ciclo TDD**: ✅ Completado
 
 **Test Cases**:
 
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Renderiza Header
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Renderiza children correctamente
-- [ ] 🤔 → 🔴 → 🟢 → 🔵 | Header visible en todas las páginas
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | Renderiza Header
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | Renderiza children correctamente
+- [x] 🤔 → 🔴 → 🟢 → 🔵 | Header visible en todas las páginas
 
-**Coverage**: - | **Commits**: 0
+**Coverage**: 100% (3/3 tests) | **Commits**: 2
+
+**Decisiones técnicas**:
+- Layout como componente contenedor simple (sin estado)
+- Header siempre renderizado (visible en todas las páginas)
+- children renderizado dentro de `<main>` (semántica HTML correcta)
+- Props TypeScript tipadas: `{ children: ReactNode }`
 
 ---
 
 **Resumen Fase 4**:
-- **Componentes**: 0/2 ⏳
-- **Tests**: 0/10 ⏳
-- **Coverage**: 0% ⏳
-- **Commits**: 0
+- **Componentes**: 2/2 ✅ (Header.tsx, Layout.tsx)
+- **Tests**: 10/10 ✅ (7 Header + 3 Layout)
+- **Coverage**: 100% en nuevos componentes ✅
+- **Commits**: 14 (TDD disciplinado: RED-GREEN)
+- **Buenas prácticas**: 
+  - Tests con MemoryRouter en lugar de BrowserRouter
+  - NavLink para navegación con accesibilidad automática
+  - Breakpoints consistentes (768px) con custom hook
+  - ARIA labels en elementos interactivos
+  - Semantic HTML: `<header>`, `<main>`, `<nav>`
+  - Componentes sin estado (Layout puro, Header con hooks mínimos)
+
+---
+
+**Resumen Fase 4**:
+- **Componentes**: 2/2 ✅ (Header.tsx, Layout.tsx)
+- **Tests**: 10/10 ✅ (7 Header + 3 Layout)
+- **Coverage**: 100% en nuevos componentes ✅
+- **Commits**: 14 (TDD disciplinado: RED-GREEN)
+- **Buenas prácticas**: 
+  - Tests con MemoryRouter en lugar de BrowserRouter
+  - NavLink para navegación con accesibilidad automática
+  - Breakpoints consistentes (768px) con custom hook
+  - ARIA labels en elementos interactivos
+  - Semantic HTML: `<header>`, `<main>`, `<nav>`
+  - Componentes sin estado (Layout puro, Header con hooks mínimos)
+
+---
+
+**Resumen General Progreso**:
+- **Fase 1**: ✅ RF-001 - Listado (16/16 tests, 100%)
+- **Fase 2**: ✅ RF-002 - Detalle (16/19 tests, 97.5%)
+- **Fase 3**: ✅ RF-003 - Favoritos (18/18 tests, 98.2%)
+- **Fase 4**: ✅ RF-004 - Navegación (10/10 tests, 100%)
+- **Total**: 60/63 tests ✅ (95.2% de funcionalidad core)
+- **Componentes**: 12/12 ✅
+- **Commits totales Fase 4**: 14
 
 ---
 
