@@ -1,4 +1,4 @@
-import { renderHook } from '@testing-library/react'
+import { act, renderHook } from '@testing-library/react'
 import { useFavorites } from '../useFavorites'
 
 describe('useFavorites', () => {
@@ -19,5 +19,27 @@ describe('useFavorites', () => {
 
     expect(result.current.favorites).toEqual(['draculaura', 'clawdeen-wolf'])
   })
+
+  it('agrega slug a favoritos cuando no está', () => {
+    const { result } = renderHook(() => useFavorites())
+
+    act(() => {
+      result.current.toggleFavorite('draculaura')
+    })
+
+    expect(result.current.favorites).toContain('draculaura')
+  })
+
+  it('elimina slug de favoritos cuando está', () => {
+    localStorage.setItem('monster-high-favorites', JSON.stringify(['draculaura']))
+    const { result } = renderHook(() => useFavorites())
+
+    act(() => {
+      result.current.toggleFavorite('draculaura')
+    })
+
+    expect(result.current.favorites).not.toContain('draculaura')
+  })
 })
+
 
