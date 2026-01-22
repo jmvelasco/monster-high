@@ -1,0 +1,95 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background-color: var(--mh-white);
+  border: 2px solid var(--mh-light-gray);
+  transition: all var(--transition-base);
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.card:hover {
+  border-color: var(--mh-pink);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
+}
+
+.card:focus,
+.card:focus-visible {
+  outline: 2px solid var(--mh-focus);
+  outline-offset: 2px;
+}
+
+/* Imagen del personaje */
+.image {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  background-color: var(--mh-light-gray);
+}
+
+/* Contenido de la card */
+.content {
+  padding: var(--spacing-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.name {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--mh-gray);
+}
+
+/* Variante Favorito */
+.cardFavorite {
+  position: relative;
+  background-color: #FFF5F8;
+  border-color: var(--mh-pink);
+}
+
+.cardFavorite:hover {
+  border-color: var(--mh-hover);
+  background-color: #FFE5F0;
+}
+
+.favoriteButton {
+  width: 100%;
+  background-color: var(--mh-pink);
+  color: var(--mh-white);
+  border: none;
+  padding: var(--spacing-3) var(--spacing-4);
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.favoriteButton:hover {
+  background-color: var(--mh-hover);
+}
+
+.favoriteButton:focus,
+.favoriteButton:focus-visible {
+  outline: 2px solid var(--mh-focus);
+  outline-offset: 2px;
+}
+
+/* Responsive */
+@media (max-width: 767px) {
+  .card {
+    border-radius: var(--radius-md);
+  }
+
+  .content {
+    padding: var(--spacing-3);
+  }
+
+  .name {
+    font-size: var(--text-base);
+  }
+}

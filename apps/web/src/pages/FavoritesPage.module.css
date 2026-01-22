@@ -1,0 +1,138 @@
+.favoritesPage {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  border-bottom: 3px solid var(--mh-pink);
+  padding-bottom: var(--spacing-6);
+}
+
+.title {
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  color: var(--mh-black);
+}
+
+.subtitle {
+  color: var(--mh-gray);
+  font-size: var(--text-lg);
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-12);
+  text-align: center;
+}
+
+.emptyIcon {
+  font-size: 4rem;
+  margin-bottom: var(--spacing-4);
+}
+
+.emptyMessage {
+  font-size: var(--text-lg);
+  color: var(--mh-gray);
+  margin-bottom: var(--spacing-4);
+}
+
+.emptySubMessage {
+  font-size: var(--text-base);
+  color: var(--mh-gray);
+  margin-bottom: var(--spacing-6);
+  opacity: 0.7;
+}
+
+.ctaButton {
+  background-color: var(--mh-pink);
+  color: var(--mh-white);
+  border: none;
+  padding: var(--spacing-3) var(--spacing-6);
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: var(--text-base);
+  transition: all var(--transition-base);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.ctaButton:hover {
+  background-color: var(--mh-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.ctaButton:active {
+  transform: translateY(0);
+}
+
+.ctaButton:focus,
+.ctaButton:focus-visible {
+  outline: 2px solid var(--mh-focus);
+  outline-offset: 2px;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-6);
+  margin-top: var(--spacing-8);
+}
+
+/* Tablet: 3 columnas */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .gridContainer {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-5);
+  }
+
+  .title {
+    font-size: var(--text-2xl);
+  }
+}
+
+/* Mobile: 2 columnas */
+@media (max-width: 767px) {
+  .favoritesPage {
+    gap: var(--spacing-4);
+  }
+
+  .header {
+    gap: var(--spacing-3);
+    padding-bottom: var(--spacing-4);
+  }
+
+  .title {
+    font-size: var(--text-2xl);
+  }
+
+  .subtitle {
+    font-size: var(--text-base);
+  }
+
+  .emptyState {
+    padding: var(--spacing-8);
+  }
+
+  .emptyIcon {
+    font-size: 3rem;
+  }
+
+  .emptyMessage {
+    font-size: var(--text-base);
+  }
+
+  .gridContainer {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-4);
+    margin-top: var(--spacing-4);
+  }
+}
