@@ -14,4 +14,12 @@ describe('favoritesStorage', () => {
       )
     })
   })
+
+  describe('getFavorites', () => {
+    it('lee slugs desde localStorage', () => {
+      localStorage.setItem('monster-high-favorites', JSON.stringify(['draculaura', 'clawdeen-wolf']))
+
+      expect(getFavorites()).toEqual(['draculaura', 'clawdeen-wolf'])
+    })
+  })
 })
