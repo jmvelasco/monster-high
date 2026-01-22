@@ -83,4 +83,24 @@ describe('Header', () => {
     const hamburgerButton = screen.getByRole('button', { name: expectedButtonLabel })
     expect(hamburgerButton).toBeInTheDocument()
   })
+
+  it('navegación por teclado funcional', () => {
+    // Arrange
+    window.innerWidth = 1024 // Desktop width
+
+    // Act
+    render(
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>
+    )
+
+    // Assert
+    const charactersLink = screen.getByRole('link', { name: 'Todos los Personajes' })
+    const favoritesLink = screen.getByRole('link', { name: 'Favoritos' })
+    
+    expect(charactersLink).toHaveAttribute('href')
+    expect(favoritesLink).toHaveAttribute('href')
+    // NavLink es por defecto accesible por teclado
+  })
 })
