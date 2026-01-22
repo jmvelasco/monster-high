@@ -66,4 +66,21 @@ describe('Header', () => {
     const charactersLink = screen.getByRole('link', { name: 'Todos los Personajes' })
     expect(charactersLink).toHaveAttribute('aria-current', 'page')
   })
+
+  it('muestra hamburger button en mobile (<768px)', () => {
+    // Arrange
+    window.innerWidth = 500 // Mobile width
+    const expectedButtonLabel = 'Abrir menú'
+
+    // Act
+    render(
+      <MemoryRouter>
+        <Header />
+      </MemoryRouter>
+    )
+
+    // Assert
+    const hamburgerButton = screen.getByRole('button', { name: expectedButtonLabel })
+    expect(hamburgerButton).toBeInTheDocument()
+  })
 })
