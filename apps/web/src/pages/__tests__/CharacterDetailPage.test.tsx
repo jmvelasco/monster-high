@@ -1,9 +1,9 @@
 import { render, screen, waitFor } from '@testing-library/react'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { SWRConfig } from 'swr'
-import { CharacterDetailPage } from '../CharacterDetailPage'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import type { Character } from '../../types/character'
+import { CharacterDetailPage } from '../CharacterDetailPage'
 
 const mockCharacters: Character[] = [
   {
@@ -17,7 +17,9 @@ const mockCharacters: Character[] = [
       familiares: 'Conde Drácula (padre)',
       mejoresAmigos: 'Clawdeen Wolf, Frankie Stein'
     },
-    globalStory: 'Draculaura es una vampira vegetariana...'
+    globalStory: 'Draculaura es una vampira vegetariana...',
+    url: '',
+    sections: {}
   }
 ]
 
@@ -28,7 +30,7 @@ const wrapper = ({ children }: { children: React.ReactNode }) => (
 )
 
 beforeEach(() => {
-  global.fetch = vi.fn(() =>
+  globalThis.fetch = vi.fn(() =>
     Promise.resolve({
       ok: true,
       json: () => Promise.resolve(mockCharacters)
@@ -91,5 +93,21 @@ describe('CharacterDetailPage', () => {
     })
   })
 
-  // TODO: Test 4 - Obtiene slug de URL params
+  // TODO: Test 4 - Obtiene slug de URL params (IN PROGRESS)
+  it('obtiene slug de URL params', async () => {
+    // Arrange & Act
+    render(
+      <MemoryRouter initialEntries={['/character/draculaura']}>
+        <Routes>
+          <Route path="/character/:slug" element={<CharacterDetailPage />} />
+        </Routes>
+      </MemoryRouter>,
+      { wrapper }
+    )
+
+    // Assert - Si el componente se renderiza correctamente, significa que obtuvo el slug
+    await waitFor(() => {
+      expect(screen.getByAltText('Draculaura')).toBeInTheDocument()
+    })
+  })
 })
