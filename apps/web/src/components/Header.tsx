@@ -5,6 +5,7 @@ export function Header() {
     <header>
       <h1>Monster High</h1>
       <Link to="/characters">Todos los Personajes</Link>
+      <Link to="/favorites">Favoritos</Link>
     </header>
   )
 }
