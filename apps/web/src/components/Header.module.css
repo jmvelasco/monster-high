@@ -36,7 +36,7 @@
 }
 
 .navLink {
-  color: var(--mh-white);
+  color: var(--mh-light-gray);
   font-size: var(--text-base);
   font-weight: 500;
   text-decoration: none;
@@ -54,6 +54,31 @@
   color: var(--mh-pink);
   border-bottom-color: var(--mh-pink);
   font-weight: 700;
+}
+
+.navHidden {
+  display: none;
+}
+
+.navMobile {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  align-items: flex-start;
+  padding: var(--spacing-4);
+  background-color: var(--mh-black);
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  border-top: 1px solid var(--mh-gray);
+  z-index: 101;
+}
+
+.navMobile .navLink {
+  width: 100%;
+  padding: var(--spacing-3) var(--spacing-4);
+  border-bottom: none;
 }
 
 /* Hamburger mobile */

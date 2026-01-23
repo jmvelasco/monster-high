@@ -550,13 +550,13 @@
 ---
 
 **Resumen Fase 6**:
-- **CSS Modules creados**: 6 nuevos
-- **Total estilos**: 500+ líneas CSS
+- **CSS Modules creados**: 6 nuevos ✅
+- **Total estilos**: 500+ líneas CSS ✅
 - **Tests responsive**: 7/7 ✅ (tienen sentido visual ahora)
 - **Tests accesibilidad**: 16/16 ✅ (visualmente validados)
 - **Total Tests**: 84/84 ✅
 - **Coverage**: 98.5% ✅
-- **Commits**: 1 (feat(css): implementa diseño visual Monster High completo)
+- **Commits**: 1 (feat(css): implementa diseño visual Monster High completo) ✅
 - **Tag**: `frontend/v0.6.0` ✅
 
 **Completado**:
@@ -569,6 +569,58 @@
 - ✅ Transiciones suaves y profesionales
 - ✅ Tests responsive tienen sentido funcional
 - ✅ Semántica HTML mantiene accesibilidad
+
+---
+
+#### Revisión de Diseño - Ajustes Visuales (Fase 6.1 - COMPLETADO)
+
+**Estado**: ✅ REVISADOS Y APROBADOS
+
+**Ajustes Implementados**:
+
+1. **Header - Contraste en Links Inactivos** ✅
+   - Solución: Links inactivos cambiados a `--mh-light-gray` para mayor contraste
+   - Archivo: `Header.module.css`
+
+2. **Header Responsive - Hamburger Menu Funcional** ✅
+   - Solución: Implementado dropdown vertical con `.navMobile` (posición absoluta)
+   - Archivos: `Header.tsx`, `Header.module.css`
+   - Comportamiento: Click en hamburger abre/cierra menú vertical debajo del header
+
+3. **Imágenes - Sin Bordes Cortados** ✅
+   - Solución: Confirmado `object-fit: contain` en todas las imágenes
+   - Archivos: `CharacterCard.module.css`, `CharacterDetail.module.css`
+
+4. **Descripción Historia - Tamaño Aumentado** ✅
+   - Solución: Font-size aumentada de `text-xl` a `text-2xl` (1.5rem → 24px)
+   - Archivo: `CharacterDetail.module.css`
+
+5. **Nombre en Grid - Centrado** ✅
+   - Solución: Agregado `text-align: center` a `.name` en CharacterCard
+   - Archivo: `CharacterCard.module.css`
+   - Afecta: Grid de personajes + Favoritos
+
+6. **Título h1 Detalle - Más Grande** ✅
+   - Solución: Agregado h1 con `font-size: var(--text-5xl)` (3rem / 48px)
+   - Reducido padding vertical a `spacing-2` (8px top/bottom)
+   - Archivos: `CharacterDetail.tsx`, `CharacterDetail.module.css`
+
+7. **Gap Favoritos - Mayor Espaciado** ✅
+   - Solución: Aumentado gap entre imagen y nombre de `spacing-4` a `spacing-6`
+   - Archivo: `CharacterCard.module.css`
+
+**Variables CSS Nuevas Agregadas**:
+- ✅ `--text-4xl: 2rem` (32px) en `global.css`
+- ✅ `--text-5xl: 3rem` (48px) en `global.css`
+
+**Validación**:
+- ✅ Tests: 84/84 passing
+- ✅ Build: Compilación exitosa
+- ✅ TypeScript: Sin errores
+- ✅ Accesibilidad: Mantiene semántica HTML correcta
+- ✅ Responsive: Todos los breakpoints funcionando
+
+**Commit a realizar**: `feat(css): ajustes visuales - contraste, menú, imágenes, fuentes, espaciado`
 
 ---
 
@@ -595,39 +647,16 @@
 
 ---
 
-## Registro de Decisiones Técnicas Tomadas
+## Estado Actual y Próximos Pasos
 
-> Actualizo esta sección cada vez que tomo una decisión de implementación no cubierta en TECHNICAL-SPEC.md
+**Estado**: ✅ Fase 6 CSS + Revisión completadas
 
-**Ninguna decisión tomada aún** - Pendiente de comenzar implementación.
-
----
-
-## Consultas Pendientes al Tech Lead
-
-> Estas preguntas requieren tu aprobación antes de continuar.
-
-**Ninguna consulta pendiente** - Setup inicial aprobado.
+**Próximas Acciones**:
+1. ✅ **Fase 6.1 Revisión de Diseño** - 7 ajustes visuales implementados y validados
+2. 📝 **Crear commit único** - Con todos los cambios CSS y variables (una vez aprobado por Tech Lead)
+3. ⏳ **Fase 7 (Opcional)** - Polish adicional (skeleton loaders, error boundaries, performance)
+4. ⏳ **Validación Final** - Tests, accesibilidad manual, deployment
 
 ---
 
-## Bloqueos e Impedimentos
-
-**Ningún bloqueo actualmente** - Listo para comenzar tras OK del Tech Lead.
-
----
-
-## Próximos Pasos
-
-1. ✅ **Fase 1 completada** - RF-001 Listado de Personajes (16/16 tests, 100% coverage funcional)
-2. ✅ **Fase 2 completada** - RF-002 Detalle de Personaje (16/19 tests, 97.5% coverage, 3 responsive → Fase 5)
-3. ⏳ **Iniciar Fase 3** - RF-003 Sistema de Favoritos:
-   - favoritesStorage.ts (6 tests - localStorage operations)
-   - useFavorites.ts hook (6 tests)
-   - FavoritesPage.tsx (5 tests)
-   - Integración: Botón Favorito en CharacterDetailPage (5 tests)
-4. Reportar al Tech Lead tras completar cada componente
-
----
-
-**Última actualización**: 2026-01-23 00:00 | **Estado General**: ✅ Fase 6 (100%) | 84/84 tests | PROYECTO COMPLETADO
+**Última actualización**: 2026-01-23 10:30 | **Estado General**: ✅ Fase 6 CSS + Revisión (100%) | 84/84 tests | En Desarrollo
