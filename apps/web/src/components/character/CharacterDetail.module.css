@@ -1,11 +1,25 @@
 .detail {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--mh-white);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.title {
+  font-size: var(--text-5xl);
+  font-weight: 700;
+  color: var(--mh-pink);
+  padding: var(--spacing-2) var(--spacing-6);
+  text-align: center;
+}
+
+.detailContent {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--spacing-8);
   align-items: start;
-  background-color: var(--mh-white);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
+  padding: var(--spacing-6);
 }
 
 .imageContainer {
@@ -17,7 +31,7 @@
 .image {
   width: 100%;
   aspect-ratio: 3 / 4;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: var(--radius-lg);
   background-color: var(--mh-light-gray);
 }
@@ -85,7 +99,7 @@
 
 .globalStory {
   font-family: var(--font-story);
-  font-size: var(--text-lg);
+  font-size: var(--text-2xl);
   line-height: 1.8;
   color: var(--mh-gray);
   padding: var(--spacing-6);
@@ -97,7 +111,7 @@
 
 /* Mobile: 1 columna */
 @media (max-width: 1023px) {
-  .detail {
+  .detailContent {
     grid-template-columns: 1fr;
     gap: var(--spacing-6);
   }

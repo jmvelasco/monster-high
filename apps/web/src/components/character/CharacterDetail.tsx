@@ -24,13 +24,15 @@ export function CharacterDetail({ character }: CharacterDetailProps) {
 
   return (
     <article className={styles.detail}>
-      <div className={styles.imageContainer}>
-        <img src={imageSrc} alt={character.name} className={styles.image} />
-        <button className={styles.favoriteButton} onClick={() => toggleFavorite(slug)}>
-          {isFav ? '❤️ Favorito' : '🤍 Agregar a Favoritos'}
-        </button>
-      </div>
-      <div className={styles.infoContainer}>
+      <h1 className={styles.title}>{character.name}</h1>
+      <div className={styles.detailContent}>
+        <div className={styles.imageContainer}>
+          <img src={imageSrc} alt={character.name} className={styles.image} />
+          <button className={styles.favoriteButton} onClick={() => toggleFavorite(slug)}>
+            {isFav ? '❤️ Favorito' : '🤍 Agregar a Favoritos'}
+          </button>
+        </div>
+        <div className={styles.infoContainer}>
         <div className={styles.technicalInfo}>
           {Object.entries(character.technicalInfo).map(([key, value]) => {
             if (!value) return null
@@ -45,6 +47,7 @@ export function CharacterDetail({ character }: CharacterDetailProps) {
         {character.globalStory && (
           <div className={styles.globalStory}>{character.globalStory}</div>
         )}
+      </div>
       </div>
     </article>
   )
