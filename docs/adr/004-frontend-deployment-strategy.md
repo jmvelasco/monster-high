@@ -1,9 +1,10 @@
 # ADR 004: Frontend Deployment Strategy & Release Management
 
-**Status**: PENDING DECISION  
+**Status**: ✅ DECIDIDO  
 **Date**: 2026-01-23  
 **Authors**: Agente XP, Tech Lead José Manuel Velasco  
 **Priority**: HIGH - Bloquea go-live a producción
+**Decision Made**: Opción B (Vercel) + Rama `release` + Hotfix Flow (2026-01-23)
 
 ---
 
@@ -348,57 +349,123 @@ Costo: Gratis siempre
 
 ## Decision
 
-### 🎯 Tres Opciones Disponibles
+### 🎯 DECISIÓN FINAL: Option B + Rama `release` + Hotfix Flow
 
-#### **Option B Recomendada** (Balance perfecto)
-**PR a main + Vercel**
-- Controlado: review antes de producción
-- Simple: 2 minutos setup
-- Profesional: PR preview, analytics
-- Costo: Gratis
+**Opción Elegida**: Vercel con rama `release` como rama de producción + hotfix flow
 
-#### **Option C Alternativa** (Control total + ahorro)
-**GitHub Actions + Cloudflare Pages**
-- Máximo control: CI/CD en GitHub
-- Automatiza sincronización backend ↔ frontend
-- Costo: Completamente gratis
-- Complejidad: Media (config YAML)
-- Ventaja adicional: Puede regenerar JSON cuando cambia backend
-
-#### **Option A Descartada**
-**Fast-track sin control**
-- Riesgo alto: sin reviewers en producción
-- No recomendado para equipo
-
-### 📊 Matriz de Decisión
-
-| Factor | Option B (Vercel) | Option C (GitHub Actions) |
-|--------|-------------------|---------------------------|
-| Setup Time | ⚡ 2 min | 🔧 20 min |
-| Cost | 💰 Free | 💰 Free |
-| Control | ✅ PR review | ✅✅ Full CI/CD |
-| Simplicity | ✅✅ Muy simple | ⚠️ Moderado |
-| Autonomy | ✅ Vercel decides build | ✅✅ Tú decides todo |
-| Backend Sync | ⚠️ Manual | ✅✅ Automático |
-| Edge Function | ✅ SÍ | ❌ No |
-| Analytics | ✅ SÍ | ⚠️ Manual |
-
-### 🎯 Mi Recomendación (Según Tu Caso)
-
-**Si buscas**: Simplicity + Professional → **Option B (Vercel)**
 ```
-- Setup en 2 minutos
-- PR preview automático
-- Deploy en GitHub UI
-- Sin worries sobre CI/CD
+main (histórico, no toca)
+├── frontend-development (rama de trabajo activa)
+└── release (rama de producción en Vercel)
+    ↓ Vercel toma automáticamente cambios
+    ↓ Deploy automático a producción
 ```
 
-**Si buscas**: Control total + Backend automation → **Option C (GitHub Actions + Cloudflare)**
+---
+
+## 🌳 Branching Strategy: GitFlow Simplificado
+
+### Ramas
+
+| Rama | Propósito | Protección | Deploy |
+|------|-----------|-----------|--------|
+| `main` | Histórico (no se usa) | Git protect | ❌ No |
+| `frontend-development` | Trabajo diario, desarrollo continuo | ✅ | ❌ No |
+| `release` | Producción viva en Vercel | ✅ | ✅ SÍ |
+| `hotfix/*` | Fixes urgentes (rama temporal) | ❌ | ✅ (a `release`) |
+
+### Flujo Normal: Feature → Release
+
+```bash
+# 1. Trabajo en frontend-development (diario)
+git checkout frontend-development
+# ... commits, push, tests ...
+git push origin frontend-development
+
+# 2. Cuando está listo para PRODUCCIÓN
+#    Crear PR: frontend-development → release
+
+# 3. En GitHub:
+#    - Code review
+#    - Vercel preview del merge
+#    - Approve + Merge
+
+# 4. Vercel detecta push a `release`
+#    → Build automático
+#    → Deploy a producción
+
+# 5. Crear tag de release
+git tag web-v0.7.0
+git push origin web-v0.7.0
 ```
-- CI/CD completamente en tu control
-- Workflow: backend cambios → JSON updates → frontend rebuild → deploy
-- Costo cero
-- Escalable si equipo crece
+
+### Flujo Hotfix: Fix Urgente en Producción
+
+```bash
+# 1. Crear rama hotfix desde release
+git checkout release
+git checkout -b hotfix/critical-bug
+
+# 2. Hacer fix + test
+# ... commits ...
+
+# 3. PR: hotfix/critical-bug → release
+#    (mínimo review si es urgente)
+
+# 4. Vercel deploya automáticamente
+
+# 5. Crear tag hotfix
+git tag web-v0.7.1-hotfix
+git push origin web-v0.7.1-hotfix
+
+# 6. Opcional: Syncronizar fix a frontend-development
+git checkout frontend-development
+git merge release
+git push origin frontend-development
+```
+
+---
+
+## 📦 Version Management: npm version Strategy
+
+### Actualización Automática de Versión
+
+**Opción Recomendada**: `npm version` (simple y estándar)
+
+```bash
+# Cuando quieres hacer release desde frontend-development
+cd apps/web
+npm version minor
+# Actualiza apps/web/package.json de 0.0.0 → 0.1.0
+# Crea commit automático
+# Crea tag automático
+
+git push origin frontend-development --follow-tags
+```
+
+**Tipos de bump**:
+```bash
+npm version patch    # 0.7.0 → 0.7.1 (hotfix)
+npm version minor    # 0.7.0 → 0.8.0 (feature release)
+npm version major    # 0.7.0 → 1.0.0 (breaking changes)
+```
+
+### Configuración en package.json (opcional)
+
+```json
+{
+  "name": "@monster-high/web",
+  "version": "0.7.0",
+  "scripts": {
+    "release:minor": "npm version minor && git push origin --follow-tags",
+    "release:patch": "npm version patch && git push origin --follow-tags"
+  }
+}
+```
+
+**Uso**:
+```bash
+npm run release:minor
 ```
 
 ---
@@ -409,10 +476,10 @@ También puedes hacer **ambas simultaneously**:
 
 ```
 ├─ GitHub Actions (build + test automático)
-│  └─ Deploy preview a Cloudflare Pages
+│  └─ Deploy staging a Cloudflare Pages
 │
-└─ Vercel (deploy production con PR review)
-   └─ Preview URLs en cada PR
+└─ Vercel (deploy production desde rama release)
+   └─ Deploy automático a producción
 ```
 
 **Ventaja**: Tienes staging (GitHub Actions) + production (Vercel)
@@ -477,27 +544,49 @@ También puedes hacer **ambas simultaneously**:
 
 ---
 
-## Validation Checklist
+## Implementation Checklist
 
-Antes de proceder con esta ADR, decidir:
+✅ Decisión hecha. Checklist para implementación:
 
-### 🎯 Decision Point 1: Estrategia de Merge
-- [ ] ¿Aprobamos Option B (PR a main)? ← Recomendado
-- [ ] ¿O preferimos Option C (GitHub Actions)?
-- [ ] ¿O ambas (hybrid)?
+### Preparación Inmediata
+- [ ] Crear rama `release` desde `frontend-development`
+  ```bash
+  git checkout frontend-development
+  git checkout -b release
+  git push -u origin release
+  ```
 
-### 🎯 Decision Point 2: Plataforma
-Si Option B:
-- [ ] ¿Vercel?
-- [ ] ¿Netlify (alternativa)?
+- [ ] Actualizar versión en apps/web/package.json
+  ```bash
+  cd apps/web
+  npm version minor  # 0.0.0 → 0.1.0
+  git push origin release --follow-tags
+  ```
 
-Si Option C:
-- [ ] ¿Cloudflare Pages?
-- [ ] ¿GitHub Pages?
-- [ ] ¿AWS S3 + CloudFront?
+### Configuración Vercel
+- [ ] Conectar repositorio GitHub a Vercel
+- [ ] En Vercel Project Settings:
+  - Root Directory: `apps/web`
+  - Production Branch: `release` ← **IMPORTANTE**
+  - Framework: Vite
+  - Build Command: `npm run build`
+  - Output Directory: `dist`
 
-### 🎯 Decision Point 3: Configuración
-- [ ] ¿Actualizamos apps/web/package.json a 0.7.0?
+### Merge de 2 commits pendientes
+- [ ] Push 2 commits locales a `frontend-development`
+  ```bash
+  git push origin frontend-development
+  ```
+
+- [ ] Crear PR: `frontend-development` → `release`
+- [ ] Vercel preview automático en PR
+- [ ] Merge en release
+- [ ] Vercel deploya automáticamente ✨
+
+### Post-Deploy
+- [ ] Verificar aplicación en dominio Vercel
+- [ ] Smoke tests manuales
+- [ ] Celebrar 🎉
 - [ ] ¿Creamos CHANGELOG para v0.7.0?
 - [ ] ¿Incluimos release notes?
 
@@ -511,7 +600,6 @@ Si Option C:
 
 ## Related Documents
 
-- [DEPLOYMENT.md](../../apps/web/DEPLOYMENT.md) - Detalles técnicos de cada plataforma
 - [PROGRESS.md](../../apps/web/PROGRESS.md) - Estado de desarrollo actual
 - [ADR 001](./001-monorepo-structure.md) - Estructura del monorepo
 - [ADR 003](./003-frontend-framework-selection.md) - Selección de framework
