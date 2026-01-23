@@ -1,7 +1,7 @@
 {
   "name": "@monster-high/web",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.7.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -14,7 +14,9 @@
     "format": "prettier --write \"src/**/*.{ts,tsx}\"",
     "clean": "rm -rf dist node_modules",
     "compile": "tsc --noEmit",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "release:minor": "npm version minor && git push origin --follow-tags",
+    "release:patch": "npm version patch && git push origin --follow-tags"
   },
   "dependencies": {
     "react": "^19.2.3",
