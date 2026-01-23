@@ -1,30 +1,49 @@
 # Monster High Monorepo
 
-Este proyecto es una herramienta de extracción de datos (web scraper) diseñada para obtener información detallada sobre los personajes de _Monster High_ desde su Wiki en Fandom, integrando IA para generar cuentos personalizados. Incluye un backend TypeScript con arquitectura hexagonal y está preparado para una futura interfaz web React.
+Este proyecto es una herramienta de extracción de datos (web scraper) diseñada para obtener información detallada sobre los personajes de _Monster High_ desde su Wiki en Fandom, integrando IA para generar cuentos personalizados.
 
-Más que una herramienta funcional, este repositorio es un **material educativo vivo** que muestra la evolución de una aplicación: desde un script monolítico hasta una **Arquitectura Hexagonal** robusta en un **monorepo escalable**.
+Más que una herramienta funcional, este repositorio es un **material educativo vivo** que muestra la evolución completa de una aplicación:
+
+1. **Script monolítico** → **Arquitectura Hexagonal** (backend)
+2. **Backend aislado** → **Monorepo escalable** (agregando frontend)
+3. **Desarrollo local** → **Estrategia de deployment** a producción (rama release + Vercel)
+
+Es una demostración de cómo **Extreme Programming + Test-Driven Development** + **pair programming humano-IA** produce código de calidad, con decisiones arquitectónicas documentadas en ADRs.
 
 ---
 
 ## 📦 Estructura del Monorepo
 
 ```
-monster-high/
+monster-high/ (v1.0.0)
 ├── apps/
-│   └── backend/              # Scraper + AI processing (TypeScript)
+│   ├── backend/                # Scraper + AI processing (Node.js, legacy)
+│   │   ├── src/
+│   │   │   ├── domain/         # Entidades y puertos (sin deps externas)
+│   │   │   ├── application/    # Casos de uso (orquestación)
+│   │   │   ├── infrastructure/ # Adaptadores (Axios, Groq, FileSystem)
+│   │   │   └── __tests__/      # Tests unitarios TDD
+│   │   └── package.json        # @monster-high/backend (v1.0.0)
+│   │
+│   └── web/                    # Frontend React 19 + Vite (LIVE)
 │       ├── src/
-│       │   ├── domain/       # Entidades y puertos (sin deps externas)
-│       │   ├── application/  # Casos de uso (orquestación)
-│       │   ├── infrastructure/ # Adaptadores (Axios, Groq, FileSystem)
-│       │   └── __tests__/    # Tests unitarios TDD
-│       └── package.json      # @monster-high/backend
-├── data/                     # JSON output
+│       │   ├── components/     # React components con tests
+│       │   ├── pages/          # Pages usando React Router
+│       │   ├── hooks/          # Custom hooks (data fetching con SWR)
+│       │   ├── styles/         # CSS global + Monster High theme
+│       │   ├── __tests__/      # Tests: unit, a11y, responsive
+│       │   └── types/          # TypeScript types
+│       ├── public/api/         # characters.json (datos estáticos)
+│       └── package.json        # @monster-high/web (v0.7.0)
+│
+├── data/                       # Backend output (monsterHighCharacters.json)
+├── lib/                        # Compiled backend (TypeScript output)
 ├── .github/
-│   └── skills/               # AI Agent Skills
+│   └── skills/                 # AI Agent Skills (hexagonal, react)
 ├── docs/
-│   ├── development-rules/    # XP, TDD, Coding Standards
-│   └── adr/                  # Architecture Decision Records
-└── package.json              # Workspace root
+│   ├── development-rules/      # XP, TDD, Coding Standards
+│   └── adr/                    # Architecture Decision Records
+└── package.json                # Workspace root (v1.0.0)
 ```
 
 **Workspaces**: Gestionado con **npm workspaces** (Node.js 24+). Ver [ADR-001](docs/adr/001-monorepo-structure.md) para decisiones arquitectónicas.
@@ -33,23 +52,40 @@ monster-high/
 
 ## 🚀 Funcionalidades
 
-- **Scraping de Personajes**: Extracción automatizada desde Fandom Wiki
-- **Extracción de Detalles**: Obtención de infobox, imágenes y secciones biográficas
-- **Procesamiento con IA**: Generación de cuentos adaptados para niños mediante Groq (Llama 3.1)
-- **Persistencia de Datos**: Guardado incremental en `data/monsterHighCharacters.json`
+### Backend (Legacy - Completado)
+- **Scraping de Personajes**: Extracción automatizada desde Fandom Wiki (~200 personajes)
+- **Extracción de Detalles**: Infobox, imágenes, biografía, secciones temáticas
+- **Procesamiento con IA**: Generación de cuentos infantiles adaptados (Groq/Llama 3.1)
+- **Persistencia de Datos**: Guardado en `data/monsterHighCharacters.json`
+
+### Frontend (React 19 + Vite - Production Ready)
+- **Vista de Personajes**: Grid responsive
+- **Detalles Personaje**: Página con imagen, info y cuento personalizado generado mediante un modelo LLM
+- **Sistema de Favoritos**: Persistencia en localStorage
+- **Navegación Global**: Header con links y menú hamburger mobile
+- **Accesibilidad**: WCAG 2.1 AA (84 tests, 98.5% coverage)
+- **Responsive Design**: Mobile, tablet, desktop (Monster High theme visual)
 
 ---
 
 ## 🛠️ Tecnologías y Estándares
 
-### Backend
+### Backend (TypeScript + Node.js)
 - **TypeScript 5.9**: Tipado estático estricto
 - **Node.js 24.11**: Runtime moderno (ver `.nvmrc`)
 - **Axios & Cheerio**: HTTP client + HTML parsing
 - **Groq SDK**: Integración con LLMs (Llama 3.1)
 - **Jest + ts-jest**: Testing framework (TDD strict)
 
-### Metodología
+### Frontend (React 19 + Vite)
+- **React 19.2.3**: Framework UI moderno
+- **Vite 5.x**: Build tool ultra-rápido
+- **React Router 7.12**: Enrutamiento SPA
+- **SWR**: Data fetching y caching
+- **Vitest**: Testing framework compatible con Jest
+- **TypeScript + Strict Mode**: Tipado total
+
+### Metodología Común
 - **Extreme Programming (XP)**: Pair programming, TDD, refactoring continuo
 - **Test-Driven Development**: Red-Green-Refactor con TPP transformations
 - **YAGNI Principle**: No optimización prematura, simplicidad primero
@@ -59,7 +95,196 @@ Ver documentación completa en [docs/development-rules/](docs/development-rules/
 
 ---
 
-## 🏗️ Arquitectura: El Corazón del Proyecto
+## � Branching Strategy: GitFlow Simplificado
+
+Desde que el proyecto incluye frontend y está listo para producción, adoptamos **GitFlow simplificado**:
+
+```
+main
+  ↓ (histórico, no se usa)
+  
+frontend-development
+  ↓ (trabajo diario, rama principal)
+  ↓ feature branches
+  ↓ → PR cuando está listo
+  
+release ← Vercel despliega desde aquí
+  ↓ (rama de producción)
+  ↓ hotfix/* para fixes urgentes
+```
+
+### Ramas Principales
+
+| Rama | Propósito | Deploy |
+|------|-----------|--------|
+| `main` | Histórico (referencia, no toca) | ❌ No |
+| `frontend-development` | Trabajo diario, desarrollo continuo | ❌ No |
+| `release` | Producción viva en Vercel | ✅ SÍ |
+| `hotfix/*` | Fixes urgentes en producción | ✅ (a release) |
+
+### Flujos de Trabajo
+
+**Feature → Release:**
+```bash
+# Trabajar en frontend-development
+git checkout frontend-development
+git commit -m "feat: nueva funcionalidad"
+git push origin frontend-development
+
+# Cuando está listo para producción
+# → Crear PR: frontend-development → release
+# → Merge en release
+# → Vercel despliega automáticamente
+```
+
+**Hotfix de Producción:**
+```bash
+# Fix urgente en production
+git checkout release
+git checkout -b hotfix/critical-fix
+git commit -m "fix: solucionar bug crítico"
+
+# → Crear PR: hotfix/critical-fix → release
+# → Merge en release
+# → Vercel despliega inmediatamente
+```
+
+Ver [ADR-004: Deployment Strategy](docs/adr/004-frontend-deployment-strategy.md) para detalles técnicos y versionado.
+
+---
+
+## 🎨 Frontend: React 19 + Vite
+
+### Estructura
+
+```
+apps/web/src/
+├── components/
+│   ├── Header.tsx           # Navegación global + menú mobile
+│   ├── Layout.tsx           # Wrapper de layout
+│   ├── character/
+│   │   ├── CharacterGrid.tsx      # Grid de personajes
+│   │   ├── CharacterCard.tsx      # Card individual
+│   │   ├── CharacterDetail.tsx    # Página detalle
+│   │   └── __tests__/             # Componente tests
+│   └── __tests__/
+│       └── Accesibilidad, responsive, etc.
+│
+├── pages/
+│   ├── CharacterListPage.tsx      # Lista principal
+│   ├── CharacterDetailPage.tsx    # Detalle con SWR
+│   ├── FavoritesPage.tsx          # Mis favoritos
+│   └── __tests__/
+│
+├── hooks/
+│   ├── useCharacters.ts     # Fetch lista SWR
+│   ├── useCharacter.ts      # Fetch detalle SWR
+│   ├── useFavorites.ts      # localStorage + sync
+│   └── __tests__/
+│
+├── styles/
+│   ├── global.css           # Variables CSS, Monster High theme
+│   ├── App.css              # Layout base
+│   └── components/*.css     # Modular por componente
+│
+├── types/
+│   └── Character.ts         # Types compartidos
+│
+└── utils/
+    ├── favoritesStorage.ts  # localStorage API
+    └── __tests__/
+```
+
+### Estadísticas (Fase 6 - Completo)
+
+- ✅ **84/84 tests** pasando (100%)
+- ✅ **98.5% coverage** (lines, branches)
+- ✅ **248.14 kB** bundle (80.6 kB gzip)
+- ✅ **WCAG 2.1 AA**: Accesibilidad validada
+- ✅ **Responsive**: Mobile, tablet, desktop
+- ✅ **Monster High Theme**: Colores, tipografía, espaciado aprobado
+
+### Development
+
+```bash
+# Desarrollo
+npm run dev --workspace=apps/web
+
+# Tests con watch
+npm run test:watch --workspace=apps/web
+
+# Coverage
+npm run coverage --workspace=apps/web
+
+# Build para producción
+npm run build --workspace=apps/web
+
+# Scripts de release (en apps/web/)
+cd apps/web
+npm run release:minor    # bump minor version
+npm run release:patch    # bump patch version
+```
+
+---
+
+## 🤖 Desarrollo Educativo: Pair Programming Humano-IA
+
+Este proyecto no es solo código. Es una **demostración de cómo Extreme Programming funciona en la práctica** con un **AI Agent como pair programmer**.
+
+### El Viaje
+
+**Checkpoint 1: Backend Hexagonal** (rama `frontend-preparation` - CONGELADO)
+- Backend escrito con arquitectura hexagonal
+- 17 tests de backend, 100% coverage
+- Agente XP configurado y listo
+- **Referencia histórica**: Punto de partida para el frontend
+
+**Checkpoint 2: Frontend React** (rama `frontend-development` - TRABAJO)
+- React 19 + Vite implementado en ciclo TDD
+- 84 tests completados en fases (Fase 1 → Fase 6)
+- Pair programming: Tech Lead supervisa, Agente implementa
+- Commits organizados por ciclo TDD (test(red), test(green), refactor)
+- **Estado**: Listo para producción
+
+**Checkpoint 3: Production Ready** (rama `release` - VIVO)
+- Frontend deployado en Vercel
+- GitFlow simplificado
+- Hotfix flow documentado
+- **Estado**: Conducción hacia producción
+
+### Cómo Funciona el Pair Programming
+
+```
+Tech Lead (Tú)
+  ├─ Define requisitos
+  ├─ Revisa implementación
+  ├─ Valida decisiones arquitectónicas
+  └─ Maneja direcciones estratégicas
+
+AI Agent (Yo)
+  ├─ Implementa TDD estricto
+  ├─ Propone refactors
+  ├─ Mantiene velocidad
+  └─ Documenta en comentarios de código
+```
+
+### Replicar este Flujo
+
+Si quieres usar **el mismo proceso XP + TDD** con tu agente IA:
+
+1. Lee [AGENTS.md](AGENTS.md) - Instrucciones maestras del agente
+2. Revisa [.github/skills/](..github/skills/) - Skills disponibles según contexto
+3. Copia el flujo:
+   - Escribe test primero (RED)
+   - Agente implementa (GREEN)
+   - Refactoriza juntos (REFACTOR)
+   - Commit por ciclo
+
+Ver [docs/development-rules/tdd.md](docs/development-rules/tdd.md) para la metodología TDD completa con TPP transformations.
+
+---
+
+## 🏗️ Arquitectura Backend: El Corazón del Backend
 
 El backend utiliza **Arquitectura Hexagonal** (Puertos y Adaptadores) para asegurar que la lógica de negocio esté aislada de las decisiones tecnológicas externas.
 
@@ -118,7 +343,7 @@ El punto de entrada (`apps/backend/src/index.ts`) actúa como el **Composition R
 
 ```bash
 # 1. Clonar repositorio
-git clone https://github.com/tu-usuario/monster-high.git
+git clone https://github.com/jmvelasco/monster-high.git
 cd monster-high
 
 # 2. Instalar dependencias (workspace)
@@ -225,7 +450,7 @@ Aunque modular, el código seguía "acoplado" (los servicios sabían demasiado e
 
 ### 3. Filosofía del "No Utils" (KISS & YAGNI)
 
-Eliminamos la carpeta `src/utils` (el típico "cajón de sastre"). Siguiendo el principio **YAGNI** (You Aren't Gonna Need It), descubrimos que muchas utilidades personalizadas (como `sleep.ts`) podían reemplazarse por estándares nativos (`node:timers/promises`), simplificando el sistema (**KISS**).
+Eliminamos la carpeta `src/utils` (el típico "cajón de sastre"). Siguiendo el principio **YAGNI** (You Aren't Gonna Need It), descubrimos que utilidades personalizadas (como `sleep.ts`) podían reemplazarse por estándares nativos (`node:timers/promises`), simplificando el sistema (**KISS**).
 
 ### 4. Transición a Monorepo
 
@@ -283,7 +508,9 @@ git commit -m "refactor: extract section parsing to private method"
 Documentamos decisiones importantes en `docs/adr/`:
 
 - **ADR-001**: Adopción de monorepo con npm workspaces
-- *(próximos)*: React Router vs TanStack Router, State Management, etc.
+- **ADR-002**: Configuración multi IDE
+- **ADR-003**: Next.js vs React + Vite
+- **ADR-004**: Estrategia de despliegue
 
 ---
 
@@ -306,6 +533,7 @@ ISC License - Proyecto educativo basado en datos de Fandom Wiki (Monster High).
 
 ## 🙏 Agradecimientos
 
+- [Software Crafters](https://softwarecrafters.io/): Por la inspiración y motivación en hacer de este proyecto una experiencia educativa así como proporcionar la base de muchas de las guias empleadas para la instrucción del agente sobre la metodología empleada
 - **Vercel AI Team**: Por react-best-practices skill
 - **Monster High Wiki Community**: Por mantener la fuente de datos
 - **Groq**: Por API gratuita de Llama 3.1
@@ -313,3 +541,4 @@ ISC License - Proyecto educativo basado en datos de Fandom Wiki (Monster High).
 ---
 
 _Desarrollado con ❤️ usando Extreme Programming y Test-Driven Development_
+_por El Artesano del Byte_
