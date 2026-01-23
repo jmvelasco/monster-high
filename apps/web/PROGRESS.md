@@ -659,10 +659,10 @@
 - ✅ Performance excelente
 
 **Próximas Acciones**:
-1. 📋 **Revisar `DEPLOYMENT.md`** - Opciones de despliegue a producción
-2. 🚀 **Seleccionar plataforma** - Vercel/Netlify/AWS/Azure
-3. 📤 **Deploy** - Configurar CI/CD
-4. ✅ **Smoke tests manuales** - Validación en navegadores reales
+1. 📋 **Revisar `docs/adr/004-frontend-deployment-strategy.md`** - ADR con análisis completo de despliegue
+2. ✅ **Tech Lead aprueba decisión** - Option A (fast-track) vs Option B (controlled)
+3. 🚀 **Ejecutar implementación** - Según aprobación del ADR
+4. 📤 **Deploy a Vercel** - Después de merge a main
 
 ---
 
