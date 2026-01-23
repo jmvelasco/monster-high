@@ -8,7 +8,7 @@
     "packages/*"
   ],
   "scripts": {
-    "prepare": "husky",
+    "prepare": "test $CI != true && husky || true",
     "dev": "npm run dev --workspace=apps/backend",
     "dev:backend": "npm run dev --workspace=apps/backend",
     "dev:web": "npm run dev --workspace=apps/web",
