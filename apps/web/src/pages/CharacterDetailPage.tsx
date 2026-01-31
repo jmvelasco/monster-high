@@ -20,4 +20,3 @@ export function CharacterDetailPage() {
 
   return <CharacterDetail character={character} />
 }
-

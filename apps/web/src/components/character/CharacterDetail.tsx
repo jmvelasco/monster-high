@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react'
 import { useFavorites } from '../../hooks/useFavorites'
 import type { Character } from '../../types/character'
 import { generateSlug } from '../../utils/slugUtils'
@@ -7,20 +8,30 @@ interface CharacterDetailProps {
   character: Character
 }
 
-const TECHNICAL_INFO_LABELS: Record<string, string> = {
-  edad: 'Edad:',
-  sexo: 'Sexo:',
-  ocupacion: 'Ocupación:',
-  mascota: 'Mascota:',
-  familiares: 'Familiares:',
-  mejoresAmigos: 'Mejores Amigos:',
-}
-
 export function CharacterDetail({ character }: CharacterDetailProps) {
   const { toggleFavorite, isFavorite } = useFavorites()
+  const spanRef = useRef<HTMLSpanElement>(null)
   const slug = generateSlug(character.name)
   const isFav = isFavorite(slug)
   const imageSrc = character.image || '/images/placeholder-character.svg'
+
+  const handleMouseEnter = () => {
+    if (spanRef.current) {
+      spanRef.current.textContent = isFav ? '❤️ Quitar de Favoritos' : '🤍 Agregar a Favoritos'
+    }
+  }
+
+  const handleMouseLeave = () => {
+    if (spanRef.current) {
+      spanRef.current.textContent = isFav ? '❤️ Favorito' : '🤍 Agregar a Favoritos'
+    }
+  }
+
+  useEffect(() => {
+    if (spanRef.current) {
+      spanRef.current.textContent = isFav ? '❤️ Quitar de Favoritos' : '🤍 Agregar a Favoritos'
+    }
+  }, [isFav])
 
   return (
     <article className={styles.detail}>
@@ -28,27 +39,21 @@ export function CharacterDetail({ character }: CharacterDetailProps) {
       <div className={styles.detailContent}>
         <div className={styles.imageContainer}>
           <img src={imageSrc} alt={character.name} className={styles.image} />
-          <button className={styles.favoriteButton} onClick={() => toggleFavorite(slug)}>
-            {isFav ? '❤️ Favorito' : '🤍 Agregar a Favoritos'}
-          </button>
         </div>
         <div className={styles.infoContainer}>
-        <div className={styles.technicalInfo}>
-          {Object.entries(character.technicalInfo).map(([key, value]) => {
-            if (!value) return null
-            return (
-              <div key={key} className={styles.infoRow}>
-                <span className={styles.infoLabel}>{TECHNICAL_INFO_LABELS[key]}</span>
-                <span className={styles.infoValue}>{value}</span>
-              </div>
-            )
-          })}
+          {character.globalStory && (
+            <div className={styles.globalStory}>{character.globalStory}</div>
+          )}
         </div>
-        {character.globalStory && (
-          <div className={styles.globalStory}>{character.globalStory}</div>
-        )}
       </div>
-      </div>
+      <button
+        className={`${styles.favoriteButton} ${isFav ? styles.isFavorite : ''}`}
+        onClick={() => toggleFavorite(slug)}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <span ref={spanRef} />
+      </button>
     </article>
   )
 }

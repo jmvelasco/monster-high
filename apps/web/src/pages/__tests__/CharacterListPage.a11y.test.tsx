@@ -52,7 +52,14 @@ describe('CharacterListPage - Accesibilidad', () => {
   it('renderiza CharacterGrid con accesibilidad completa', () => {
     // Arrange
     const mockCharacters = [
-      { name: 'Draculaura', slug: 'draculaura', image: 'test.jpg', sections: {}, technicalInfo: {}, url: 'test' },
+      {
+        name: 'Draculaura',
+        slug: 'draculaura',
+        image: 'test.jpg',
+        sections: {},
+        technicalInfo: {},
+        url: 'test',
+      },
     ]
     vi.mocked(useCharacters).mockReturnValue({
       data: mockCharacters,

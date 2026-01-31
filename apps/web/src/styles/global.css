@@ -47,7 +47,8 @@ button {
   --mh-focus: #ba55d3;
 
   /* Tipografía */
-  --font-story: 'Gruenewald VA', serif;
+  --font-story: 'Learning Curve', serif;
+  --font-main-title: 'Nesting', serif;
   --font-ui: system-ui, -apple-system, 'Segoe UI', sans-serif;
 
   /* Tamaños de texto */
@@ -60,6 +61,7 @@ button {
   --text-3xl: 1.875rem; /* 30px */
   --text-4xl: 2rem; /* 32px */
   --text-5xl: 3rem; /* 48px */
+  --text-6xl: 4rem; /* 64px */
 
   /* Espaciado */
   --spacing-1: 0.25rem; /* 4px */
@@ -70,6 +72,10 @@ button {
   --spacing-8: 2rem; /* 32px */
   --spacing-12: 3rem; /* 48px */
   --spacing-16: 4rem; /* 64px */
+
+  --radius-sm: 0.25rem; /* 4px */
+  --radius-md: 0.5rem; /* 8px */
+  --radius-lg: 1rem; /* 16px */
 
   /* Transiciones */
   --transition-fast: 0.15s ease;

@@ -1,7 +1,11 @@
+
+
 @font-face {
-  font-family: 'Gruenewald VA';
-  src: url('/fonts/gruenewald-va.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+  font-family: 'Learning Curve';
+  src: url('/fonts/LearningCurve.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Nesting';
+  src: url('/fonts/Nesting.woff2') format('woff2');
 }
