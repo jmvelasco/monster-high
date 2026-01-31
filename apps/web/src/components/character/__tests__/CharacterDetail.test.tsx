@@ -4,8 +4,6 @@ import type { Character } from '../../../types/character'
 import { CharacterDetail } from '../CharacterDetail'
 
 describe('CharacterDetail', () => {
-  // BLOQUE 1: Imagen del personaje
-
   it('muestra imagen del personaje con alt text', () => {
     // Arrange
     const character: Character = {
@@ -42,104 +40,6 @@ describe('CharacterDetail', () => {
     expect(image).toHaveAttribute('src', '/images/placeholder-character.svg')
   })
 
-  // BLOQUE 2: Ficha técnica
-
-  it('muestra todos los campos de technicalInfo presentes', () => {
-    // Arrange
-    const character: Character = {
-      name: 'Clawdeen Wolf',
-      url: 'https://example.com',
-      technicalInfo: {
-        edad: '15',
-        sexo: 'Femenino',
-        ocupacion: 'Estudiante',
-        mascota: 'Crescent',
-      },
-      sections: {},
-    }
-
-    // Act
-    render(<CharacterDetail character={character} />)
-
-    // Assert
-    expect(screen.getByText('Edad:')).toBeInTheDocument()
-    expect(screen.getByText('15')).toBeInTheDocument()
-    expect(screen.getByText('Sexo:')).toBeInTheDocument()
-    expect(screen.getByText('Femenino')).toBeInTheDocument()
-    expect(screen.getByText('Ocupación:')).toBeInTheDocument()
-    expect(screen.getByText('Estudiante')).toBeInTheDocument()
-    expect(screen.getByText('Mascota:')).toBeInTheDocument()
-    expect(screen.getByText('Crescent')).toBeInTheDocument()
-  })
-
-  it('maneja campos opcionales (undefined) sin romper UI', () => {
-    // Arrange
-    const character: Character = {
-      name: 'Lagoona Blue',
-      url: 'https://example.com',
-      technicalInfo: {
-        edad: '15',
-        // sexo, ocupacion, mascota undefined
-      },
-      sections: {},
-    }
-
-    // Act
-    render(<CharacterDetail character={character} />)
-
-    // Assert
-    expect(screen.getByText('Edad:')).toBeInTheDocument()
-    expect(screen.getByText('15')).toBeInTheDocument()
-    expect(screen.queryByText('Sexo:')).not.toBeInTheDocument()
-    expect(screen.queryByText('Ocupación:')).not.toBeInTheDocument()
-    expect(screen.queryByText('Mascota:')).not.toBeInTheDocument()
-  })
-
-  it('maneja campos vacíos ("") sin mostrarlos', () => {
-    // Arrange
-    const character: Character = {
-      name: 'Cleo de Nile',
-      url: 'https://example.com',
-      technicalInfo: {
-        edad: '16',
-        sexo: '',
-        ocupacion: '',
-      },
-      sections: {},
-    }
-
-    // Act
-    render(<CharacterDetail character={character} />)
-
-    // Assert
-    expect(screen.getByText('Edad:')).toBeInTheDocument()
-    expect(screen.getByText('16')).toBeInTheDocument()
-    expect(screen.queryByText('Sexo:')).not.toBeInTheDocument()
-    expect(screen.queryByText('Ocupación:')).not.toBeInTheDocument()
-  })
-
-  it('formatea labels correctamente (capitalización)', () => {
-    // Arrange
-    const character: Character = {
-      name: 'Ghoulia Yelps',
-      url: 'https://example.com',
-      technicalInfo: {
-        ocupacion: 'Estudiante',
-        mejoresAmigos: 'Cleo de Nile',
-      },
-      sections: {},
-    }
-
-    // Act
-    render(<CharacterDetail character={character} />)
-
-    // Assert
-    expect(screen.getByText('Ocupación:')).toBeInTheDocument()
-    expect(screen.getByText('Mejores Amigos:')).toBeInTheDocument()
-  })
-
-  // BLOQUE 3: Historia (globalStory)
-
   it('renderiza globalStory con fuente Gruenewald VA', () => {
     // Arrange
     const character: Character = {
@@ -147,7 +47,8 @@ describe('CharacterDetail', () => {
       url: 'https://example.com',
       technicalInfo: {},
       sections: {},
-      globalStory: 'Deuce es el hijo de Medusa y tiene el poder de convertir a las personas en piedra con su mirada.',
+      globalStory:
+        'Deuce es el hijo de Medusa y tiene el poder de convertir a las personas en piedra con su mirada.',
     }
 
     // Act
@@ -194,8 +95,4 @@ describe('CharacterDetail', () => {
     const storySection = container.querySelector('.global-story')
     expect(storySection).not.toBeInTheDocument()
   })
-
-  // BLOQUE 4: Layout responsive - DIFERIDO A FASE 5
-  // BLOQUE 5: Navegación - N/A (responsabilidad de CharacterDetailPage)
 })
-

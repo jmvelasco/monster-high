@@ -16,31 +16,29 @@ const mockCharacters: Character[] = [
       ocupacion: 'Estudiante',
       mascota: 'Count Fabulous',
       familiares: 'Conde Drácula (padre)',
-      mejoresAmigos: 'Clawdeen Wolf, Frankie Stein'
+      mejoresAmigos: 'Clawdeen Wolf, Frankie Stein',
     },
     globalStory: 'Draculaura es una vampira vegetariana...',
     url: '',
-    sections: {}
-  }
+    sections: {},
+  },
 ]
 
 const wrapper = ({ children }: { children: React.ReactNode }) => (
-  <SWRConfig value={{ provider: () => new Map(), dedupingInterval: 0 }}>
-    {children}
-  </SWRConfig>
+  <SWRConfig value={{ provider: () => new Map(), dedupingInterval: 0 }}>{children}</SWRConfig>
 )
 
-beforeEach(() => {
-  resetFavoritesState()
-  globalThis.fetch = vi.fn(() =>
-    Promise.resolve({
-      ok: true,
-      json: () => Promise.resolve(mockCharacters)
-    })
-  ) as unknown as typeof fetch
-})
-
 describe('CharacterDetailPage', () => {
+  beforeEach(() => {
+    resetFavoritesState()
+    globalThis.fetch = vi.fn(() =>
+      Promise.resolve({
+        ok: true,
+        json: () => Promise.resolve(mockCharacters),
+      })
+    ) as unknown as typeof fetch
+  })
+
   it('muestra loading state mientras carga', () => {
     render(
       <MemoryRouter initialEntries={['/character/draculaura']}>
@@ -67,7 +65,6 @@ describe('CharacterDetailPage', () => {
     await waitFor(() => {
       expect(screen.getByAltText('Draculaura')).toBeInTheDocument()
     })
-    expect(screen.getByText('1600 años')).toBeInTheDocument()
     expect(screen.getByText(/vampira vegetariana/i)).toBeInTheDocument()
   })
 

@@ -5,9 +5,7 @@ import type { Character } from '../../types/character'
 import { useCharacter } from '../useCharacter'
 
 const wrapper = ({ children }: { children: React.ReactNode }) => (
-  <SWRConfig value={{ provider: () => new Map(), dedupingInterval: 0 }}>
-    {children}
-  </SWRConfig>
+  <SWRConfig value={{ provider: () => new Map(), dedupingInterval: 0 }}>{children}</SWRConfig>
 )
 
 describe('useCharacter', () => {

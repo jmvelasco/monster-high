@@ -5,4 +5,3 @@ import '@testing-library/jest-dom'
  * Only imports testing libraries, no global beforeEach hooks
  * Each test suite is responsible for its own setup
  */
-
