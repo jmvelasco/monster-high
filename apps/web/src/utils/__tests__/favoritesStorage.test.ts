@@ -11,14 +11,12 @@ describe('favoritesStorage', () => {
     it('guarda slug en localStorage', () => {
       saveFavorite('draculaura')
 
-      expect(localStorage.getItem('monster-high-favorites')).toBe(
-        JSON.stringify(['draculaura'])
-      )
+      expect(localStorage.getItem('monster-high-favorites')).toBe(JSON.stringify(['draculaura']))
     })
 
     it('agrega slug a favoritos existentes sin duplicar', () => {
       localStorage.setItem('monster-high-favorites', JSON.stringify(['clawdeen-wolf']))
-      
+
       saveFavorite('draculaura')
 
       expect(JSON.parse(localStorage.getItem('monster-high-favorites')!)).toEqual(
@@ -30,7 +28,10 @@ describe('favoritesStorage', () => {
 
   describe('getFavorites', () => {
     it('lee slugs desde localStorage', () => {
-      localStorage.setItem('monster-high-favorites', JSON.stringify(['draculaura', 'clawdeen-wolf']))
+      localStorage.setItem(
+        'monster-high-favorites',
+        JSON.stringify(['draculaura', 'clawdeen-wolf'])
+      )
 
       expect(getFavorites()).toEqual(['draculaura', 'clawdeen-wolf'])
     })
@@ -38,20 +39,21 @@ describe('favoritesStorage', () => {
 
   describe('removeFavorite', () => {
     it('elimina slug de localStorage', () => {
-      localStorage.setItem('monster-high-favorites', JSON.stringify(['draculaura', 'clawdeen-wolf']))
-      
+      localStorage.setItem(
+        'monster-high-favorites',
+        JSON.stringify(['draculaura', 'clawdeen-wolf'])
+      )
+
       removeFavorite('draculaura')
 
-      expect(localStorage.getItem('monster-high-favorites')).toBe(
-        JSON.stringify(['clawdeen-wolf'])
-      )
+      expect(localStorage.getItem('monster-high-favorites')).toBe(JSON.stringify(['clawdeen-wolf']))
     })
   })
 
   describe('isFavorite', () => {
     it('retorna true si slug está en favoritos', () => {
       localStorage.setItem('monster-high-favorites', JSON.stringify(['draculaura']))
-      
+
       expect(isFavorite('draculaura')).toBe(true)
     })
   })
@@ -62,11 +64,15 @@ describe('favoritesStorage', () => {
       const originalLocalStorage = globalThis.localStorage
       Object.defineProperty(globalThis, 'localStorage', {
         value: {
-          getItem: () => { throw new Error('localStorage not available') },
-          setItem: () => { throw new Error('localStorage not available') },
-          clear: () => {}
+          getItem: () => {
+            throw new Error('localStorage not available')
+          },
+          setItem: () => {
+            throw new Error('localStorage not available')
+          },
+          clear: () => {},
         },
-        writable: true
+        writable: true,
       })
 
       try {
@@ -75,7 +81,7 @@ describe('favoritesStorage', () => {
       } finally {
         Object.defineProperty(globalThis, 'localStorage', {
           value: originalLocalStorage,
-          writable: true
+          writable: true,
         })
       }
     })

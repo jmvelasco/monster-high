@@ -1,16 +1,15 @@
 .detail {
   display: flex;
   flex-direction: column;
-  background-color: var(--mh-white);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
 }
 
 .title {
-  font-size: var(--text-5xl);
-  font-weight: 700;
+  font-family: var(--font-main-title);
+  font-size: var(--text-6xl);
+  font-weight: 100;
+  letter-spacing: 0.1em;
   color: var(--mh-pink);
-  padding: var(--spacing-2) var(--spacing-6);
+  text-transform: lowercase;
   text-align: center;
 }
 
@@ -19,7 +18,6 @@
   grid-template-columns: 1fr 1fr;
   gap: var(--spacing-8);
   align-items: start;
-  padding: var(--spacing-6);
 }
 
 .imageContainer {
@@ -39,30 +37,28 @@
 .favoriteButton {
   width: 100%;
   background-color: var(--mh-pink);
-  color: var(--mh-white);
-  border: none;
-  padding: var(--spacing-3) var(--spacing-4);
-  font-weight: 600;
-  font-size: var(--text-base);
+  color: var(--mh-light-gray);
   border-radius: var(--radius-md);
+  border: 2px solid var(--mh-pink);
+  padding: var(--spacing-3) var(--spacing-4);
+  font-size: var(--text-2xl);
   cursor: pointer;
-  transition: all var(--transition-base);
 }
 
 .favoriteButton:hover {
   background-color: var(--mh-hover);
-  transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
 
-.favoriteButton:active {
-  transform: translateY(0);
+
+.isFavorite {
+  background-color: var(--mh-light-gray);
+  color: var(--mh-pink);
 }
 
-.favoriteButton:focus,
-.favoriteButton:focus-visible {
-  outline: 2px solid var(--mh-focus);
-  outline-offset: 2px;
+.isFavorite:hover {
+  background-color: var(--mh-pink);
+  color: var(--mh-light-gray);
 }
 
 .infoContainer {
@@ -74,13 +70,11 @@
 .technicalInfo {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-4);
 }
 
 .infoRow {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: var(--spacing-4);
   align-items: baseline;
   padding-bottom: var(--spacing-3);
   border-bottom: 1px solid var(--mh-light-gray);
@@ -99,14 +93,12 @@
 
 .globalStory {
   font-family: var(--font-story);
-  font-size: var(--text-2xl);
-  line-height: 1.8;
+  font-size: var(--text-5xl);
+  line-height: var(--text-5xl);
   color: var(--mh-gray);
   padding: var(--spacing-6);
   background-color: var(--mh-light-gray);
   border-radius: var(--radius-lg);
-  border-left: 4px solid var(--mh-purple);
-  font-style: italic;
 }
 
 /* Mobile: 1 columna */
