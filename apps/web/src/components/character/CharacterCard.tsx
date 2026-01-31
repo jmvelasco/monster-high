@@ -16,7 +16,13 @@ export function CharacterCard({ character, variant }: CharacterCardProps) {
 
   return (
     <Link to={`/character/${slug}`} className={cardClass}>
-      <img src={imageSrc} alt={character.name} loading="lazy" referrerPolicy="no-referrer" className={styles.image} />
+      <img
+        src={imageSrc}
+        alt={character.name}
+        loading="lazy"
+        referrerPolicy="no-referrer"
+        className={styles.image}
+      />
       <div className={styles.content}>
         <div className={styles.name}>{character.name}</div>
       </div>

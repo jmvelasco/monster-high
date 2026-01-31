@@ -16,7 +16,7 @@ describe('useFavorites', () => {
 
   it('retorna favoritos desde storage', () => {
     localStorage.setItem('monster-high-favorites', JSON.stringify(['draculaura', 'clawdeen-wolf']))
-    
+
     const { result } = renderHook(() => useFavorites())
 
     expect(result.current.favorites).toEqual(['draculaura', 'clawdeen-wolf'])
@@ -68,5 +68,3 @@ describe('useFavorites', () => {
     expect(result.current.favorites).toEqual(['draculaura', 'clawdeen-wolf'])
   })
 })
-
-

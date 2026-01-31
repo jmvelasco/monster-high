@@ -5,7 +5,7 @@ import { Layout } from '../Layout'
 describe('Layout', () => {
   it('renderiza Header', () => {
     // Arrange
-    const expectedTitle = 'Monster High'
+    const expectedLogoAltTitle = 'Monster High Logo'
 
     // Act
     render(
@@ -17,7 +17,8 @@ describe('Layout', () => {
     )
 
     // Assert
-    expect(screen.getByText(expectedTitle)).toBeInTheDocument()
+    const logo = screen.getByRole('img', { name: expectedLogoAltTitle })
+    expect(logo).toBeInTheDocument()
   })
 
   it('renderiza children correctamente', () => {
@@ -39,7 +40,6 @@ describe('Layout', () => {
 
   it('Header visible en todas las páginas', () => {
     // Arrange
-    const headerTitle = 'Monster High'
 
     // Act
     render(
@@ -53,6 +53,5 @@ describe('Layout', () => {
     // Assert
     const header = screen.getByRole('banner')
     expect(header).toBeInTheDocument()
-    expect(screen.getByText(headerTitle)).toBeInTheDocument()
   })
 })

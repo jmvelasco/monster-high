@@ -71,7 +71,9 @@ describe('useCharacters', () => {
   })
 
   it('cachea resultado con SWR', async () => {
-    const mockCharacters: Character[] = [{ name: 'Clawdeen', image: '', sections: {}, url: '', technicalInfo: {} }]
+    const mockCharacters: Character[] = [
+      { name: 'Clawdeen', image: '', sections: {}, url: '', technicalInfo: {} },
+    ]
 
     globalThis.fetch = vi.fn(() =>
       Promise.resolve({
@@ -81,7 +83,7 @@ describe('useCharacters', () => {
     )
 
     const { result, rerender } = renderHook(() => useCharacters(), { wrapper })
-    
+
     await waitFor(() => {
       expect(result.current.isLoading).toBe(false)
     })

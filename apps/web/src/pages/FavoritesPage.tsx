@@ -31,10 +31,11 @@ export function FavoritesPage() {
     )
   }
 
-  const favoriteCharacters = characters?.filter(char => {
-    const slug = char.name.toLowerCase().replace(/\s+/g, '-')
-    return favorites.includes(slug)
-  }) || []
+  const favoriteCharacters =
+    characters?.filter(char => {
+      const slug = char.name.toLowerCase().replace(/\s+/g, '-')
+      return favorites.includes(slug)
+    }) || []
 
   if (favorites.length === 0 || favoriteCharacters.length === 0) {
     return (
@@ -46,7 +47,9 @@ export function FavoritesPage() {
         <div className={styles.emptyState}>
           <div className={styles.emptyIcon}>💔</div>
           <div className={styles.emptyMessage}>Sin favoritos aún</div>
-          <p className={styles.emptySubMessage}>Explora la galería y agrega tus personajes Monster High favoritos</p>
+          <p className={styles.emptySubMessage}>
+            Explora la galería y agrega tus personajes Monster High favoritos
+          </p>
           <button className={styles.ctaButton} onClick={() => navigate('/characters')}>
             Explorar Personajes
           </button>
@@ -59,7 +62,10 @@ export function FavoritesPage() {
     <div className={styles.favoritesPage}>
       <div className={styles.header}>
         <h1 className={styles.title}>Mis Favoritos</h1>
-        <p className={styles.subtitle}>{favoriteCharacters.length} personaje{favoriteCharacters.length === 1 ? '' : 's'} favorito{favoriteCharacters.length === 1 ? '' : 's'}</p>
+        <p className={styles.subtitle}>
+          {favoriteCharacters.length} personaje{favoriteCharacters.length === 1 ? '' : 's'} favorito
+          {favoriteCharacters.length === 1 ? '' : 's'}
+        </p>
       </div>
       <div className={styles.gridContainer}>
         {favoriteCharacters.map(character => (
