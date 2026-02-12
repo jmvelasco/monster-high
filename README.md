@@ -1,6 +1,6 @@
 # Monster High Monorepo
 
-Este proyecto es una herramienta de extracción de datos (web scraper) diseñada para obtener información detallada sobre los personajes de _Monster High_ desde su Wiki en Fandom, integrando IA para generar cuentos personalizados.
+Este proyecto es una herramienta de extracción de datos (web scraper) diseñada para obtener información detallada sobre los personajes de _Monster High_ desde su [Wiki en Fandom](https://monsterhigh.fandom.com/es/wiki/Categor%C3%ADa:Personajes), integrando IA para generar cuentos personalizados.
 
 Más que una herramienta funcional, este repositorio es un **material educativo vivo** que muestra la evolución completa de una aplicación:
 
