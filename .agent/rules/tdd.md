@@ -2,7 +2,6 @@
 trigger: always_on
 ---
 
-
 # Test-Driven Development (TDD)
 
 **ALWAYS follow the complete cycle:**
@@ -10,6 +9,7 @@ trigger: always_on
 ## 0. 🤔 REASON
 
 Before any code, understand the problem:
+
 - I ask questions to the Technical Lead to clarify requirements
 - I reason about the problem and its cases
 - I create a list of cases that will be the tests (and write them in the test file as a TODO List)
@@ -22,6 +22,7 @@ Before any code, understand the problem:
 ## 1. 🔴 RED
 
 Write the test before production code:
+
 - I take the first case from the list (the simplest)
 - "What test do I write for this case?"
 - I write the test → **Doesn't compile** (function/class doesn't exist)
@@ -32,6 +33,7 @@ Write the test before production code:
 ## 2. 🟢 GREEN
 
 Implement the minimum to pass the test:
+
 - I follow **TPP (Transformation Priority Premise)** to choose the simplest transformation
 - Simple code, no premature optimizations
 - Make it work, we'll improve it later
@@ -40,15 +42,17 @@ Implement the minimum to pass the test:
 ## 3. 🔵 REFACTOR
 
 Once the test passes:
+
 - "Can I simplify this?"
 - "Is there duplication I can eliminate?" (Rule of Three: wait until I see it 3 times before abstracting)
 - "Are the variable names clear?"
-- I follow the coding standards rules @.cursor/rules/coding-standards.mdc
+- I follow the coding standards rules docs/development-rules/coding-standards.md
 - I refactor while keeping tests green
 
 ## 4. 🔄 RE-EVALUATE
 
 Before continuing with the next case:
+
 - I review the list of pending cases
 - "Is the next case still the simplest step?"
 - "Is there a simpler case I should do first?"
@@ -93,9 +97,9 @@ Guide for the GREEN step: choosing the simplest code transformation.
 // Test 1: Empty list
 test('calculates total of empty price list', () => {
   const prices = [];
-  
+
   const total = calculateTotal(prices);
-  
+
   expect(total).toBe(0);
 });
 
@@ -119,9 +123,9 @@ function calculateTotal(prices) {
 // Test 2: List with one price
 test('calculates total of single price', () => {
   const prices = [100];
-  
+
   const total = calculateTotal(prices);
-  
+
   expect(total).toBe(100);
 });
 
@@ -136,7 +140,7 @@ function calculateTotal(prices) {
 
 // ✅ Both tests pass
 
-// Navigator (REFACTOR): "Test passes, now let's refactor. 
+// Navigator (REFACTOR): "Test passes, now let's refactor.
 // According to coding-standards, we can use a guard clause.
 // Names are clear"
 
@@ -145,9 +149,9 @@ function calculateTotal(prices) {
 // Test 3: List with multiple prices
 test('calculates total of multiple prices', () => {
   const prices = [100, 50, 25];
-  
+
   const total = calculateTotal(prices);
-  
+
   expect(total).toBe(175);
 });
 
@@ -156,7 +160,7 @@ test('calculates total of multiple prices', () => {
 // Navigator (GREEN): "According to TPP I have options:
 // - (statement → tail-recursion) - transformation #9
 // - (if → while) - transformation #10
-// 
+//
 // But in this language, declarative style with reduce is simpler
 // and clearer than recursion or loops. According to coding-standards point 9 on Functions:
 // 'Prefer declarative style when it improves readability'"
@@ -177,7 +181,7 @@ function calculateTotal(prices) {
 # Continuous Refactoring
 
 - I actively identify code smells
-- I suggest constant incremental improvements following @.cursor/rules/coding-standards.mdc
+- I suggest constant incremental improvements following docs/development-rules/coding-standards.md
 - I propose extracting functions when there's complexity
 
 ---
@@ -185,6 +189,7 @@ function calculateTotal(prices) {
 # Simple Design
 
 Meets the simple design rules:
+
 1. Does it pass all tests?
 2. Does it clearly express intention?
 3. Does it have no duplication (of knowledge)?

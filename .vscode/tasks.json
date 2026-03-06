@@ -1,0 +1,129 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "TDD: Watch Mode (Backend)",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "test:watch", "--workspace=apps/backend"],
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "focus": true
+      },
+      "problemMatcher": {
+        "owner": "jest",
+        "pattern": [
+          {
+            "regexp": "^\\s+at\\s+.*\\((.*):(\\d+):(\\d+)\\)$",
+            "file": 1,
+            "line": 2,
+            "column": 3
+          }
+        ],
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "^\\s*RUNS",
+          "endsPattern": "^(Tests|Test Suites):.*$"
+        }
+      },
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "TDD: Red Phase",
+      "type": "shell",
+      "command": "echo",
+      "args": ["🔴 RED: Write failing test"],
+      "group": "build"
+    },
+    {
+      "label": "TDD: Green Phase", 
+      "type": "shell",
+      "command": "echo",
+      "args": ["🟢 GREEN: Make test pass"],
+      "group": "build"
+    },
+    {
+      "label": "TDD: Refactor Phase",
+      "type": "shell", 
+      "command": "echo",
+      "args": ["🔵 REFACTOR: Improve code"],
+      "group": "build"
+    },
+    {
+      "label": "Validate Symlinks",
+      "type": "shell",
+      "command": "ls -la .agent/rules/ && echo '\n✅ Symlinks verified'",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run All Tests",
+      "type": "shell",
+      "command": "npm",
+      "args": ["test", "--workspaces"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": ["$eslint-compact"],
+      "group": "test"
+    },
+    {
+      "label": "Compile Check",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "compile"],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared"
+      },
+      "problemMatcher": ["$tsc"],
+      "group": "build"
+    },
+    {
+      "label": "Full Validation",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "validate"],
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": ["$tsc", "$eslint-compact"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "Backend: Watch Compile",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "compile:watch", "--workspace=apps/backend"],
+      "isBackground": true,
+      "presentation": {
+        "reveal": "silent",
+        "panel": "dedicated"
+      },
+      "problemMatcher": {
+        "owner": "typescript",
+        "fileLocation": "relative",
+        "pattern": "$tsc-watch",
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "Starting compilation in watch mode",
+          "endsPattern": "(Compilation complete|Found \\d+ error)"
+        }
+      },
+      "group": "build"
+    }
+  ]
+}

@@ -1,9 +1,61 @@
 ---
-trigger: glob
-globs: "**/*.test.ts"
+trigger: always_on
 ---
 
 # Testing Standards
+
+## Test Pyramid
+
+Follow the test pyramid principle:
+
+```
+        /\
+       /  \      E2E (few)
+      /----\     - Full HTTP flows
+     /      \    - Critical paths only
+    /--------\   Integration (some)
+   /          \  - Repository adapters
+  /------------\ - External service adapters
+ /              \
+/----------------\ Unit (many)
+                   - Domain entities, VOs, services
+                   - UseCases with InMemoryRepositories
+```
+
+- **More unit tests**: Fast, isolated, cover all edge cases
+- **Some integration tests**: Real DB, real sandboxes
+- **Few E2E tests**: Critical user journeys only
+
+## Test Location
+
+Tests live inside each module:
+
+```
+src/[module-name]/tests/
+├── unit/              # Fast, no external dependencies
+├── integration/       # Real DB (mongodb-memory-server)
+└── e2e/               # Full HTTP stack
+```
+
+## Parallelization
+
+- **Unit tests**: Always run in parallel
+- **Integration tests**: Run in parallel with isolated DB instances (mongodb-memory-server per test file)
+- **E2E tests**: Run sequentially or with isolated test databases
+
+---
+
+## FIRST Principles
+
+Good tests follow the FIRST principles:
+
+- **Fast**: Tests must run quickly. Slow tests break the feedback loop
+- **Isolated**: Each test is independent. No shared state, no execution order dependency
+- **Repeatable**: Same result every time, in any environment
+- **Self-validating**: Clear pass/fail result. No manual inspection needed
+- **Timely**: Written at the right time (before code in TDD)
+
+---
 
 ## Naming
 
@@ -13,16 +65,19 @@ globs: "**/*.test.ts"
 - Avoid technical names or names coupled to implementation
 
 ### Describe blocks
+
 - Use "The [Subject]" format to identify the component/module being tested
 - The subject should be a domain concept, not a technical name
 
 ### Test cases (it/test)
+
 - Write tests as business rules, not technical assertions
 - Avoid technical verbs: "returns", "should return", "calls", "throws"
 - Use domain language: "considers", "validates", "accepts", "allows", "calculates"
 - The full sentence (describe + it) should read as a specification
 
 ### Structure
+
 - describe: The [Subject]
 - it: [action] [object] [condition]
 
@@ -70,12 +125,106 @@ test('calculates price with discount applied to given product', () => {
 ## Non-Negotiable Rules
 
 ### ❌ I will NEVER:
+
 1. Delete an existing test - if a test fails, the implementation is wrong, not the test
 2. Modify a test to make the implementation pass - tests define the expected behavior
 3. Create tests that depend on other tests - each test must be independent and isolated
 4. Use mocks without asking the Tech Lead first
 
 ### ✅ I will ALWAYS:
+
 1. Keep tests isolated and independent from each other
 2. Fix the implementation when a test fails, not the test
 3. Ask the Tech Lead before deleting or significantly modifying any test
+
+---
+
+## Integration Tests
+
+### When to Use
+
+- Repository adapters (real DB)
+- External service adapters (real sandbox)
+
+### Database Setup with mongodb-memory-server
+
+```typescript
+import { MongoMemoryServer } from 'mongodb-memory-server';
+
+describe('The MongoOrderRepository', () => {
+  let mongoServer: MongoMemoryServer;
+  let connection: MongoClient;
+
+  beforeAll(async () => {
+    mongoServer = await MongoMemoryServer.create();
+    connection = await MongoClient.connect(mongoServer.getUri());
+  });
+
+  afterAll(async () => {
+    await connection.close();
+    await mongoServer.stop();
+  });
+
+  beforeEach(async () => {
+    await connection.db().dropDatabase();
+  });
+
+  it('persists and retrieves an order', async () => {
+    const repository = new MongoOrderRepository(connection.db());
+    const order = Order.create(Id.generate());
+
+    await repository.save(order);
+    const retrieved = await repository.findById(order.id);
+
+    expect(retrieved?.id.equals(order.id)).toBe(true);
+  });
+});
+```
+
+### Rules
+
+- **Real dependencies**: Use mongodb-memory-server for MongoDB
+- **Isolation**: Each test cleans its own data (beforeEach)
+- **No shared state**: Tests must not depend on order of execution
+- **File naming**: `*.integration.test.ts`
+
+---
+
+## E2E Tests
+
+### When to Use
+
+- Full HTTP flows through the API
+- Critical user journeys
+
+### Structure
+
+```typescript
+describe('Order Creation Flow', () => {
+  beforeEach(async () => {
+    await resetDatabase();
+    await seedProducts([testProduct]);
+  });
+
+  it('creates an order and confirms availability', async () => {
+    const response = await request(app).post('/orders').send({ productId: testProduct.id, quantity: 2 });
+
+    expect(response.status).toBe(201);
+    expect(response.body.id).toBeDefined();
+  });
+});
+```
+
+### Rules
+
+- **Test flows, not endpoints**: Cover complete business scenarios
+- **Factories/fixtures**: Use factories to create test data
+- **Clean slate**: Reset database before each test
+- **Sandbox for externals**: External services use test/sandbox mode
+- **File naming**: `*.e2e.test.ts`
+
+### What NOT to Test in E2E
+
+- Edge cases (those belong in unit tests)
+- Error handling details (unit tests)
+- All validation combinations (unit tests)

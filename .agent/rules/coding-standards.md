@@ -21,10 +21,8 @@ To maintain code quality, I follow strict standards for names, functions, and cl
 - Allowed generic suffixes: DTO, Repository, Factory, Mapper, UseCase, Service
 - Avoid comments if you can use a self-explanatory name. Comments only in extreme cases that code cannot explain
 - Constants use camelCase, not SCREAMING_SNAKE_CASE
-- Use camelCase style for naming
 - Never use underscore prefix for private members
 - Avoid magic strings, better use enums or literal types to represent fixed sets of values
-
 
 ```typescript
 // ⚠️ WORSE
@@ -100,13 +98,20 @@ function fetchWithRetry(url: string) {
 // Boolean parameters:
 // ⚠️ WORSE
 function render(showDetails: boolean) {
-  if (showDetails) { /* ... */ }
-  else { /* ... */ }
+  if (showDetails) {
+    /* ... */
+  } else {
+    /* ... */
+  }
 }
 
 // ✅ BETTER
-function renderWithDetails() { /* ... */ }
-function renderSummary() { /* ... */ }
+function renderWithDetails() {
+  /* ... */
+}
+function renderSummary() {
+  /* ... */
+}
 
 // CQS (Command-Query Separation):
 // ⚠️ WORSE - Query that mutates state
@@ -116,11 +121,11 @@ function totalWithDiscount(percentage: number): number {
 }
 
 // ✅ BETTER - Command and Query separated
-function applyDiscount(percentage: number): void { 
-  this.appliedDiscount = percentage; 
+function applyDiscount(percentage: number): void {
+  this.appliedDiscount = percentage;
 }
-function calculateTotal(): number { 
-  return this.baseTotal * (1 - this.appliedDiscount / 100); 
+function calculateTotal(): number {
+  return this.baseTotal * (1 - this.appliedDiscount / 100);
 }
 ```
 
@@ -151,12 +156,12 @@ function calculateTotal(): number {
 ```typescript
 // Tell, Don't Ask and Law of Demeter:
 // ⚠️ WORSE - Ask (we ask and decide outside)
-if (order.customer().address().city() === "Madrid") {
+if (order.customer().address().city() === 'Madrid') {
   order.applyDiscount(10);
 }
 
 // ✅ BETTER - Tell (we tell it what to do)
-order.applyDiscountForCity("Madrid", 10);
+order.applyDiscountForCity('Madrid', 10);
 
 // ⚠️ WORSE - Law of Demeter violation (long chain)
 const city = user.account().settings().location().city();
@@ -176,7 +181,7 @@ const total = order.items.reduce((sum, item) => sum + item.price, 0);
 // ✅ BETTER - Rich model
 class Order {
   private items: Item[];
-  
+
   calculateTotal(): number {
     return this.items.reduce((sum, item) => sum + item.price, 0);
   }
