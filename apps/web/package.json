@@ -12,6 +12,7 @@
     "coverage": "vitest run --coverage",
     "lint": "eslint .",
     "format": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "format:fix": "prettier --config .prettierrc \"**/*.+(ts|tsx)\" --write",
     "clean": "rm -rf dist node_modules",
     "compile": "tsc --noEmit",
     "preview": "vite preview",
