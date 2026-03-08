@@ -18,6 +18,11 @@ data/*.json
 
 # IDE
 .idea
-.DS_Store.agent/rules/
+
+.DS_Store
+
+# Agent rules and documentation
+.agent/rules/
+.agents/rules/
 docs/development-rules
 AGENTS.md

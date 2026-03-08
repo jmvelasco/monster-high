@@ -41,7 +41,7 @@ monster-high/ (v1.0.0)
 ├── .github/
 │   └── skills/                 # AI Agent Skills (hexagonal, react)
 ├── docs/
-│   ├── development-rules/      # XP, TDD, Coding Standards
+│   ├── development-rules/      # XP, TDD, Coding Standards (Privado - Mentoría)
 │   └── adr/                    # Architecture Decision Records
 └── package.json                # Workspace root (v1.0.0)
 ```
@@ -53,12 +53,14 @@ monster-high/ (v1.0.0)
 ## 🚀 Funcionalidades
 
 ### Backend (Legacy - Completado)
+
 - **Scraping de Personajes**: Extracción automatizada desde Fandom Wiki (~200 personajes)
 - **Extracción de Detalles**: Infobox, imágenes, biografía, secciones temáticas
 - **Procesamiento con IA**: Generación de cuentos infantiles adaptados (Groq/Llama 3.1)
-- **Persistencia de Datos**: Guardado en `data/monsterHighCharacters.json`
+- **Persistencia de Datos**: Guardado en [`data/monsterHighCharacters.json`](data/monsterHighCharacters.json)
 
 ### Frontend (React 19 + Vite - Production Ready)
+
 - **Vista de Personajes**: Grid responsive
 - **Detalles Personaje**: Página con imagen, info y cuento personalizado generado mediante un modelo LLM
 - **Sistema de Favoritos**: Persistencia en localStorage
@@ -71,13 +73,15 @@ monster-high/ (v1.0.0)
 ## 🛠️ Tecnologías y Estándares
 
 ### Backend (TypeScript + Node.js)
+
 - **TypeScript 5.9**: Tipado estático estricto
-- **Node.js 24.11**: Runtime moderno (ver `.nvmrc`)
+- **Node.js 24.11**: Runtime moderno (ver [`.nvmrc`](.nvmrc))
 - **Axios & Cheerio**: HTTP client + HTML parsing
 - **Groq SDK**: Integración con LLMs (Llama 3.1)
 - **Jest + ts-jest**: Testing framework (TDD strict)
 
 ### Frontend (React 19 + Vite)
+
 - **React 19.2.3**: Framework UI moderno
 - **Vite 5.x**: Build tool ultra-rápido
 - **React Router 7.12**: Enrutamiento SPA
@@ -86,12 +90,13 @@ monster-high/ (v1.0.0)
 - **TypeScript + Strict Mode**: Tipado total
 
 ### Metodología Común
+
 - **Extreme Programming (XP)**: Pair programming, TDD, refactoring continuo
 - **Test-Driven Development**: Red-Green-Refactor con TPP transformations
 - **YAGNI Principle**: No optimización prematura, simplicidad primero
 - **No Mocks Policy**: Preferencia por Fakes sobre mocks técnicos
 
-Ver documentación completa en [docs/development-rules/](docs/development-rules/).
+Ver sección de agradecimientos para más información sobre las guías de metodología.
 
 ---
 
@@ -102,12 +107,12 @@ Desde que el proyecto incluye frontend y está listo para producción, adoptamos
 ```
 main
   ↓ (histórico, no se usa)
-  
+
 frontend-development
   ↓ (trabajo diario, rama principal)
   ↓ feature branches
   ↓ → PR cuando está listo
-  
+
 release ← Vercel despliega desde aquí
   ↓ (rama de producción)
   ↓ hotfix/* para fixes urgentes
@@ -115,16 +120,17 @@ release ← Vercel despliega desde aquí
 
 ### Ramas Principales
 
-| Rama | Propósito | Deploy |
-|------|-----------|--------|
-| `main` | Histórico (referencia, no toca) | ❌ No |
-| `frontend-development` | Trabajo diario, desarrollo continuo | ❌ No |
-| `release` | Producción viva en Vercel | ✅ SÍ |
-| `hotfix/*` | Fixes urgentes en producción | ✅ (a release) |
+| Rama                   | Propósito                           | Deploy         |
+| ---------------------- | ----------------------------------- | -------------- |
+| `main`                 | Histórico (referencia, no toca)     | ❌ No          |
+| `frontend-development` | Trabajo diario, desarrollo continuo | ❌ No          |
+| `release`              | Producción viva en Vercel           | ✅ SÍ          |
+| `hotfix/*`             | Fixes urgentes en producción        | ✅ (a release) |
 
 ### Flujos de Trabajo
 
 **Feature → Release:**
+
 ```bash
 # Trabajar en frontend-development
 git checkout frontend-development
@@ -138,6 +144,7 @@ git push origin frontend-development
 ```
 
 **Hotfix de Producción:**
+
 ```bash
 # Fix urgente en production
 git checkout release
@@ -234,12 +241,14 @@ Este proyecto no es solo código. Es una **demostración de cómo Extreme Progra
 ### El Viaje
 
 **Checkpoint 1: Backend Hexagonal** (rama `frontend-preparation` - CONGELADO)
+
 - Backend escrito con arquitectura hexagonal
 - 17 tests de backend, 100% coverage
 - Agente XP configurado y listo
 - **Referencia histórica**: Punto de partida para el frontend
 
 **Checkpoint 2: Frontend React** (rama `frontend-development` - TRABAJO)
+
 - React 19 + Vite implementado en ciclo TDD
 - 84 tests completados en fases (Fase 1 → Fase 6)
 - Pair programming: Tech Lead supervisa, Agente implementa
@@ -247,6 +256,7 @@ Este proyecto no es solo código. Es una **demostración de cómo Extreme Progra
 - **Estado**: Listo para producción
 
 **Checkpoint 3: Production Ready** (rama `release` - VIVO)
+
 - Frontend deployado en Vercel
 - GitFlow simplificado
 - Hotfix flow documentado
@@ -272,15 +282,12 @@ AI Agent (Yo)
 
 Si quieres usar **el mismo proceso XP + TDD** con tu agente IA:
 
-1. Lee [AGENTS.md](AGENTS.md) - Instrucciones maestras del agente
-2. Revisa [.github/skills/](..github/skills/) - Skills disponibles según contexto
-3. Copia el flujo:
+1. Lee la sección de AI Agents al final de este documento.
+2. Sigue el flujo:
    - Escribe test primero (RED)
    - Agente implementa (GREEN)
    - Refactoriza juntos (REFACTOR)
    - Commit por ciclo
-
-Ver [docs/development-rules/tdd.md](docs/development-rules/tdd.md) para la metodología TDD completa con TPP transformations.
 
 ---
 
@@ -293,7 +300,7 @@ El backend utiliza **Arquitectura Hexagonal** (Puertos y Adaptadores) para asegu
 Define los **Puertos** (Interfaces) y las entidades del negocio. **Cero dependencias externas**:
 
 - `Character.ts`: Entidad rica con comportamiento propio
-- **Puertos**: 
+- **Puertos**:
   - `CharacterScraper`: Interfaz para obtención de datos
   - `CharacterAI`: Interfaz para generación de historias
   - `CharacterRepository`: Interfaz para almacenamiento
@@ -323,7 +330,7 @@ Ver [.github/skills/backend-hexagonal/SKILL.md](.github/skills/backend-hexagonal
 
 ## 🚀 Bootstrap y Orquestación
 
-El punto de entrada (`apps/backend/src/index.ts`) actúa como el **Composition Root**:
+El punto de entrada ([`apps/backend/src/index.ts`](apps/backend/src/index.ts)) actúa como el **Composition Root**:
 
 1. Instancia las implementaciones concretas de Infraestructura
 2. Las inyecta en el Caso de Uso de la Aplicación
@@ -358,26 +365,32 @@ cp .env.example .env
 ### 🛠️ VSCode Setup (Opcional)
 
 Si usas **VSCode**, el proyecto incluye configuración optimizada con tasks para TDD workflow. Ver [.vscode/README.md](.vscode/README.md) para:
+
 - Tasks disponibles (TDD Watch Mode, Validate Symlinks, etc.)
 - Atajos de teclado
 - Settings configurados
 
 ### Comandos Principales
 
-#### Desde la raíz del monorepo:
+#### Orquestación del Monorepo (desde la raíz):
 
 ```bash
-# Ejecutar tests en todos los workspaces
-npm test
+# Desarrollo
+npm run dev           # Arranca el backend en modo desarrollo (workspace apps/backend)
+npm run dev:web       # Arranca el frontend en modo desarrollo (workspace apps/web)
 
-# Compilar todos los workspaces
-npm run build
+# Calidad y Validación
+npm test              # Ejecuta los tests en todos los workspaces del monorepo
+npm run compile       # Verifica tipos de TypeScript en todo el proyecto
+npm run lint          # Escanea el código en busca de problemas con ESLint
+npm run format        # Aplica el formateo automático de Prettier
+npm run validate      # Ejecución secuencial de compile, lint y test (ideal antes de push)
 
-# Validar código (compile + lint + test)
-npm run validate
-
-# Limpiar artifacts
-npm run clean
+# Mantenimiento y Builds
+npm run build         # Compila todos los workspaces para producción
+npm run clean         # Elimina artefactos de build y carpetas de salida
+npm run upgrade       # Busca actualizaciones de dependencias de forma interactiva
+npm run upgrade:all   # Actualiza todas las dependencias a sus últimas versiones
 ```
 
 #### Desarrollo en Backend:
@@ -404,7 +417,7 @@ npm run format:fix
 
 ### Archivos de Salida
 
-- `data/monsterHighCharacters.json` (921KB, ~200 personajes)
+- [`data/monsterHighCharacters.json`](data/monsterHighCharacters.json) (921KB, ~200 personajes)
 
 ---
 
@@ -432,7 +445,7 @@ npm run test:watch    # Watch mode
 npm run test:coverage # Con reporte de cobertura
 ```
 
-Ver [docs/development-rules/tdd.md](docs/development-rules/tdd.md) para metodología completa.
+La metodología utilizada se basa en estándares de la industria y guías de mentoría avanzada.
 
 ---
 
@@ -463,26 +476,44 @@ Para preparar el proyecto para futuras expansiones, reorganizamos en un monorepo
 
 Ver [ADR-001](docs/adr/001-monorepo-structure.md) para detalles de la decisión.
 
----
-
 ## 🤖 Desarrollo con AI Agents
 
-Este proyecto está optimizado para trabajar con **GitHub Copilot** y otros agentes de IA que sigan metodología XP/TDD.
+Este proyecto está diseñado para ser desarrollado en colaboración con Agentes de IA (como GitHub Copilot, Antigravity u otros Agentes de Codificación), actuando como un **pair programmer avanzado** que sigue estándares de ingeniería rigurosos.
 
-### Configuración de Skills
+### Configuración de Metodología
 
-El directorio [.github/skills/](.github/skills/) contiene:
+El agente opera bajo una identidad de **Ingeniero XP (Extreme Programming)**, alternando entre los roles de _Navigator_ (estratega de diseño) y _Driver_ (implementador táctico). Las reglas que guían su comportamiento se dividen en:
 
-- **backend-hexagonal**: 15 reglas para arquitectura hexagonal estricta
+#### 1. Reglas y Estándares de Arquitectura (Públicas)
 
-Los agentes cargan skills **context-aware** según el archivo en edición:
+Estas guías son visibles en el repositorio y definen la estructura técnica:
 
-- Editando `apps/backend/src/domain/*` → aplica reglas de dominio puro (zero deps)
-- Editando `apps/backend/src/infrastructure/*` → permite dependencias externas en adaptadores
+- **Arquitectura Hexagonal (Backend)**: Restricciones para mantener el dominio puro, asegurando que la lógica de negocio no dependa de librerías externas o detalles de infraestructura.
+- **React 19 & Vite (Frontend)**: Estándares para componentes altamente cohesivos, uso de SWR para data fetching y tests de accesibilidad (a11y) integrados.
+- **Estructura por Especificación Técnica (Frontend)**: Organización de componentes definida en [`TECHNICAL-SPEC.md`](apps/web/TECHNICAL-SPEC.md) (`layout`, `character`, `common`), asegurando alta cohesión y separación de intereses según la definición del proyecto.
 
-Ver [AGENTS.md](AGENTS.md) para guía completa del agente XP.
+#### 2. Metodología de Desarrollo y Refactorización (Privado - Mentoría)
+
+El "motor" metodológico del agente proviene de instrucciones personalizadas que, por **derechos de autor y propiedad intelectual de Software Crafters**, no están incluidas en el repositorio público:
+
+- **TDD Estricto**: El flujo **RED-GREEN-REFACTOR** es obligatorio. El agente se niega a escribir código de producción sin un test previo.
+- **TPP (Transformation Priority Premise)**: Aplicación matemática de transformaciones de código (de constante a escalar, de `if` a `while`) para asegurar la implementación más simple posible (**KISS**).
+- **Rich Domain Models**: Fomento de entidades con comportamiento vs. modelos anémicos.
+- **Inside-Out Flow**: Construcción desde el corazón del Dominio hacia la periferia (HTTP/DB).
+
+> [!IMPORTANT]
+> El archivo `AGENTS.md` (instrucciones maestras) y el directorio `docs/development-rules/` (estándares detallados de naming, funciones y testing) son de uso personal del autor y fruto de un programa de mentoría avanzada.
+
+### Skills y Capacidades del Agente
+
+El repositorio expone "skills" en `.github/skills/` que el agente consume para:
+
+- **`backend-hexagonal`**: Validar que los adaptadores (infantería) no contaminen el dominio.
+- **`react-best-practices`**: Asegurar el uso eficiente de hooks, renderizado y patrones modernos de React.
 
 ### Metodología de Commits
+
+Se sigue una convención basada en el ciclo TDD para mantener un historial de evolución claro:
 
 ```bash
 # TDD Cycle commits
@@ -497,20 +528,17 @@ git commit -m "refactor: extract section parsing to private method"
 
 ### Documentación del Proyecto
 
-- [XP Methodology](docs/development-rules/xp-methodology.md) - Principios de Extreme Programming
-- [TDD Guide](docs/development-rules/tdd.md) - Ciclo Red-Green-Refactor con TPP
-- [Coding Standards](docs/development-rules/coding-standards.md) - Convenciones de código
-- [Testing Standards](docs/development-rules/testing-standards.md) - Estrategias de testing
 - [ADR-001: Monorepo](docs/adr/001-monorepo-structure.md) - Decisión de arquitectura
+- [Metodologías XP y TDD]: El código fuente y sus tests sirven como la documentación viva principal.
 
 ### Architecture Decision Records (ADRs)
 
-Documentamos decisiones importantes en `docs/adr/`:
+Documentamos decisiones importantes en [`docs/adr/`](docs/adr/):
 
-- **ADR-001**: Adopción de monorepo con npm workspaces
-- **ADR-002**: Configuración multi IDE
-- **ADR-003**: Next.js vs React + Vite
-- **ADR-004**: Estrategia de despliegue
+- **[ADR-001](docs/adr/001-monorepo-structure.md)**: Adopción de monorepo con npm workspaces
+- **[ADR-002](docs/adr/002-multi-ide-configuration.md)**: Configuración multi IDE
+- **[ADR-003](docs/adr/003-frontend-framework-selection.md)**: Next.js vs React + Vite
+- **[ADR-004](docs/adr/004-frontend-deployment-strategy.md)**: Estrategia de despliegue
 
 ---
 
@@ -521,7 +549,7 @@ Este proyecto es educativo. Si deseas contribuir:
 1. Respeta metodología TDD (test primero, commits por ciclo)
 2. Sigue Hexagonal Architecture en backend (no imports de infra en dominio)
 3. Aplica YAGNI y KISS en todo momento
-4. Lee [docs/development-rules/](docs/development-rules/) antes de enviar PR
+4. Respeta el espíritu del TDD y Clean Code en cada archivo.
 
 ---
 
@@ -531,12 +559,12 @@ ISC License - Proyecto educativo basado en datos de Fandom Wiki (Monster High).
 
 ---
 
-## 🙏 Agradecimientos
+### 🙏 Agradecimientos y Nota de Privacidad
 
-- [Software Crafters](https://softwarecrafters.io/): Por la inspiración y motivación en hacer de este proyecto una experiencia educativa así como proporcionar la base de muchas de las guias empleadas para la instrucción del agente sobre la metodología empleada
-- **Vercel AI Team**: Por react-best-practices skill
-- **Monster High Wiki Community**: Por mantener la fuente de datos
-- **Groq**: Por API gratuita de Llama 3.1
+- [Software Crafters](https://softwarecrafters.io/): Por la inspiración y motivación en hacer de este proyecto una experiencia educativa. Las guías de metodología y reglas del agente empleadas en este repo son fruto de su **programa de mentoría** y propiedad intelectual de Software Crafters, por lo que se mantienen privadas para uso personal del autor.
+- **Vercel AI Team**: Por react-best-practices skill.
+- **Monster High Wiki Community**: Por mantener la fuente de datos.
+- **Groq**: Por API gratuita de Llama 3.1.
 
 ---
 
