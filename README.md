@@ -8,14 +8,14 @@ Más que una herramienta funcional, este repositorio es un **material educativo 
 2. **Backend aislado** → **Monorepo escalable** (agregando frontend)
 3. **Desarrollo local** → **Estrategia de deployment** a producción (rama release + Vercel)
 
-Es una demostración de cómo **Extreme Programming + Test-Driven Development** + **pair programming humano-IA** produce código de calidad, con decisiones arquitectónicas documentadas en ADRs.
+Es una forma de llevar a la práctica una metodología de desarrollo basada en **Extreme Programming + Test-Driven Development** + **Pair programming Humano-IA**. Las decisiones se han analizado y documentado mediante ADRs, así como realizado diferentes documentos previos a la implementación como fase preparatoria, especialmente cuando se realizó el desarrollo del frontend.
 
 ---
 
-## 📦 Estructura del Monorepo
+## Estructura del Monorepo
 
 ```
-monster-high/ (v1.0.0)
+monster-high
 ├── apps/
 │   ├── backend/                # Scraper + AI processing (Node.js, legacy)
 │   │   ├── src/
@@ -23,34 +23,23 @@ monster-high/ (v1.0.0)
 │   │   │   ├── application/    # Casos de uso (orquestación)
 │   │   │   ├── infrastructure/ # Adaptadores (Axios, Groq, FileSystem)
 │   │   │   └── __tests__/      # Tests unitarios TDD
-│   │   └── package.json        # @monster-high/backend (v1.0.0)
+│   │   └── package.json        # @monster-high/backend
 │   │
-│   └── web/                    # Frontend React 19 + Vite (LIVE)
-│       ├── src/
-│       │   ├── components/     # React components con tests
-│       │   ├── pages/          # Pages usando React Router
-│       │   ├── hooks/          # Custom hooks (data fetching con SWR)
-│       │   ├── styles/         # CSS global + Monster High theme
-│       │   ├── __tests__/      # Tests: unit, a11y, responsive
-│       │   └── types/          # TypeScript types
-│       ├── public/api/         # characters.json (datos estáticos)
-│       └── package.json        # @monster-high/web (v0.7.0)
+│   └── web/                    # Frontend React 19 + Vite
+│       ├── ... (ver seccion Frontend: React 19 + Vite > Estructura)      
 │
 ├── data/                       # Backend output (monsterHighCharacters.json)
 ├── lib/                        # Compiled backend (TypeScript output)
-├── .github/
-│   └── skills/                 # AI Agent Skills (hexagonal, react)
 ├── docs/
-│   ├── development-rules/      # XP, TDD, Coding Standards (Privado - Mentoría)
 │   └── adr/                    # Architecture Decision Records
 └── package.json                # Workspace root (v1.0.0)
 ```
 
-**Workspaces**: Gestionado con **npm workspaces** (Node.js 24+). Ver [ADR-001](docs/adr/001-monorepo-structure.md) para decisiones arquitectónicas.
+**Workspaces**: Gestionado con **npm workspaces** (Node.js 24+). Ver [ADR-001](docs/adr/001-monorepo-structure.md).
 
 ---
 
-## 🚀 Funcionalidades
+## Funcionalidades
 
 ### Backend (Legacy - Completado)
 
@@ -64,13 +53,10 @@ monster-high/ (v1.0.0)
 - **Vista de Personajes**: Grid responsive
 - **Detalles Personaje**: Página con imagen, info y cuento personalizado generado mediante un modelo LLM
 - **Sistema de Favoritos**: Persistencia en localStorage
-- **Navegación Global**: Header con links y menú hamburger mobile
-- **Accesibilidad**: WCAG 2.1 AA (84 tests, 98.5% coverage)
-- **Responsive Design**: Mobile, tablet, desktop (Monster High theme visual)
 
 ---
 
-## 🛠️ Tecnologías y Estándares
+## Tecnologías y Estándares
 
 ### Backend (TypeScript + Node.js)
 
@@ -100,7 +86,7 @@ Ver sección de agradecimientos para más información sobre las guías de metod
 
 ---
 
-## � Branching Strategy: GitFlow Simplificado
+## Branching Strategy: GitFlow Simplificado
 
 Desde que el proyecto incluye frontend y está listo para producción, adoptamos **GitFlow simplificado**:
 
@@ -160,7 +146,7 @@ Ver [ADR-004: Deployment Strategy](docs/adr/004-frontend-deployment-strategy.md)
 
 ---
 
-## 🎨 Frontend: React 19 + Vite
+## Frontend: React 19 + Vite
 
 ### Estructura
 
@@ -201,16 +187,6 @@ apps/web/src/
     ├── favoritesStorage.ts  # localStorage API
     └── __tests__/
 ```
-
-### Estadísticas (Fase 6 - Completo)
-
-- ✅ **84/84 tests** pasando (100%)
-- ✅ **98.5% coverage** (lines, branches)
-- ✅ **248.14 kB** bundle (80.6 kB gzip)
-- ✅ **WCAG 2.1 AA**: Accesibilidad validada
-- ✅ **Responsive**: Mobile, tablet, desktop
-- ✅ **Monster High Theme**: Colores, tipografía, espaciado aprobado
-
 ### Development
 
 ```bash
@@ -234,9 +210,9 @@ npm run release:patch    # bump patch version
 
 ---
 
-## 🤖 Desarrollo Educativo: Pair Programming Humano-IA
+## Desarrollo Educativo: Pair Programming Humano-IA
 
-Este proyecto no es solo código. Es una **demostración de cómo Extreme Programming funciona en la práctica** con un **AI Agent como pair programmer**.
+Este proyecto no es solo código. Es una **experiencia práctica** de cómo Extreme Programming funciona en la práctica con un **AI Agent como pair programmer**.
 
 ### El Viaje
 
@@ -291,9 +267,9 @@ Si quieres usar **el mismo proceso XP + TDD** con tu agente IA:
 
 ---
 
-## 🏗️ Arquitectura Backend: El Corazón del Backend
+## Arquitectura Backend: El Corazón del Backend
 
-El backend utiliza **Arquitectura Hexagonal** (Puertos y Adaptadores) para asegurar que la lógica de negocio esté aislada de las decisiones tecnológicas externas.
+El backend utiliza **Arquitectura Hexagonal** para asegurar que la lógica de negocio esté aislada de las decisiones tecnológicas externas.
 
 ### 1. Capa de Dominio (`apps/backend/src/domain`)
 
@@ -328,7 +304,7 @@ Ver [.github/skills/backend-hexagonal/SKILL.md](.github/skills/backend-hexagonal
 
 ---
 
-## 🚀 Bootstrap y Orquestación
+## Bootstrap y Orquestación
 
 El punto de entrada ([`apps/backend/src/index.ts`](apps/backend/src/index.ts)) actúa como el **Composition Root**:
 
@@ -362,7 +338,7 @@ cp .env.example .env
 # Editar .env y agregar tu GROQ_API_KEY
 ```
 
-### 🛠️ VSCode Setup (Opcional)
+### VSCode Setup (Opcional)
 
 Si usas **VSCode**, el proyecto incluye configuración optimizada con tasks para TDD workflow. Ver [.vscode/README.md](.vscode/README.md) para:
 
@@ -421,7 +397,7 @@ npm run format:fix
 
 ---
 
-## 🧪 Calidad y Testing (TDD)
+## Calidad y Testing (TDD)
 
 Aplicamos **Extreme Programming (XP)** y **Test-Driven Development (TDD)** para garantizar que cada cambio sea seguro.
 
@@ -444,12 +420,9 @@ npm test              # Modo normal
 npm run test:watch    # Watch mode
 npm run test:coverage # Con reporte de cobertura
 ```
-
-La metodología utilizada se basa en estándares de la industria y guías de mentoría avanzada.
-
 ---
 
-## 🎓 El Viaje de Refactorización: Evolución Educativa
+## El Viaje de Refactorización: Evolución Educativa
 
 Este proyecto ha pasado por varias etapas clave de diseño, cada una con un aprendizaje específico:
 
@@ -476,9 +449,9 @@ Para preparar el proyecto para futuras expansiones, reorganizamos en un monorepo
 
 Ver [ADR-001](docs/adr/001-monorepo-structure.md) para detalles de la decisión.
 
-## 🤖 Desarrollo con AI Agents
+## Desarrollo con AI Agents
 
-Este proyecto está diseñado para ser desarrollado en colaboración con Agentes de IA (como GitHub Copilot, Antigravity u otros Agentes de Codificación), actuando como un **pair programmer avanzado** que sigue estándares de ingeniería rigurosos.
+Este proyecto está diseñado para ser desarrollado en colaboración con Agentes de IA (como GitHub Copilot, Antigravity u otros Agentes de Codificación), actuando como un **pair programmer avanzado**.
 
 ### Configuración de Metodología
 
@@ -494,15 +467,12 @@ Estas guías son visibles en el repositorio y definen la estructura técnica:
 
 #### 2. Metodología de Desarrollo y Refactorización (Privado - Mentoría)
 
-El "motor" metodológico del agente proviene de instrucciones personalizadas que, por **derechos de autor y propiedad intelectual de Software Crafters**, no están incluidas en el repositorio público:
+El "motor" metodológico del agente proviene de instrucciones personalizadas que, por **derechos de autor y propiedad intelectual de Software Crafters**, no están incluidas en el repositorio público.
 
-- **TDD Estricto**: El flujo **RED-GREEN-REFACTOR** es obligatorio. El agente se niega a escribir código de producción sin un test previo.
-- **TPP (Transformation Priority Premise)**: Aplicación matemática de transformaciones de código (de constante a escalar, de `if` a `while`) para asegurar la implementación más simple posible (**KISS**).
-- **Rich Domain Models**: Fomento de entidades con comportamiento vs. modelos anémicos.
-- **Inside-Out Flow**: Construcción desde el corazón del Dominio hacia la periferia (HTTP/DB).
-
-> [!IMPORTANT]
-> El archivo `AGENTS.md` (instrucciones maestras) y el directorio `docs/development-rules/` (estándares detallados de naming, funciones y testing) son de uso personal del autor y fruto de un programa de mentoría avanzada.
+- xp-methodology
+- coding-standards
+- testing-standards
+- tdd (tpp)
 
 ### Skills y Capacidades del Agente
 
@@ -524,12 +494,11 @@ git commit -m "refactor: extract section parsing to private method"
 
 ---
 
-## 📚 Recursos y Referencias
+## Recursos y Referencias
 
 ### Documentación del Proyecto
 
 - [ADR-001: Monorepo](docs/adr/001-monorepo-structure.md) - Decisión de arquitectura
-- [Metodologías XP y TDD]: El código fuente y sus tests sirven como la documentación viva principal.
 
 ### Architecture Decision Records (ADRs)
 
@@ -539,17 +508,6 @@ Documentamos decisiones importantes en [`docs/adr/`](docs/adr/):
 - **[ADR-002](docs/adr/002-multi-ide-configuration.md)**: Configuración multi IDE
 - **[ADR-003](docs/adr/003-frontend-framework-selection.md)**: Next.js vs React + Vite
 - **[ADR-004](docs/adr/004-frontend-deployment-strategy.md)**: Estrategia de despliegue
-
----
-
-## 🤝 Contribución
-
-Este proyecto es educativo. Si deseas contribuir:
-
-1. Respeta metodología TDD (test primero, commits por ciclo)
-2. Sigue Hexagonal Architecture en backend (no imports de infra en dominio)
-3. Aplica YAGNI y KISS en todo momento
-4. Respeta el espíritu del TDD y Clean Code en cada archivo.
 
 ---
 
