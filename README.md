@@ -501,6 +501,7 @@ git commit -m "refactor: extract section parsing to private method"
 ### Documentación del Proyecto
 
 - [ADR-001: Monorepo](docs/adr/001-monorepo-structure.md) - Decisión de arquitectura
+- [Metodologías XP y TDD]: El código fuente y sus tests sirven como la documentación viva principal.
 
 ### Architecture Decision Records (ADRs)
 

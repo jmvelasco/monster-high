@@ -17,6 +17,7 @@
     "test": "npm run test --workspaces",
     "lint": "npm run lint --workspaces",
     "format": "npm run format --workspaces",
+    "format:fix": "npm run format:fix --workspaces",
     "clean": "npm run clean --workspaces",
     "validate": "npm run compile && npm run lint && npm run test",
     "upgrade": "ncu -i",
