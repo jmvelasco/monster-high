@@ -14,7 +14,7 @@ export function Header() {
           />
           <img
             src="/images/monster-high-logo-no-text.png"
-            alt="Monster High Logo"
+            alt="Monster High Mobile Logo"
             width={64}
             height={64}
           />
