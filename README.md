@@ -26,7 +26,7 @@ monster-high
 │   │   └── package.json        # @monster-high/backend
 │   │
 │   └── web/                    # Frontend React 19 + Vite
-│       ├── ... (ver seccion Frontend: React 19 + Vite > Estructura)      
+│       ├── ... (ver seccion Frontend: React 19 + Vite > Estructura)
 │
 ├── data/                       # Backend output (monsterHighCharacters.json)
 ├── lib/                        # Compiled backend (TypeScript output)
@@ -187,6 +187,7 @@ apps/web/src/
     ├── favoritesStorage.ts  # localStorage API
     └── __tests__/
 ```
+
 ### Development
 
 ```bash
@@ -420,6 +421,7 @@ npm test              # Modo normal
 npm run test:watch    # Watch mode
 npm run test:coverage # Con reporte de cobertura
 ```
+
 ---
 
 ## El Viaje de Refactorización: Evolución Educativa
@@ -499,6 +501,7 @@ git commit -m "refactor: extract section parsing to private method"
 ### Documentación del Proyecto
 
 - [ADR-001: Monorepo](docs/adr/001-monorepo-structure.md) - Decisión de arquitectura
+- [Metodologías XP y TDD]: El código fuente y sus tests sirven como la documentación viva principal.
 
 ### Architecture Decision Records (ADRs)
 
