@@ -1,7 +1,7 @@
 .card {
   display: flex;
   flex-direction: column;
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-md);
   overflow: hidden;
   background-color: var(--mh-white);
   border: 2px solid var(--mh-light-gray);
@@ -33,14 +33,14 @@
 
 /* Contenido de la card */
 .content {
-  padding: var(--spacing-4);
+  padding: var(--spacing-3);
   display: flex;
   flex-direction: column;
   gap: var(--spacing-6);
 }
 
 .name {
-  font-size: var(--text-lg);
+  font-size: var(--text-base);
   font-weight: 600;
   color: var(--mh-gray);
   text-align: center;
@@ -80,17 +80,17 @@
   outline-offset: 2px;
 }
 
-/* Responsive */
-@media (max-width: 767px) {
+/* Desktop Up */
+@media (min-width: 768px) {
   .card {
-    border-radius: var(--radius-md);
+    border-radius: var(--radius-lg);
   }
 
   .content {
-    padding: var(--spacing-3);
+    padding: var(--spacing-4);
   }
 
   .name {
-    font-size: var(--text-base);
+    font-size: var(--text-lg);
   }
 }

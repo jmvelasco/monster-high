@@ -1,7 +1,7 @@
 .header {
   background-color: var(--mh-black);
   color: var(--mh-white);
-  padding: var(--spacing-4) var(--spacing-6);
+  padding: var(--spacing-3) var(--spacing-4);
   box-shadow: var(--shadow-md);
   position: sticky;
   top: 0;
@@ -14,34 +14,43 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: var(--spacing-4);
 }
 
 .logo {
-  font-size: var(--text-2xl);
+  font-size: var(--text-xl);
   font-weight: 700;
   color: var(--mh-pink);
   text-decoration: none;
   transition: color var(--transition-base);
 }
 
+.logo img:first-child {
+  display: none;
+}
+
+.logo img:last-child {
+  display: block;
+}
+
 .logo:hover {
   color: var(--mh-hover);
 }
 
-/* Navegación desktop */
 .nav {
   display: flex;
-  gap: var(--spacing-8);
+  gap: var(--spacing-6);
   align-items: center;
 }
 
 .navLink {
   font-family: var(--font-main-title);
   color: var(--mh-light-gray);
-  font-size: var(--text-4xl);
+  font-size: var(--text-2xl);
   font-weight: 500;
   text-decoration: none;
-  padding: var(--spacing-2) var(--spacing-4);
+  text-wrap: nowrap;
+  padding: var(--spacing-2) var(--spacing-3);
   border-bottom: 3px solid transparent;
   transition: all var(--transition-base);
 }
@@ -51,37 +60,39 @@
   border-bottom-color: var(--mh-pink);
 }
 
-.navLink[aria-current="page"] {
+.navLink[aria-current='page'] {
   color: var(--mh-pink);
   border-bottom-color: var(--mh-pink);
   font-weight: 700;
 }
 
-
-/* Mobile (<768px) */
-@media (max-width: 767px) {
+/* Tablet Up */
+@media (min-width: 768px) {
   .header {
-    padding: var(--spacing-3) var(--spacing-4);
+    padding: var(--spacing-4) var(--spacing-6);
   }
 
-  .headerContent {
-    gap: var(--spacing-4);
+  .logo img:first-child {
+    display: block;
   }
 
-  .logo {
-    font-size: var(--text-xl);
-  }
-}
-
-/* Tablet (768px - 1023px) */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .nav {
-    gap: var(--spacing-6);
+  .logo img:last-child {
+    display: none;
   }
 
   .navLink {
-    font-size: var(--text-sm);
-    padding: var(--spacing-2) var(--spacing-3);
+    font-size: var(--text-3xl);
   }
 }
 
+/* Desktop Up */
+@media (min-width: 1024px) {
+  .nav {
+    gap: var(--spacing-8);
+  }
+
+  .navLink {
+    font-size: var(--text-4xl);
+    padding: var(--spacing-2) var(--spacing-4);
+  }
+}
