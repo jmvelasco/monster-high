@@ -1,9 +1,9 @@
-import { CharacterScraper } from '../domain/CharacterScraper';
-import { CharacterAI } from '../domain/CharacterAI';
-import { CharacterRepository } from '../domain/CharacterRepository';
-import { Character } from '../domain/Character';
 import { setTimeout } from 'node:timers/promises';
 import { config } from '../config/config';
+import { Character } from '../domain/Character';
+import { CharacterAI } from '../domain/CharacterAI';
+import { CharacterRepository } from '../domain/CharacterRepository';
+import { CharacterScraper } from '../domain/CharacterScraper';
 
 export class ScrapeAndProcessCharactersUseCase {
   constructor(
@@ -19,7 +19,7 @@ export class ScrapeAndProcessCharactersUseCase {
     const processedCharacters: Character[] = [];
 
     for (const [index, link] of characterLinks.entries()) {
-      console.log(`\n▶️ [${index + 1}/${characterLinks.length}] Processing: ${link.name}`);
+      console.log(`\n ▶️ [${index + 1}/${characterLinks.length}] Processing: ${link.name}`);
 
       const character = await this.scraper.getCharacterDetails(link.url);
 
