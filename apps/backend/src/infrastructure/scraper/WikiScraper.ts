@@ -14,9 +14,9 @@ export class WikiScraper implements CharacterScraper {
   async getCharacterList(): Promise<CharacterLink[]> {
     try {
       const { data } = await this.httpClient.get(config.urls.charactersCategory);
-      const $ = cheerio.load(data);
+      const $ = cheerio.load(data.parse.text['*']);
 
-      return $('.category-page__member-link')
+      return $('.lightbox-caption')
         .map((_, element) => this.parseCharacterLink($, element))
         .get()
         .filter((link) => link.name && link.url);
@@ -26,9 +26,13 @@ export class WikiScraper implements CharacterScraper {
   }
 
   private parseCharacterLink($: cheerio.CheerioAPI, element: any): CharacterLink {
-    const name = $(element).text().trim();
-    const path = $(element).attr('href') || '';
-    const url = path.startsWith('http') ? path : `${config.urls.base}${path}`;
+    const anchor = $(element).find('a');
+
+    const name = $(anchor).text().trim();
+    const path = $(anchor).attr('href') || '';
+    const characterName = path.split('/').pop();
+    if (!characterName) return { name, url: '' };
+    const url = config.urls.charactersDetails.replace('${characterName}', characterName); // path.startsWith('http') ? path : `${config.urls.base}${path}`;
 
     return { name, url };
   }
@@ -36,9 +40,9 @@ export class WikiScraper implements CharacterScraper {
   async getCharacterDetails(url: string): Promise<Character | null> {
     try {
       const { data } = await this.httpClient.get(url);
-      const $ = cheerio.load(data);
+      const $ = cheerio.load(data.parse.text['*']);
 
-      const name = $('.mw-page-title-main').text().trim() || 'Unknown';
+      const name = data.parse.title || 'Unknown';
       const image = $('.pi-image-thumbnail').attr('src');
 
       return Character.fromDetails({
