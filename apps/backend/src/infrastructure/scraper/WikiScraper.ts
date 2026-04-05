@@ -32,7 +32,7 @@ export class WikiScraper implements CharacterScraper {
     const path = $(anchor).attr('href') || '';
     const characterName = path.split('/').pop();
     if (!characterName) return { name, url: '' };
-    const url = config.urls.charactersDetails.replace('${characterName}', characterName); // path.startsWith('http') ? path : `${config.urls.base}${path}`;
+    const url = config.urls.charactersDetails.replace('${characterName}', characterName);
 
     return { name, url };
   }
@@ -61,7 +61,19 @@ export class WikiScraper implements CharacterScraper {
     const info: TechnicalInfo = {};
     $('.pi-item.pi-data').each((_, el) => {
       const label = $(el).find('.pi-data-label').text().trim().replace(/:/g, '');
-      const value = $(el).find('.pi-data-value').text().trim();
+      const valueContainer = $(el).find('.pi-data-value');
+      const children = valueContainer.children();
+      let value;
+
+      if (children.length > 0) {
+        value = children
+          .map((_, child) => $(child).text().trim())
+          .get()
+          .filter((txt) => txt.length > 0)
+          .join(', ');
+      } else {
+        value = valueContainer.text().trim();
+      }
 
       if (label && value) {
         const key = this.toCamelCase(label);
