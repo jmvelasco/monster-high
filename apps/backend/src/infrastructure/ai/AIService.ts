@@ -1,8 +1,8 @@
 import Groq from 'groq-sdk';
+import { setTimeout } from 'node:timers/promises';
 import { config } from '../../config/config';
 import { Character } from '../../domain/Character';
 import { CharacterAI } from '../../domain/CharacterAI';
-import { setTimeout } from 'node:timers/promises';
 
 export class AIService implements CharacterAI {
   private readonly groq: Groq;
@@ -58,6 +58,11 @@ export class AIService implements CharacterAI {
       await setTimeout(config.ai.rateLimitDelay);
       return this.generateCharacterSummary(character);
     }
+    if (error.status === 401) {
+      console.error(`   ❌ AI service error: ${error.error.error.message}`);
+      return "This character's story is hidden in the magical mist!";
+    }
+
     return "This character's story is hidden in the magical mist!";
   }
 }

@@ -19,7 +19,7 @@ export class ScrapeAndProcessCharactersUseCase {
     const processedCharacters: Character[] = [];
 
     for (const [index, link] of characterLinks.entries()) {
-      console.log(`\n ▶️ [${index + 1}/${characterLinks.length}] Processing: ${link.name}`);
+      console.log(`\n ▶️  [${index + 1}/${characterLinks.length}] Processing: ${link.name}`);
 
       const character = await this.scraper.getCharacterDetails(link.url);
 
