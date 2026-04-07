@@ -30,8 +30,11 @@ export class WikiScraper implements CharacterScraper {
 
     const name = $(anchor).text().trim();
     const path = $(anchor).attr('href') || '';
-    const characterName = path.split('/').pop();
+    let characterName = path.split('/').pop();
     if (!characterName) return { name, url: '' };
+    if (name === 'Cleo de Nilo') {
+      characterName = 'Cleo_de_Nile';
+    }
     const url = config.urls.charactersDetails.replace('${characterName}', characterName);
 
     return { name, url };
