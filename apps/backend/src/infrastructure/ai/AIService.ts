@@ -1,8 +1,8 @@
 import Groq from 'groq-sdk';
+import { setTimeout } from 'node:timers/promises';
 import { config } from '../../config/config';
 import { Character } from '../../domain/Character';
 import { CharacterAI } from '../../domain/CharacterAI';
-import { setTimeout } from 'node:timers/promises';
 
 export class AIService implements CharacterAI {
   private readonly groq: Groq;
@@ -37,15 +37,15 @@ export class AIService implements CharacterAI {
   private buildPrompt(name: string, context: string): string {
     return `
         Act as an expert children's storyteller.
-        Your mission is to tell a 6-year-old girl named Cloe who the Character ${name} from Monster High is.
+        Your mission is to tell a 6-year-old girl named Cloe the story about the Character ${name} from Monster High.
+        You have to use a direct and simple language in Spanish from Spain, not Latin American Spanish.
         
         INSTRUCTIONS:
         1. Use all the information provided to create a single coherent story.
-        2. Use very simple and sweet language. Greet Cloe affectionately in Spanish (she is a Spanish speaker).
-        3. Do not divide the response into sections; make it a fluid story.
-        4. Focus on appearance, personality, family, and friends.
-        5. Maximum 5 or 6 sentences in total.
-        6. Avoid technical or scary words.
+        2. Do not divide the response into sections; make it a fluid story.
+        3. Focus on appearance, personality, family, and friends.
+        4. Maximum 5 or 6 sentences in total.
+        5. Add line breaks for better readability, but do not divide the response into sections.
         
         CHARACTER DATA:
         "${context.substring(0, 15000)}" 
@@ -58,6 +58,11 @@ export class AIService implements CharacterAI {
       await setTimeout(config.ai.rateLimitDelay);
       return this.generateCharacterSummary(character);
     }
+    if (error.status === 401) {
+      console.error(`   ❌ AI service error: ${error.error.error.message}`);
+      return "This character's story is hidden in the magical mist!";
+    }
+
     return "This character's story is hidden in the magical mist!";
   }
 }
