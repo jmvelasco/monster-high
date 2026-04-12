@@ -20,7 +20,7 @@ export class JsonRepository implements CharacterRepository {
       await fs.mkdir(this.outputDir, { recursive: true });
 
       await fs.writeFile(this.outputPath, JSON.stringify(data, null, 2), 'utf-8');
-      console.log(`💾 Saved ${data.length} records to ${this.outputPath}`);
+      console.log(` 💾 Saved ${data.length} records to ${this.outputPath}`);
     } catch (error) {
       console.error(`❌ Error saving data to ${this.outputPath}:`, error);
       throw error;

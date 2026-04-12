@@ -1,12 +1,3 @@
-// TODO List:
-// 1. [x] getCharacterList with empty HTML returns empty array
-// 2. [x] getCharacterList with one character extracts name and URL
-// 3. [x] getCharacterList with multiple characters extracts all
-// 4. [x] getCharacterDetails returns null when request fails
-// 5. [x] getCharacterDetails extracts basic name
-// 6. [x] getCharacterDetails extracts technicalInfo (infobox)
-// 7. [x] getCharacterDetails extracts sections H2/H3
-
 import { config } from '../../../config/config';
 import { WikiScraper } from '../../../infrastructure/scraper/WikiScraper';
 
@@ -17,10 +8,23 @@ class FakeHttpClient {
     this.responses.set(url, html);
   }
 
-  async get(url: string): Promise<{ data: string }> {
-    const data = this.responses.get(url);
-    if (!data) throw new Error(`No mock response for ${url}`);
-    return { data };
+  async get(url: string): Promise<{ data: any }> {
+    const html = this.responses.get(url);
+    if (!html) throw new Error(`No mock response for ${url}`);
+
+    const titleMatch = html.match(/<h1[^>]*>(.*?)<\/h1>/);
+    const title = titleMatch ? titleMatch[1] : 'Unknown';
+
+    return {
+      data: {
+        parse: {
+          title,
+          text: {
+            '*': html,
+          },
+        },
+      },
+    };
   }
 }
 
@@ -41,7 +45,9 @@ describe('The Wiki Scraper', () => {
     const htmlWithOneCharacter = `
             <html>
                 <body>
-                    <a class="category-page__member-link" href="/es/wiki/Draculaura">Draculaura</a>
+                    <div class="lightbox-caption">
+                        <a href="/es/wiki/Draculaura">Draculaura</a>
+                    </div>
                 </body>
             </html>
         `;
@@ -50,7 +56,9 @@ describe('The Wiki Scraper', () => {
     const scraper = new WikiScraper(fakeClient as any);
     const characters = await scraper.getCharacterList();
 
-    expect(characters).toEqual([{ name: 'Draculaura', url: 'https://monsterhigh.fandom.com/es/wiki/Draculaura' }]);
+    expect(characters).toEqual([
+      { name: 'Draculaura', url: config.urls.charactersDetails.replace('${characterName}', 'Draculaura') },
+    ]);
   });
 
   test('extracts all characters from list with multiple entries', async () => {
@@ -58,9 +66,9 @@ describe('The Wiki Scraper', () => {
     const htmlWithMultiple = `
             <html>
                 <body>
-                    <a class="category-page__member-link" href="/es/wiki/Draculaura">Draculaura</a>
-                    <a class="category-page__member-link" href="/es/wiki/Frankie_Stein">Frankie Stein</a>
-                    <a class="category-page__member-link" href="/es/wiki/Clawdeen_Wolf">Clawdeen Wolf</a>
+                    <div class="lightbox-caption"><a href="/es/wiki/Draculaura">Draculaura</a></div>
+                    <div class="lightbox-caption"><a href="/es/wiki/Frankie_Stein">Frankie Stein</a></div>
+                    <div class="lightbox-caption"><a href="/es/wiki/Clawdeen_Wolf">Clawdeen Wolf</a></div>
                 </body>
             </html>
         `;
@@ -70,7 +78,10 @@ describe('The Wiki Scraper', () => {
     const characters = await scraper.getCharacterList();
 
     expect(characters).toHaveLength(3);
-    expect(characters[0]).toEqual({ name: 'Draculaura', url: 'https://monsterhigh.fandom.com/es/wiki/Draculaura' });
+    expect(characters[0]).toEqual({
+      name: 'Draculaura',
+      url: config.urls.charactersDetails.replace('${characterName}', 'Draculaura'),
+    });
     expect(characters[2]?.name).toBe('Clawdeen Wolf');
   });
 
@@ -105,13 +116,21 @@ describe('The Wiki Scraper', () => {
             <html>
                 <body>
                     <h1 class="mw-page-title-main">Draculaura</h1>
-                    <div class="pi-item pi-data">
-                        <h3 class="pi-data-label">Edad:</h3>
-                        <div class="pi-data-value">1600</div>
+                    <div class="pi-item pi-data pi-item-spacing pi-border-color" data-source="edad">
+                        <h3 class="pi-data-label pi-secondary-font"><b>Edad</b></h3>
+                        <div class="pi-data-value pi-font">1599/1600 (Cumpleaños = 14 de Febrero)</div>
                     </div>
-                    <div class="pi-item pi-data">
-                        <h3 class="pi-data-label">Padres:</h3>
-                        <div class="pi-data-value">Conde Drácula</div>
+                    <div class="pi-item pi-data pi-item-spacing pi-border-color" data-source="mascota">
+                        <h3 class="pi-data-label pi-secondary-font"><b>Mascota</b></h3>
+                        <div class="pi-data-value pi-font"><a href="/es/wiki/Count_Fabulous" title="Count Fabulous">Count Fabulous</a></div>
+                    </div>
+                    <div class="pi-item pi-data pi-item-spacing pi-border-color" data-source="amigos">
+                        <h3 class="pi-data-label pi-secondary-font"><b>Amigos</b></h3>
+                        <div class="pi-data-value pi-font"><a href="/es/wiki/Frankie_Stein" title="Frankie Stein">Frankie Stein</a> y <a href="/es/wiki/Clawdeen_Wolf" title="Clawdeen Wolf">Clawdeen Wolf</a></div>
+                    </div>
+                    <div class="pi-item pi-data pi-item-spacing pi-border-color" data-source="añomuñeca">
+                        <h3 class="pi-data-label pi-secondary-font">añomuñeca</h3>
+                        <div class="pi-data-value pi-font">2010</div>
                     </div>
                 </body>
             </html>
@@ -121,8 +140,12 @@ describe('The Wiki Scraper', () => {
     const scraper = new WikiScraper(fakeClient as any);
     const character = await scraper.getCharacterDetails('https://test.url');
 
-    expect(character?.technicalInfo.edad).toBe('1600');
-    expect(character?.technicalInfo.padres).toBe('Conde Drácula');
+    expect(character?.technicalInfo).toStrictEqual({
+      edad: '1599/1600 (Cumpleaños = 14 de Febrero)',
+      mascota: 'Count Fabulous',
+      amigos: 'Frankie Stein, Clawdeen Wolf',
+      anomuneca: '2010',
+    });
   });
 
   test('extracts sections with H2 and H3 structure', async () => {

@@ -7,7 +7,8 @@ dotenv.config();
 export const config = {
   urls: {
     base: 'https://monsterhigh.fandom.com',
-    charactersCategory: 'https://monsterhigh.fandom.com/es/wiki/Categoría:Personajes',
+    charactersCategory: 'https://monsterhigh.fandom.com/es/api.php?action=parse&page=Wiki_Monster_High&format=json',
+    charactersDetails: 'https://monsterhigh.fandom.com/es/api.php?action=parse&page=${characterName}&format=json',
   },
   scraping: {
     rateLimitDelay: 500, // ms
@@ -20,7 +21,7 @@ export const config = {
     rateLimitDelay: 15000,
   },
   storage: {
-    outputDir: path.resolve(__dirname, '../../../data'), // Adjusted path for monorepo structure
+    outputDir: path.resolve(__dirname, '../../../../data'), // Adjusted path for monorepo structure
     outputFile: 'monsterHighCharacters.json',
   },
 };

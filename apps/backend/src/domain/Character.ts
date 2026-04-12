@@ -1,27 +1,3 @@
-export interface CharacterLink {
-  name: string;
-  url: string;
-}
-
-export interface TechnicalInfo {
-  [key: string]: string;
-}
-
-export type SectionContent = string[];
-
-export interface SubsectionDetail {
-  childFriendlySummary?: string;
-  original: SectionContent;
-}
-
-export interface Section {
-  [subsectionName: string]: SectionContent | SubsectionDetail;
-}
-
-export interface CharacterSections {
-  [sectionName: string]: Section;
-}
-
 export class Character {
   constructor(
     public readonly name: string,
@@ -60,4 +36,28 @@ export class Character {
       })
       .join('');
   }
+}
+
+export interface CharacterLink {
+  name: string;
+  url: string;
+}
+
+export interface TechnicalInfo {
+  [key: string]: string;
+}
+
+export type SectionContent = string[];
+
+export interface SubsectionDetail {
+  childFriendlySummary?: string;
+  original: SectionContent;
+}
+
+export interface Section {
+  [subsectionName: string]: SectionContent | SubsectionDetail;
+}
+
+export interface CharacterSections {
+  [sectionName: string]: Section;
 }

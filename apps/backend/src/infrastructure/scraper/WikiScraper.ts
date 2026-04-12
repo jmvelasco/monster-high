@@ -14,9 +14,9 @@ export class WikiScraper implements CharacterScraper {
   async getCharacterList(): Promise<CharacterLink[]> {
     try {
       const { data } = await this.httpClient.get(config.urls.charactersCategory);
-      const $ = cheerio.load(data);
+      const $ = cheerio.load(data.parse.text['*']);
 
-      return $('.category-page__member-link')
+      return $('.lightbox-caption')
         .map((_, element) => this.parseCharacterLink($, element))
         .get()
         .filter((link) => link.name && link.url);
@@ -26,9 +26,16 @@ export class WikiScraper implements CharacterScraper {
   }
 
   private parseCharacterLink($: cheerio.CheerioAPI, element: any): CharacterLink {
-    const name = $(element).text().trim();
-    const path = $(element).attr('href') || '';
-    const url = path.startsWith('http') ? path : `${config.urls.base}${path}`;
+    const anchor = $(element).find('a');
+
+    const name = $(anchor).text().trim();
+    const path = $(anchor).attr('href') || '';
+    let characterName = path.split('/').pop();
+    if (!characterName) return { name, url: '' };
+    if (name === 'Cleo de Nilo') {
+      characterName = 'Cleo_de_Nile';
+    }
+    const url = config.urls.charactersDetails.replace('${characterName}', characterName);
 
     return { name, url };
   }
@@ -36,9 +43,9 @@ export class WikiScraper implements CharacterScraper {
   async getCharacterDetails(url: string): Promise<Character | null> {
     try {
       const { data } = await this.httpClient.get(url);
-      const $ = cheerio.load(data);
+      const $ = cheerio.load(data.parse.text['*']);
 
-      const name = $('.mw-page-title-main').text().trim() || 'Unknown';
+      const name = data.parse.title || 'Unknown';
       const image = $('.pi-image-thumbnail').attr('src');
 
       return Character.fromDetails({
@@ -57,7 +64,19 @@ export class WikiScraper implements CharacterScraper {
     const info: TechnicalInfo = {};
     $('.pi-item.pi-data').each((_, el) => {
       const label = $(el).find('.pi-data-label').text().trim().replace(/:/g, '');
-      const value = $(el).find('.pi-data-value').text().trim();
+      const valueContainer = $(el).find('.pi-data-value');
+      const children = valueContainer.children();
+      let value;
+
+      if (children.length > 0) {
+        value = children
+          .map((_, child) => $(child).text().trim())
+          .get()
+          .filter((txt) => txt.length > 0)
+          .join(', ');
+      } else {
+        value = valueContainer.text().trim();
+      }
 
       if (label && value) {
         const key = this.toCamelCase(label);
