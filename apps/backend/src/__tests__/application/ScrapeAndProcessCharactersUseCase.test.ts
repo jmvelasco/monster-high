@@ -1,8 +1,9 @@
 import { ScrapeAndProcessCharactersUseCase } from '../../application/ScrapeAndProcessCharactersUseCase';
 import { Character, CharacterLink } from '../../domain/Character';
-import { CharacterScraper } from '../../domain/CharacterScraper';
 import { CharacterAI } from '../../domain/CharacterAI';
 import { CharacterRepository } from '../../domain/CharacterRepository';
+import { CharacterScraper } from '../../domain/CharacterScraper';
+import { Logger } from '../../infrastructure/logger/Logger';
 
 class FakeCharacterScraper implements CharacterScraper {
   public links: CharacterLink[] = [];
@@ -34,12 +35,14 @@ describe('The ScrapeAndProcessCharacters UseCase', () => {
   let aiService: FakeCharacterAI;
   let repository: FakeCharacterRepository;
   let useCase: ScrapeAndProcessCharactersUseCase;
+  const logger = new Logger();
 
   beforeEach(() => {
     scraper = new FakeCharacterScraper();
     aiService = new FakeCharacterAI();
     repository = new FakeCharacterRepository();
-    useCase = new ScrapeAndProcessCharactersUseCase(scraper, aiService, repository);
+
+    useCase = new ScrapeAndProcessCharactersUseCase(scraper, aiService, repository, logger);
   });
 
   it('processes all characters when no specific character is provided', async () => {

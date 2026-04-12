@@ -1,5 +1,6 @@
 import { ScrapeAndProcessCharactersUseCase } from './application/ScrapeAndProcessCharactersUseCase';
 import { AIService } from './infrastructure/ai/AIService';
+import { Logger } from './infrastructure/logger/Logger';
 import { WikiScraper } from './infrastructure/scraper/WikiScraper';
 import { JsonRepository } from './infrastructure/storage/JsonRepository';
 
@@ -19,10 +20,11 @@ async function runPipeline() {
   console.log('Target character:', argv.character || 'All characters');
 
   const scraper = new WikiScraper();
+  const logger = new Logger();
   const aiService = new AIService();
   const repository = new JsonRepository();
 
-  const useCase = new ScrapeAndProcessCharactersUseCase(scraper, aiService, repository);
+  const useCase = new ScrapeAndProcessCharactersUseCase(scraper, aiService, repository, logger);
 
   try {
     await useCase.execute(argv.character);

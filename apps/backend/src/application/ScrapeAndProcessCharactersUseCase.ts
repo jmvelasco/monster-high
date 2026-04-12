@@ -4,12 +4,14 @@ import { Character } from '../domain/Character';
 import { CharacterAI } from '../domain/CharacterAI';
 import { CharacterRepository } from '../domain/CharacterRepository';
 import { CharacterScraper } from '../domain/CharacterScraper';
+import { Level, Logger } from '../domain/Logger';
 
 export class ScrapeAndProcessCharactersUseCase {
   constructor(
     private readonly scraper: CharacterScraper,
     private readonly aiService: CharacterAI,
-    private readonly repository: CharacterRepository
+    private readonly repository: CharacterRepository,
+    private readonly logger: Logger
   ) {}
 
   async execute(targetCharacterName?: string): Promise<void> {
@@ -19,17 +21,17 @@ export class ScrapeAndProcessCharactersUseCase {
       ? characterLinks.filter((link) => link.name === targetCharacterName)
       : characterLinks;
 
-    console.log(`📋 Found ${linksToProcess.length} characters.`);
+    this.logger.log(Level.INFO, `Found ${linksToProcess.length} characters.`);
 
     const processedCharacters: Character[] = [];
 
     for (const [index, link] of linksToProcess.entries()) {
-      console.log(`\n ▶️  [${index + 1}/${linksToProcess.length}] Processing: ${link.name}`);
+      this.logger.log(Level.INFO, `[${index + 1}/${linksToProcess.length}] Processing: ${link.name}`);
 
       const character = await this.scraper.getCharacterDetails(link.url);
 
       if (!character) {
-        console.warn(`⚠️ Skipping ${link.name} (No details found).`);
+        this.logger.log(Level.WARN, `Skipping ${link.name} (No details found).`);
         continue;
       }
 
@@ -42,7 +44,7 @@ export class ScrapeAndProcessCharactersUseCase {
   }
 
   private async enrichWithStory(character: Character): Promise<Character> {
-    console.log(`   ✨ Generating magic story for ${character.name}...`);
+    this.logger.log(Level.INFO, `Generating magic story for ${character.name}...`);
     const story = await this.aiService.generateCharacterSummary(character);
     return character.withGlobalStory(story);
   }
