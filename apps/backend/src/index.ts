@@ -16,7 +16,8 @@ async function runPipeline() {
     .parseSync();
 
   const scraper = new WikiScraper();
-  const logger = new Logger();
+  const silenced = false;
+  const logger = new Logger(silenced);
   const aiService = new AIService();
   const repository = new JsonRepository();
 

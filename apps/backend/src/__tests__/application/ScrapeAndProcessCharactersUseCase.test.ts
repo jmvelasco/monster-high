@@ -35,7 +35,8 @@ describe('The ScrapeAndProcessCharacters UseCase', () => {
   let aiService: FakeCharacterAI;
   let repository: FakeCharacterRepository;
   let useCase: ScrapeAndProcessCharactersUseCase;
-  const logger = new Logger();
+  const silenced = true;
+  const logger = new Logger(silenced);
 
   beforeEach(() => {
     scraper = new FakeCharacterScraper();
