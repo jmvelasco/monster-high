@@ -4,7 +4,7 @@ import { Character } from '../domain/Character';
 import { CharacterAI } from '../domain/CharacterAI';
 import { CharacterRepository } from '../domain/CharacterRepository';
 import { CharacterScraper } from '../domain/CharacterScraper';
-import { Level, Logger } from '../domain/Logger';
+import { Logger } from '../domain/Logger';
 
 export class ScrapeAndProcessCharactersUseCase {
   constructor(
@@ -21,17 +21,17 @@ export class ScrapeAndProcessCharactersUseCase {
       ? characterLinks.filter((link) => link.name === targetCharacterName)
       : characterLinks;
 
-    this.logger.log(Level.INFO, `Found ${linksToProcess.length} characters.`);
+    this.logger.console(`📋 Found ${linksToProcess.length} characters.`);
 
     const processedCharacters: Character[] = [];
 
     for (const [index, link] of linksToProcess.entries()) {
-      this.logger.log(Level.INFO, `[${index + 1}/${linksToProcess.length}] Processing: ${link.name}`);
+      this.logger.console(`\n ▶️ [${index + 1}/${linksToProcess.length}] Processing: ${link.name}`);
 
       const character = await this.scraper.getCharacterDetails(link.url);
 
       if (!character) {
-        this.logger.log(Level.WARN, `Skipping ${link.name} (No details found).`);
+        this.logger.console(`⚠️ Skipping ${link.name} (No details found).`);
         continue;
       }
 
@@ -44,7 +44,7 @@ export class ScrapeAndProcessCharactersUseCase {
   }
 
   private async enrichWithStory(character: Character): Promise<Character> {
-    this.logger.log(Level.INFO, `Generating magic story for ${character.name}...`);
+    this.logger.console(`✨ Generating magic story for ${character.name}...`);
     const story = await this.aiService.generateCharacterSummary(character);
     return character.withGlobalStory(story);
   }

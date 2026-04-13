@@ -1,9 +1,6 @@
-export enum Level {
-  INFO = 'INFO',
-  WARN = 'WARN',
-  ERROR = 'ERROR',
-}
-
 export interface Logger {
-  log(level: Level, message: string): void;
+  info(message: string): void;
+  warn(message: string): void;
+  error(message: string): void;
+  console(message: string): void;
 }
