@@ -1,4 +1,5 @@
-import { ScrapeAndProcessCharactersUseCase } from './application/ScrapeAndProcessCharactersUseCase';
+import { PublishCharactersUseCase } from './application/PublishCharactersUseCase';
+import { CharacterEnricherAdapter } from './infrastructure/enricher/CharacterEnricherAdapter';
 import { AIService } from './infrastructure/ai/AIService';
 import { Logger } from './infrastructure/logger/Logger';
 import { WikiScraper } from './infrastructure/scraper/WikiScraper';
@@ -21,8 +22,11 @@ async function runPipeline() {
   const aiService = new AIService();
   const repository = new JsonRepository();
 
-  logger.console('🚀 Starting Monster High Scraper');
-  const useCase = new ScrapeAndProcessCharactersUseCase(scraper, aiService, repository, logger);
+  // Composition: enricher groups scraper + AI responsibilities
+  const enricher = new CharacterEnricherAdapter(scraper, aiService);
+  const useCase = new PublishCharactersUseCase(enricher, repository, logger);
+
+  logger.console('🚀 Starting Monster High Publisher');
   try {
     await useCase.execute(argv.character);
     logger.console('\n🎉 Pipeline completed successfully!');
