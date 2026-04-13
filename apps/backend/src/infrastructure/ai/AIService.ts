@@ -28,7 +28,10 @@ export class AIService implements CharacterAI {
         max_tokens: config.ai.maxTokens,
       });
 
-      return chatCompletion.choices[0]?.message?.content?.trim() || 'A magical secret!';
+      const summary = chatCompletion.choices[0]?.message?.content?.trim() || 'A magical secret!';
+      await setTimeout(config.scraping.rateLimitDelay);
+
+      return summary;
     } catch (error: any) {
       return this.handleAiError(error, character);
     }

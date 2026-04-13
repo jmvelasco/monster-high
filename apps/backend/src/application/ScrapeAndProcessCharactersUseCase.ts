@@ -1,5 +1,3 @@
-import { setTimeout } from 'node:timers/promises';
-import { config } from '../config/config';
 import { Character } from '../domain/Character';
 import { CharacterAI } from '../domain/CharacterAI';
 import { CharacterRepository } from '../domain/CharacterRepository';
@@ -39,7 +37,6 @@ export class ScrapeAndProcessCharactersUseCase {
       processedCharacters.push(enriched);
 
       await this.repository.saveAll(processedCharacters);
-      await setTimeout(config.scraping.rateLimitDelay);
     }
   }
 
