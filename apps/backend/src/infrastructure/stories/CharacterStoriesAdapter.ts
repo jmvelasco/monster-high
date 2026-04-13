@@ -1,9 +1,9 @@
-import { CharacterEnricher } from '../../domain/CharacterEnricher';
 import { Character, CharacterLink } from '../../domain/Character';
-import { CharacterScraper } from '../../domain/CharacterScraper';
 import { CharacterAI } from '../../domain/CharacterAI';
+import { CharacterStories } from '../../domain/CharacterStories';
+import { CharacterScraper } from '../../domain/CharacterScraper';
 
-export class CharacterEnricherAdapter implements CharacterEnricher {
+export class CharacterStoriesAdapter implements CharacterStories {
   constructor(
     private readonly scraper: CharacterScraper,
     private readonly aiService: CharacterAI

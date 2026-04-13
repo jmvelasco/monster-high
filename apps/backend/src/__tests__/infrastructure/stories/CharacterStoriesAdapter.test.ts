@@ -1,4 +1,4 @@
-import { CharacterEnricherAdapter } from '../../../infrastructure/enricher/CharacterEnricherAdapter';
+import { CharacterStoriesAdapter } from '../../../infrastructure/stories/CharacterStoriesAdapter';
 import { Character, CharacterLink } from '../../../domain/Character';
 import { CharacterScraper } from '../../../domain/CharacterScraper';
 import { CharacterAI } from '../../../domain/CharacterAI';
@@ -31,15 +31,15 @@ class FakeCharacterAI implements CharacterAI {
   }
 }
 
-describe('The CharacterEnricherAdapter', () => {
+describe('The CharacterStoriesAdapter', () => {
   let scraper: FakeCharacterScraper;
   let aiService: FakeCharacterAI;
-  let enricher: CharacterEnricherAdapter;
+  let stories: CharacterStoriesAdapter;
 
   beforeEach(() => {
     scraper = new FakeCharacterScraper();
     aiService = new FakeCharacterAI();
-    enricher = new CharacterEnricherAdapter(scraper, aiService);
+    stories = new CharacterStoriesAdapter(scraper, aiService);
   });
 
   it('delegates scrapeCharacterLinks to the scraper', async () => {
@@ -47,7 +47,7 @@ describe('The CharacterEnricherAdapter', () => {
     const link2: CharacterLink = { name: 'Draculaura', url: '/Draculaura' };
     scraper.links = [link1, link2];
 
-    const links = await enricher.scrapeCharacterLinks();
+    const links = await stories.scrapeCharacterLinks();
 
     expect(links).toHaveLength(2);
     expect(links[0]?.name).toBe('Cleo de Nilo');
@@ -64,7 +64,7 @@ describe('The CharacterEnricherAdapter', () => {
 
     scraper.details.set('/Cleo', character);
 
-    const enriched = await enricher.scrapeAndEnrich('/Cleo');
+    const enriched = await stories.scrapeAndEnrich('/Cleo');
 
     expect(enriched).not.toBeNull();
     expect(enriched?.name).toBe('Cleo de Nilo');
@@ -72,7 +72,7 @@ describe('The CharacterEnricherAdapter', () => {
   });
 
   it('returns null when scraper cannot find the character', async () => {
-    const result = await enricher.scrapeAndEnrich('/NonExistent');
+    const result = await stories.scrapeAndEnrich('/NonExistent');
 
     expect(result).toBeNull();
   });
@@ -89,7 +89,7 @@ describe('The CharacterEnricherAdapter', () => {
     scraper.details.set('/Cleo', character);
     aiService.setShouldFail(true);
 
-    const result = await enricher.scrapeAndEnrich('/Cleo');
+    const result = await stories.scrapeAndEnrich('/Cleo');
 
     expect(result).toBeNull();
   });

@@ -1,17 +1,17 @@
 import { Character } from '../domain/Character';
-import { CharacterEnricher } from '../domain/CharacterEnricher';
+import { CharacterStories } from '../domain/CharacterStories';
 import { CharacterRepository } from '../domain/CharacterRepository';
 import { Logger } from '../domain/Logger';
 
 export class PublishCharactersUseCase {
   constructor(
-    private readonly enricher: CharacterEnricher,
+    private readonly stories: CharacterStories,
     private readonly repository: CharacterRepository,
     private readonly logger: Logger
   ) {}
 
   async execute(targetCharacterName?: string): Promise<void> {
-    const characterLinks = await this.enricher.scrapeCharacterLinks();
+    const characterLinks = await this.stories.scrapeCharacterLinks();
 
     const linksToProcess = targetCharacterName
       ? characterLinks.filter((link) => link.name === targetCharacterName)
@@ -24,7 +24,7 @@ export class PublishCharactersUseCase {
     for (const [index, link] of linksToProcess.entries()) {
       this.logger.console(`\n ▶️ [${index + 1}/${linksToProcess.length}] Publishing: ${link.name}`);
 
-      const enriched = await this.enricher.scrapeAndEnrich(link.url);
+      const enriched = await this.stories.scrapeAndEnrich(link.url);
 
       if (!enriched) {
         this.logger.console(`⚠️ Skipping ${link.name} (Not found).`);

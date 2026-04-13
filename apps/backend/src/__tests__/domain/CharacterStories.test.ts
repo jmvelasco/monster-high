@@ -1,7 +1,7 @@
-import { CharacterEnricher } from '../../domain/CharacterEnricher';
+import { CharacterStories } from '../../domain/CharacterStories';
 import { Character, CharacterLink } from '../../domain/Character';
 
-class FakeCharacterEnricher implements CharacterEnricher {
+class FakeCharacterStories implements CharacterStories {
   public links: CharacterLink[] = [];
   public enrichedCharacters: Map<string, Character> = new Map();
 
@@ -14,21 +14,21 @@ class FakeCharacterEnricher implements CharacterEnricher {
   }
 }
 
-describe('The CharacterEnricher Port', () => {
-  let enricher: CharacterEnricher;
+describe('The CharacterStories Port', () => {
+  let stories: CharacterStories;
 
   beforeEach(() => {
-    const fakeEnricher = new FakeCharacterEnricher();
-    enricher = fakeEnricher;
+    const fakeStories = new FakeCharacterStories();
+    stories = fakeStories;
   });
 
   it('scrapes character links from the source', async () => {
     const link1: CharacterLink = { name: 'Cleo de Nilo', url: '/Cleo' };
     const link2: CharacterLink = { name: 'Draculaura', url: '/Draculaura' };
 
-    (enricher as any).links = [link1, link2];
+    (stories as any).links = [link1, link2];
 
-    const links = await enricher.scrapeCharacterLinks();
+    const links = await stories.scrapeCharacterLinks();
 
     expect(links).toHaveLength(2);
     expect(links[0]?.name).toBe('Cleo de Nilo');
@@ -46,9 +46,9 @@ describe('The CharacterEnricher Port', () => {
 
     const enrichedCharacter = character.withGlobalStory('Epic story for Cleo');
 
-    (enricher as any).enrichedCharacters.set('/Cleo', enrichedCharacter);
+    (stories as any).enrichedCharacters.set('/Cleo', enrichedCharacter);
 
-    const result = await enricher.scrapeAndEnrich('/Cleo');
+    const result = await stories.scrapeAndEnrich('/Cleo');
 
     expect(result).not.toBeNull();
     expect(result?.name).toBe('Cleo de Nilo');
@@ -56,7 +56,7 @@ describe('The CharacterEnricher Port', () => {
   });
 
   it('returns null when character is not found', async () => {
-    const result = await enricher.scrapeAndEnrich('/NonExistent');
+    const result = await stories.scrapeAndEnrich('/NonExistent');
 
     expect(result).toBeNull();
   });

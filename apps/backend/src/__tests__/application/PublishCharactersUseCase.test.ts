@@ -1,10 +1,10 @@
 import { PublishCharactersUseCase } from '../../application/PublishCharactersUseCase';
 import { Character, CharacterLink } from '../../domain/Character';
-import { CharacterEnricher } from '../../domain/CharacterEnricher';
+import { CharacterStories } from '../../domain/CharacterStories';
 import { CharacterRepository } from '../../domain/CharacterRepository';
 import { Logger } from '../../infrastructure/logger/Logger';
 
-class FakeCharacterEnricher implements CharacterEnricher {
+class FakeCharacterStories implements CharacterStories {
   public links: CharacterLink[] = [];
   public enrichedCharacters: Map<string, Character> = new Map();
 
@@ -26,23 +26,23 @@ class FakeCharacterRepository implements CharacterRepository {
 }
 
 describe('The PublishCharacters UseCase', () => {
-  let enricher: FakeCharacterEnricher;
+  let stories: FakeCharacterStories;
   let repository: FakeCharacterRepository;
   let useCase: PublishCharactersUseCase;
   const silenced = true;
   const logger = new Logger(silenced);
 
   beforeEach(() => {
-    enricher = new FakeCharacterEnricher();
+    stories = new FakeCharacterStories();
     repository = new FakeCharacterRepository();
 
-    useCase = new PublishCharactersUseCase(enricher, repository, logger);
+    useCase = new PublishCharactersUseCase(stories, repository, logger);
   });
 
   it('publishes all characters when no specific character is provided', async () => {
     const link1: CharacterLink = { name: 'Cleo de Nilo', url: '/Cleo' };
     const link2: CharacterLink = { name: 'Draculaura', url: '/Draculaura' };
-    enricher.links = [link1, link2];
+    stories.links = [link1, link2];
 
     const char1 = Character.fromDetails({
       name: 'Cleo de Nilo',
@@ -60,8 +60,8 @@ describe('The PublishCharacters UseCase', () => {
       image: 'draculaura.png',
     }).withGlobalStory('Story for Draculaura');
 
-    enricher.enrichedCharacters.set('/Cleo', char1);
-    enricher.enrichedCharacters.set('/Draculaura', char2);
+    stories.enrichedCharacters.set('/Cleo', char1);
+    stories.enrichedCharacters.set('/Draculaura', char2);
 
     await useCase.execute();
 
@@ -73,7 +73,7 @@ describe('The PublishCharacters UseCase', () => {
   it('publishes only the specific character when provided', async () => {
     const link1: CharacterLink = { name: 'Cleo de Nilo', url: '/Cleo' };
     const link2: CharacterLink = { name: 'Draculaura', url: '/Draculaura' };
-    enricher.links = [link1, link2];
+    stories.links = [link1, link2];
 
     const char1 = Character.fromDetails({
       name: 'Cleo de Nilo',
@@ -91,8 +91,8 @@ describe('The PublishCharacters UseCase', () => {
       image: 'draculaura.png',
     }).withGlobalStory('Story for Draculaura');
 
-    enricher.enrichedCharacters.set('/Cleo', char1);
-    enricher.enrichedCharacters.set('/Draculaura', char2);
+    stories.enrichedCharacters.set('/Cleo', char1);
+    stories.enrichedCharacters.set('/Draculaura', char2);
 
     await useCase.execute('Cleo de Nilo');
 
@@ -100,10 +100,10 @@ describe('The PublishCharacters UseCase', () => {
     expect(repository.savedCharacters[0]?.name).toBe('Cleo de Nilo');
   });
 
-  it('skips character if enricher cannot find it', async () => {
+  it('skips character if stories cannot find it', async () => {
     const link1: CharacterLink = { name: 'Cleo de Nilo', url: '/Cleo' };
     const link2: CharacterLink = { name: 'Draculaura', url: '/Draculaura' };
-    enricher.links = [link1, link2];
+    stories.links = [link1, link2];
 
     const char1 = Character.fromDetails({
       name: 'Cleo de Nilo',
@@ -113,7 +113,7 @@ describe('The PublishCharacters UseCase', () => {
       image: 'cleo.png',
     }).withGlobalStory('Story for Cleo');
 
-    enricher.enrichedCharacters.set('/Cleo', char1);
+    stories.enrichedCharacters.set('/Cleo', char1);
     // Draculaura intentionally not added to enrichedCharacters
 
     await useCase.execute();
@@ -125,7 +125,7 @@ describe('The PublishCharacters UseCase', () => {
   it('persists characters to repository after each enrichment', async () => {
     const link1: CharacterLink = { name: 'Cleo de Nilo', url: '/Cleo' };
     const link2: CharacterLink = { name: 'Draculaura', url: '/Draculaura' };
-    enricher.links = [link1, link2];
+    stories.links = [link1, link2];
 
     const char1 = Character.fromDetails({
       name: 'Cleo de Nilo',
@@ -143,8 +143,8 @@ describe('The PublishCharacters UseCase', () => {
       image: 'draculaura.png',
     }).withGlobalStory('Story for Draculaura');
 
-    enricher.enrichedCharacters.set('/Cleo', char1);
-    enricher.enrichedCharacters.set('/Draculaura', char2);
+    stories.enrichedCharacters.set('/Cleo', char1);
+    stories.enrichedCharacters.set('/Draculaura', char2);
 
     let saveCallCount = 0;
     const originalSaveAll = repository.saveAll.bind(repository);
