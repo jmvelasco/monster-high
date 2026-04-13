@@ -1,6 +1,6 @@
 import { Character } from '../domain/Character';
-import { CharacterStories } from '../domain/CharacterStories';
 import { CharacterRepository } from '../domain/CharacterRepository';
+import { CharacterStories } from '../domain/CharacterStories';
 import { Logger } from '../domain/Logger';
 
 export class PublishCharactersUseCase {

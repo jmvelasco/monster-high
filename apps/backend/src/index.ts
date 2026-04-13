@@ -1,9 +1,9 @@
 import { PublishCharactersUseCase } from './application/PublishCharactersUseCase';
 import { AIService } from './infrastructure/ai/AIService';
-import { CharacterStoriesAdapter } from './infrastructure/stories/CharacterStoriesAdapter';
 import { Logger } from './infrastructure/logger/Logger';
 import { WikiScraper } from './infrastructure/scraper/WikiScraper';
 import { JsonRepository } from './infrastructure/storage/JsonRepository';
+import { CharacterStoriesAdapter } from './infrastructure/stories/CharacterStoriesAdapter';
 
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';

@@ -1,7 +1,7 @@
 import { Character, CharacterLink } from '../../domain/Character';
 import { CharacterAI } from '../../domain/CharacterAI';
-import { CharacterStories } from '../../domain/CharacterStories';
 import { CharacterScraper } from '../../domain/CharacterScraper';
+import { CharacterStories } from '../../domain/CharacterStories';
 
 export class CharacterStoriesAdapter implements CharacterStories {
   constructor(

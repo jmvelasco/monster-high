@@ -1,7 +1,7 @@
-import { CharacterStoriesAdapter } from '../../../infrastructure/stories/CharacterStoriesAdapter';
 import { Character, CharacterLink } from '../../../domain/Character';
-import { CharacterScraper } from '../../../domain/CharacterScraper';
 import { CharacterAI } from '../../../domain/CharacterAI';
+import { CharacterScraper } from '../../../domain/CharacterScraper';
+import { CharacterStoriesAdapter } from '../../../infrastructure/stories/CharacterStoriesAdapter';
 
 class FakeCharacterScraper implements CharacterScraper {
   public links: CharacterLink[] = [];

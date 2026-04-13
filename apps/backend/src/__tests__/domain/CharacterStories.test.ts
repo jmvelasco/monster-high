@@ -1,5 +1,5 @@
-import { CharacterStories } from '../../domain/CharacterStories';
 import { Character, CharacterLink } from '../../domain/Character';
+import { CharacterStories } from '../../domain/CharacterStories';
 
 class FakeCharacterStories implements CharacterStories {
   public links: CharacterLink[] = [];

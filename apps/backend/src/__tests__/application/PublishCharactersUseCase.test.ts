@@ -1,7 +1,7 @@
 import { PublishCharactersUseCase } from '../../application/PublishCharactersUseCase';
 import { Character, CharacterLink } from '../../domain/Character';
-import { CharacterStories } from '../../domain/CharacterStories';
 import { CharacterRepository } from '../../domain/CharacterRepository';
+import { CharacterStories } from '../../domain/CharacterStories';
 import { Logger } from '../../infrastructure/logger/Logger';
 
 class FakeCharacterStories implements CharacterStories {
