@@ -2,7 +2,7 @@ import { PublishCharactersUseCase } from '../../application/PublishCharactersUse
 import { Character, CharacterLink } from '../../domain/Character';
 import { CharacterRepository } from '../../domain/CharacterRepository';
 import { CharacterStories } from '../../domain/CharacterStories';
-import { Logger } from '../../infrastructure/logger/Logger';
+import { Logger } from '../../domain/Logger';
 
 class FakeCharacterStories implements CharacterStories {
   public links: CharacterLink[] = [];
@@ -25,12 +25,30 @@ class FakeCharacterRepository implements CharacterRepository {
   }
 }
 
+class FakeLogger implements Logger {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  info(_message: string): void {
+    // No-op for testing
+  }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  warn(_message: string): void {
+    // No-op for testing
+  }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  error(_message: string): void {
+    // No-op for testing
+  }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  log(_message: string): void {
+    // No-op for testing
+  }
+}
+
 describe('The PublishCharacters UseCase', () => {
   let stories: FakeCharacterStories;
   let repository: FakeCharacterRepository;
   let useCase: PublishCharactersUseCase;
-  const silenced = true;
-  const logger = new Logger(silenced);
+  const logger = new FakeLogger();
 
   beforeEach(() => {
     stories = new FakeCharacterStories();
