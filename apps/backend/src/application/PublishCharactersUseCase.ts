@@ -17,17 +17,17 @@ export class PublishCharactersUseCase {
       ? characterLinks.filter((link) => link.name === targetCharacterName)
       : characterLinks;
 
-    this.logger.console(`📋 Found ${linksToProcess.length} characters.`);
+    this.logger.log(`📋 Found ${linksToProcess.length} characters.`);
 
     const publishedCharacters: Character[] = [];
 
     for (const [index, link] of linksToProcess.entries()) {
-      this.logger.console(`\n ▶️ [${index + 1}/${linksToProcess.length}] Publishing: ${link.name}`);
+      this.logger.log(`\n ▶️ [${index + 1}/${linksToProcess.length}] Publishing: ${link.name}`);
 
       const enriched = await this.stories.scrapeAndEnrich(link.url);
 
       if (!enriched) {
-        this.logger.console(`⚠️ Skipping ${link.name} (Not found).`);
+        this.logger.log(`⚠️ Skipping ${link.name} (Not found).`);
         continue;
       }
 

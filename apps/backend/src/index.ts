@@ -26,10 +26,10 @@ async function runPipeline() {
   const stories = new CharacterStoriesAdapter(scraper, aiService);
   const useCase = new PublishCharactersUseCase(stories, repository, logger);
 
-  logger.console('🚀 Starting Monster High Publisher');
+  logger.log('🚀 Starting Monster High Publisher');
   try {
     await useCase.execute(argv.character);
-    logger.console('\n🎉 Pipeline completed successfully!');
+    logger.log('\n🎉 Pipeline completed successfully!');
   } catch (error) {
     logger.error(`Critical Error in Pipeline: ${error}`);
     process.exit(1);

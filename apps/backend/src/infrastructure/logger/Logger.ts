@@ -22,7 +22,7 @@ export class Logger implements Logger {
     console.error(`[${timestamp}] [ERROR] ${message}`);
   }
 
-  console(message: string): void {
+  log(message: string): void {
     if (this.silenced) return;
 
     console.log(`${message}`);
