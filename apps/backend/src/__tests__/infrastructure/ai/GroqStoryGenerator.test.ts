@@ -1,5 +1,5 @@
 import { Character } from '../../../domain/Character';
-import { AIService } from '../../../infrastructure/ai/AIService';
+import { GroqStoryGenerator } from '../../../infrastructure/ai/GroqStoryGenerator';
 
 class FakeGroqClient {
   private mockResponse: string | null = null;
@@ -45,10 +45,10 @@ class FakeGroqClient {
   };
 }
 
-describe('The AI Service', () => {
+describe('The GroqStoryGenerator', () => {
   test('returns default message when character has no section data', async () => {
     const fakeClient = new FakeGroqClient();
-    const aiService = new AIService(fakeClient as any);
+    const storyGenerator = new GroqStoryGenerator(fakeClient as any);
     const character = Character.fromDetails({
       name: 'TestChar',
       url: 'http://test.com',
@@ -56,15 +56,15 @@ describe('The AI Service', () => {
       sections: {},
     });
 
-    const summary = await aiService.generateCharacterSummary(character);
+    const story = await storyGenerator.generateStory(character);
 
-    expect(summary).toBe('A magical secret yet to be discovered!');
+    expect(story).toBe('A magical secret yet to be discovered!');
   });
 
-  test('generates summary using character section data', async () => {
+  test('generates story using character section data', async () => {
     const fakeClient = new FakeGroqClient();
     fakeClient.setMockResponse('Hello Cloe! Draculaura is a very sweet vampire.');
-    const aiService = new AIService(fakeClient as any);
+    const storyGenerator = new GroqStoryGenerator(fakeClient as any);
 
     const character = Character.fromDetails({
       name: 'Draculaura',
@@ -77,16 +77,16 @@ describe('The AI Service', () => {
       },
     });
 
-    const summary = await aiService.generateCharacterSummary(character);
+    const story = await storyGenerator.generateStory(character);
 
-    expect(summary).toBe('Hello Cloe! Draculaura is a very sweet vampire.');
+    expect(story).toBe('Hello Cloe! Draculaura is a very sweet vampire.');
     expect(fakeClient.getCallCount()).toBe(1);
   });
 
   test('returns fallback message when API fails', async () => {
     const fakeClient = new FakeGroqClient();
     fakeClient.setError(500);
-    const aiService = new AIService(fakeClient as any);
+    const storyGenerator = new GroqStoryGenerator(fakeClient as any);
 
     const character = Character.fromDetails({
       name: 'TestChar',
@@ -95,9 +95,9 @@ describe('The AI Service', () => {
       sections: { bio: { info: ['Some data'] } },
     });
 
-    const summary = await aiService.generateCharacterSummary(character);
+    const story = await storyGenerator.generateStory(character);
 
-    expect(summary).toBe("This character's story is hidden in the magical mist!");
+    expect(story).toBe("This character's story is hidden in the magical mist!");
   });
 
   test('retries when rate limit is hit', async () => {
@@ -120,7 +120,7 @@ describe('The AI Service', () => {
       };
     };
 
-    const aiService = new AIService(fakeClient as any);
+    const storyGenerator = new GroqStoryGenerator(fakeClient as any);
     const character = Character.fromDetails({
       name: 'TestChar',
       url: 'http://test.com',
@@ -128,9 +128,9 @@ describe('The AI Service', () => {
       sections: { bio: { info: ['data'] } },
     });
 
-    const summary = await aiService.generateCharacterSummary(character);
+    const story = await storyGenerator.generateStory(character);
 
-    expect(summary).toBe('Success after retry');
+    expect(story).toBe('Success after retry');
     expect(attemptCount).toBe(2);
   }, 20000);
 });

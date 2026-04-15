@@ -1,13 +1,13 @@
 import { Character } from '../domain/Character';
-import { CharacterAI } from '../domain/CharacterAI';
 import { CharacterRepository } from '../domain/CharacterRepository';
 import { CharacterScraper } from '../domain/CharacterScraper';
+import { CharacterStoryGenerator } from '../domain/CharacterStoryGenerator';
 import { Logger } from '../domain/Logger';
 
-export class PublishCharactersUseCase {
+export class GenerateCharacterCatalogUseCase {
   constructor(
     private readonly scraper: CharacterScraper,
-    private readonly aiService: CharacterAI,
+    private readonly storyGenerator: CharacterStoryGenerator,
     private readonly repository: CharacterRepository,
     private readonly logger: Logger
   ) {}
@@ -47,7 +47,7 @@ export class PublishCharactersUseCase {
 
   private async enrichWithStory(character: Character): Promise<Character | null> {
     try {
-      const story = await this.aiService.generateCharacterSummary(character);
+      const story = await this.storyGenerator.generateStory(character);
       return character.withGlobalStory(story);
     } catch {
       return null;

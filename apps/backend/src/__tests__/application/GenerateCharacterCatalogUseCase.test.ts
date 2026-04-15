@@ -1,8 +1,8 @@
-import { PublishCharactersUseCase } from '../../application/PublishCharactersUseCase';
+import { GenerateCharacterCatalogUseCase } from '../../application/GenerateCharacterCatalogUseCase';
 import { Character, CharacterLink } from '../../domain/Character';
-import { CharacterAI } from '../../domain/CharacterAI';
 import { CharacterRepository } from '../../domain/CharacterRepository';
 import { CharacterScraper } from '../../domain/CharacterScraper';
+import { CharacterStoryGenerator } from '../../domain/CharacterStoryGenerator';
 import { Logger } from '../../domain/Logger';
 
 class FakeCharacterScraper implements CharacterScraper {
@@ -18,12 +18,12 @@ class FakeCharacterScraper implements CharacterScraper {
   }
 }
 
-class FakeCharacterAI implements CharacterAI {
+class FakeCharacterStoryGenerator implements CharacterStoryGenerator {
   public failForUrls: Set<string> = new Set();
 
-  async generateCharacterSummary(character: Character): Promise<string> {
+  async generateStory(character: Character): Promise<string> {
     if (this.failForUrls.has(character.url)) {
-      throw new Error(`AI failed for ${character.name}`);
+      throw new Error(`Story generation failed for ${character.name}`);
     }
     return `Story for ${character.name}`;
   }
@@ -48,18 +48,18 @@ class FakeLogger implements Logger {
   log(_message: string): void {}
 }
 
-describe('The PublishCharacters UseCase', () => {
+describe('The GenerateCharacterCatalog UseCase', () => {
   let scraper: FakeCharacterScraper;
-  let aiService: FakeCharacterAI;
+  let storyGenerator: FakeCharacterStoryGenerator;
   let repository: FakeCharacterRepository;
-  let useCase: PublishCharactersUseCase;
+  let useCase: GenerateCharacterCatalogUseCase;
   const logger = new FakeLogger();
 
   beforeEach(() => {
     scraper = new FakeCharacterScraper();
-    aiService = new FakeCharacterAI();
+    storyGenerator = new FakeCharacterStoryGenerator();
     repository = new FakeCharacterRepository();
-    useCase = new PublishCharactersUseCase(scraper, aiService, repository, logger);
+    useCase = new GenerateCharacterCatalogUseCase(scraper, storyGenerator, repository, logger);
   });
 
   it('publishes all characters when no specific character is provided', async () => {
@@ -140,7 +140,7 @@ describe('The PublishCharacters UseCase', () => {
       Character.fromDetails({ name: 'Draculaura', url: '/Draculaura', technicalInfo: {}, sections: {} })
     );
 
-    aiService.failForUrls.add('/Draculaura');
+    storyGenerator.failForUrls.add('/Draculaura');
 
     await useCase.execute();
 

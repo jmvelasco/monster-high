@@ -1,5 +1,5 @@
-import { PublishCharactersUseCase } from './application/PublishCharactersUseCase';
-import { AIService } from './infrastructure/ai/AIService';
+import { GenerateCharacterCatalogUseCase } from './application/GenerateCharacterCatalogUseCase';
+import { GroqStoryGenerator } from './infrastructure/ai/GroqStoryGenerator';
 import { Logger } from './infrastructure/logger/Logger';
 import { WikiScraper } from './infrastructure/scraper/WikiScraper';
 import { JsonRepository } from './infrastructure/storage/JsonRepository';
@@ -18,10 +18,10 @@ async function runPipeline() {
   const scraper = new WikiScraper();
   const silenced = false;
   const logger = new Logger(silenced);
-  const aiService = new AIService();
+  const storyGenerator = new GroqStoryGenerator();
   const repository = new JsonRepository();
 
-  const useCase = new PublishCharactersUseCase(scraper, aiService, repository, logger);
+  const useCase = new GenerateCharacterCatalogUseCase(scraper, storyGenerator, repository, logger);
 
   logger.log('🚀 Starting Monster High Publisher');
   try {

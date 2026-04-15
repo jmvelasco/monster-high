@@ -2,16 +2,16 @@ import Groq from 'groq-sdk';
 import { setTimeout } from 'node:timers/promises';
 import { config } from '../../config/config';
 import { Character } from '../../domain/Character';
-import { CharacterAI } from '../../domain/CharacterAI';
+import { CharacterStoryGenerator } from '../../domain/CharacterStoryGenerator';
 
-export class AIService implements CharacterAI {
+export class GroqStoryGenerator implements CharacterStoryGenerator {
   private readonly groq: Groq;
 
   constructor(groqClient?: Groq) {
     this.groq = groqClient || new Groq({ apiKey: config.ai.apiKey });
   }
 
-  async generateCharacterSummary(character: Character): Promise<string> {
+  async generateStory(character: Character): Promise<string> {
     const contextText = character.getFlatContent();
 
     if (!contextText.trim()) {
@@ -33,7 +33,7 @@ export class AIService implements CharacterAI {
 
       return summary;
     } catch (error: any) {
-      return this.handleAiError(error, character);
+      return this.handleGroqError(error, character);
     }
   }
 
@@ -56,10 +56,10 @@ export class AIService implements CharacterAI {
         DIRECT RESPONSE FOR CLOE (IN SPANISH):`;
   }
 
-  private async handleAiError(error: any, character: Character): Promise<string> {
+  private async handleGroqError(error: any, character: Character): Promise<string> {
     if (error.status === 429) {
       await setTimeout(config.ai.rateLimitDelay);
-      return this.generateCharacterSummary(character);
+      return this.generateStory(character);
     }
     if (error.status === 401) {
       console.error(`   ❌ AI service error: ${error.error.error.message}`);
