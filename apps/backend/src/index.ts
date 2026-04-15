@@ -3,7 +3,6 @@ import { AIService } from './infrastructure/ai/AIService';
 import { Logger } from './infrastructure/logger/Logger';
 import { WikiScraper } from './infrastructure/scraper/WikiScraper';
 import { JsonRepository } from './infrastructure/storage/JsonRepository';
-import { CharacterStoriesAdapter } from './infrastructure/stories/CharacterStoriesAdapter';
 
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
@@ -22,9 +21,7 @@ async function runPipeline() {
   const aiService = new AIService();
   const repository = new JsonRepository();
 
-  // Composition: stories groups scraper + AI responsibilities
-  const stories = new CharacterStoriesAdapter(scraper, aiService);
-  const useCase = new PublishCharactersUseCase(stories, repository, logger);
+  const useCase = new PublishCharactersUseCase(scraper, aiService, repository, logger);
 
   logger.log('🚀 Starting Monster High Publisher');
   try {

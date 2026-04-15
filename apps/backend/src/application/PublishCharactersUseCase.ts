@@ -1,17 +1,19 @@
 import { Character } from '../domain/Character';
+import { CharacterAI } from '../domain/CharacterAI';
 import { CharacterRepository } from '../domain/CharacterRepository';
-import { CharacterStories } from '../domain/CharacterStories';
+import { CharacterScraper } from '../domain/CharacterScraper';
 import { Logger } from '../domain/Logger';
 
 export class PublishCharactersUseCase {
   constructor(
-    private readonly stories: CharacterStories,
+    private readonly scraper: CharacterScraper,
+    private readonly aiService: CharacterAI,
     private readonly repository: CharacterRepository,
     private readonly logger: Logger
   ) {}
 
   async execute(targetCharacterName?: string): Promise<void> {
-    const characterLinks = await this.stories.scrapeCharacterLinks();
+    const characterLinks = await this.scraper.getCharacterList();
 
     const linksToProcess = targetCharacterName
       ? characterLinks.filter((link) => link.name === targetCharacterName)
@@ -24,16 +26,31 @@ export class PublishCharactersUseCase {
     for (const [index, link] of linksToProcess.entries()) {
       this.logger.log(`\n ▶️ [${index + 1}/${linksToProcess.length}] Publishing: ${link.name}`);
 
-      const enriched = await this.stories.scrapeAndEnrich(link.url);
+      const character = await this.scraper.getCharacterDetails(link.url);
 
-      if (!enriched) {
+      if (!character) {
         this.logger.log(`⚠️ Skipping ${link.name} (Not found).`);
         continue;
       }
 
-      publishedCharacters.push(enriched);
+      const enriched = await this.enrichWithStory(character);
 
+      if (!enriched) {
+        this.logger.log(`⚠️ Skipping ${link.name} (Story generation failed).`);
+        continue;
+      }
+
+      publishedCharacters.push(enriched);
       await this.repository.saveAll(publishedCharacters);
+    }
+  }
+
+  private async enrichWithStory(character: Character): Promise<Character | null> {
+    try {
+      const story = await this.aiService.generateCharacterSummary(character);
+      return character.withGlobalStory(story);
+    } catch {
+      return null;
     }
   }
 }

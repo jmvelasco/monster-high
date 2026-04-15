@@ -1,19 +1,31 @@
 import { PublishCharactersUseCase } from '../../application/PublishCharactersUseCase';
 import { Character, CharacterLink } from '../../domain/Character';
+import { CharacterAI } from '../../domain/CharacterAI';
 import { CharacterRepository } from '../../domain/CharacterRepository';
-import { CharacterStories } from '../../domain/CharacterStories';
+import { CharacterScraper } from '../../domain/CharacterScraper';
 import { Logger } from '../../domain/Logger';
 
-class FakeCharacterStories implements CharacterStories {
+class FakeCharacterScraper implements CharacterScraper {
   public links: CharacterLink[] = [];
-  public enrichedCharacters: Map<string, Character> = new Map();
+  public characters: Map<string, Character> = new Map();
 
-  async scrapeCharacterLinks(): Promise<CharacterLink[]> {
+  async getCharacterList(): Promise<CharacterLink[]> {
     return this.links;
   }
 
-  async scrapeAndEnrich(url: string): Promise<Character | null> {
-    return this.enrichedCharacters.get(url) || null;
+  async getCharacterDetails(url: string): Promise<Character | null> {
+    return this.characters.get(url) ?? null;
+  }
+}
+
+class FakeCharacterAI implements CharacterAI {
+  public failForUrls: Set<string> = new Set();
+
+  async generateCharacterSummary(character: Character): Promise<string> {
+    if (this.failForUrls.has(character.url)) {
+      throw new Error(`AI failed for ${character.name}`);
+    }
+    return `Story for ${character.name}`;
   }
 }
 
@@ -27,59 +39,48 @@ class FakeCharacterRepository implements CharacterRepository {
 
 class FakeLogger implements Logger {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  info(_message: string): void {
-    // No-op for testing
-  }
+  info(_message: string): void {}
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  warn(_message: string): void {
-    // No-op for testing
-  }
+  warn(_message: string): void {}
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  error(_message: string): void {
-    // No-op for testing
-  }
+  error(_message: string): void {}
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  log(_message: string): void {
-    // No-op for testing
-  }
+  log(_message: string): void {}
 }
 
 describe('The PublishCharacters UseCase', () => {
-  let stories: FakeCharacterStories;
+  let scraper: FakeCharacterScraper;
+  let aiService: FakeCharacterAI;
   let repository: FakeCharacterRepository;
   let useCase: PublishCharactersUseCase;
   const logger = new FakeLogger();
 
   beforeEach(() => {
-    stories = new FakeCharacterStories();
+    scraper = new FakeCharacterScraper();
+    aiService = new FakeCharacterAI();
     repository = new FakeCharacterRepository();
-
-    useCase = new PublishCharactersUseCase(stories, repository, logger);
+    useCase = new PublishCharactersUseCase(scraper, aiService, repository, logger);
   });
 
   it('publishes all characters when no specific character is provided', async () => {
     const link1: CharacterLink = { name: 'Cleo de Nilo', url: '/Cleo' };
     const link2: CharacterLink = { name: 'Draculaura', url: '/Draculaura' };
-    stories.links = [link1, link2];
+    scraper.links = [link1, link2];
 
-    const char1 = Character.fromDetails({
-      name: 'Cleo de Nilo',
-      url: '/Cleo',
-      technicalInfo: {},
-      sections: {},
-      image: 'cleo.png',
-    }).withGlobalStory('Story for Cleo');
-
-    const char2 = Character.fromDetails({
-      name: 'Draculaura',
-      url: '/Draculaura',
-      technicalInfo: {},
-      sections: {},
-      image: 'draculaura.png',
-    }).withGlobalStory('Story for Draculaura');
-
-    stories.enrichedCharacters.set('/Cleo', char1);
-    stories.enrichedCharacters.set('/Draculaura', char2);
+    scraper.characters.set(
+      '/Cleo',
+      Character.fromDetails({ name: 'Cleo de Nilo', url: '/Cleo', technicalInfo: {}, sections: {}, image: 'cleo.png' })
+    );
+    scraper.characters.set(
+      '/Draculaura',
+      Character.fromDetails({
+        name: 'Draculaura',
+        url: '/Draculaura',
+        technicalInfo: {},
+        sections: {},
+        image: 'draculaura.png',
+      })
+    );
 
     await useCase.execute();
 
@@ -91,26 +92,16 @@ describe('The PublishCharacters UseCase', () => {
   it('publishes only the specific character when provided', async () => {
     const link1: CharacterLink = { name: 'Cleo de Nilo', url: '/Cleo' };
     const link2: CharacterLink = { name: 'Draculaura', url: '/Draculaura' };
-    stories.links = [link1, link2];
+    scraper.links = [link1, link2];
 
-    const char1 = Character.fromDetails({
-      name: 'Cleo de Nilo',
-      url: '/Cleo',
-      technicalInfo: {},
-      sections: {},
-      image: 'cleo.png',
-    }).withGlobalStory('Story for Cleo');
-
-    const char2 = Character.fromDetails({
-      name: 'Draculaura',
-      url: '/Draculaura',
-      technicalInfo: {},
-      sections: {},
-      image: 'draculaura.png',
-    }).withGlobalStory('Story for Draculaura');
-
-    stories.enrichedCharacters.set('/Cleo', char1);
-    stories.enrichedCharacters.set('/Draculaura', char2);
+    scraper.characters.set(
+      '/Cleo',
+      Character.fromDetails({ name: 'Cleo de Nilo', url: '/Cleo', technicalInfo: {}, sections: {} })
+    );
+    scraper.characters.set(
+      '/Draculaura',
+      Character.fromDetails({ name: 'Draculaura', url: '/Draculaura', technicalInfo: {}, sections: {} })
+    );
 
     await useCase.execute('Cleo de Nilo');
 
@@ -118,21 +109,38 @@ describe('The PublishCharacters UseCase', () => {
     expect(repository.savedCharacters[0]?.name).toBe('Cleo de Nilo');
   });
 
-  it('skips character if stories cannot find it', async () => {
+  it('skips character if scraper cannot find details', async () => {
     const link1: CharacterLink = { name: 'Cleo de Nilo', url: '/Cleo' };
     const link2: CharacterLink = { name: 'Draculaura', url: '/Draculaura' };
-    stories.links = [link1, link2];
+    scraper.links = [link1, link2];
 
-    const char1 = Character.fromDetails({
-      name: 'Cleo de Nilo',
-      url: '/Cleo',
-      technicalInfo: {},
-      sections: {},
-      image: 'cleo.png',
-    }).withGlobalStory('Story for Cleo');
+    scraper.characters.set(
+      '/Cleo',
+      Character.fromDetails({ name: 'Cleo de Nilo', url: '/Cleo', technicalInfo: {}, sections: {} })
+    );
+    // Draculaura intentionally not added
 
-    stories.enrichedCharacters.set('/Cleo', char1);
-    // Draculaura intentionally not added to enrichedCharacters
+    await useCase.execute();
+
+    expect(repository.savedCharacters).toHaveLength(1);
+    expect(repository.savedCharacters[0]?.name).toBe('Cleo de Nilo');
+  });
+
+  it('skips character if AI story generation fails', async () => {
+    const link1: CharacterLink = { name: 'Cleo de Nilo', url: '/Cleo' };
+    const link2: CharacterLink = { name: 'Draculaura', url: '/Draculaura' };
+    scraper.links = [link1, link2];
+
+    scraper.characters.set(
+      '/Cleo',
+      Character.fromDetails({ name: 'Cleo de Nilo', url: '/Cleo', technicalInfo: {}, sections: {} })
+    );
+    scraper.characters.set(
+      '/Draculaura',
+      Character.fromDetails({ name: 'Draculaura', url: '/Draculaura', technicalInfo: {}, sections: {} })
+    );
+
+    aiService.failForUrls.add('/Draculaura');
 
     await useCase.execute();
 
@@ -143,26 +151,16 @@ describe('The PublishCharacters UseCase', () => {
   it('persists characters to repository after each enrichment', async () => {
     const link1: CharacterLink = { name: 'Cleo de Nilo', url: '/Cleo' };
     const link2: CharacterLink = { name: 'Draculaura', url: '/Draculaura' };
-    stories.links = [link1, link2];
+    scraper.links = [link1, link2];
 
-    const char1 = Character.fromDetails({
-      name: 'Cleo de Nilo',
-      url: '/Cleo',
-      technicalInfo: {},
-      sections: {},
-      image: 'cleo.png',
-    }).withGlobalStory('Story for Cleo');
-
-    const char2 = Character.fromDetails({
-      name: 'Draculaura',
-      url: '/Draculaura',
-      technicalInfo: {},
-      sections: {},
-      image: 'draculaura.png',
-    }).withGlobalStory('Story for Draculaura');
-
-    stories.enrichedCharacters.set('/Cleo', char1);
-    stories.enrichedCharacters.set('/Draculaura', char2);
+    scraper.characters.set(
+      '/Cleo',
+      Character.fromDetails({ name: 'Cleo de Nilo', url: '/Cleo', technicalInfo: {}, sections: {} })
+    );
+    scraper.characters.set(
+      '/Draculaura',
+      Character.fromDetails({ name: 'Draculaura', url: '/Draculaura', technicalInfo: {}, sections: {} })
+    );
 
     let saveCallCount = 0;
     const originalSaveAll = repository.saveAll.bind(repository);
@@ -173,7 +171,6 @@ describe('The PublishCharacters UseCase', () => {
 
     await useCase.execute();
 
-    // Should be called at least twice (once per character)
     expect(saveCallCount).toBeGreaterThanOrEqual(2);
   });
 });
