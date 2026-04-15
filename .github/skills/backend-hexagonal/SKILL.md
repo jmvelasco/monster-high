@@ -1,6 +1,6 @@
 ---
 name: monster-high-backend-hexagonal
-description: Hexagonal Architecture guidelines for Monster High backend (TypeScript/Node.js). This skill should be used when writing, reviewing, or refactoring code in domain/, application/, or infrastructure/ layers. Enforces strict separation of concerns, dependency inversion, and SOLID principles. Triggers on tasks involving domain entities, use cases, ports, or adapters.
+description: Hexagonal Architecture guidelines for Monster High Backend. Triggers: apps/backend/src/{domain,application,infrastructure}, use cases, ports, adapters.
 license: ISC
 metadata:
   author: Monster High Project
@@ -13,12 +13,12 @@ Hexagonal Architecture (Ports & Adapters) guidelines for the Monster High backen
 
 ## When to Apply
 
-Reference these guidelines when:
-- Writing or modifying domain entities (`src/domain/`)
-- Implementing use cases (`src/application/`)
-- Creating infrastructure adapters (`src/infrastructure/`)
-- Designing ports (interfaces for dependencies)
-- Refactoring to improve layer separation
+Apply these guidelines within `apps/backend/src/`:
+
+- **Domain:** Writing or modifying entities in `domain/`.
+- **Application:** Implementing use cases in `application/`.
+- **Infrastructure:** Creating adapters in `infrastructure/`.
+- **General:** Designing ports or refactoring to improve layer separation.
 
 ## Architecture Layers
 
@@ -65,7 +65,7 @@ Reference these guidelines when:
 
 **Impact: CRITICAL** — Domain must be framework-agnostic and testable in isolation.
 
-**Rule:** Domain entities (`src/domain/`) must have ZERO imports from:
+**Rule:** Domain entities (`apps/backend/src/domain/`) must have ZERO imports from:
 - Infrastructure (`axios`, `cheerio`, `groq-sdk`, `fs`, `dotenv`)
 - Application layer
 - Node.js built-ins (except `node:assert` for runtime validations)
@@ -189,7 +189,7 @@ export class Character {
 
 **Impact: HIGH** — Domain defines "what it needs", infrastructure provides "how".
 
-**Rule:** Ports (interfaces) live in `src/domain/` and define contracts that infrastructure implements.
+**Rule:** Ports (interfaces) live in `apps/backend/src/domain/` and define contracts that infrastructure implements.
 
 **Correct:**
 ```typescript
@@ -241,7 +241,7 @@ CharacterAI             →  AIService (Groq)
 
 **Impact: HIGH** — Use cases orchestrate domain entities and ports, don't contain business logic.
 
-**Rule:** Use cases (`src/application/`) coordinate flow, delegate to domain entities and ports.
+**Rule:** Use cases (`apps/backend/src/application/`) coordinate flow, delegate to domain entities and ports.
 
 **Incorrect:**
 ```typescript
@@ -323,7 +323,7 @@ export class ScrapeAndProcessCharactersUseCase {
 
 **Impact: MEDIUM** — Adapters translate external world to domain contracts.
 
-**Rule:** Infrastructure adapters (`src/infrastructure/`) implement domain port interfaces.
+**Rule:** Infrastructure adapters (`apps/backend/src/infrastructure/`) implement domain port interfaces.
 
 **Correct:**
 ```typescript
@@ -403,7 +403,7 @@ export class Character {
 
 **Impact: MEDIUM** — Explicit wiring, no magic.
 
-**Rule:** Wire dependencies manually in `src/index.ts` (entry point). No DI frameworks.
+**Rule:** Wire dependencies manually in `apps/backend/src/index.ts` (entry point). No DI frameworks.
 
 **Correct:**
 ```typescript
@@ -486,18 +486,18 @@ test('processes characters successfully', async () => {
 
 When working on Monster High backend code:
 
-### Domain (`src/domain/`)
+### Domain (`apps/backend/src/domain/`)
 - [ ] Zero external dependencies (no axios, cheerio, fs, etc.)
 - [ ] Rich models with business logic (not anemic data bags)
 - [ ] Pure functions where possible
 - [ ] Ports (interfaces) defined here
 
-### Application (`src/application/`)
+### Application (`apps/backend/src/application/`)
 - [ ] Use cases orchestrate, don't implement logic
 - [ ] Dependencies injected via constructor
 - [ ] Delegate to domain methods for business rules
 
-### Infrastructure (`src/infrastructure/`)
+### Infrastructure (`apps/backend/src/infrastructure/`)
 - [ ] Adapters implement domain ports
 - [ ] External libraries isolated here (axios, cheerio, groq-sdk)
 - [ ] No business logic, only I/O and translation

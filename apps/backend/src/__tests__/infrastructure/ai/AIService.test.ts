@@ -1,9 +1,3 @@
-// TODO List:
-// 1. [x] generateCharacterSummary returns default text when sections are empty
-// 2. [x] generateCharacterSummary builds context from sections correctly
-// 3. [x] generateCharacterSummary handles API errors gracefully
-// 4. [x] generateCharacterSummary retries on rate limit (429)
-
 import { Character } from '../../../domain/Character';
 import { AIService } from '../../../infrastructure/ai/AIService';
 
