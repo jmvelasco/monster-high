@@ -69,14 +69,20 @@ describe('The GenerateCharacterCatalog UseCase', () => {
 
     scraper.characters.set(
       '/Cleo',
-      Character.fromDetails({ name: 'Cleo de Nilo', url: '/Cleo', technicalInfo: {}, sections: {}, image: 'cleo.png' })
+      Character.fromDetails({
+        name: 'Cleo de Nilo',
+        url: '/Cleo',
+        technicalInfo: { dummy: 'value' },
+        sections: {},
+        image: 'cleo.png',
+      })
     );
     scraper.characters.set(
       '/Draculaura',
       Character.fromDetails({
         name: 'Draculaura',
         url: '/Draculaura',
-        technicalInfo: {},
+        technicalInfo: { dummy: 'value' },
         sections: {},
         image: 'draculaura.png',
       })
@@ -96,7 +102,7 @@ describe('The GenerateCharacterCatalog UseCase', () => {
 
     scraper.characters.set(
       '/Cleo',
-      Character.fromDetails({ name: 'Cleo de Nilo', url: '/Cleo', technicalInfo: {}, sections: {} })
+      Character.fromDetails({ name: 'Cleo de Nilo', url: '/Cleo', technicalInfo: { dummy: 'value' }, sections: {} })
     );
     scraper.characters.set(
       '/Draculaura',
@@ -116,7 +122,7 @@ describe('The GenerateCharacterCatalog UseCase', () => {
 
     scraper.characters.set(
       '/Cleo',
-      Character.fromDetails({ name: 'Cleo de Nilo', url: '/Cleo', technicalInfo: {}, sections: {} })
+      Character.fromDetails({ name: 'Cleo de Nilo', url: '/Cleo', technicalInfo: { dummy: 'value' }, sections: {} })
     );
     // Draculaura intentionally not added
 
@@ -133,11 +139,11 @@ describe('The GenerateCharacterCatalog UseCase', () => {
 
     scraper.characters.set(
       '/Cleo',
-      Character.fromDetails({ name: 'Cleo de Nilo', url: '/Cleo', technicalInfo: {}, sections: {} })
+      Character.fromDetails({ name: 'Cleo de Nilo', url: '/Cleo', technicalInfo: { dummy: 'value' }, sections: {} })
     );
     scraper.characters.set(
       '/Draculaura',
-      Character.fromDetails({ name: 'Draculaura', url: '/Draculaura', technicalInfo: {}, sections: {} })
+      Character.fromDetails({ name: 'Draculaura', url: '/Draculaura', technicalInfo: { dummy: 'value' }, sections: {} })
     );
 
     storyGenerator.failForUrls.add('/Draculaura');
@@ -155,11 +161,11 @@ describe('The GenerateCharacterCatalog UseCase', () => {
 
     scraper.characters.set(
       '/Cleo',
-      Character.fromDetails({ name: 'Cleo de Nilo', url: '/Cleo', technicalInfo: {}, sections: {} })
+      Character.fromDetails({ name: 'Cleo de Nilo', url: '/Cleo', technicalInfo: { dummy: 'value' }, sections: {} })
     );
     scraper.characters.set(
       '/Draculaura',
-      Character.fromDetails({ name: 'Draculaura', url: '/Draculaura', technicalInfo: {}, sections: {} })
+      Character.fromDetails({ name: 'Draculaura', url: '/Draculaura', technicalInfo: { dummy: 'value' }, sections: {} })
     );
 
     let saveCallCount = 0;

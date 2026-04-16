@@ -27,8 +27,7 @@ export class GenerateCharacterCatalogUseCase {
       this.logger.log(`\n ▶️ [${index + 1}/${linksToProcess.length}] Publishing: ${link.name}`);
 
       const character = await this.scraper.getCharacterDetails(link.url);
-
-      if (!character) {
+      if (!character || character.isEmpty()) {
         this.logger.log(`⚠️ Skipping ${link.name} (Not found).`);
         continue;
       }

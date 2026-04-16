@@ -28,6 +28,13 @@ export class Character {
       .join('\n');
   }
 
+  isEmpty(): boolean {
+    const hasTechnicalInfo = Object.keys(this.technicalInfo).length > 0;
+    const hasSections = Object.keys(this.sections).length > 0;
+    const hasImage = !!this.image;
+    return !hasTechnicalInfo && !hasSections && !hasImage;
+  }
+
   private flattenSection(sectionName: string, subsections: Section): string {
     return Object.entries(subsections)
       .map(([title, content]) => {
