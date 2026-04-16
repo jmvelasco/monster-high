@@ -13,13 +13,11 @@ export class GroqStoryGenerator implements CharacterStoryGenerator {
 
   async generateStory(character: Character): Promise<string> {
     const contextText = character.getFlatContent();
-
     if (!contextText.trim()) {
       return 'A magical secret yet to be discovered!';
     }
 
     const prompt = this.buildPrompt(character.name, contextText);
-
     try {
       const chatCompletion = await this.groq.chat.completions.create({
         messages: [{ role: 'user', content: prompt }],
@@ -40,12 +38,12 @@ export class GroqStoryGenerator implements CharacterStoryGenerator {
   private buildPrompt(name: string, context: string): string {
     return `
         Act as an expert children's storyteller.
-        Your mission is to tell a 6-year-old girl named Cloe the story about the Character ${name} from Monster High.
+        Your mission is to tell a 6-year-old girl named Cloe the story about the Character ${name} from Monster High based on the provided information under "CHARACTER DATA".
         You have to use a direct and simple language in Spanish from Spain, not Latin American Spanish.
         
         INSTRUCTIONS:
-        1. Use all the information provided to create a single coherent story.
-        2. Do not divide the response into sections; make it a fluid story.
+        1. Use all the information provided under "CHARACTER DATA" to create a single coherent story.
+        2. Make it a fluid story.
         3. Focus on appearance, personality, family, and friends.
         4. Maximum 5 or 6 sentences in total.
         5. Add line breaks for better readability, but do not divide the response into sections.
@@ -53,7 +51,7 @@ export class GroqStoryGenerator implements CharacterStoryGenerator {
         CHARACTER DATA:
         "${context.substring(0, 15000)}" 
         
-        DIRECT RESPONSE FOR CLOE (IN SPANISH):`;
+        DIRECT RESPONSE FOR CLOE (IN SPANISH FROM SPAIN):`;
   }
 
   private async handleGroqError(error: any, character: Character): Promise<string> {
