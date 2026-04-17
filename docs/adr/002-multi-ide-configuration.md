@@ -1,7 +1,7 @@
-# ADR 002: Multi-IDE Configuration with Symlinks
+# ADR 002: Shared Agent Guidance with Local Antigravity Bootstrap
 
 **Status**: Accepted  
-**Date**: 2025-01-18  
+**Date**: 2026-04-18  
 **Decision Makers**: Development Team  
 **Related**: [ADR-001: Monorepo Structure](001-monorepo-structure.md)
 
@@ -9,208 +9,106 @@
 
 ## Context
 
-El proyecto Monster High se desarrolla usando múltiples IDEs:
-- **VSCode** con GitHub Copilot (Mac/Linux/Windows)
-- **Antigravity AI** (Windows con Git Bash)
+El proyecto se trabaja desde varios entornos:
 
-Cada IDE tiene su propio sistema de configuración para agentes de IA:
-- VSCode Copilot: `.github/copilot-instructions.md`
-- Antigravity: `.agent/` folder
+- VS Code con GitHub Copilot
+- Antigravity en otra maquina
 
-**Problema**: Tener las mismas reglas de desarrollo (XP, TDD, Coding Standards) duplicadas en múltiples ubicaciones causa:
-- ❌ Desincronización de contenido
-- ❌ Mantenimiento duplicado
-- ❌ Confusión sobre qué archivo es la fuente de verdad
+Ambos necesitan instrucciones operativas para trabajar con el repositorio, pero no necesariamente consumen la misma estructura de archivos.
+
+La estrategia anterior basada en symlinks hacia `.agent/rules/` ya no representa bien el estado real del proyecto:
+
+- los archivos locales de Antigravity no viven en este workspace de forma estable
+- `.agent/` se trata como configuracion local y no como parte del repo
+- los symlinks introducen fragilidad innecesaria entre maquinas, shells y sistemas operativos
+
+El objetivo sigue siendo evitar reglas duplicadas como fuente de verdad compartida.
 
 ---
 
 ## Decision
 
-Adoptamos una **arquitectura multi-IDE con fuente única de verdad usando symlinks**:
+Adoptamos el siguiente modelo:
 
-### Estructura:
+1. `.github/` es la fuente de verdad versionada para las instrucciones compartidas de agentes.
+2. Las adaptaciones especificas para Antigravity se generan localmente cuando hagan falta.
+3. La generacion local se hace mediante un script de bootstrap versionado en `scripts/setup-antigravity-local.sh`.
+4. Los archivos generados en `.agent/` permanecen fuera de Git.
 
+---
+
+## Canonical Sources
+
+La guia compartida y versionada vive en:
+
+- `.github/copilot-instructions.md`
+- `.github/instructions/`
+- `.github/skills/`
+
+Estas rutas forman el contrato estable del repositorio para asistentes de codigo.
+
+---
+
+## Local Antigravity Materialization
+
+Cuando una maquina necesite una estructura local para Antigravity, se ejecuta:
+
+```bash
+sh scripts/setup-antigravity-local.sh
 ```
-docs/development-rules/     ← FUENTE ÚNICA DE VERDAD
-├── xp-methodology.md
-├── tdd.md
-├── coding-standards.md
-└── testing-standards.md
 
-.github/
-├── copilot-instructions.md  ← VSCode Copilot (referencia docs/*)
-└── skills/                  ← Skills específicos (backend/frontend)
+El script crea una copia local en `.agent/rules/` a partir de las fuentes versionadas en `.github/`.
 
-.agent/
-├── rules/                   ← Antigravity (SYMLINKS a docs/*)
-│   ├── xp-programming.md    → ../../docs/development-rules/xp-methodology.md
-│   ├── tdd.md               → ../../docs/development-rules/tdd.md
-│   ├── coding-standards.md  → ../../docs/development-rules/coding-standards.md
-│   └── testing.md           → ../../docs/development-rules/testing-standards.md
-└── antigravity-config.md    ← Config específica Antigravity
-```
+Esto permite:
 
-### Reglas:
-
-1. **Fuente única**: Todos los archivos de reglas de desarrollo viven en `docs/development-rules/`
-2. **Symlinks**: `.agent/rules/` contiene symlinks a `docs/development-rules/`
-3. **Sin duplicación**: NO copiar contenido entre directorios
-4. **Edición**: Siempre editar en `docs/development-rules/`, cambios se reflejan automáticamente en `.agent/rules/`
-5. **Sin prefijo @**: Las rutas en archivos de configuración usan rutas relativas simples (sin `@`) para compatibilidad entre IDEs
+- mantener una sola fuente de verdad versionada
+- evitar symlinks entre rutas locales
+- regenerar el estado local cuando cambien las instrucciones
 
 ---
 
 ## Consequences
 
-### Positivas ✅
+### Positivas
 
-1. **Fuente única de verdad**: Solo editas un archivo, afecta a ambos IDEs
-2. **No desincronización**: Imposible tener versiones diferentes
-3. **Multi-IDE sin esfuerzo**: Funciona en VSCode y Antigravity sin cambios
-4. **Mantenimiento simple**: Cambias 1 archivo en `docs/`, ambos IDEs lo ven
-5. **Compatible entre OS**: Git Bash en Windows soporta symlinks como Mac/Linux
+1. La documentacion compartida queda centralizada en rutas versionadas y visibles.
+2. El repo deja de depender de symlinks para representar setups locales.
+3. La configuracion de Antigravity pasa a ser reproducible por script.
+4. La estrategia funciona mejor entre equipos, ordenadores y sistemas operativos distintos.
 
-### Negativas ⚠️
+### Negativas
 
-1. **Requiere Git Bash en Windows**: Sin Git Bash, los symlinks no funcionan en Antigravity
-2. **Configuración inicial**: Necesita ejecutar comandos bash para crear symlinks
-3. **Nombres diferentes**: `.agent/rules/xp-programming.md` vs `docs/.../xp-methodology.md` (inevitable por convenciones de Antigravity)
-
-### Mitigaciones 🛠️
-
-1. **Documentación clara**: `docs/adr/002-multi-ide-configuration.md` (este archivo)
-2. **Configuración de Antigravity**: `.agent/antigravity-config.md` explica cómo verificar Git Bash
-3. **Scripts de verificación**: Futuros scripts pueden validar que symlinks existen
-4. **README actualizado**: Incluir sección de configuración por IDE
+1. Antigravity consume una copia local, no la fuente directamente.
+2. Tras cambios en `.github/`, hay que regenerar el material local si esa maquina usa Antigravity.
 
 ---
 
-## Rationale
+## Alternatives Considered
 
-### Alternativas Consideradas
+### Opcion A: Mantener symlinks
 
-#### Opción A: Duplicación con scripts de sincronización
-```
-docs/development-rules/  ← Fuente
-.agent/rules/            ← Copias sincronizadas con script
-```
+Rechazada porque acopla demasiado el repo a una topologia local concreta y no representa el uso real actual.
 
-**Pros**:
-- ✅ No requiere Git Bash
-- ✅ Funciona en cualquier OS sin configuración
+### Opcion B: Duplicacion manual fuera del repo
 
-**Contras**:
-- ❌ Requiere ejecutar script manualmente
-- ❌ Puede desincronizarse si olvidas ejecutar script
-- ❌ Git hooks pueden ser invasivos
+Rechazada porque facilita desincronizacion silenciosa entre maquinas.
 
-**Decisión**: ❌ Rechazada por riesgo de desincronización
+### Opcion C: Bootstrap local desde fuente versionada
+
+Elegida porque mantiene una sola fuente de verdad dentro del repo y mueve la adaptacion especifica a un paso local explicito.
 
 ---
 
-#### Opción B: Symlinks (ELEGIDA)
-```
-docs/development-rules/  ← Fuente
-.agent/rules/            ← Symlinks
-```
+## Operational Notes
 
-**Pros**:
-- ✅ Sincronización automática
-- ✅ Imposible desincronizar
-- ✅ Más simple que scripts
-
-**Contras**:
-- ⚠️ Requiere Git Bash en Windows
-
-**Decisión**: ✅ **ELEGIDA** porque el equipo usa Git Bash
-
----
-
-#### Opción C: Configuración única en raíz
-```
-.dev-rules/  ← Configuración única
-```
-
-**Pros**:
-- ✅ No duplicación
-
-**Contras**:
-- ❌ IDEs no la reconocen
-- ❌ Requiere configuración manual en cada IDE
-
-**Decisión**: ❌ Rechazada por incompatibilidad con IDEs
-
----
-
-## Implementation Notes
-
-### Comandos para Crear Symlinks
-
-```bash
-# En Git Bash (Windows) o Terminal (Mac/Linux)
-cd .agent/rules
-rm -f *.md
-ln -s ../../docs/development-rules/xp-methodology.md xp-programming.md
-ln -s ../../docs/development-rules/tdd.md tdd.md
-ln -s ../../docs/development-rules/coding-standards.md coding-standards.md
-ln -s ../../docs/development-rules/testing-standards.md testing.md
-```
-
-### Verificación en Windows con Antigravity
-
-**1. Verificar que Antigravity usa Git Bash**:
-```bash
-# En terminal de Antigravity
-echo $SHELL
-# Esperado: /usr/bin/bash o /bin/bash
-```
-
-**Si muestra otra cosa** (PowerShell, CMD):
-- Configurar Antigravity para usar Git Bash como terminal por defecto
-- Consultar documentación de Antigravity
-
-**2. Verificar symlinks**:
-```bash
-ls -la .agent/rules/
-# Debe mostrar: xp-programming.md -> ../../docs/development-rules/xp-methodology.md
-```
-
-**3. Verificar lectura**:
-```bash
-cat .agent/rules/tdd.md
-# Debe mostrar contenido de docs/development-rules/tdd.md
-```
-
----
-
-## Migration Path
-
-### Si alguien usa Windows sin Git Bash:
-
-**Opción 1**: Instalar Git Bash (recomendado)
-- Descargar de https://git-scm.com/downloads
-- Configurar IDE para usar Git Bash
-
-**Opción 2**: Usar WSL (Windows Subsystem for Linux)
-- Los symlinks funcionan nativamente en WSL
-
-**Opción 3**: Modo desarrollador de Windows 10/11
-- Habilitar modo desarrollador
-- Los symlinks funcionan sin permisos admin
+- `.agent/` se considera espacio local de herramientas y permanece ignorado por Git.
+- VS Code puede invocar el bootstrap mediante la task `Prepare Antigravity Local Rules`.
+- Si Antigravity cambia su formato esperado en el futuro, se actualiza el script, no la estrategia general.
 
 ---
 
 ## References
 
-- [Git Bash Symlinks Documentation](https://git-scm.com/docs/git-symbolic-ref)
-- [Antigravity Documentation](https://antigravity.dev/docs)
 - [ADR-001: Monorepo Structure](001-monorepo-structure.md)
-- [VSCode Copilot Instructions](.github/copilot-instructions.md)
-
----
-
-## Future Considerations
-
-1. **Script de validación**: Crear `scripts/validate-symlinks.sh` para verificar integridad
-2. **CI/CD check**: Validar symlinks en pipeline de CI
-3. **Documentación IDE-específica**: Crear guías para configurar VSCode y Antigravity correctamente
+- [Copilot Instructions](../../.github/copilot-instructions.md)
+- [VS Code Tasks](../../.vscode/tasks.json)

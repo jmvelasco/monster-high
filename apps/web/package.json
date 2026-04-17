@@ -15,9 +15,7 @@
     "format:fix": "prettier --config .prettierrc \"**/*.+(ts|tsx)\" --write",
     "clean": "rm -rf dist node_modules",
     "compile": "tsc --noEmit",
-    "preview": "vite preview",
-    "release:minor": "npm version minor && git push origin --follow-tags",
-    "release:patch": "npm version patch && git push origin --follow-tags"
+    "preview": "vite preview"
   },
   "dependencies": {
     "react": "^19.2.3",
