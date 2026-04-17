@@ -1,12 +1,12 @@
 import { Character, CharacterLink } from '../../domain/Character';
-import { CharacterAI } from '../../domain/CharacterAI';
 import { CharacterScraper } from '../../domain/CharacterScraper';
 import { CharacterStories } from '../../domain/CharacterStories';
+import { CharacterStoryGenerator } from '../../domain/CharacterStoryGenerator';
 
 export class CharacterStoriesAdapter implements CharacterStories {
   constructor(
     private readonly scraper: CharacterScraper,
-    private readonly aiService: CharacterAI
+    private readonly aiService: CharacterStoryGenerator
   ) {}
 
   async scrapeCharacterLinks(): Promise<CharacterLink[]> {
@@ -20,7 +20,7 @@ export class CharacterStoriesAdapter implements CharacterStories {
     }
 
     try {
-      const story = await this.aiService.generateCharacterSummary(character);
+      const story = await this.aiService.generateStory(character);
       return character.withGlobalStory(story);
     } catch {
       return null;

@@ -1,6 +1,6 @@
 import { Character, CharacterLink } from '../../../domain/Character';
-import { CharacterAI } from '../../../domain/CharacterAI';
 import { CharacterScraper } from '../../../domain/CharacterScraper';
+import { CharacterStoryGenerator } from '../../../domain/CharacterStoryGenerator';
 import { CharacterStoriesAdapter } from '../../../infrastructure/stories/CharacterStoriesAdapter';
 
 class FakeCharacterScraper implements CharacterScraper {
@@ -16,14 +16,14 @@ class FakeCharacterScraper implements CharacterScraper {
   }
 }
 
-class FakeCharacterAI implements CharacterAI {
+class FakeStoryGenerator implements CharacterStoryGenerator {
   private shouldFail = false;
 
   setShouldFail(fail: boolean) {
     this.shouldFail = fail;
   }
 
-  async generateCharacterSummary(character: Character): Promise<string> {
+  async generateStory(character: Character): Promise<string> {
     if (this.shouldFail) {
       throw new Error('AI service error');
     }
@@ -33,12 +33,12 @@ class FakeCharacterAI implements CharacterAI {
 
 describe('The CharacterStoriesAdapter', () => {
   let scraper: FakeCharacterScraper;
-  let aiService: FakeCharacterAI;
+  let aiService: FakeStoryGenerator;
   let stories: CharacterStoriesAdapter;
 
   beforeEach(() => {
     scraper = new FakeCharacterScraper();
-    aiService = new FakeCharacterAI();
+    aiService = new FakeStoryGenerator();
     stories = new CharacterStoriesAdapter(scraper, aiService);
   });
 
