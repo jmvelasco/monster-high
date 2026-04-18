@@ -16,8 +16,7 @@ async function runPipeline() {
     .parseSync();
 
   const scraper = new WikiScraper();
-  const silenced = false;
-  const logger = new ConsoleLogger(silenced);
+  const logger = new ConsoleLogger();
   const storyGenerator = new GroqStoryGenerator();
   const repository = new JsonRepository();
   const useCase = new GenerateCharacterCatalogUseCase(scraper, storyGenerator, repository, logger);
