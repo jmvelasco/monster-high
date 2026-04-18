@@ -1,8 +1,8 @@
 import { GenerateCharacterCatalogUseCase } from './application/GenerateCharacterCatalogUseCase';
-import { GroqStoryGenerator } from './infrastructure/ai/GroqStoryGenerator';
-import { Logger } from './infrastructure/logger/Logger';
+import { ConsoleLogger } from './infrastructure/logger/ConsoleLogger';
 import { WikiScraper } from './infrastructure/scraper/WikiScraper';
 import { JsonRepository } from './infrastructure/storage/JsonRepository';
+import { GroqStoryGenerator } from './infrastructure/story-generator/GroqStoryGenerator';
 
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
@@ -17,10 +17,9 @@ async function runPipeline() {
 
   const scraper = new WikiScraper();
   const silenced = false;
-  const logger = new Logger(silenced);
+  const logger = new ConsoleLogger(silenced);
   const storyGenerator = new GroqStoryGenerator();
   const repository = new JsonRepository();
-
   const useCase = new GenerateCharacterCatalogUseCase(scraper, storyGenerator, repository, logger);
 
   logger.log('🚀 Starting Monster High Publisher');

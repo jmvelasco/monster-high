@@ -1,4 +1,6 @@
-export class Logger implements Logger {
+import { Logger } from '../../domain/Logger';
+
+export class ConsoleLogger implements Logger {
   constructor(private readonly silenced: boolean) {}
 
   info(message: string): void {

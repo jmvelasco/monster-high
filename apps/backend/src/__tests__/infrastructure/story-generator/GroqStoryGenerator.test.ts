@@ -1,5 +1,5 @@
 import { Character } from '../../../domain/Character';
-import { GroqStoryGenerator } from '../../../infrastructure/ai/GroqStoryGenerator';
+import { GroqStoryGenerator } from '../../../infrastructure/story-generator/GroqStoryGenerator';
 
 class FakeGroqClient {
   private mockResponse: string | null = null;
