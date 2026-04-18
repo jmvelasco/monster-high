@@ -20,6 +20,10 @@ applyTo: "apps/**/*.{ts,tsx,js,jsx}"
 - Do not introduce performance optimizations unless they are justified by measurement.
 - Do not introduce mocks without approval.
 
+## Scope
+
+These rules apply to implementation AND to planning. When describing implementation steps in a plan, each feature must follow the REASON -> RED -> GREEN -> REFACTOR -> RE-EVALUATE sequence. "Implement X" is never a standalone step — it is always driven by a failing test first. A plan that lists implementation before tests violates TDD regardless of intent.
+
 ## Quick checks
 
 - Is this the smallest next test?

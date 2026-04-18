@@ -30,7 +30,7 @@ Prioritize simple design, fast feedback, and clear traceability.
 
 ## Global Rules
 
-- Use strict TDD for functional work.
+- Use strict TDD for functional work — in code AND in plans. See `.github/instructions/tdd-workflow.instructions.md` for the full cycle (REASON -> RED -> GREEN -> REFACTOR -> RE-EVALUATE). Never plan or implement production code before its driving test.
 - Apply YAGNI strictly.
 - Do not introduce mocks without approval.
 - Optimize performance only when justified by measurement.
