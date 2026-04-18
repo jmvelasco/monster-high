@@ -69,7 +69,7 @@ Follow the operational commit rules defined in `.github/instructions/commit-stra
 
 When editing `apps/backend/*`, also apply:
 
-- [backend-hexagonal skill](skills/backend-hexagonal/SKILL.md)
+- [backend-hexagonal skill](../.agents/skills/backend-hexagonal/SKILL.md)
 - Hexagonal Architecture: Domain -> Application -> Infrastructure
 - Domain must not depend on external libraries
 - Ports belong in domain and adapters in infrastructure
@@ -79,7 +79,7 @@ When editing `apps/backend/*`, also apply:
 
 When editing `apps/web/*`, also apply:
 
-- [React best practices skill](skills/react-best-practices/SKILL.md)
+- [React best practices skill](../.agents/skills/react-best-practices/SKILL.md)
 
 Copilot should also load operational instructions from `.github/instructions/`:
 

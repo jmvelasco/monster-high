@@ -16,10 +16,10 @@ El proyecto se trabaja desde varios entornos:
 
 Ambos necesitan instrucciones operativas para trabajar con el repositorio, pero no necesariamente consumen la misma estructura de archivos.
 
-La estrategia anterior basada en symlinks hacia `.agent/rules/` ya no representa bien el estado real del proyecto:
+La estrategia anterior basada en symlinks hacia `.agents/rules/` ya no representa bien el estado real del proyecto:
 
 - los archivos locales de Antigravity no viven en este workspace de forma estable
-- `.agent/` se trata como configuracion local y no como parte del repo
+- `.agents/` se trata como configuracion local y no como parte del repo
 - los symlinks introducen fragilidad innecesaria entre maquinas, shells y sistemas operativos
 
 El objetivo sigue siendo evitar reglas duplicadas como fuente de verdad compartida.
@@ -33,7 +33,7 @@ Adoptamos el siguiente modelo:
 1. `.github/` es la fuente de verdad versionada para las instrucciones compartidas de agentes.
 2. Las adaptaciones especificas para Antigravity se generan localmente cuando hagan falta.
 3. La generacion local se hace mediante un script de bootstrap versionado en `scripts/setup-antigravity-local.sh`.
-4. Los archivos generados en `.agent/` permanecen fuera de Git.
+4. Los archivos generados en `.agents/` permanecen fuera de Git.
 
 ---
 
@@ -43,7 +43,7 @@ La guia compartida y versionada vive en:
 
 - `.github/copilot-instructions.md`
 - `.github/instructions/`
-- `.github/skills/`
+- `.agents/skills/`
 
 Estas rutas forman el contrato estable del repositorio para asistentes de codigo.
 
@@ -57,7 +57,7 @@ Cuando una maquina necesite una estructura local para Antigravity, se ejecuta:
 sh scripts/setup-antigravity-local.sh
 ```
 
-El script crea una copia local en `.agent/rules/` a partir de las fuentes versionadas en `.github/`.
+El script crea una copia local en `.agents/rules/` a partir de las fuentes versionadas en `.github/`.
 
 Esto permite:
 
@@ -101,7 +101,7 @@ Elegida porque mantiene una sola fuente de verdad dentro del repo y mueve la ada
 
 ## Operational Notes
 
-- `.agent/` se considera espacio local de herramientas y permanece ignorado por Git.
+- `.agents/` se considera espacio local de herramientas y permanece ignorado por Git.
 - VS Code puede invocar el bootstrap mediante la task `Prepare Antigravity Local Rules`.
 - Si Antigravity cambia su formato esperado en el futuro, se actualiza el script, no la estrategia general.
 

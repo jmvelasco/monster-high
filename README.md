@@ -292,8 +292,8 @@ El repositorio incluye instrucciones y skills para guiar a los agentes al trabaj
 
 - `.github/copilot-instructions.md`
 - `.github/instructions/`
-- `.github/skills/backend-hexagonal/`
-- `.github/skills/react-best-practices/`
+- `.agents/skills/backend-hexagonal/`
+- `.agents/skills/react-best-practices/`
 - `scripts/setup-antigravity-local.sh`
 
 `.github/` actua como fuente de verdad versionada para la guia de agentes. Si necesitas preparar una copia local para Antigravity en otra maquina, puedes materializarla con `scripts/setup-antigravity-local.sh`.

@@ -21,8 +21,7 @@ data/*.json
 
 .DS_Store
 
-# Agent rules and documentation
-.agent/rules/
+# Agent rules (generated locally, not versioned)
 .agents/rules/
 docs/development-rules
 AGENTS.md
