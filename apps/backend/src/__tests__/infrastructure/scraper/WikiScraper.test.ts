@@ -148,6 +148,29 @@ describe('The Wiki Scraper', () => {
     });
   });
 
+  test('maps wiki label "Mejores Amigos" to mejoresAmigos via camelCase', async () => {
+    const fakeClient = new FakeHttpClient();
+    const htmlWithMejoresAmigos = `
+            <html>
+                <body>
+                    <h1 class="mw-page-title-main">Clawd Wolf</h1>
+                    <div class="pi-item pi-data pi-item-spacing pi-border-color" data-source="Mejores Amigos">
+                        <h3 class="pi-data-label pi-secondary-font">Mejores Amigos</h3>
+                        <div class="pi-data-value pi-font">Un líder de manada no puede tener favoritos.</div>
+                    </div>
+                </body>
+            </html>
+        `;
+    fakeClient.mockResponse('https://test.url', htmlWithMejoresAmigos);
+
+    const scraper = new WikiScraper(fakeClient as any);
+    const character = await scraper.getCharacterDetails('https://test.url');
+
+    expect(character?.technicalInfo).toStrictEqual({
+      mejoresAmigos: 'Un líder de manada no puede tener favoritos.',
+    });
+  });
+
   test('extracts sections with H2 and H3 structure', async () => {
     const fakeClient = new FakeHttpClient();
     const htmlWithSections = `
