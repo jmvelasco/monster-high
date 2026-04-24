@@ -8,6 +8,10 @@ export class Character {
     public readonly globalStory?: string
   ) {}
 
+  private static readonly TECHNICAL_INFO_ALIASES: Record<string, string> = {
+    amigos: 'mejoresAmigos',
+  };
+
   static fromDetails(details: {
     name: string;
     url: string;
@@ -15,7 +19,12 @@ export class Character {
     sections: CharacterSections;
     image?: string;
   }): Character {
-    return new Character(details.name, details.url, details.technicalInfo, details.sections, details.image);
+    const normalizedInfo: TechnicalInfo = {};
+    for (const [key, value] of Object.entries(details.technicalInfo)) {
+      const canonicalKey = Character.TECHNICAL_INFO_ALIASES[key] ?? key;
+      normalizedInfo[canonicalKey] = value;
+    }
+    return new Character(details.name, details.url, normalizedInfo, details.sections, details.image);
   }
 
   withGlobalStory(story: string): Character {
