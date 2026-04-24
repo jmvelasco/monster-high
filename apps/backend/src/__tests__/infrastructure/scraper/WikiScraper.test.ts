@@ -143,7 +143,7 @@ describe('The Wiki Scraper', () => {
     expect(character?.technicalInfo).toStrictEqual({
       edad: '1599/1600 (Cumpleaños = 14 de Febrero)',
       mascota: 'Count Fabulous',
-      amigos: 'Frankie Stein, Clawdeen Wolf',
+      mejoresAmigos: 'Frankie Stein, Clawdeen Wolf',
       anomuneca: '2010',
     });
   });
