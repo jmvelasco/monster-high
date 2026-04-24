@@ -8,4 +8,8 @@ export class User {
   static create(id: string, email: string, createdAt: Date): User {
     return new User(id, email, createdAt);
   }
+
+  static createNow(_id: string, _email: string): User {
+    return null as unknown as User;
+  }
 }
