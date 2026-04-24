@@ -1,19 +1,13 @@
 /**
  * Test utilities and helpers
  * Centralized location for testing-specific functions
- *
- * This file contains ONLY testing utilities.
- * No testing code contaminating production modules.
  */
-
-import { __resetFavoritesForTesting } from '../utils/favoritesStorage'
 
 /**
- * Reset all favorites storage state for testing
+ * Reset all storage state for testing
  *
- * Clears both localStorage and the in-memory fallback
+ * Clears localStorage to ensure clean state between tests
  */
-export function resetFavoritesState(): void {
+export function resetStorageState(): void {
   localStorage.clear()
-  __resetFavoritesForTesting()
 }

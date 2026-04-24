@@ -63,7 +63,6 @@
 .navLink[aria-current='page'] {
   color: var(--mh-pink);
   border-bottom-color: var(--mh-pink);
-  font-weight: 700;
 }
 
 /* Tablet Up */
