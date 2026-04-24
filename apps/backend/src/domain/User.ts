@@ -9,7 +9,7 @@ export class User {
     return new User(id, email, createdAt);
   }
 
-  static createNow(_id: string, _email: string): User {
-    return null as unknown as User;
+  static createNow(id: string, email: string): User {
+    return User.create(id, email, new Date());
   }
 }
