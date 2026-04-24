@@ -1,14 +1,6 @@
 import { User } from '../../domain/User';
 
 describe('The User', () => {
-  // [x] 1. creates a user with an id, email, and creation date
-  // [x] 2. exposes its email
-  // [x] 3. exposes its creation date
-  // [x] 4. creation date is set to now when using the factory method
-  // [ ] 5. rejects an empty email
-  // [ ] 6. rejects an invalid email format
-  // [ ] 7. knows if it was created before a given date
-
   it('creates a user with an id, email, and creation date', () => {
     const createdAt = new Date('2026-01-01');
 
@@ -31,5 +23,16 @@ describe('The User', () => {
 
   it('rejects an empty email', () => {
     expect(() => User.create('user-1', '', new Date())).toThrow();
+  });
+
+  it('rejects an invalid email format', () => {
+    expect(() => User.create('user-1', 'not-an-email', new Date())).toThrow();
+  });
+
+  it('knows if it was created before a given date', () => {
+    const user = User.create('user-1', 'clawdeen@monsterhigh.edu', new Date('2026-01-15'));
+
+    expect(user.wasCreatedBefore(new Date('2026-02-01'))).toBe(true);
+    expect(user.wasCreatedBefore(new Date('2026-01-01'))).toBe(false);
   });
 });
