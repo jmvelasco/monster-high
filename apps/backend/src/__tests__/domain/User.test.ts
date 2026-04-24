@@ -4,7 +4,7 @@ describe('The User', () => {
   // [x] 1. creates a user with an id, email, and creation date
   // [x] 2. exposes its email
   // [x] 3. exposes its creation date
-  // [ ] 4. creation date is set to now when using the factory method
+  // [x] 4. creation date is set to now when using the factory method
   // [ ] 5. rejects an empty email
   // [ ] 6. rejects an invalid email format
   // [ ] 7. knows if it was created before a given date
@@ -27,5 +27,9 @@ describe('The User', () => {
     const after = new Date();
     expect(user.createdAt.getTime()).toBeGreaterThanOrEqual(before.getTime());
     expect(user.createdAt.getTime()).toBeLessThanOrEqual(after.getTime());
+  });
+
+  it('rejects an empty email', () => {
+    expect(() => User.create('user-1', '', new Date())).toThrow();
   });
 });
