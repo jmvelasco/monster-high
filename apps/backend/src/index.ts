@@ -1,67 +1,30 @@
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 import { GenerateCharacterCatalogUseCase } from './application/GenerateCharacterCatalogUseCase';
 import { RunFizzBuzzUseCase } from './application/RunFizzBuzzUseCase';
+import { CommandLineProcessor, CLIEngine } from './infrastructure/cli/CommandLineProcessor';
+import { FizzBuzzCommand } from './infrastructure/cli/commands/FizzBuzzCommand';
+import { GenerateCharactersCommand } from './infrastructure/cli/commands/GenerateCharactersCommand';
 import { ColoredConsoleFizzBuzzPresenter } from './infrastructure/fizzbuzz/ColoredConsoleFizzBuzzPresenter';
 import { ConsoleLogger } from './infrastructure/logger/ConsoleLogger';
 import { WikiScraper } from './infrastructure/scraper/WikiScraper';
 import { JsonRepository } from './infrastructure/storage/JsonRepository';
 import { GroqStoryGenerator } from './infrastructure/story-generator/GroqStoryGenerator';
 
-import yargs from 'yargs';
-import { hideBin } from 'yargs/helpers';
+// Composition Root
+const logger = new ConsoleLogger();
 
-function runFizzBuzz(min?: number, max?: number): void {
-  const presenter = new ColoredConsoleFizzBuzzPresenter();
-  const useCase = new RunFizzBuzzUseCase(presenter);
+const fizzBuzzPresenter = new ColoredConsoleFizzBuzzPresenter();
+const fizzBuzzUseCase = new RunFizzBuzzUseCase(fizzBuzzPresenter);
 
-  if (min !== undefined && max !== undefined) {
-    useCase.execute(min, max);
-    return;
-  }
-  if (min !== undefined) {
-    useCase.execute(0, min);
-    return;
-  }
-  useCase.execute();
-}
+const scraper = new WikiScraper();
+const storyGenerator = new GroqStoryGenerator();
+const repository = new JsonRepository();
+const generateCharactersUseCase = new GenerateCharacterCatalogUseCase(scraper, storyGenerator, repository, logger);
 
-async function runPipeline(character?: string): Promise<void> {
-  const scraper = new WikiScraper();
-  const logger = new ConsoleLogger();
-  const storyGenerator = new GroqStoryGenerator();
-  const repository = new JsonRepository();
-  const useCase = new GenerateCharacterCatalogUseCase(scraper, storyGenerator, repository, logger);
+const commands = [new FizzBuzzCommand(fizzBuzzUseCase), new GenerateCharactersCommand(generateCharactersUseCase)];
 
-  logger.log('🚀 Starting Monster High Publisher');
-  try {
-    await useCase.execute(character);
-    logger.log('\n🎉 Pipeline completed successfully!');
-  } catch (error) {
-    logger.error(`Critical Error in Pipeline: ${error}`);
-    process.exit(1);
-  }
-}
+const yargsInstance = yargs(hideBin(process.argv)) as unknown as CLIEngine;
+const processor = new CommandLineProcessor(commands, yargsInstance);
 
-yargs(hideBin(process.argv))
-  .command(
-    'fizzbuzz [min] [max]',
-    'Run FizzBuzz for a given range',
-    (y) =>
-      y
-        .positional('min', { type: 'number', description: 'Start of range' })
-        .positional('max', { type: 'number', description: 'End of range' }),
-    (argv) => runFizzBuzz(argv.min, argv.max)
-  )
-  .command(
-    'pipeline',
-    'Run the Monster High character pipeline',
-    (y) =>
-      y.option('character', {
-        type: 'string',
-        description: 'Name of the character to process',
-      }),
-    (argv) => runPipeline(argv.character)
-  )
-  .demandCommand(1, 'Please specify a command: fizzbuzz or pipeline')
-  .strict()
-  .help()
-  .parseAsync();
+processor.run();

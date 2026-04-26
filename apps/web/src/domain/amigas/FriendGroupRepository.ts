@@ -1,8 +1,0 @@
-import { FriendGroup } from './FriendGroup'
-
-export interface FriendGroupRepository {
-  findAll(): Promise<FriendGroup[]>
-  save(group: FriendGroup): Promise<void>
-  delete(id: string): Promise<void>
-  findById(id: string): Promise<FriendGroup | null>
-}

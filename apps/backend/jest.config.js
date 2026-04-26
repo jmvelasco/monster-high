@@ -20,5 +20,8 @@ module.exports = {
     },
   },
   modulePathIgnorePatterns: ['<rootDir>/dist/', '<rootDir>/lib/'],
+  transformIgnorePatterns: [
+    'node_modules/(?!(yargs|yargs-parser|cliui|string-width|strip-ansi|ansi-regex|escalade)/)',
+  ],
   verbose: true,
 };
