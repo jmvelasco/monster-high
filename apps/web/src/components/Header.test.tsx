@@ -19,9 +19,9 @@ describe('Header', () => {
     expect(logo).toBeInTheDocument()
   })
 
-  it('muestra link a "Favoritos"', () => {
+  it('muestra link a "Amigas"', () => {
     // Arrange
-    const expectedLinkText = '❤️ Mis Favoritos'
+    const expectedLinkText = '💜 Mis Amigas'
 
     // Act
     render(
@@ -33,7 +33,7 @@ describe('Header', () => {
     // Assert
     const link = screen.getByRole('link', { name: expectedLinkText })
     expect(link).toBeInTheDocument()
-    expect(link).toHaveAttribute('href', '/favorites')
+    expect(link).toHaveAttribute('href', '/friends')
   })
 
   it.skip('resalta ruta activa', () => {
@@ -47,7 +47,7 @@ describe('Header', () => {
     )
 
     // Assert
-    const charactersLink = screen.getByRole('link', { name: '❤️ Mis Favoritos' })
+    const charactersLink = screen.getByRole('link', { name: '💜 Mis Amigas' })
     expect(charactersLink).toHaveAttribute('aria-current', 'page')
   })
 
@@ -63,7 +63,7 @@ describe('Header', () => {
     )
 
     // Assert
-    const favoritesLink = screen.getByRole('link', { name: '❤️ Mis Favoritos' })
+    const favoritesLink = screen.getByRole('link', { name: '💜 Mis Amigas' })
 
     expect(favoritesLink).toHaveAttribute('href')
     // NavLink es por defecto accesible por teclado

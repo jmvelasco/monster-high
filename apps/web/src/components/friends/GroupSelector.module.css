@@ -1,0 +1,89 @@
+.selector {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  padding: var(--spacing-4);
+  border: 2px solid var(--mh-purple);
+  border-radius: var(--radius-md);
+  background: var(--mh-white, #fff);
+}
+
+.title {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--mh-purple);
+  margin: 0;
+}
+
+.groupList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+}
+
+.groupButton {
+  padding: var(--spacing-2) var(--spacing-4);
+  border: 2px solid var(--mh-purple);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--mh-purple);
+  cursor: pointer;
+  font-size: var(--text-sm, 0.875rem);
+  font-weight: 500;
+  transition: all var(--transition-base);
+}
+
+.groupButton:hover {
+  background-color: var(--mh-purple);
+  color: #fff;
+}
+
+.groupButton:focus-visible {
+  outline: 2px solid var(--mh-focus);
+  outline-offset: 2px;
+}
+
+.inGroup {
+  background-color: var(--mh-purple);
+  color: #fff;
+}
+
+.createRow {
+  display: flex;
+  gap: var(--spacing-2);
+}
+
+.input {
+  flex: 1;
+  padding: var(--spacing-2) var(--spacing-3);
+  border: 1px solid var(--mh-purple);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm, 0.875rem);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--mh-focus);
+  box-shadow: 0 0 0 2px rgba(147, 112, 219, 0.2);
+}
+
+.createButton {
+  padding: var(--spacing-2) var(--spacing-4);
+  background-color: var(--mh-purple);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: var(--text-sm, 0.875rem);
+  font-weight: 500;
+  transition: all var(--transition-base);
+}
+
+.createButton:hover {
+  background-color: var(--mh-focus);
+}
+
+.createButton:focus-visible {
+  outline: 2px solid var(--mh-focus);
+  outline-offset: 2px;
+}
