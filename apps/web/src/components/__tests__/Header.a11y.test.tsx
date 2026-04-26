@@ -32,7 +32,7 @@ describe('Header - Accesibilidad', () => {
     )
 
     // Assert
-    const favoritesLink = screen.getByRole('link', { name: '❤️ Mis Favoritos' })
+    const favoritesLink = screen.getByRole('link', { name: '💜 Mis Amigas' })
 
     // NavLinks son elementos nativos <a>, accesibles por teclado
     expect(favoritesLink.tagName).toBe('A')

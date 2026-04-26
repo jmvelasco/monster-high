@@ -1,9 +1,13 @@
 import { render, screen } from '@testing-library/react'
-import { describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
 import type { Character } from '../../../types/character'
 import { CharacterDetail } from '../CharacterDetail'
 
 describe('CharacterDetail', () => {
+  beforeEach(() => {
+    localStorage.clear()
+  })
+
   it('muestra imagen del personaje con alt text', () => {
     // Arrange
     const character: Character = {
@@ -94,5 +98,18 @@ describe('CharacterDetail', () => {
     // Assert - No debe renderizar sección de historia
     const storySection = container.querySelector('.global-story')
     expect(storySection).not.toBeInTheDocument()
+  })
+
+  it('displays the group selector section', () => {
+    const character: Character = {
+      name: 'Draculaura',
+      url: 'https://example.com',
+      technicalInfo: {},
+      sections: {},
+    }
+
+    render(<CharacterDetail character={character} />)
+
+    expect(screen.getByText(/añadir a grupo de amigas/i)).toBeInTheDocument()
   })
 })

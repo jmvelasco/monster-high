@@ -1,73 +1,93 @@
-# React + TypeScript + Vite
+# Monster High Web
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicacion frontend de Monster High construida con React, TypeScript y Vite.
 
-Currently, two official plugins are available:
+Esta app consume un catalogo estatico desde `public/api/characters.json` y ofrece tres flujos principales:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- listado de personajes
+- detalle por personaje
+- favoritos persistidos en `localStorage`
 
-## React Compiler
+## Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React 19
+- React Router 7
+- Vite 7
+- SWR
+- TypeScript
+- Vitest + Testing Library
+- ESLint + Prettier
 
-## Expanding the ESLint configuration
+## Rutas
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- `/` y `/characters`: listado de personajes
+- `/character/:slug`: detalle de personaje
+- `/favorites`: vista de favoritos
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Estructura principal
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```text
+apps/web/
+├── public/
+│   └── api/
+├── src/
+│   ├── components/
+│   ├── hooks/
+│   ├── pages/
+│   ├── styles/
+│   ├── types/
+│   └── utils/
+├── vite.config.ts
+├── vitest.config.ts
+└── package.json
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Datos
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- `useCharacters` carga la lista desde `/api/characters.json`.
+- `useCharacter` resuelve un personaje concreto a partir del slug.
+- `useFavorites` gestiona favoritos con almacenamiento local del navegador.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+La app no consume directamente el backend de scraping en tiempo real.
+
+## Desarrollo
+
+Desde la raiz del monorepo:
+
+```bash
+npm run dev:web
 ```
+
+Desde `apps/web`:
+
+```bash
+npm run dev
+```
+
+## Scripts disponibles
+
+```bash
+npm run dev
+npm run build
+npm run preview
+
+npm test
+npm run test:watch
+npm run test:ui
+npm run coverage
+
+npm run compile
+npm run lint
+npm run format
+npm run format:fix
+```
+
+## Testing
+
+- El entorno de test usa `happy-dom`.
+- La configuracion de Vitest vive en `vitest.config.ts`.
+- El umbral de cobertura configurado es del 80% para lineas, funciones, ramas y statements.
+
+## Notas
+
+- `coverage/` y `dist/` pueden existir como artefactos locales de trabajo.

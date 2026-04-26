@@ -2,7 +2,6 @@ import { render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { SWRConfig } from 'swr'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import { resetFavoritesState } from '../../__tests__/test-utils'
 import type { Character } from '../../types/character'
 import { CharacterDetailPage } from '../CharacterDetailPage'
 
@@ -30,7 +29,7 @@ const wrapper = ({ children }: { children: React.ReactNode }) => (
 
 describe('CharacterDetailPage', () => {
   beforeEach(() => {
-    resetFavoritesState()
+    localStorage.clear()
     globalThis.fetch = vi.fn(() =>
       Promise.resolve({
         ok: true,
@@ -98,7 +97,7 @@ describe('CharacterDetailPage', () => {
     })
   })
 
-  it('muestra botón de favoritos sin estado de favorito', async () => {
+  it('displays the group selector for adding to amigas', async () => {
     render(
       <MemoryRouter initialEntries={['/character/draculaura']}>
         <Routes>
@@ -109,8 +108,7 @@ describe('CharacterDetailPage', () => {
     )
 
     await waitFor(() => {
-      const button = screen.getByRole('button', { name: /favorito|agregar a favoritos/i })
-      expect(button).toBeInTheDocument()
+      expect(screen.getByText(/añadir a grupo de amigas/i)).toBeInTheDocument()
     })
   })
 })

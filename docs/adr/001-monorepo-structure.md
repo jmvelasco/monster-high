@@ -1,160 +1,99 @@
 # ADR-001: Adopción de Estructura Monorepo con npm Workspaces
 
 **Estado**: Aceptado  
-**Fecha**: 2026-01-18  
-**Contexto**: Preparación para desarrollo de frontend React + Backend TypeScript
+**Fecha**: 2026-01-18
 
 ---
 
-## Contexto y Problema
+## Contexto
 
-El proyecto Monster High comenzó como un scraper backend con arquitectura hexagonal. La necesidad de desarrollar una interfaz de usuario (React + Vite) para visualizar los personajes scrapeados requiere una reorganización estructural del proyecto.
+Monster High dejó de ser solo un backend de scraping y pasó a necesitar varias aplicaciones dentro del mismo repositorio, al menos:
 
-### Requisitos:
-- Separar backend de futura aplicación frontend
-- Mantener dominio compartido entre backend y frontend (type-safety)
-- Permitir desarrollo y deploy independientes
-- Minimizar complejidad de configuración (YAGNI)
-- Mantener XP/TDD workflow sin fricción
+- un backend en TypeScript
+- un frontend web en React
+
+La estructura plana original hacía más difícil separar responsabilidades, escalar el proyecto y ejecutar workflows independientes por aplicación.
+
+Los criterios de decisión fueron:
+
+- separar claramente backend y frontend
+- permitir scripts independientes por aplicación
+- mantener una configuración simple
+- evitar tooling adicional sin necesidad real
 
 ---
 
 ## Decisión
 
-Adoptamos una **estructura monorepo** con **npm workspaces** para gestionar múltiples paquetes:
+Se adopta una estructura monorepo con `npm workspaces`.
 
-```
+La organización base del repositorio queda orientada a:
+
+```text
 monster-high/
 ├── apps/
-│   ├── backend/          # Scraper + AI processing (existente)
-│   └── web/              # React UI (futuro)
-├── packages/
-│   └── domain/           # Tipos compartidos (futuro, si necesario)
-├── data/                 # JSON output (compartido)
-├── .github/skills/       # Agent skills (backend + frontend)
-└── docs/                 # Documentación + ADRs
+│   ├── backend/
+│   └── web/
+├── data/
+├── docs/
+├── .github/
+└── package.json
 ```
 
-### Características de la decisión:
+Principios de la decisión:
 
-1. **npm workspaces** como gestor (no Turbo, no pnpm, no Lerna)
-2. **apps/backend** como workspace independiente con su propio package.json
-3. Scripts delegados desde raíz a workspaces (`npm run test --workspaces`)
-4. Path adjustments mínimos para mantener funcionamiento tras reorganización
+1. `npm workspaces` es el gestor de workspaces del proyecto.
+2. Cada aplicación vive en `apps/` con su propio `package.json`.
+3. La raíz del repo orquesta scripts comunes delegando en los workspaces.
+4. No se introduce tooling adicional de monorepo mientras npm cubra las necesidades actuales.
 
 ---
 
-## Alternativas Consideradas
+## Alternativas consideradas
 
-### Opción A: Mantener estructura plana (rechazada)
-- ❌ Dificulta separación de concerns frontend/backend
-- ❌ Compilaciones mezcladas (backend TypeScript + frontend React)
-- ❌ Imposible compartir tipos sin publicar a npm
+### Opción A: Mantener estructura plana
 
-### Opción B: Repositorios separados (rechazada)
-- ❌ Rompe type-safety entre frontend y backend
-- ❌ Requiere publicación de paquete `@monster-high/types` a registry
-- ❌ Dificulta desarrollo sincronizado (dos repos, dos PRs)
+Rechazada porque mezcla concerns de backend y frontend y complica la evolución del repositorio.
 
-### Opción C: Turbo Monorepo (rechazada - YAGNI)
-- ❌ Overhead de configuración para proyecto de 2 apps
-- ❌ Cache y pipelines innecesarios en fase inicial
-- ✅ Se puede migrar más adelante si crece complejidad
+### Opción B: Repositorios separados
 
-### Opción D: pnpm workspaces (rechazada - YAGNI)
-- ❌ Requiere instalar pnpm (dependencia extra)
-- ❌ Node.js 24.11.1 ya incluye npm 10+ con workspaces estables
-- ✅ No aporta valor en proyecto de <5 paquetes
+Rechazada porque aumenta la fricción operativa, rompe el desarrollo coordinado y añade coste de sincronización entre proyectos.
+
+### Opción C: Herramientas de monorepo más complejas como Turbo o pnpm
+
+Rechazada por YAGNI. En el tamaño actual del proyecto, `npm workspaces` cubre el caso con menor complejidad operativa.
 
 ---
 
 ## Consecuencias
 
-### Positivas ✅
+### Positivas
 
-1. **Escalabilidad futura**: Preparado para agregar frontend, packages compartidos, etc.
-2. **Independencia**: Cada workspace se compila/testea/despliega por separado
-3. **Simplicidad**: npm workspaces es built-in, cero configuración adicional
-4. **XP Workflow**: Tests y TDD continúan sin cambios en cada workspace
-5. **Mantenibilidad**: Separación clara de responsabilidades por directorio
+1. Backend y frontend quedan separados de forma explícita.
+2. Cada workspace puede compilarse, testearse y evolucionar con cierta independencia.
+3. La raíz del repositorio puede ofrecer comandos comunes para validación y desarrollo.
+4. La estructura es suficiente para crecer sin introducir complejidad prematura.
 
-### Negativas ⚠️
+### Negativas
 
-1. **Path adjustments**: Algunos imports necesitaron ajuste (`../../../data`)
-2. **Learning curve**: Desarrolladores deben entender workspace structure
-3. **Hoisting**: Dependencias se hoistean a raíz (puede causar confusión en debugging)
-
-### Riesgos 🔥
-
-- **Versioning de paquetes compartidos**: Si crece, necesitaremos strategy de versionado
-- **Migraciones futuras**: Migrar a Turbo/pnpm requeriría refactor (bajo impacto si se hace temprano)
+1. Aparece cierta curva de aprendizaje para entender workspaces y ejecución desde la raíz.
+2. El hoisting de dependencias puede hacer menos obvio dónde vive una dependencia durante depuración.
+3. Si en el futuro aparecen más paquetes compartidos o pipelines complejos, esta decisión puede necesitar revisión.
 
 ---
 
-## Implementación
+## Revisión futura
 
-### Cambios Realizados (Fase 2)
+Esta decisión debería revisarse si ocurre alguna de estas condiciones:
 
-1. **Creación de estructura**:
-   ```bash
-   mkdir -p apps/backend
-   mv src apps/backend/
-   ```
-
-2. **Configuración de workspaces** (package.json raíz):
-   ```json
-   {
-     "private": true,
-     "workspaces": ["apps/*", "packages/*"],
-     "scripts": {
-       "dev": "npm run dev --workspace=apps/backend",
-       "test": "npm run test --workspaces"
-     }
-   }
-   ```
-
-3. **Renombrado de paquete backend**:
-   ```json
-   {
-     "name": "@monster-high/backend",
-     "scripts": {
-       "start:test": "TEST_MODE=true ts-node src/index.ts"
-     }
-   }
-   ```
-
-4. **Adaptación de configuración**:
-   - `config.ts`: Modo test con `maxCharacters: 2` y `outputFile: 'test-characters.json'`
-   - `WikiScraper.ts`: Limitar scraping con `slice(0, maxCharacters)`
-   - Tests: Ajustados para respetar `maxCharacters` en assertions
-
-5. **Validación**:
-   - ✅ Compilación: `npm run compile` sin errores
-   - ✅ Tests: 17/17 pasando
-   - ✅ Ejecución: Backend funciona correctamente tras reorganización
-   - ✅ Path adjustments: Configuración actualizada para estructura de monorepo
-
----
-
-## Próximos Pasos
-
-1. ✅ **Completado**: Reorganización backend en monorepo
-2. ✅ **Completado**: Actualizar README con nueva estructura
-3. ⏳ **Pendiente**: Crear `apps/web` con React + Vite
-4. ⏳ **Pendiente**: Evaluar necesidad de `packages/domain` para tipos compartidos
-5. ⏳ **Pendiente**: Configurar CI/CD para builds independientes (GitHub Actions)
+- aparecen varios paquetes compartidos con versionado propio
+- el pipeline de build/test del monorepo gana complejidad significativa
+- npm workspaces deja de ser suficiente para el tamaño real del repositorio
 
 ---
 
 ## Referencias
 
 - [npm workspaces docs](https://docs.npmjs.com/cli/v10/using-npm/workspaces)
-- [Monorepo best practices](https://monorepo.tools/)
-- XP Methodology: `docs/development-rules/xp-methodology.md`
-- YAGNI Principle: No optimización prematura, agregar complejidad solo cuando sea necesario
-
----
-
-**Decisión tomada por**: José Manuel Velasco (con asistencia de GitHub Copilot XP Agent)  
-**Revisado por**: -  
-**Aprobado**: Implementación en Fase 2 validada exitosamente
+- [Monorepo tools](https://monorepo.tools/)
+- Agent guidance: `.github/copilot-instructions.md` y `.github/instructions/`

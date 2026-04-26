@@ -1,7 +1,8 @@
-import { useEffect, useRef } from 'react'
-import { useFavorites } from '../../hooks/useFavorites'
+import { useEffect } from 'react'
+import { useFriendGroups } from '../../hooks/useFriendGroups'
 import type { Character } from '../../types/character'
 import { generateSlug } from '../../utils/slugUtils'
+import { GroupSelector } from '../friends/GroupSelector'
 import styles from './CharacterDetail.module.css'
 
 interface CharacterDetailProps {
@@ -9,29 +10,13 @@ interface CharacterDetailProps {
 }
 
 export function CharacterDetail({ character }: CharacterDetailProps) {
-  const { toggleFavorite, isFavorite } = useFavorites()
-  const spanRef = useRef<HTMLSpanElement>(null)
+  const { groups, loadGroups, addCharacterToGroup, createGroup } = useFriendGroups()
   const slug = generateSlug(character.name)
-  const isFav = isFavorite(slug)
   const imageSrc = character.image || '/images/placeholder-character.svg'
 
-  const handleMouseEnter = () => {
-    if (spanRef.current) {
-      spanRef.current.textContent = isFav ? '❤️ Quitar de Favoritos' : '🤍 Agregar a Favoritos'
-    }
-  }
-
-  const handleMouseLeave = () => {
-    if (spanRef.current) {
-      spanRef.current.textContent = isFav ? '❤️ Favorito' : '🤍 Agregar a Favoritos'
-    }
-  }
-
   useEffect(() => {
-    if (spanRef.current) {
-      spanRef.current.textContent = isFav ? '❤️ Quitar de Favoritos' : '🤍 Agregar a Favoritos'
-    }
-  }, [isFav])
+    loadGroups()
+  }, [])
 
   return (
     <article className={styles.detail}>
@@ -46,14 +31,12 @@ export function CharacterDetail({ character }: CharacterDetailProps) {
           )}
         </div>
       </div>
-      <button
-        className={`${styles.favoriteButton} ${isFav ? styles.isFavorite : ''}`}
-        onClick={() => toggleFavorite(slug)}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
-        <span ref={spanRef} />
-      </button>
+      <GroupSelector
+        groups={groups}
+        characterSlug={slug}
+        onAddToGroup={addCharacterToGroup}
+        onCreateGroup={createGroup}
+      />
     </article>
   )
 }

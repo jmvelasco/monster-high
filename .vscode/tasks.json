@@ -55,9 +55,10 @@
       "group": "build"
     },
     {
-      "label": "Validate Symlinks",
+      "label": "Prepare Antigravity Local Rules",
       "type": "shell",
-      "command": "ls -la .agent/rules/ && echo '\n✅ Symlinks verified'",
+      "command": "sh",
+      "args": ["scripts/setup-antigravity-local.sh"],
       "presentation": {
         "reveal": "always",
         "panel": "new"

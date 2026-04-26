@@ -21,8 +21,8 @@ export function Header() {
         </NavLink>
 
         <nav className={styles.nav}>
-          <NavLink to="/favorites" className={styles.navLink}>
-            ❤️ Mis Favoritos
+          <NavLink to="/friends" className={styles.navLink}>
+            💜 Mis Amigas
           </NavLink>
         </nav>
       </div>

@@ -33,6 +33,14 @@ describe('Character Model', () => {
     expect(flattened).toContain('Draculaura Clawdeen');
   });
 
+  test('should normalize "amigos" alias to "mejoresAmigos" in technicalInfo', () => {
+    const character = Character.fromDetails({
+      ...mockDetails,
+      technicalInfo: { amigos: 'Frankie Stein, Clawdeen Wolf' },
+    });
+    expect(character.technicalInfo).toStrictEqual({ mejoresAmigos: 'Frankie Stein, Clawdeen Wolf' });
+  });
+
   test('should return a new instance with global story', () => {
     const character = Character.fromDetails(mockDetails);
     const story = 'A long time ago...';
