@@ -5,6 +5,8 @@ import { describe, expect, it, vi } from 'vitest'
 import * as useCharactersModule from '../../hooks/useCharacters'
 import * as useFriendGroupsModule from '../../hooks/useFriendGroups'
 import { FriendGroupDetailPage } from '../FriendGroupDetailPage'
+import type { FriendGroup } from '../../domain/friends/FriendGroup'
+import type { Character } from '../../types/character'
 
 // Mock the hooks
 vi.mock('../../hooks/useFriendGroups', () => ({
@@ -19,7 +21,7 @@ describe('FriendGroupDetailPage', () => {
   const mockGetGroupBySlug = vi.fn()
   const mockRemoveGroup = vi.fn()
 
-  const setupMocks = (group: any, characters: any[] = []) => {
+  const setupMocks = (group: FriendGroup | null, characters: Character[] = []) => {
     vi.mocked(useFriendGroupsModule.useFriendGroups).mockReturnValue({
       getGroupBySlug: mockGetGroupBySlug.mockResolvedValue(group),
       removeGroup: mockRemoveGroup,

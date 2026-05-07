@@ -9,7 +9,7 @@ export function FriendGroupsPage() {
 
   useEffect(() => {
     loadGroups()
-  }, [])
+  }, [loadGroups])
 
   async function handleCreateGroup() {
     if (!newGroupName.trim()) return

@@ -16,7 +16,7 @@ export function CharacterDetail({ character }: CharacterDetailProps) {
 
   useEffect(() => {
     loadGroups()
-  }, [])
+  }, [loadGroups])
 
   return (
     <article className={styles.detail}>

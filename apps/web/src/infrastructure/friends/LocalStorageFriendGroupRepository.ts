@@ -10,7 +10,7 @@ export class LocalStorageFriendGroupRepository implements FriendGroupRepository 
     const stored = localStorage.getItem(STORAGE_KEY)
     if (!stored) return []
     try {
-      const parsed = JSON.parse(stored) as any[]
+      const parsed = JSON.parse(stored) as Array<Omit<FriendGroup, 'slug'> & { slug?: string }>
       return parsed.map(group => ({
         ...group,
         slug: group.slug || generateSlug(group.name),

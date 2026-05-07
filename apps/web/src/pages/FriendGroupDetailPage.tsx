@@ -26,7 +26,7 @@ export function FriendGroupDetailPage() {
       setIsLoading(false)
     }
     loadGroup()
-  }, [slug])
+  }, [slug, getGroupBySlug])
 
   if (isLoading) {
     return <div className={styles.loading}>Cargando...</div>
