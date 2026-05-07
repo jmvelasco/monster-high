@@ -10,7 +10,7 @@
 
 ## 3. Application Layer
 
-- [ ] 3.1 Expose a way to fetch a single group by slug within a hook (either adding to `useFriendGroups` or creating a new `useFriendGroupDetail` hook).
+- [x] 3.1 Expose a way to fetch a single group by slug within a hook (either adding to `useFriendGroups` or creating a new `useFriendGroupDetail` hook).
 
 ## 4. UI Layer
 

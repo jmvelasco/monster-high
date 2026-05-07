@@ -33,5 +33,9 @@ export function useFriendGroups() {
     await loadGroups()
   }
 
-  return { groups, loadGroups, createGroup, addCharacterToGroup, removeGroup }
+  async function getGroupBySlug(slug: string) {
+    return await repository.findBySlug(slug)
+  }
+
+  return { groups, loadGroups, createGroup, addCharacterToGroup, removeGroup, getGroupBySlug }
 }
