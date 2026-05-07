@@ -15,6 +15,6 @@
 ## 4. UI Layer
 
 - [x] 4.1 Create a reusable `ConfirmDialog` component for the UI (e.g., `apps/web/src/components/ui/ConfirmDialog.tsx`).
-- [ ] 4.2 Create `FriendGroupDetailPage` (`apps/web/src/pages/FriendGroupDetailPage.tsx`) to display group details and the "Delete Group" action.
+- [x] 4.2 Create `FriendGroupDetailPage` (`apps/web/src/pages/FriendGroupDetailPage.tsx`) to display group details and the "Delete Group" action.
 - [ ] 4.3 Update `FriendGroupsPage` to remove the inline delete button and wrap the group cards in a `<Link to={\`/friends/\${group.slug}\`}>`.
 - [ ] 4.4 Add the new route (`/friends/:slug`) to `apps/web/src/App.tsx`.
