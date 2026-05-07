@@ -1,6 +1,8 @@
 import type { FriendGroup } from '../../domain/friends/FriendGroup'
 import type { FriendGroupRepository } from '../../domain/friends/FriendGroupRepository'
 
+import { generateSlug } from '../../utils/slugUtils'
+
 const STORAGE_KEY = 'monster-high-amigas'
 
 export class LocalStorageFriendGroupRepository implements FriendGroupRepository {
@@ -8,7 +10,11 @@ export class LocalStorageFriendGroupRepository implements FriendGroupRepository 
     const stored = localStorage.getItem(STORAGE_KEY)
     if (!stored) return []
     try {
-      return JSON.parse(stored)
+      const parsed = JSON.parse(stored) as any[]
+      return parsed.map(group => ({
+        ...group,
+        slug: group.slug || generateSlug(group.name)
+      }))
     } catch {
       return []
     }
@@ -36,5 +42,10 @@ export class LocalStorageFriendGroupRepository implements FriendGroupRepository 
   async findById(id: string): Promise<FriendGroup | null> {
     const groups = await this.findAll()
     return groups.find(g => g.id === id) || null
+  }
+
+  async findBySlug(slug: string): Promise<FriendGroup | null> {
+    const groups = await this.findAll()
+    return groups.find(g => g.slug === slug) || null
   }
 }

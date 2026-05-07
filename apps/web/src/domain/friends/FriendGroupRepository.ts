@@ -5,4 +5,5 @@ export interface FriendGroupRepository {
   save(group: FriendGroup): Promise<void>
   delete(id: string): Promise<void>
   findById(id: string): Promise<FriendGroup | null>
+  findBySlug(slug: string): Promise<FriendGroup | null>
 }

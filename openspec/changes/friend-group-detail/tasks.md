@@ -5,8 +5,8 @@
 
 ## 2. Infrastructure Layer
 
-- [ ] 2.1 Add `findBySlug(slug: string): Promise<FriendGroup | null>` to the `FriendGroupRepository` interface.
-- [ ] 2.2 Implement `findBySlug` in `LocalStorageFriendGroupRepository` and ensure it handles on-the-fly slug generation for legacy groups. Add/update unit tests.
+- [x] 2.1 Add `findBySlug(slug: string): Promise<FriendGroup | null>` to the `FriendGroupRepository` interface.
+- [x] 2.2 Implement `findBySlug` in `LocalStorageFriendGroupRepository` and ensure it handles on-the-fly slug generation for legacy groups. Add/update unit tests.
 
 ## 3. Application Layer
 
