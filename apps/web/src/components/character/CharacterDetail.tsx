@@ -26,11 +26,19 @@ export function CharacterDetail({ character }: CharacterDetailProps) {
     <article className={styles.detail}>
       <h1 className={styles.title}>{character.name}</h1>
       <div className={styles.detailContent}>
-        <div className={styles.imageContainer}>
-          <img src={imageSrc} alt={character.name} className={styles.image} />
-          <FriendThumbnails 
-            friendsString={character.technicalInfo?.mejoresAmigos} 
-            characters={charactersList} 
+        <div className={styles.leftColumn}>
+          <div className={styles.imageContainer}>
+            <img src={imageSrc} alt={character.name} className={styles.image} />
+            <FriendThumbnails 
+              friendsString={character.technicalInfo?.mejoresAmigos} 
+              characters={charactersList} 
+            />
+          </div>
+          <GroupSelector
+            groups={groups}
+            characterSlug={slug}
+            onAddToGroup={addCharacterToGroup}
+            onCreateGroup={createGroup}
           />
         </div>
         <div className={styles.infoContainer}>
@@ -39,12 +47,6 @@ export function CharacterDetail({ character }: CharacterDetailProps) {
           )}
         </div>
       </div>
-      <GroupSelector
-        groups={groups}
-        characterSlug={slug}
-        onAddToGroup={addCharacterToGroup}
-        onCreateGroup={createGroup}
-      />
     </article>
   )
 }

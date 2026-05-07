@@ -23,6 +23,12 @@
   align-items: start;
 }
 
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
 .imageContainer {
   display: flex;
   flex-direction: column;
@@ -144,6 +150,13 @@
   .detailContent {
     grid-template-columns: 1fr 1fr;
     gap: var(--spacing-8);
+  }
+
+  .leftColumn {
+    position: sticky;
+    top: var(--spacing-8);
+    max-height: calc(100vh - var(--spacing-16));
+    overflow-y: auto;
   }
 
   .image {
