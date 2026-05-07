@@ -14,7 +14,12 @@ export interface CreateFriendGroupProps {
   members?: string[]
 }
 
-export function createFriendGroup({ id, name, slug, members = [] }: CreateFriendGroupProps): FriendGroup {
+export function createFriendGroup({
+  id,
+  name,
+  slug,
+  members = [],
+}: CreateFriendGroupProps): FriendGroup {
   if (!name || name.trim().length === 0) {
     throw new Error('Group name cannot be empty')
   }

@@ -76,12 +76,16 @@ describe('FriendGroupDetailPage', () => {
     const deleteButton = await screen.findByRole('button', { name: 'Eliminar grupo' })
     await user.click(deleteButton)
 
-    expect(screen.getByText(/¿Estás segura de que quieres eliminar el grupo "Mis Favs"\?/)).toBeInTheDocument()
+    expect(
+      screen.getByText(/¿Estás segura de que quieres eliminar el grupo "Mis Favs"\?/)
+    ).toBeInTheDocument()
 
     const cancelButton = screen.getByRole('button', { name: 'Cancelar' })
     await user.click(cancelButton)
 
-    expect(screen.queryByText(/¿Estás segura de que quieres eliminar el grupo "Mis Favs"\?/)).not.toBeInTheDocument()
+    expect(
+      screen.queryByText(/¿Estás segura de que quieres eliminar el grupo "Mis Favs"\?/)
+    ).not.toBeInTheDocument()
     expect(mockRemoveGroup).not.toHaveBeenCalled()
   })
 })

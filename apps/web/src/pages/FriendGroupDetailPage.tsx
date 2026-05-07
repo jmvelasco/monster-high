@@ -49,7 +49,8 @@ export function FriendGroupDetailPage() {
     navigate('/friends')
   }
 
-  const groupCharacters = characters?.filter(char => group.members.includes(generateSlug(char.name))) || []
+  const groupCharacters =
+    characters?.filter(char => group.members.includes(generateSlug(char.name))) || []
 
   return (
     <div className={styles.page}>
@@ -60,10 +61,7 @@ export function FriendGroupDetailPage() {
             {group.members.length} {group.members.length === 1 ? 'amiga' : 'amigas'}
           </p>
         </div>
-        <button
-          onClick={() => setIsConfirmOpen(true)}
-          className={styles.deleteButton}
-        >
+        <button onClick={() => setIsConfirmOpen(true)} className={styles.deleteButton}>
           Eliminar grupo
         </button>
       </header>

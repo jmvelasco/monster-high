@@ -48,9 +48,10 @@ describe('LocalStorageFriendGroupRepository', () => {
 
   it('should generate slug for legacy groups missing it when finding all', async () => {
     // Manually insert legacy data
-    localStorage.setItem('monster-high-amigas', JSON.stringify([
-      { id: '1', name: 'Legacy Group', members: [] }
-    ]))
+    localStorage.setItem(
+      'monster-high-amigas',
+      JSON.stringify([{ id: '1', name: 'Legacy Group', members: [] }])
+    )
 
     const groups = await repository.findAll()
     expect(groups).toHaveLength(1)
@@ -59,9 +60,10 @@ describe('LocalStorageFriendGroupRepository', () => {
 
   it('should find legacy group by slug', async () => {
     // Manually insert legacy data
-    localStorage.setItem('monster-high-amigas', JSON.stringify([
-      { id: '1', name: 'Another Legacy', members: [] }
-    ]))
+    localStorage.setItem(
+      'monster-high-amigas',
+      JSON.stringify([{ id: '1', name: 'Another Legacy', members: [] }])
+    )
 
     const found = await repository.findBySlug('another-legacy')
     expect(found?.name).toBe('Another Legacy')
