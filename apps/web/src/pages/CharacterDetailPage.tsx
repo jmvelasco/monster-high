@@ -18,5 +18,5 @@ export function CharacterDetailPage() {
     return <div>Personaje no encontrado</div>
   }
 
-  return <CharacterDetail character={character} />
+  return <CharacterDetail key={slug} character={character} />
 }

@@ -159,13 +159,13 @@
     flex-direction: column;
     gap: var(--spacing-4);
     overflow-y: auto;
-    max-height: calc(100vh - 200px); /* Account for header, title, and padding */
+    max-height: calc(100vh - 280px); /* Generous subtraction for header, paddings, and title */
     padding-right: var(--spacing-2);
   }
 
   .infoContainer {
     overflow-y: auto;
-    max-height: calc(100vh - 200px);
+    max-height: calc(100vh - 280px);
     padding-right: var(--spacing-2);
   }
 
