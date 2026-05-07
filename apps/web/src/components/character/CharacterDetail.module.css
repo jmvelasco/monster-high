@@ -150,13 +150,21 @@
   .detailContent {
     grid-template-columns: 1fr 1fr;
     gap: var(--spacing-8);
+    height: calc(100vh - 100px); /* Restrict height for split view */
+    overflow: hidden;
   }
 
   .leftColumn {
-    position: sticky;
-    top: var(--spacing-8);
-    max-height: calc(100vh - var(--spacing-16));
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
     overflow-y: auto;
+    height: 100%;
+  }
+
+  .infoContainer {
+    overflow-y: auto;
+    height: 100%;
   }
 
   .image {
