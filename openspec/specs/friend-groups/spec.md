@@ -33,8 +33,28 @@ The Friend Groups capability allows users to organize characters into custom col
 - Legacy list is removed after successful migration.
 - No data loss during the transition.
 
+### Scenario 4: Viewing friend group details
+**Given** a user is on the "Friend Groups" management page
+**When** they click on a specific group card (e.g., "Mis Favs")
+**Then** they are navigated to the group's detail page (`/friends/mis-favs`)
+**And** the page displays the name of the group and a list of characters belonging to that group.
+
+#### Acceptance Criteria:
+- The URL must be a human-readable slug derived from the group name.
+- If a legacy group lacks a slug, the system dynamically generates one upon loading to ensure accessibility.
+
+### Scenario 5: Deleting a friend group
+**Given** a user is viewing a friend group's detail page
+**When** they click the "Delete Group" action
+**Then** a modal confirmation dialog is displayed warning about the destructive action.
+
+#### Acceptance Criteria:
+- Explicit confirmation is required to permanently remove the group.
+- Canceling the deletion dialog leaves the group intact.
+- Upon successful deletion, the user is redirected to the main "Friend Groups" list.
+- Deleting the group does NOT remove the characters themselves from the global catalog.
+
 ## Technical Constraints & Edge Cases
 - **Duplicate Names**: Multiple groups can share the same name but must have different IDs (though visual uniqueness is encouraged).
 - **Empty Groups**: Groups can exist without any members.
-- **Group Deletion**: Deleting a group does not remove characters from the general catalog.
 - **Persistence**: Data is stored locally in the browser's LocalStorage.
