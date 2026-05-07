@@ -23,10 +23,10 @@
 
 .groupButton {
   padding: var(--spacing-2) var(--spacing-4);
-  border: 2px solid var(--mh-purple);
+  border: 2px solid var(--mh-light-gray);
   border-radius: var(--radius-md);
-  background: transparent;
-  color: var(--mh-purple);
+  background: var(--mh-light-gray);
+  color: var(--mh-gray);
   cursor: pointer;
   font-size: var(--text-sm, 0.875rem);
   font-weight: 500;
@@ -34,17 +34,19 @@
 }
 
 .groupButton:hover {
-  background-color: var(--mh-purple);
+  background-color: var(--mh-pink);
+  border-color: var(--mh-pink);
   color: #fff;
 }
 
 .groupButton:focus-visible {
-  outline: 2px solid var(--mh-focus);
+  outline: 2px solid var(--mh-pink);
   outline-offset: 2px;
 }
 
 .inGroup {
-  background-color: var(--mh-purple);
+  background-color: var(--mh-pink);
+  border-color: var(--mh-pink);
   color: #fff;
 }
 
