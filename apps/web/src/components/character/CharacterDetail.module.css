@@ -37,6 +37,8 @@
 
 .image {
   width: 100%;
+  height: auto;
+  max-height: 45vh; /* Adapt to available container space */
   aspect-ratio: 3 / 4;
   object-fit: contain;
   border-radius: var(--radius-lg);
@@ -150,8 +152,6 @@
   .detailContent {
     grid-template-columns: 1fr 1fr;
     gap: var(--spacing-8);
-    height: calc(100vh - 100px); /* Restrict height for split view */
-    overflow: hidden;
   }
 
   .leftColumn {
@@ -159,12 +159,14 @@
     flex-direction: column;
     gap: var(--spacing-4);
     overflow-y: auto;
-    height: 100%;
+    max-height: calc(100vh - 200px); /* Account for header, title, and padding */
+    padding-right: var(--spacing-2);
   }
 
   .infoContainer {
     overflow-y: auto;
-    height: 100%;
+    max-height: calc(100vh - 200px);
+    padding-right: var(--spacing-2);
   }
 
   .image {

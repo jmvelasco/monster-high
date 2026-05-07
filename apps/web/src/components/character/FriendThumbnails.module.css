@@ -7,18 +7,19 @@
 }
 
 .thumbnail {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
+  width: 60px;
+  height: 80px;
+  border-radius: var(--radius-md);
   object-fit: cover;
+  object-position: top;
   border: 2px solid var(--mh-pink);
   background-color: var(--mh-light-gray);
 }
 
 .initials {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
+  width: 60px;
+  height: 80px;
+  border-radius: var(--radius-md);
   border: 2px solid var(--mh-pink);
   background-color: var(--mh-light-gray);
   color: var(--mh-pink);
@@ -26,6 +27,6 @@
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  font-size: var(--text-sm);
+  font-size: var(--text-base);
   text-transform: uppercase;
 }
