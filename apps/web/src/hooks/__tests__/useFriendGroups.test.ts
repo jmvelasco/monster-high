@@ -89,11 +89,7 @@ describe('The Friend Groups Hook', () => {
     })
 
     const slug = result.current.groups[0].slug
-
-    let found
-    await act(async () => {
-      found = await result.current.getGroupBySlug(slug)
-    })
+    const found = await result.current.getGroupBySlug(slug)
 
     expect(found?.name).toBe('Vampiras')
   })
