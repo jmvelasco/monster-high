@@ -48,4 +48,5 @@ rules:
   tasks:
     - "Tasks with behavior use TDD: RED -> GREEN -> REFACTOR"
     - "Order inside-out: domain -> application -> infrastructure"
+    - "Run the command `npm run validate && npm run format:fix` after implementation"
   
