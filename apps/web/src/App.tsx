@@ -3,6 +3,7 @@ import { Layout } from './components/Layout'
 import { CharacterDetailPage } from './pages/CharacterDetailPage'
 import { CharacterListPage } from './pages/CharacterListPage'
 import { FriendGroupsPage } from './pages/FriendGroupsPage'
+import { FriendGroupDetailPage } from './pages/FriendGroupDetailPage'
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route path="/characters" element={<CharacterListPage />} />
           <Route path="/character/:slug" element={<CharacterDetailPage />} />
           <Route path="/friends" element={<FriendGroupsPage />} />
+          <Route path="/friends/:slug" element={<FriendGroupDetailPage />} />
         </Routes>
       </Layout>
     </BrowserRouter>
