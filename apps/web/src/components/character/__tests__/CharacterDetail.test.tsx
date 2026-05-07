@@ -112,4 +112,20 @@ describe('CharacterDetail', () => {
 
     expect(screen.getByText(/añadir a grupo de amigas/i)).toBeInTheDocument()
   })
+
+  it('renders FriendThumbnails if technicalInfo.mejoresAmigos is present', () => {
+    const character: Character = {
+      name: 'Draculaura',
+      url: 'https://example.com',
+      technicalInfo: {
+        mejoresAmigos: 'Clawd Wolf',
+      },
+      sections: {},
+    }
+
+    render(<CharacterDetail character={character} />)
+
+    // Unmatched character renders initials
+    expect(screen.getByText('CW')).toBeInTheDocument()
+  })
 })

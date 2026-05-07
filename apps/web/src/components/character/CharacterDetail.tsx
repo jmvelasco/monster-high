@@ -5,12 +5,16 @@ import { generateSlug } from '../../utils/slugUtils'
 import { GroupSelector } from '../friends/GroupSelector'
 import styles from './CharacterDetail.module.css'
 
+import { useCharacters } from '../../hooks/useCharacters'
+import { FriendThumbnails } from './FriendThumbnails'
+
 interface CharacterDetailProps {
   character: Character
 }
 
 export function CharacterDetail({ character }: CharacterDetailProps) {
   const { groups, loadGroups, addCharacterToGroup, createGroup } = useFriendGroups()
+  const { data: charactersList } = useCharacters()
   const slug = generateSlug(character.name)
   const imageSrc = character.image || '/images/placeholder-character.svg'
 
@@ -24,6 +28,10 @@ export function CharacterDetail({ character }: CharacterDetailProps) {
       <div className={styles.detailContent}>
         <div className={styles.imageContainer}>
           <img src={imageSrc} alt={character.name} className={styles.image} />
+          <FriendThumbnails 
+            friendsString={character.technicalInfo?.mejoresAmigos} 
+            characters={charactersList} 
+          />
         </div>
         <div className={styles.infoContainer}>
           {character.globalStory && (
