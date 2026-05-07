@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  gap: var(--spacing-2);
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: var(--spacing-2);
+}
+
+.thumbnail {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--mh-pink);
+  background-color: var(--mh-light-gray);
+}
+
+.initials {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid var(--mh-pink);
+  background-color: var(--mh-light-gray);
+  color: var(--mh-pink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: var(--text-sm);
+  text-transform: uppercase;
+}
