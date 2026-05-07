@@ -6,19 +6,31 @@
   margin-top: var(--spacing-2);
 }
 
+.thumbnailLink {
+  text-decoration: none;
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.thumbnailLink:hover {
+  transform: scale(1.05);
+}
+
 .thumbnail {
-  width: 60px;
-  height: 80px;
+  width: 72px;
+  height: 96px;
   border-radius: var(--radius-md);
   object-fit: cover;
   object-position: top;
   border: 2px solid var(--mh-pink);
   background-color: var(--mh-light-gray);
+  padding: 2px;
+  box-sizing: border-box;
 }
 
 .initials {
-  width: 60px;
-  height: 80px;
+  width: 72px;
+  height: 96px;
   border-radius: var(--radius-md);
   border: 2px solid var(--mh-pink);
   background-color: var(--mh-light-gray);
@@ -27,6 +39,8 @@
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  font-size: var(--text-base);
+  font-size: var(--text-lg);
   text-transform: uppercase;
+  padding: 2px;
+  box-sizing: border-box;
 }

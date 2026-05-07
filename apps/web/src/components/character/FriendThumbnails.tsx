@@ -1,4 +1,6 @@
+import { Link } from 'react-router-dom'
 import type { Character } from '../../types/character'
+import { generateSlug } from '../../utils/slugUtils'
 import styles from './FriendThumbnails.module.css'
 
 interface FriendThumbnailsProps {
@@ -20,13 +22,18 @@ export function FriendThumbnails({ friendsString, characters = [] }: FriendThumb
 
         if (character?.image) {
           return (
-            <img
+            <Link
+              to={`/character/${generateSlug(character.name)}`}
               key={`${name}-${index}`}
-              src={character.image}
-              alt={character.name}
-              className={styles.thumbnail}
+              className={styles.thumbnailLink}
               title={character.name}
-            />
+            >
+              <img
+                src={character.image}
+                alt={character.name}
+                className={styles.thumbnail}
+              />
+            </Link>
           )
         }
 
@@ -37,9 +44,14 @@ export function FriendThumbnails({ friendsString, characters = [] }: FriendThumb
           .substring(0, 2)
 
         return (
-          <div key={`${name}-${index}`} className={styles.initials} title={name}>
+          <Link
+            to={`/character/${generateSlug(name)}`}
+            key={`${name}-${index}`}
+            className={`${styles.initials} ${styles.thumbnailLink}`}
+            title={name}
+          >
             {initials}
-          </div>
+          </Link>
         )
       })}
     </div>
