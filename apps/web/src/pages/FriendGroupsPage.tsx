@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useFriendGroups } from '../hooks/useFriendGroups'
 import styles from './FriendGroupsPage.module.css'
 
 export function FriendGroupsPage() {
-  const { groups, loadGroups, createGroup, removeGroup } = useFriendGroups()
+  const { groups, loadGroups, createGroup } = useFriendGroups()
   const [newGroupName, setNewGroupName] = useState('')
 
   useEffect(() => {
@@ -46,21 +47,14 @@ export function FriendGroupsPage() {
       ) : (
         <div className={styles.groupsGrid}>
           {groups.map(group => (
-            <div key={group.id} className={styles.groupCard}>
+            <Link key={group.id} to={`/friends/${group.slug}`} className={styles.groupCard}>
               <div className={styles.groupHeader}>
                 <h2 className={styles.groupName}>{group.name}</h2>
-                <button
-                  onClick={() => removeGroup(group.id)}
-                  className={styles.deleteButton}
-                  aria-label={`Eliminar grupo ${group.name}`}
-                >
-                  Eliminar
-                </button>
               </div>
               <p className={styles.memberCount}>
                 {group.members.length} {group.members.length === 1 ? 'amiga' : 'amigas'}
               </p>
-            </div>
+            </Link>
           ))}
         </div>
       )}
