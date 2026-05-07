@@ -67,6 +67,23 @@ describe('FriendGroupDetailPage', () => {
     expect(screen.getByText('0 amigas')).toBeInTheDocument()
   })
 
+  it('renders members of the group', async () => {
+    setupMocks({ id: '1', name: 'Mis Favs', slug: 'mis-favs', members: ['draculaura'] }, [
+      {
+        id: 'c1',
+        name: 'Draculaura',
+        image: '/drac.png',
+        species: 'Vampire',
+        globalStory: 'Story',
+      },
+    ])
+    renderComponent('mis-favs')
+
+    expect(await screen.findByText('Mis Favs')).toBeInTheDocument()
+    expect(screen.getByText('1 amiga')).toBeInTheDocument()
+    expect(screen.getByText('Draculaura')).toBeInTheDocument()
+  })
+
   it('opens confirm dialog when delete is clicked and handles cancellation', async () => {
     setupMocks({ id: '1', name: 'Mis Favs', slug: 'mis-favs', members: [] })
     const user = userEvent.setup()
