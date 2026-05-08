@@ -25,6 +25,10 @@ export class FriendGroup {
       this._members = [...this._members, slug]
     }
   }
+
+  removeMember(slug: string): void {
+    this._members = this._members.filter(member => member !== slug)
+  }
 }
 
 export interface CreateFriendGroupProps {
