@@ -141,7 +141,7 @@
   }
 
   .globalStory {
-    font-size: var(--text-5xl);
+    font-size: var(--text-4xl);
     line-height: var(--text-5xl);
     padding: var(--spacing-6);
   }
@@ -149,6 +149,10 @@
 
 /* Desktop Up */
 @media (min-width: 1024px) {
+  .detail {
+    padding: 0;
+  }
+
   .detailContent {
     grid-template-columns: 1fr 1fr;
     gap: var(--spacing-8);
@@ -157,21 +161,34 @@
   .leftColumn {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-4);
+    gap: var(--spacing-3);
     overflow-y: auto;
-    max-height: calc(100vh - 280px); /* Generous subtraction for header, paddings, and title */
+    max-height: calc(100vh - 200px);
     padding-right: var(--spacing-2);
+  }
+
+  .imageContainer {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: var(--spacing-4);
+    align-items: start;
   }
 
   .infoContainer {
     overflow-y: auto;
-    max-height: calc(100vh - 280px);
+    max-height: calc(100vh - 200px);
     padding-right: var(--spacing-2);
   }
 
   .image {
     max-width: none;
+    max-height: 55vh;
     margin: 0;
+  }
+
+  .globalStory {
+    font-size: var(--text-3xl);
+    line-height: var(--text-4xl);
   }
 
   .infoLabel {
