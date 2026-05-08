@@ -48,7 +48,7 @@ export class LocalStorageFriendGroupRepository implements FriendGroupRepository 
       id: g.id,
       name: g.name,
       slug: g.slug,
-      members: g.members
+      members: g.members,
     }))
 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(primitiveGroups))
@@ -57,12 +57,12 @@ export class LocalStorageFriendGroupRepository implements FriendGroupRepository 
   async delete(id: string): Promise<void> {
     const groups = await this.findAll()
     const filtered = groups.filter(g => g.id !== id)
-    
+
     const primitiveGroups = filtered.map(g => ({
       id: g.id,
       name: g.name,
       slug: g.slug,
-      members: g.members
+      members: g.members,
     }))
 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(primitiveGroups))

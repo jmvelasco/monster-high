@@ -66,11 +66,11 @@ describe('FriendGroup Domain Entity', () => {
         id: '999',
         name: 'Restored',
         slug: 'restored',
-        members: ['ghoulia']
+        members: ['ghoulia'],
       }
-      
+
       const group = FriendGroup.fromPrimitives(data)
-      
+
       expect(group).toBeInstanceOf(FriendGroup)
       expect(group.id).toBe('999')
       expect(group.name).toBe('Restored')
@@ -82,12 +82,11 @@ describe('FriendGroup Domain Entity', () => {
       const data = {
         id: '999',
         name: 'Restored',
-        slug: 'restored'
+        slug: 'restored',
       }
-      
-      // @ts-expect-error simulating partial data from localstorage
+
       const group = FriendGroup.fromPrimitives(data)
-      
+
       expect(group.members).toEqual([])
     })
   })
@@ -95,38 +94,53 @@ describe('FriendGroup Domain Entity', () => {
   describe('addMember', () => {
     it('should add a new member to the group', () => {
       const group = FriendGroup.fromPrimitives({ id: '1', name: 'Ghouls', slug: 'ghouls' })
-      
+
       group.addMember('clawdeen')
-      
+
       expect(group.members).toContain('clawdeen')
       expect(group.members).toHaveLength(1)
     })
 
     it('should not add a member if they are already in the group', () => {
-      const group = FriendGroup.fromPrimitives({ id: '1', name: 'Ghouls', slug: 'ghouls', members: ['clawdeen'] })
-      
+      const group = FriendGroup.fromPrimitives({
+        id: '1',
+        name: 'Ghouls',
+        slug: 'ghouls',
+        members: ['clawdeen'],
+      })
+
       group.addMember('clawdeen')
-      
+
       expect(group.members).toHaveLength(1)
     })
   })
 
   describe('removeMember', () => {
     it('should remove an existing member from the group', () => {
-      const group = FriendGroup.fromPrimitives({ id: '1', name: 'Ghouls', slug: 'ghouls', members: ['draculaura', 'clawdeen'] })
-      
+      const group = FriendGroup.fromPrimitives({
+        id: '1',
+        name: 'Ghouls',
+        slug: 'ghouls',
+        members: ['draculaura', 'clawdeen'],
+      })
+
       group.removeMember('draculaura')
-      
+
       expect(group.members).not.toContain('draculaura')
       expect(group.members).toContain('clawdeen')
       expect(group.members).toHaveLength(1)
     })
 
     it('should do nothing if removing a non-existent member', () => {
-      const group = FriendGroup.fromPrimitives({ id: '1', name: 'Ghouls', slug: 'ghouls', members: ['clawdeen'] })
-      
+      const group = FriendGroup.fromPrimitives({
+        id: '1',
+        name: 'Ghouls',
+        slug: 'ghouls',
+        members: ['clawdeen'],
+      })
+
       group.removeMember('draculaura')
-      
+
       expect(group.members).toContain('clawdeen')
       expect(group.members).toHaveLength(1)
     })

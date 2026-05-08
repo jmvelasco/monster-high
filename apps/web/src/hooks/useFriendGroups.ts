@@ -21,7 +21,7 @@ export function useFriendGroups() {
   async function addCharacterToGroup(slug: string, groupId: string) {
     const group = await repository.findById(groupId)
     if (!group) return
-    
+
     group.addMember(slug)
     await repository.save(group)
     await loadGroups()
@@ -45,5 +45,13 @@ export function useFriendGroups() {
     return await repository.findBySlug(slug)
   }, [])
 
-  return { groups, loadGroups, createGroup, addCharacterToGroup, removeGroup, getGroupBySlug, removeCharacterFromGroup }
+  return {
+    groups,
+    loadGroups,
+    createGroup,
+    addCharacterToGroup,
+    removeGroup,
+    getGroupBySlug,
+    removeCharacterFromGroup,
+  }
 }
