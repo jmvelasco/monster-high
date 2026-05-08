@@ -59,4 +59,36 @@ describe('FriendGroup Domain Entity', () => {
 
     expect(() => createFriendGroup(groupData)).toThrow('Group name cannot be empty')
   })
+
+  describe('fromPrimitives', () => {
+    it('should rehydrate a FriendGroup from plain data', () => {
+      const data = {
+        id: '999',
+        name: 'Restored',
+        slug: 'restored',
+        members: ['ghoulia']
+      }
+      
+      const group = FriendGroup.fromPrimitives(data)
+      
+      expect(group).toBeInstanceOf(FriendGroup)
+      expect(group.id).toBe('999')
+      expect(group.name).toBe('Restored')
+      expect(group.slug).toBe('restored')
+      expect(group.members).toEqual(['ghoulia'])
+    })
+
+    it('should fallback to empty array if members are missing', () => {
+      const data = {
+        id: '999',
+        name: 'Restored',
+        slug: 'restored'
+      }
+      
+      // @ts-expect-error simulating partial data from localstorage
+      const group = FriendGroup.fromPrimitives(data)
+      
+      expect(group.members).toEqual([])
+    })
+  })
 })
