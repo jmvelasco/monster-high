@@ -1,4 +1,4 @@
-import { Command } from './Command';
+import { Command } from '../../domain/Command';
 
 export interface CLIEngine {
   command(
