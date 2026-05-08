@@ -70,7 +70,7 @@ describe('The Amigas Page', () => {
     expect(screen.getByText('Lobas')).toBeInTheDocument()
   })
 
-  it('allows deleting a group', async () => {
+  it('group card links to the group detail page', async () => {
     const user = userEvent.setup()
 
     render(
@@ -82,13 +82,11 @@ describe('The Amigas Page', () => {
     const input = screen.getByPlaceholderText(/nombre del grupo/i)
     const createButton = screen.getByRole('button', { name: /crear grupo/i })
 
-    await user.type(input, 'Vampiras')
+    await user.type(input, 'Mis Favs')
     await user.click(createButton)
 
-    await screen.findByText('Vampiras')
-    const deleteButton = screen.getByRole('button', { name: /eliminar/i })
-    await user.click(deleteButton)
-
-    expect(screen.queryByText('Vampiras')).not.toBeInTheDocument()
+    await screen.findByText('Mis Favs')
+    const link = screen.getByRole('link', { name: /mis favs/i })
+    expect(link).toHaveAttribute('href', '/friends/mis-favs')
   })
 })

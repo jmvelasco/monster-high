@@ -5,10 +5,12 @@
   overflow: hidden;
   background-color: var(--mh-white);
   border: 2px solid var(--mh-light-gray);
-  transition: all var(--transition-base);
+  transition: transform var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base);
   cursor: pointer;
   text-decoration: none;
   color: inherit;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 300px;
 }
 
 .card:hover {
@@ -67,7 +69,7 @@
   font-weight: 600;
   border-radius: var(--radius-md);
   cursor: pointer;
-  transition: all var(--transition-base);
+  transition: background-color var(--transition-base);
 }
 
 .favoriteButton:hover {
@@ -92,5 +94,19 @@
 
   .name {
     font-size: var(--text-lg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
+
+  .card:hover {
+    transform: none;
+  }
+
+  .favoriteButton {
+    transition: none;
   }
 }

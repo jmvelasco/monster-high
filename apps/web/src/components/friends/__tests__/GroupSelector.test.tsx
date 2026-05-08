@@ -6,8 +6,8 @@ import { GroupSelector } from '../GroupSelector'
 
 describe('The Group Selector', () => {
   const groups: FriendGroup[] = [
-    { id: '1', name: 'Vampiras', members: [] },
-    { id: '2', name: 'Lobas', members: ['draculaura'] },
+    { id: '1', name: 'Vampiras', slug: 'vampiras', members: [] },
+    { id: '2', name: 'Lobas', slug: 'lobas', members: ['draculaura'] },
   ]
 
   it('displays existing groups as options', () => {

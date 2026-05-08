@@ -9,19 +9,4 @@
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: var(--spacing-4);
-}
-
-/* Tablet Up */
-@media (min-width: 768px) {
-  .main {
-    padding: var(--spacing-6);
-  }
-}
-
-/* Desktop Up */
-@media (min-width: 1024px) {
-  .main {
-    padding: var(--spacing-8);
-  }
 }

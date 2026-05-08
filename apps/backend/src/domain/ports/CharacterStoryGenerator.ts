@@ -1,4 +1,4 @@
-import { Character } from './Character';
+import { Character } from '../entities/Character';
 
 export interface CharacterStoryGenerator {
   generateStory(character: Character): Promise<string>;

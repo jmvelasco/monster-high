@@ -1,8 +1,8 @@
-import { Character } from '../domain/Character';
-import { CharacterRepository } from '../domain/CharacterRepository';
-import { CharacterScraper } from '../domain/CharacterScraper';
-import { CharacterStoryGenerator } from '../domain/CharacterStoryGenerator';
-import { Logger } from '../domain/Logger';
+import { Character } from '../domain/entities/Character';
+import { CharacterRepository } from '../domain/ports/CharacterRepository';
+import { CharacterScraper } from '../domain/ports/CharacterScraper';
+import { CharacterStoryGenerator } from '../domain/ports/CharacterStoryGenerator';
+import { Logger } from '../domain/ports/Logger';
 
 export class GenerateCharacterCatalogUseCase {
   constructor(

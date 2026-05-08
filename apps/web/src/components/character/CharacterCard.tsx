@@ -21,6 +21,8 @@ export function CharacterCard({ character, variant }: CharacterCardProps) {
         alt={character.name}
         loading="lazy"
         referrerPolicy="no-referrer"
+        width={300}
+        height={300}
         className={styles.image}
       />
       <div className={styles.content}>
