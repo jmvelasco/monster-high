@@ -9,7 +9,7 @@ describe('FriendThumbnails', () => {
   // - Returns null/empty when friendsString is empty
   // - Displays images for matched characters
   // - Displays initials for unmatched characters
-  
+
   const mockCharacters: Character[] = [
     {
       name: 'Draculaura',
