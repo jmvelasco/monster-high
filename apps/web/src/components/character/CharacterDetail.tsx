@@ -1,11 +1,10 @@
 import { useEffect } from 'react'
+import { useCharacters } from '../../hooks/useCharacters'
 import { useFriendGroups } from '../../hooks/useFriendGroups'
 import type { Character } from '../../types/character'
 import { generateSlug } from '../../utils/slugUtils'
-import styles from './CharacterDetail.module.css'
-
-import { useCharacters } from '../../hooks/useCharacters'
 import { GroupSelector } from '../friends/GroupSelector'
+import styles from './CharacterDetail.module.css'
 import { FriendThumbnails } from './FriendThumbnails'
 
 interface CharacterDetailProps {
@@ -26,7 +25,7 @@ export function CharacterDetail({ character }: CharacterDetailProps) {
     <article className={styles.detail}>
       <h1 className={styles.title}>{character.name}</h1>
       <div className={styles.detailContent}>
-        <div className={styles.leftColumn}>
+        <div className={styles.characterPanel}>
           <div className={styles.characterArea}>
             <img
               src={imageSrc}
@@ -41,28 +40,20 @@ export function CharacterDetail({ character }: CharacterDetailProps) {
               characters={charactersList}
             />
           </div>
-          <div className={styles.groupSelector}>
-            <GroupSelector
-              groups={groups}
-              characterSlug={slug}
-              onAddToGroup={addCharacterToGroup}
-              onCreateGroup={createGroup}
-            />
-          </div>
         </div>
-        <div className={styles.infoContainer}>
+        <div className={styles.storySection}>
           {character.globalStory && (
             <div className={styles.globalStory}>{character.globalStory}</div>
           )}
         </div>
-        <div className={styles.groupSelectorAtBottom}>
-            <GroupSelector
-              groups={groups}
-              characterSlug={slug}
-              onAddToGroup={addCharacterToGroup}
-              onCreateGroup={createGroup}
-            />
-          </div>
+        <div className={styles.groupSelector}>
+          <GroupSelector
+            groups={groups}
+            characterSlug={slug}
+            onAddToGroup={addCharacterToGroup}
+            onCreateGroup={createGroup}
+          />
+        </div>
       </div>
     </article>
   )

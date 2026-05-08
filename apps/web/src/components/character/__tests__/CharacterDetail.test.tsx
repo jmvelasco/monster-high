@@ -135,7 +135,7 @@ describe('CharacterDetail', () => {
       </MemoryRouter>
     )
 
-    expect(screen.getAllByText(/añadir a grupo de amigas/i)).toHaveLength(2)
+    expect(screen.getByText(/añadir a grupo de amigas/i)).toBeInTheDocument()
   })
 
   it('renders FriendThumbnails if technicalInfo.mejoresAmigos is present', () => {
