@@ -1,6 +1,3 @@
-#!/bin/sh
-. "$(dirname "$0")/_/husky.sh"
-
 # Skip validate on branch deletes (local_sha = all zeros)
 while read local_ref local_sha remote_ref remote_sha
 do
