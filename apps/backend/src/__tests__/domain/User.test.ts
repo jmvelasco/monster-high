@@ -1,4 +1,4 @@
-import { User } from '../../domain/User';
+import { User } from '../../domain/entities/User';
 
 describe('The User', () => {
   it('creates a user with an id, email, and creation date', () => {

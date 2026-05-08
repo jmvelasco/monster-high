@@ -1,4 +1,4 @@
-import { Character, CharacterSections } from '../../domain/Character';
+import { Character, CharacterSections } from '../../domain/entities/Character';
 
 describe('Character Model', () => {
   const mockSections: CharacterSections = {

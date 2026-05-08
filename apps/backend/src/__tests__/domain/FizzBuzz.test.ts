@@ -1,4 +1,4 @@
-import { FizzBuzz } from '../../domain/FizzBuzz';
+import { FizzBuzz } from '../../domain/entities/FizzBuzz';
 
 describe('The FizzBuzz', () => {
   it('labels a regular odd number with its string value and odd type', () => {

@@ -1,4 +1,4 @@
-import { Character } from '../../../domain/Character';
+import { Character } from '../../../domain/entities/Character';
 import { GroqStoryGenerator } from '../../../infrastructure/story-generator/GroqStoryGenerator';
 
 class FakeGroqClient {
