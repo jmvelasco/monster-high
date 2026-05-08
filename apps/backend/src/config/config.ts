@@ -17,7 +17,7 @@ export const config = {
     apiKey: process.env.GROQ_API_KEY || '',
     model: 'llama-3.1-8b-instant',
     temperature: 0.3,
-    maxTokens: 400,
+    maxTokens: 1024,
     rateLimitDelay: 15000,
   },
   storage: {
