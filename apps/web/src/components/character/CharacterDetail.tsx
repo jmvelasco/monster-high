@@ -34,18 +34,28 @@ export function CharacterDetail({ character }: CharacterDetailProps) {
               characters={charactersList}
             />
           </div>
-          <GroupSelector
-            groups={groups}
-            characterSlug={slug}
-            onAddToGroup={addCharacterToGroup}
-            onCreateGroup={createGroup}
-          />
+          <div className={styles.groupSelector}>
+            <GroupSelector
+              groups={groups}
+              characterSlug={slug}
+              onAddToGroup={addCharacterToGroup}
+              onCreateGroup={createGroup}
+            />
+          </div>
         </div>
         <div className={styles.infoContainer}>
           {character.globalStory && (
             <div className={styles.globalStory}>{character.globalStory}</div>
           )}
         </div>
+        <div className={styles.groupSelectorAtBottom}>
+            <GroupSelector
+              groups={groups}
+              characterSlug={slug}
+              onAddToGroup={addCharacterToGroup}
+              onCreateGroup={createGroup}
+            />
+          </div>
       </div>
     </article>
   )

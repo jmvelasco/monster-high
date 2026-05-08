@@ -1,7 +1,6 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-3);
   width: 100%;
   align-self: flex-end;
 }
@@ -27,10 +26,8 @@
 .thumbnail {
   width: 72px;
   height: 96px;
-  border-radius: var(--radius-md);
   object-fit: cover;
   object-position: top;
-  border: 2px solid var(--mh-pink);
   background-color: var(--mh-light-gray);
   padding: 2px;
   box-sizing: border-box;
@@ -54,7 +51,8 @@
 }
 
 .title {
-  font-weight: 700;
+  font-family: var(--font-main-title);
+  font-weight: 100;
   margin: 0;
   color: var(--mh-gray);
   font-size: var(--text-base);
@@ -62,6 +60,4 @@
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  border-bottom: 2px solid var(--mh-gray);
-  padding-bottom: var(--spacing-1);
 }
