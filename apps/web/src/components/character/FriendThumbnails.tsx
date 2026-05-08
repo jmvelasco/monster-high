@@ -18,7 +18,7 @@ export function FriendThumbnails({ friendsString, characters = [] }: FriendThumb
 
   return (
     <div className={styles.wrapper}>
-      <h3 className={styles.title}>Mejores Amistades</h3>
+      <h2 className={styles.title}>Mejores Amistades</h2>
       <div className={styles.container}>
         {friendNames.map((name, index) => {
         const character = characterByName.get(name.toLowerCase())
@@ -34,6 +34,8 @@ export function FriendThumbnails({ friendsString, characters = [] }: FriendThumb
               <img
                 src={character.image}
                 alt={character.name}
+                width={72}
+                height={96}
                 className={styles.thumbnail}
               />
             </Link>

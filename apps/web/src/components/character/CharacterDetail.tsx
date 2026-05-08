@@ -28,7 +28,14 @@ export function CharacterDetail({ character }: CharacterDetailProps) {
       <div className={styles.detailContent}>
         <div className={styles.leftColumn}>
           <div className={styles.characterArea}>
-            <img src={imageSrc} alt={character.name} className={styles.image} />
+            <img
+              src={imageSrc}
+              alt={character.name}
+              width={400}
+              height={533}
+              fetchPriority="high"
+              className={styles.image}
+            />
             <FriendThumbnails
               friendsString={character.technicalInfo?.mejoresAmigos}
               characters={charactersList}

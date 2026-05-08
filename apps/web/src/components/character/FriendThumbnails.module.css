@@ -23,6 +23,12 @@
   transform: scale(1.05);
 }
 
+.thumbnailLink:focus-visible {
+  outline: 2px solid var(--mh-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-md);
+}
+
 .thumbnail {
   width: 72px;
   height: 96px;
@@ -60,4 +66,14 @@
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .thumbnailLink {
+    transition: none;
+  }
+
+  .thumbnailLink:hover {
+    transform: none;
+  }
 }
