@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import { createFriendGroup, type FriendGroup } from '../domain/friends/FriendGroup'
+import { FriendGroup } from '../domain/friends/FriendGroup'
 import { LocalStorageFriendGroupRepository } from '../infrastructure/friends/LocalStorageFriendGroupRepository'
 
 const repository = new LocalStorageFriendGroupRepository()
@@ -13,7 +13,7 @@ export function useFriendGroups() {
   }, [])
 
   async function createGroup(name: string) {
-    const group = createFriendGroup({ id: crypto.randomUUID(), name })
+    const group = FriendGroup.create({ id: crypto.randomUUID(), name })
     await repository.save(group)
     await loadGroups()
   }

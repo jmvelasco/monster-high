@@ -29,28 +29,16 @@ export class FriendGroup {
   removeMember(slug: string): void {
     this._members = this._members.filter(member => member !== slug)
   }
-}
 
-export interface CreateFriendGroupProps {
-  id: string
-  name: string
-  slug?: string
-  members?: string[]
-}
-
-export function createFriendGroup({
-  id,
-  name,
-  slug,
-  members = [],
-}: CreateFriendGroupProps): FriendGroup {
-  if (!name || name.trim().length === 0) {
-    throw new Error('Group name cannot be empty')
+  static create(props: { id: string; name: string; slug?: string; members?: string[] }): FriendGroup {
+    if (!props.name || props.name.trim().length === 0) {
+      throw new Error('Group name cannot be empty')
+    }
+    return new FriendGroup(
+      props.id,
+      props.name,
+      props.slug ?? generateSlug(props.name),
+      props.members ?? []
+    )
   }
-  return new FriendGroup(
-    id,
-    name,
-    slug ?? generateSlug(name),
-    members
-  )
 }

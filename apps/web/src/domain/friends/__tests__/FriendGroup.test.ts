@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { createFriendGroup, FriendGroup } from '../FriendGroup'
+import { FriendGroup } from '../FriendGroup'
 
 describe('FriendGroup Domain Entity', () => {
   it('should create a valid friend group with id, name, slug, and empty members', () => {
@@ -8,7 +8,7 @@ describe('FriendGroup Domain Entity', () => {
       name: 'Mis Favs',
     }
 
-    const group = createFriendGroup(groupData)
+    const group = FriendGroup.create(groupData)
 
     expect(group.id).toBe('123')
     expect(group.name).toBe('Mis Favs')
@@ -24,7 +24,7 @@ describe('FriendGroup Domain Entity', () => {
       members: ['draculaura', 'clawdeen'],
     }
 
-    const group = createFriendGroup(groupData)
+    const group = FriendGroup.create(groupData)
 
     expect(group.members).toContain('draculaura')
     expect(group.members).toHaveLength(2)
@@ -37,7 +37,7 @@ describe('FriendGroup Domain Entity', () => {
       slug: 'old-name',
     }
 
-    const group = createFriendGroup(groupData)
+    const group = FriendGroup.create(groupData)
 
     expect(group.slug).toBe('old-name')
   })
@@ -48,7 +48,7 @@ describe('FriendGroup Domain Entity', () => {
       name: '',
     }
 
-    expect(() => createFriendGroup(groupData)).toThrow('Group name cannot be empty')
+    expect(() => FriendGroup.create(groupData)).toThrow('Group name cannot be empty')
   })
 
   it('should throw an error if the name only contains whitespace', () => {
@@ -57,7 +57,7 @@ describe('FriendGroup Domain Entity', () => {
       name: '   ',
     }
 
-    expect(() => createFriendGroup(groupData)).toThrow('Group name cannot be empty')
+    expect(() => FriendGroup.create(groupData)).toThrow('Group name cannot be empty')
   })
 
   describe('fromPrimitives', () => {
