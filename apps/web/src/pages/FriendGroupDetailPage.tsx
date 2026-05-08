@@ -5,6 +5,7 @@ import { ConfirmDialog } from '../components/ui/ConfirmDialog'
 import type { FriendGroup } from '../domain/friends/FriendGroup'
 import { useCharacters } from '../hooks/useCharacters'
 import { useFriendGroups } from '../hooks/useFriendGroups'
+import type { Character } from '../types/character'
 import { generateSlug } from '../utils/slugUtils'
 import styles from './FriendGroupDetailPage.module.css'
 
@@ -17,7 +18,7 @@ export function FriendGroupDetailPage() {
   const [group, setGroup] = useState<FriendGroup | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isConfirmOpen, setIsConfirmOpen] = useState(false)
-  const [characterToRemove, setCharacterToRemove] = useState<typeof characters[0] | null>(null)
+  const [characterToRemove, setCharacterToRemove] = useState<Character | null>(null)
 
   useEffect(() => {
     async function loadGroup() {
