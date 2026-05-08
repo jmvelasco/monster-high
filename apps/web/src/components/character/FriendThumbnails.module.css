@@ -1,8 +1,16 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  width: 100%;
+  align-self: flex-end;
+}
+
 .container {
   display: flex;
   gap: var(--spacing-2);
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
   align-content: flex-start;
 }
 
@@ -43,4 +51,17 @@
   text-transform: uppercase;
   padding: 2px;
   box-sizing: border-box;
+}
+
+.title {
+  font-weight: 700;
+  margin: 0;
+  color: var(--mh-gray);
+  font-size: var(--text-base);
+  width: 100%;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 2px solid var(--mh-gray);
+  padding-bottom: var(--spacing-1);
 }

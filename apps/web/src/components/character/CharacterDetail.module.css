@@ -29,16 +29,23 @@
   gap: var(--spacing-4);
 }
 
-.imageContainer {
+.characterArea {
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-3);
+  gap: var(--spacing-4);
+}
+
+.imageAndGroups {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
 }
 
 .image {
   width: 100%;
   height: auto;
-  max-height: 45vh; /* Adapt to available container space */
+  max-height: 45vh;
+  /* Adapt to available container space */
   aspect-ratio: 3 / 4;
   object-fit: contain;
   border-radius: var(--radius-lg);
@@ -122,8 +129,8 @@
     gap: 0;
   }
 
-  .imageContainer {
-    gap: var(--spacing-4);
+  .characterArea {
+    gap: var(--spacing-6);
   }
 
   .favoriteButton {
@@ -167,7 +174,7 @@
     padding-right: var(--spacing-2);
   }
 
-  .imageContainer {
+  .characterArea {
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: var(--spacing-4);
@@ -187,8 +194,8 @@
   }
 
   .globalStory {
-    font-size: var(--text-3xl);
-    line-height: var(--text-4xl);
+    font-size: var(--text-4_5xl);
+    line-height: var(--text-5xl);
   }
 
   .infoLabel {

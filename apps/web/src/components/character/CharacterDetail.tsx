@@ -2,10 +2,10 @@ import { useEffect } from 'react'
 import { useFriendGroups } from '../../hooks/useFriendGroups'
 import type { Character } from '../../types/character'
 import { generateSlug } from '../../utils/slugUtils'
-import { GroupSelector } from '../friends/GroupSelector'
 import styles from './CharacterDetail.module.css'
 
 import { useCharacters } from '../../hooks/useCharacters'
+import { GroupSelector } from '../friends/GroupSelector'
 import { FriendThumbnails } from './FriendThumbnails'
 
 interface CharacterDetailProps {
@@ -27,11 +27,11 @@ export function CharacterDetail({ character }: CharacterDetailProps) {
       <h1 className={styles.title}>{character.name}</h1>
       <div className={styles.detailContent}>
         <div className={styles.leftColumn}>
-          <div className={styles.imageContainer}>
+          <div className={styles.characterArea}>
             <img src={imageSrc} alt={character.name} className={styles.image} />
-            <FriendThumbnails 
-              friendsString={character.technicalInfo?.mejoresAmigos} 
-              characters={charactersList} 
+            <FriendThumbnails
+              friendsString={character.technicalInfo?.mejoresAmigos}
+              characters={charactersList}
             />
           </div>
           <GroupSelector
