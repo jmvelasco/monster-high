@@ -12,15 +12,16 @@ export function FriendThumbnails({ friendsString, characters = [] }: FriendThumb
   if (!friendsString) return null
 
   const friendNames = friendsString.split(',').map(name => name.trim())
+  const characterByName = new Map(
+    characters.map(c => [c.name.toLowerCase(), c])
+  )
 
   return (
     <div className={styles.wrapper}>
       <h3 className={styles.title}>Mejores Amistades</h3>
       <div className={styles.container}>
         {friendNames.map((name, index) => {
-        const character = characters.find(
-          c => c.name.toLowerCase() === name.toLowerCase()
-        )
+        const character = characterByName.get(name.toLowerCase())
 
         if (character?.image) {
           return (
