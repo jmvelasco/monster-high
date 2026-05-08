@@ -1,5 +1,5 @@
 import { GenerateCharacterCatalogUseCase } from '../../../application/GenerateCharacterCatalogUseCase';
-import { Command } from '../../../domain/Command';
+import { Command } from '../../../domain/ports/Command';
 
 export class GenerateCharactersCommand implements Command {
   readonly name = 'generate-characters';

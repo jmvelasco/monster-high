@@ -1,5 +1,5 @@
-import { FizzBuzz } from '../domain/FizzBuzz';
-import { FizzBuzzPresenter } from '../domain/FizzBuzzPresenter';
+import { FizzBuzz } from '../domain/entities/FizzBuzz';
+import { FizzBuzzPresenter } from '../domain/ports/FizzBuzzPresenter';
 
 export class RunFizzBuzzUseCase {
   constructor(private readonly presenter: FizzBuzzPresenter) {}

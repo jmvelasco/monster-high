@@ -1,5 +1,5 @@
 import { RunFizzBuzzUseCase } from '../../../application/RunFizzBuzzUseCase';
-import { Command } from '../../../domain/Command';
+import { Command } from '../../../domain/ports/Command';
 
 export class FizzBuzzCommand implements Command {
   readonly name = 'fizzbuzz';

@@ -1,5 +1,5 @@
-import { FizzBuzzResult, FizzBuzzResultType } from '../../domain/FizzBuzz';
-import { FizzBuzzPresenter } from '../../domain/FizzBuzzPresenter';
+import { FizzBuzzResult, FizzBuzzResultType } from '../../domain/entities/FizzBuzz';
+import { FizzBuzzPresenter } from '../../domain/ports/FizzBuzzPresenter';
 
 const ansiColors: Record<FizzBuzzResultType, string> = {
   even: '\x1b[33m',
