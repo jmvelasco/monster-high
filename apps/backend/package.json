@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Monster High Wiki Scraper with AI processing - Backend",
   "main": "lib/index.js",
+  "bin": {
+    "monster-high": "./bin/monster-high"
+  },
   "scripts": {
     "prepare": "husky",
     "start": "ts-node src/index.ts",

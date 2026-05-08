@@ -1,7 +1,7 @@
 # Specs: Friend Groups (Mis Amigas)
 
 ## Capability Overview
-The Friend Groups capability allows users to organize characters into custom collections. This feature was evolved from the legacy "Favorites" system to support multiple named groups.
+The Friend Groups capability allows users to organize characters into custom collections called "Amigas" groups.
 
 ## User Scenarios
 
@@ -22,18 +22,8 @@ The Friend Groups capability allows users to organize characters into custom col
 
 #### Acceptance Criteria:
 - Character is not duplicated if already in the group.
-- Success feedback is shown to the user.
 
-### Scenario 3: Migration of legacy favorites
-**Given** a user has characters in their old favorites list
-**When** they access the "/amigas" section for the first time
-**Then** the system should automatically create a group named "BFFs" containing those characters.
-
-#### Acceptance Criteria:
-- Legacy list is removed after successful migration.
-- No data loss during the transition.
-
-### Scenario 4: Viewing friend group details
+### Scenario 3: Viewing friend group details
 **Given** a user is on the "Friend Groups" management page
 **When** they click on a specific group card (e.g., "Mis Favs")
 **Then** they are navigated to the group's detail page (`/friends/mis-favs`)
@@ -43,7 +33,7 @@ The Friend Groups capability allows users to organize characters into custom col
 - The URL must be a human-readable slug derived from the group name.
 - If a legacy group lacks a slug, the system dynamically generates one upon loading to ensure accessibility.
 
-### Scenario 5: Deleting a friend group
+### Scenario 4: Deleting a friend group
 **Given** a user is viewing a friend group's detail page
 **When** they click the "Delete Group" action
 **Then** a modal confirmation dialog is displayed warning about the destructive action.
