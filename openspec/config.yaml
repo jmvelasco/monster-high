@@ -1,6 +1,6 @@
 schema: spec-driven
 
-# Project context (github)
+# Project context (antigravity)
 
 context: |
     Tech stack: TypeScript, React, Node.js
@@ -9,15 +9,15 @@ context: |
     Layers: domain -> application -> infrastructure
     Web: React 19, TypeScript 5, Vite 7
     Testing: Jest (backend), Vitest (web)
-    Project guidelines (source of truth): All artifact creation and implementation must read and follow the guidelines described in ./github
-    - ./.github/copilot-instructions.md - Respository structure, core practices for all artifacts
-    - ./.github/skills/backend-hexagonal - apps/backend/src/domain, application, infrastructure)
-    - ./.github/skills/react-best-practices - apps/web/src
-    - ./.github/instructions/conding-standards - All artifacts
-    - ./.github/instructions/testing-standards - Testing strategy and patterns
-    - ./.github/instructions/react-optimization - apps/web/src
-    - ./.github/instructions/tdd - TDD 5-step cycle, TPP, inside-out
-    - ./.github/instructions/commit-strategy - Commit message format
+    Project guidelines (source of truth): All artifact creation and implementation MUST read and follow the guidelines described in ./AGENTS and ./agents/rules
+    - ./AGENTS - Core practices for all artifacts
+    - ./.agents/skills/backend-hexagonal - apps/backend/src/domain, application, infrastructure)
+    - ./.agents/skills/react-best-practices - apps/web/src
+    - ./.agents/rules/conding-standards - All artifacts
+    - ./.agents/rules/testing-standards - Testing strategy and patterns
+    - ./.agents/rules/react-optimization - apps/web/src
+    - ./.agents/rules/tdd - TDD 5-step cycle, TPP, inside-out
+    - ./.agents/rules/commit-strategy - Commit message format
 rules:
   proposal:
     - Keep proposal concise, focused on the "why"
