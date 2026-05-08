@@ -6,6 +6,7 @@ class FakeGroqClient {
   private shouldError: boolean = false;
   private errorStatus?: number;
   private callCount: number = 0;
+  private lastPrompt: string = '';
 
   setMockResponse(response: string) {
     this.mockResponse = response;
@@ -20,10 +21,15 @@ class FakeGroqClient {
     return this.callCount;
   }
 
+  getLastPrompt(): string {
+    return this.lastPrompt;
+  }
+
   chat = {
     completions: {
-      create: async () => {
+      create: async (params: any) => {
         this.callCount++;
+        this.lastPrompt = params.messages?.[0]?.content || '';
 
         if (this.shouldError) {
           const error: any = new Error('API Error');
@@ -133,4 +139,36 @@ describe('The GroqStoryGenerator', () => {
     expect(story).toBe('Success after retry');
     expect(attemptCount).toBe(2);
   }, 20000);
+
+  test('instructs the model to end stories with a complete closing sentence', async () => {
+    const fakeClient = new FakeGroqClient();
+    const storyGenerator = new GroqStoryGenerator(fakeClient as any);
+    const character = Character.fromDetails({
+      name: 'Draculaura',
+      url: 'http://test.com',
+      technicalInfo: {},
+      sections: { bio: { info: ['Some data'] } },
+    });
+
+    await storyGenerator.generateStory(character);
+
+    expect(fakeClient.getLastPrompt().toLowerCase()).toContain('must end with a complete closing sentence');
+  });
+
+  test('instructs the model to prioritize finishing the story over including every detail', async () => {
+    const fakeClient = new FakeGroqClient();
+    const storyGenerator = new GroqStoryGenerator(fakeClient as any);
+    const character = Character.fromDetails({
+      name: 'Draculaura',
+      url: 'http://test.com',
+      technicalInfo: {},
+      sections: { bio: { info: ['Some data'] } },
+    });
+
+    await storyGenerator.generateStory(character);
+
+    expect(fakeClient.getLastPrompt().toLowerCase()).toContain(
+      'prioritize finishing the story over including every detail'
+    );
+  });
 });
