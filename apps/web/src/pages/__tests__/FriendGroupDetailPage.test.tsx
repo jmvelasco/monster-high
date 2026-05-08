@@ -2,11 +2,11 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { describe, expect, it, vi } from 'vitest'
+import type { FriendGroup } from '../../domain/friends/FriendGroup'
 import * as useCharactersModule from '../../hooks/useCharacters'
 import * as useFriendGroupsModule from '../../hooks/useFriendGroups'
-import { FriendGroupDetailPage } from '../FriendGroupDetailPage'
-import type { FriendGroup } from '../../domain/friends/FriendGroup'
 import type { Character } from '../../types/character'
+import { FriendGroupDetailPage } from '../FriendGroupDetailPage'
 
 // Mock the hooks
 vi.mock('../../hooks/useFriendGroups', () => ({
@@ -72,11 +72,12 @@ describe('FriendGroupDetailPage', () => {
   it('renders members of the group', async () => {
     setupMocks({ id: '1', name: 'Mis Favs', slug: 'mis-favs', members: ['draculaura'] }, [
       {
-        id: 'c1',
         name: 'Draculaura',
+        url: '/draculaura',
         image: '/drac.png',
-        species: 'Vampire',
         globalStory: 'Story',
+        technicalInfo: {},
+        sections: {},
       },
     ])
     renderComponent('mis-favs')
