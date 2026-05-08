@@ -91,4 +91,23 @@ describe('FriendGroup Domain Entity', () => {
       expect(group.members).toEqual([])
     })
   })
+
+  describe('addMember', () => {
+    it('should add a new member to the group', () => {
+      const group = FriendGroup.fromPrimitives({ id: '1', name: 'Ghouls', slug: 'ghouls' })
+      
+      group.addMember('clawdeen')
+      
+      expect(group.members).toContain('clawdeen')
+      expect(group.members).toHaveLength(1)
+    })
+
+    it('should not add a member if they are already in the group', () => {
+      const group = FriendGroup.fromPrimitives({ id: '1', name: 'Ghouls', slug: 'ghouls', members: ['clawdeen'] })
+      
+      group.addMember('clawdeen')
+      
+      expect(group.members).toHaveLength(1)
+    })
+  })
 })
