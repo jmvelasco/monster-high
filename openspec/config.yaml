@@ -1,23 +1,7 @@
 schema: spec-driven
 
-# Project context (optional)
-# This is shown to AI when creating artifacts.
-# Add your tech stack, conventions, style guides, domain knowledge, etc.
-# Example:
-#   context: |
-#     Tech stack: TypeScript, React, Node.js
-#     We use conventional commits
-#     Domain: e-commerce platform
+# Project context (github)
 
-# Per-artifact rules (optional)
-# Add custom rules for specific artifacts.
-# Example:
-#   rules:
-#     proposal:
-#       - Keep proposals under 500 words
-#       - Always include a "Non-goals" section
-#     tasks:
-#       - Break tasks into chunks of max 2 hours
 context: |
     Tech stack: TypeScript, React, Node.js
     Monorepo with npm workspaces: backend, web
@@ -25,16 +9,15 @@ context: |
     Layers: domain -> application -> infrastructure
     Web: React 19, TypeScript 5, Vite 7
     Testing: Jest (backend), Vitest (web)
-    Project guidelines (source of truth): All artifact creation and implementation 
-    MUST read and follow the guidelines described in ./AGENTS and ./agents/rules
-    - ./AGENTS - Core practices for all artifacts
-    - ./.agents/skills/backend-hexagonal - apps/backend/src/domain, application, infrastructure)
-    - ./.agents/skills/react-best-practices - apps/web/src
-    - ./.agents/rules/conding-standards - All artifacts
-    - ./.agents/rules/testing-standards - Testing strategy and patterns
-    - ./.agents/rules/react-optimization - apps/web/src
-    - ./.agents/rules/tdd - TDD 5-step cycle, TPP, inside-out
-    - ./.agents/rules/commit-strategy - Commit message format
+    Project guidelines (source of truth): All artifact creation and implementation must read and follow the guidelines described in ./github
+    - ./.github/copilot-instructions.md - Respository structure, core practices for all artifacts
+    - ./.github/skills/backend-hexagonal - apps/backend/src/domain, application, infrastructure)
+    - ./.github/skills/react-best-practices - apps/web/src
+    - ./.github/instructions/conding-standards - All artifacts
+    - ./.github/instructions/testing-standards - Testing strategy and patterns
+    - ./.github/instructions/react-optimization - apps/web/src
+    - ./.github/instructions/tdd - TDD 5-step cycle, TPP, inside-out
+    - ./.github/instructions/commit-strategy - Commit message format
 rules:
   proposal:
     - Keep proposal concise, focused on the "why"
@@ -46,5 +29,6 @@ rules:
   design:
     - Follow hexagonal architecture layers
   tasks:
-    - "Tasks with behavior use TDD: RED -> GREEN -> REFACTOR"
+    - "Tasks with behavior use TDD: REASON -> RED -> GREEN -> REFACTOR -> RE-EVALUATE"
     - "Order inside-out: domain -> application -> infrastructure"
+    - Run "npm run format:fix" on all code changes
