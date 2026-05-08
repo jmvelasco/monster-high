@@ -9,6 +9,8 @@
   cursor: pointer;
   text-decoration: none;
   color: inherit;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 300px;
 }
 
 .card:hover {
