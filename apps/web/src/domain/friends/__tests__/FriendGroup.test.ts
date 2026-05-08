@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { createFriendGroup } from '../FriendGroup'
+import { createFriendGroup, FriendGroup } from '../FriendGroup'
 
 describe('FriendGroup Domain Entity', () => {
   it('should create a valid friend group with id, name, slug, and empty members', () => {
@@ -14,6 +14,7 @@ describe('FriendGroup Domain Entity', () => {
     expect(group.name).toBe('Mis Favs')
     expect(group.slug).toBe('mis-favs')
     expect(group.members).toEqual([])
+    expect(group).toBeInstanceOf(FriendGroup)
   })
 
   it('should create a friend group with initial members', () => {
