@@ -1,10 +1,12 @@
 import { generateSlug } from '../../utils/slugUtils'
 
-export interface FriendGroup {
-  readonly id: string
-  readonly name: string
-  readonly slug: string
-  readonly members: string[]
+export class FriendGroup {
+  constructor(
+    public readonly id: string,
+    public readonly name: string,
+    public readonly slug: string,
+    public readonly members: string[]
+  ) {}
 }
 
 export interface CreateFriendGroupProps {
@@ -23,10 +25,10 @@ export function createFriendGroup({
   if (!name || name.trim().length === 0) {
     throw new Error('Group name cannot be empty')
   }
-  return {
+  return new FriendGroup(
     id,
     name,
-    slug: slug ?? generateSlug(name),
-    members,
-  }
+    slug ?? generateSlug(name),
+    members
+  )
 }
