@@ -1,8 +1,8 @@
 import axios, { AxiosInstance } from 'axios';
 import * as cheerio from 'cheerio';
 import { config } from '../../config/config';
-import { Character, CharacterLink, CharacterSections, Section, TechnicalInfo } from '../../domain/Character';
-import { CharacterScraper } from '../../domain/CharacterScraper';
+import { Character, CharacterLink, CharacterSections, Section, TechnicalInfo } from '../../domain/entities/Character';
+import { CharacterScraper } from '../../domain/ports/CharacterScraper';
 
 export class WikiScraper implements CharacterScraper {
   private readonly httpClient: AxiosInstance;

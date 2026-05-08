@@ -9,7 +9,12 @@ interface GroupSelectorProps {
   onCreateGroup: (name: string) => void
 }
 
-export function GroupSelector({ groups, characterSlug, onAddToGroup, onCreateGroup }: GroupSelectorProps) {
+export function GroupSelector({
+  groups,
+  characterSlug,
+  onAddToGroup,
+  onCreateGroup,
+}: GroupSelectorProps) {
   const [newGroupName, setNewGroupName] = useState('')
 
   function handleCreate() {

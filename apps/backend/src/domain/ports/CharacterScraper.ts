@@ -1,4 +1,4 @@
-import { CharacterLink, Character } from './Character';
+import { Character, CharacterLink } from '../entities/Character';
 
 export interface CharacterScraper {
   getCharacterList(): Promise<CharacterLink[]>;

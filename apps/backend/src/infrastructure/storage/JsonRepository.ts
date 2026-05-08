@@ -1,8 +1,8 @@
 import fs from 'fs/promises';
 import path from 'path';
 import { config } from '../../config/config';
-import { Character } from '../../domain/Character';
-import { CharacterRepository } from '../../domain/CharacterRepository';
+import { Character } from '../../domain/entities/Character';
+import { CharacterRepository } from '../../domain/ports/CharacterRepository';
 
 export class JsonRepository implements CharacterRepository {
   private outputPath: string;

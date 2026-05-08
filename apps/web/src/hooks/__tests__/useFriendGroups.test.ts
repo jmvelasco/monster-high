@@ -80,4 +80,17 @@ describe('The Friend Groups Hook', () => {
 
     expect(result.current.groups).toEqual([])
   })
+
+  it('gets a group by slug', async () => {
+    const { result } = renderHook(() => useFriendGroups())
+
+    await act(async () => {
+      await result.current.createGroup('Vampiras')
+    })
+
+    const slug = result.current.groups[0].slug
+    const found = await result.current.getGroupBySlug(slug)
+
+    expect(found?.name).toBe('Vampiras')
+  })
 })

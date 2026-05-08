@@ -1,8 +1,9 @@
-import type { FriendGroup } from './FriendGroup';
+import type { FriendGroup } from './FriendGroup'
 
 export interface FriendGroupRepository {
-  findAll(): Promise<FriendGroup[]>;
-  save(group: FriendGroup): Promise<void>;
-  delete(id: string): Promise<void>;
-  findById(id: string): Promise<FriendGroup | null>;
+  findAll(): Promise<FriendGroup[]>
+  save(group: FriendGroup): Promise<void>
+  delete(id: string): Promise<void>
+  findById(id: string): Promise<FriendGroup | null>
+  findBySlug(slug: string): Promise<FriendGroup | null>
 }

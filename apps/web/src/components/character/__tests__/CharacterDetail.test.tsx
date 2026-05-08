@@ -1,4 +1,5 @@
 import { render, screen } from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom'
 import { beforeEach, describe, expect, it } from 'vitest'
 import type { Character } from '../../../types/character'
 import { CharacterDetail } from '../CharacterDetail'
@@ -19,7 +20,11 @@ describe('CharacterDetail', () => {
     }
 
     // Act
-    render(<CharacterDetail character={character} />)
+    render(
+      <MemoryRouter>
+        <CharacterDetail character={character} />
+      </MemoryRouter>
+    )
 
     // Assert
     const image = screen.getByRole('img', { name: 'Draculaura' })
@@ -37,7 +42,11 @@ describe('CharacterDetail', () => {
     }
 
     // Act
-    render(<CharacterDetail character={character} />)
+    render(
+      <MemoryRouter>
+        <CharacterDetail character={character} />
+      </MemoryRouter>
+    )
 
     // Assert
     const image = screen.getByRole('img', { name: 'Frankie Stein' })
@@ -56,7 +65,11 @@ describe('CharacterDetail', () => {
     }
 
     // Act
-    render(<CharacterDetail character={character} />)
+    render(
+      <MemoryRouter>
+        <CharacterDetail character={character} />
+      </MemoryRouter>
+    )
 
     // Assert
     const story = screen.getByText(/Deuce es el hijo de Medusa/)
@@ -75,7 +88,11 @@ describe('CharacterDetail', () => {
     }
 
     // Act
-    const { container } = render(<CharacterDetail character={character} />)
+    const { container } = render(
+      <MemoryRouter>
+        <CharacterDetail character={character} />
+      </MemoryRouter>
+    )
 
     // Assert - No debe renderizar sección de historia
     const storySection = container.querySelector('.global-story')
@@ -93,7 +110,11 @@ describe('CharacterDetail', () => {
     }
 
     // Act
-    const { container } = render(<CharacterDetail character={character} />)
+    const { container } = render(
+      <MemoryRouter>
+        <CharacterDetail character={character} />
+      </MemoryRouter>
+    )
 
     // Assert - No debe renderizar sección de historia
     const storySection = container.querySelector('.global-story')
@@ -108,8 +129,32 @@ describe('CharacterDetail', () => {
       sections: {},
     }
 
-    render(<CharacterDetail character={character} />)
+    render(
+      <MemoryRouter>
+        <CharacterDetail character={character} />
+      </MemoryRouter>
+    )
 
     expect(screen.getByText(/añadir a grupo de amigas/i)).toBeInTheDocument()
+  })
+
+  it('renders FriendThumbnails if technicalInfo.mejoresAmigos is present', () => {
+    const character: Character = {
+      name: 'Draculaura',
+      url: 'https://example.com',
+      technicalInfo: {
+        mejoresAmigos: 'Clawd Wolf',
+      },
+      sections: {},
+    }
+
+    render(
+      <MemoryRouter>
+        <CharacterDetail character={character} />
+      </MemoryRouter>
+    )
+
+    // Unmatched character renders initials
+    expect(screen.getByText('CW')).toBeInTheDocument()
   })
 })

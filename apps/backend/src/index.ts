@@ -1,34 +1,30 @@
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 import { GenerateCharacterCatalogUseCase } from './application/GenerateCharacterCatalogUseCase';
+import { RunFizzBuzzUseCase } from './application/RunFizzBuzzUseCase';
+import { CLIEngine, CommandLineProcessor } from './infrastructure/cli/CommandLineProcessor';
+import { FizzBuzzCommand } from './infrastructure/cli/commands/FizzBuzzCommand';
+import { GenerateCharactersCommand } from './infrastructure/cli/commands/GenerateCharactersCommand';
+import { ColoredConsoleFizzBuzzPresenter } from './infrastructure/fizzbuzz/ColoredConsoleFizzBuzzPresenter';
 import { ConsoleLogger } from './infrastructure/logger/ConsoleLogger';
 import { WikiScraper } from './infrastructure/scraper/WikiScraper';
 import { JsonRepository } from './infrastructure/storage/JsonRepository';
 import { GroqStoryGenerator } from './infrastructure/story-generator/GroqStoryGenerator';
 
-import yargs from 'yargs';
-import { hideBin } from 'yargs/helpers';
+// Composition Root
+const logger = new ConsoleLogger();
 
-async function runPipeline() {
-  const argv = yargs(hideBin(process.argv))
-    .option('character', {
-      type: 'string',
-      description: 'Name of the character to process',
-    })
-    .parseSync();
+const fizzBuzzPresenter = new ColoredConsoleFizzBuzzPresenter();
+const fizzBuzzUseCase = new RunFizzBuzzUseCase(fizzBuzzPresenter);
 
-  const scraper = new WikiScraper();
-  const logger = new ConsoleLogger();
-  const storyGenerator = new GroqStoryGenerator();
-  const repository = new JsonRepository();
-  const useCase = new GenerateCharacterCatalogUseCase(scraper, storyGenerator, repository, logger);
+const scraper = new WikiScraper();
+const storyGenerator = new GroqStoryGenerator();
+const repository = new JsonRepository();
+const generateCharactersUseCase = new GenerateCharacterCatalogUseCase(scraper, storyGenerator, repository, logger);
 
-  logger.log('🚀 Starting Monster High Publisher');
-  try {
-    await useCase.execute(argv.character);
-    logger.log('\n🎉 Pipeline completed successfully!');
-  } catch (error) {
-    logger.error(`Critical Error in Pipeline: ${error}`);
-    process.exit(1);
-  }
-}
+const commands = [new FizzBuzzCommand(fizzBuzzUseCase), new GenerateCharactersCommand(generateCharactersUseCase)];
 
-runPipeline();
+const yargsInstance = yargs(hideBin(process.argv)) as unknown as CLIEngine;
+const processor = new CommandLineProcessor(commands, yargsInstance);
+
+processor.run();

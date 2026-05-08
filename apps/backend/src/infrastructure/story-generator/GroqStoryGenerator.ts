@@ -1,8 +1,8 @@
 import Groq from 'groq-sdk';
 import { setTimeout } from 'node:timers/promises';
 import { config } from '../../config/config';
-import { Character } from '../../domain/Character';
-import { CharacterStoryGenerator } from '../../domain/CharacterStoryGenerator';
+import { Character } from '../../domain/entities/Character';
+import { CharacterStoryGenerator } from '../../domain/ports/CharacterStoryGenerator';
 
 export class GroqStoryGenerator implements CharacterStoryGenerator {
   private readonly groq: Groq;
