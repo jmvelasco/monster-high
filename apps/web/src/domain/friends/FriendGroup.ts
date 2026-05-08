@@ -1,4 +1,5 @@
 import { generateSlug } from '../../utils/slugUtils'
+import type { FlatFriendGroup } from './FriendGroupRepository'
 
 export class FriendGroup {
   public readonly id: string
@@ -37,6 +38,15 @@ export class FriendGroup {
     members?: string[]
   }): FriendGroup {
     return new FriendGroup(data.id, data.name, data.slug, data.members ?? [])
+  }
+
+  toFlatObject(): FlatFriendGroup {
+    return {
+      id: this.id,
+      name: this.name,
+      slug: this.slug,
+      members: this.memberList,
+    }
   }
 
   get members(): string[] {
