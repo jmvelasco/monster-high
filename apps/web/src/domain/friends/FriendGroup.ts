@@ -7,6 +7,10 @@ export class FriendGroup {
     public readonly slug: string,
     public readonly members: string[]
   ) {}
+
+  static fromPrimitives(data: { id: string; name: string; slug: string; members?: string[] }): FriendGroup {
+    return new FriendGroup(data.id, data.name, data.slug, data.members ?? [])
+  }
 }
 
 export interface CreateFriendGroupProps {
