@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { createFriendGroup, type FriendGroup } from '../domain/friends/FriendGroup'
 import { LocalStorageFriendGroupRepository } from '../infrastructure/friends/LocalStorageFriendGroupRepository'
 
@@ -7,10 +7,10 @@ const repository = new LocalStorageFriendGroupRepository()
 export function useFriendGroups() {
   const [groups, setGroups] = useState<FriendGroup[]>([])
 
-  async function loadGroups() {
+  const loadGroups = useCallback(async () => {
     const all = await repository.findAll()
     setGroups(all)
-  }
+  }, [])
 
   async function createGroup(name: string) {
     const group = createFriendGroup({ id: crypto.randomUUID(), name })
@@ -33,9 +33,9 @@ export function useFriendGroups() {
     await loadGroups()
   }
 
-  async function getGroupBySlug(slug: string) {
+  const getGroupBySlug = useCallback(async (slug: string) => {
     return await repository.findBySlug(slug)
-  }
+  }, [])
 
   return { groups, loadGroups, createGroup, addCharacterToGroup, removeGroup, getGroupBySlug }
 }
