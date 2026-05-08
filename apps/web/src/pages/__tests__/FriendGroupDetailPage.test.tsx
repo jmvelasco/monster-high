@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { describe, expect, it, vi } from 'vitest'
-import type { FriendGroup } from '../../domain/friends/FriendGroup'
+import { FriendGroup } from '../../domain/friends/FriendGroup'
 import * as useCharactersModule from '../../hooks/useCharacters'
 import * as useFriendGroupsModule from '../../hooks/useFriendGroups'
 import type { Character } from '../../types/character'
@@ -64,7 +64,7 @@ describe('FriendGroupDetailPage', () => {
   })
 
   it('renders group details correctly', async () => {
-    setupMocks({ id: '1', name: 'Mis Favs', slug: 'mis-favs', members: [] })
+    setupMocks(FriendGroup.fromPrimitives({ id: '1', name: 'Mis Favs', slug: 'mis-favs', members: [] }))
     renderComponent('mis-favs')
 
     expect(await screen.findByText('Mis Favs')).toBeInTheDocument()
@@ -72,7 +72,7 @@ describe('FriendGroupDetailPage', () => {
   })
 
   it('renders members of the group', async () => {
-    setupMocks({ id: '1', name: 'Mis Favs', slug: 'mis-favs', members: ['draculaura'] }, [
+    setupMocks(FriendGroup.fromPrimitives({ id: '1', name: 'Mis Favs', slug: 'mis-favs', members: ['draculaura'] }), [
       {
         name: 'Draculaura',
         url: '/draculaura',
@@ -90,7 +90,7 @@ describe('FriendGroupDetailPage', () => {
   })
 
   it('opens confirm dialog when delete is clicked and handles cancellation', async () => {
-    setupMocks({ id: '1', name: 'Mis Favs', slug: 'mis-favs', members: [] })
+    setupMocks(FriendGroup.fromPrimitives({ id: '1', name: 'Mis Favs', slug: 'mis-favs', members: [] }))
     const user = userEvent.setup()
 
     renderComponent('mis-favs')
@@ -112,7 +112,7 @@ describe('FriendGroupDetailPage', () => {
   })
 
   it('removes a character from the group with double confirmation', async () => {
-    setupMocks({ id: '1', name: 'Mis Favs', slug: 'mis-favs', members: ['draculaura'] }, [
+    setupMocks(FriendGroup.fromPrimitives({ id: '1', name: 'Mis Favs', slug: 'mis-favs', members: ['draculaura'] }), [
       {
         name: 'Draculaura',
         url: '/draculaura',
