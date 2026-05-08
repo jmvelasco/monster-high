@@ -4,36 +4,13 @@ export class FriendGroup {
   public readonly id: string
   public readonly name: string
   public readonly slug: string
-  private _members: string[]
+  private memberList: string[]
 
-  constructor(id: string, name: string, slug: string, members: string[]) {
+  private constructor(id: string, name: string, slug: string, members: string[]) {
     this.id = id
     this.name = name
     this.slug = slug
-    this._members = members
-  }
-
-  get members(): string[] {
-    return this._members
-  }
-
-  static fromPrimitives(data: {
-    id: string
-    name: string
-    slug: string
-    members?: string[]
-  }): FriendGroup {
-    return new FriendGroup(data.id, data.name, data.slug, data.members ?? [])
-  }
-
-  addMember(slug: string): void {
-    if (!this._members.includes(slug)) {
-      this._members = [...this._members, slug]
-    }
-  }
-
-  removeMember(slug: string): void {
-    this._members = this._members.filter(member => member !== slug)
+    this.memberList = members
   }
 
   static create(props: {
@@ -51,5 +28,28 @@ export class FriendGroup {
       props.slug ?? generateSlug(props.name),
       props.members ?? []
     )
+  }
+
+  static fromPrimitives(data: {
+    id: string
+    name: string
+    slug: string
+    members?: string[]
+  }): FriendGroup {
+    return new FriendGroup(data.id, data.name, data.slug, data.members ?? [])
+  }
+
+  get members(): string[] {
+    return this.memberList
+  }
+
+  addMember(slug: string): void {
+    if (!this.memberList.includes(slug)) {
+      this.memberList = [...this.memberList, slug]
+    }
+  }
+
+  removeMember(slug: string): void {
+    this.memberList = this.memberList.filter(member => member !== slug)
   }
 }
