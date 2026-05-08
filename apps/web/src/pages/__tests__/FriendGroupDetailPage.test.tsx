@@ -20,6 +20,7 @@ vi.mock('../../hooks/useCharacters', () => ({
 describe('FriendGroupDetailPage', () => {
   const mockGetGroupBySlug = vi.fn()
   const mockRemoveGroup = vi.fn()
+  const mockRemoveCharacterFromGroup = vi.fn()
 
   const setupMocks = (group: FriendGroup | null, characters: Character[] = []) => {
     vi.mocked(useFriendGroupsModule.useFriendGroups).mockReturnValue({
@@ -29,6 +30,7 @@ describe('FriendGroupDetailPage', () => {
       loadGroups: vi.fn(),
       createGroup: vi.fn(),
       addCharacterToGroup: vi.fn(),
+      removeCharacterFromGroup: mockRemoveCharacterFromGroup,
     })
 
     vi.mocked(useCharactersModule.useCharacters).mockReturnValue({
@@ -107,5 +109,37 @@ describe('FriendGroupDetailPage', () => {
       screen.queryByText(/¿Estás segura de que quieres eliminar el grupo "Mis Favs"\?/)
     ).not.toBeInTheDocument()
     expect(mockRemoveGroup).not.toHaveBeenCalled()
+  })
+
+  it('removes a character from the group with double confirmation', async () => {
+    setupMocks({ id: '1', name: 'Mis Favs', slug: 'mis-favs', members: ['draculaura'] }, [
+      {
+        name: 'Draculaura',
+        url: '/draculaura',
+        image: '/drac.png',
+        globalStory: 'Story',
+        technicalInfo: {},
+        sections: {},
+      },
+    ])
+    const user = userEvent.setup()
+
+    renderComponent('mis-favs')
+
+    // Find and click the remove button on the character card
+    const removeButton = await screen.findByRole('button', { name: 'Quitar a Draculaura del grupo' })
+    await user.click(removeButton)
+
+    // Verify confirmation dialog appears
+    expect(
+      screen.getByText(/¿Estás segura de que quieres quitar a Draculaura del grupo "Mis Favs"\?/)
+    ).toBeInTheDocument()
+
+    // Confirm deletion
+    const confirmButton = screen.getByRole('button', { name: 'Quitar del grupo' })
+    await user.click(confirmButton)
+
+    // Verify hook was called
+    expect(mockRemoveCharacterFromGroup).toHaveBeenCalledWith('draculaura', '1')
   })
 })

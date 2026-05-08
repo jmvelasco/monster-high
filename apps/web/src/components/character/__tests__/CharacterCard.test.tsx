@@ -126,7 +126,7 @@ describe('CharacterCard', () => {
       </MemoryRouter>
     )
 
-    const card = screen.getByRole('link')
+    const card = screen.getAllByRole('link')[0]
     await user.click(card)
 
     // Assert
