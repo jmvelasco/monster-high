@@ -2,7 +2,7 @@ import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import { GenerateCharacterCatalogUseCase } from './application/GenerateCharacterCatalogUseCase';
 import { RunFizzBuzzUseCase } from './application/RunFizzBuzzUseCase';
-import { CommandLineProcessor, CLIEngine } from './infrastructure/cli/CommandLineProcessor';
+import { CLIEngine, CommandLineProcessor } from './infrastructure/cli/CommandLineProcessor';
 import { FizzBuzzCommand } from './infrastructure/cli/commands/FizzBuzzCommand';
 import { GenerateCharactersCommand } from './infrastructure/cli/commands/GenerateCharactersCommand';
 import { ColoredConsoleFizzBuzzPresenter } from './infrastructure/fizzbuzz/ColoredConsoleFizzBuzzPresenter';
