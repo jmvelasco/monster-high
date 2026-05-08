@@ -110,4 +110,25 @@ describe('FriendGroup Domain Entity', () => {
       expect(group.members).toHaveLength(1)
     })
   })
+
+  describe('removeMember', () => {
+    it('should remove an existing member from the group', () => {
+      const group = FriendGroup.fromPrimitives({ id: '1', name: 'Ghouls', slug: 'ghouls', members: ['draculaura', 'clawdeen'] })
+      
+      group.removeMember('draculaura')
+      
+      expect(group.members).not.toContain('draculaura')
+      expect(group.members).toContain('clawdeen')
+      expect(group.members).toHaveLength(1)
+    })
+
+    it('should do nothing if removing a non-existent member', () => {
+      const group = FriendGroup.fromPrimitives({ id: '1', name: 'Ghouls', slug: 'ghouls', members: ['clawdeen'] })
+      
+      group.removeMember('draculaura')
+      
+      expect(group.members).toContain('clawdeen')
+      expect(group.members).toHaveLength(1)
+    })
+  })
 })
