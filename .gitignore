@@ -23,6 +23,7 @@ data/*.json
 
 # Agent rules (generated locally, not versioned)
 .agents/rules/
+.agents/skills/
 .github/instructions/
 .github/copilot-instructions.md
 AGENTS.md
