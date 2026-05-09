@@ -4,7 +4,8 @@
   margin: 0 auto;
 }
 
-.loading, .notFound {
+.loading,
+.notFound {
   padding: 48px;
   text-align: center;
   font-size: 1.25rem;
@@ -72,4 +73,24 @@
   border-radius: 8px;
   font-weight: 600;
   cursor: pointer;
+}
+
+.removeMemberButton {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  margin-top: 8px;
+  background: var(--mh-white);
+  border: 1px solid var(--danger-color, #dc2626);
+  color: var(--danger-color, #dc2626);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.removeMemberButton:hover {
+  background: var(--danger-color, #dc2626);
+  color: white;
 }

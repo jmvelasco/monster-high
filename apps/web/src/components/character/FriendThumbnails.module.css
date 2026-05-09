@@ -39,23 +39,6 @@
   box-sizing: border-box;
 }
 
-.initials {
-  width: 72px;
-  height: 96px;
-  border-radius: var(--radius-md);
-  border: 2px solid var(--mh-pink);
-  background-color: var(--mh-light-gray);
-  color: var(--mh-pink);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: var(--text-lg);
-  text-transform: uppercase;
-  padding: 2px;
-  box-sizing: border-box;
-}
-
 .title {
   font-family: var(--font-main-title);
   font-weight: 100;

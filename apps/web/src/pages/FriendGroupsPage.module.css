@@ -57,7 +57,6 @@
 
 .createButton:hover {
   background-color: var(--mh-focus);
-  transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
 
@@ -103,13 +102,11 @@
   border: 2px solid var(--mh-purple);
   border-radius: var(--radius-md);
   padding: var(--spacing-6);
-  transition: all var(--transition-base);
   text-decoration: none;
   display: block;
 }
 
 .groupCard:hover {
-  transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
 

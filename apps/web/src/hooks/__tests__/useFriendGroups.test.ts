@@ -65,6 +65,27 @@ describe('The Friend Groups Hook', () => {
     expect(result.current.groups[0].members).toEqual(['draculaura'])
   })
 
+  it('removes a character from an existing group', async () => {
+    const { result } = renderHook(() => useFriendGroups())
+
+    await act(async () => {
+      await result.current.createGroup('Vampiras')
+    })
+
+    const groupId = result.current.groups[0].id
+
+    await act(async () => {
+      await result.current.addCharacterToGroup('draculaura', groupId)
+      await result.current.addCharacterToGroup('clawdeen', groupId)
+    })
+
+    await act(async () => {
+      await result.current.removeCharacterFromGroup('draculaura', groupId)
+    })
+
+    expect(result.current.groups[0].members).toEqual(['clawdeen'])
+  })
+
   it('removes a group', async () => {
     const { result } = renderHook(() => useFriendGroups())
 

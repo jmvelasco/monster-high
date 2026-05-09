@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { describe, expect, it, vi } from 'vitest'
-import type { FriendGroup } from '../../domain/friends/FriendGroup'
+import { FriendGroup } from '../../domain/friends/FriendGroup'
 import * as useCharactersModule from '../../hooks/useCharacters'
 import * as useFriendGroupsModule from '../../hooks/useFriendGroups'
 import type { Character } from '../../types/character'
@@ -20,6 +20,7 @@ vi.mock('../../hooks/useCharacters', () => ({
 describe('FriendGroupDetailPage', () => {
   const mockGetGroupBySlug = vi.fn()
   const mockRemoveGroup = vi.fn()
+  const mockRemoveCharacterFromGroup = vi.fn()
 
   const setupMocks = (group: FriendGroup | null, characters: Character[] = []) => {
     vi.mocked(useFriendGroupsModule.useFriendGroups).mockReturnValue({
@@ -29,6 +30,7 @@ describe('FriendGroupDetailPage', () => {
       loadGroups: vi.fn(),
       createGroup: vi.fn(),
       addCharacterToGroup: vi.fn(),
+      removeCharacterFromGroup: mockRemoveCharacterFromGroup,
     })
 
     vi.mocked(useCharactersModule.useCharacters).mockReturnValue({
@@ -62,7 +64,9 @@ describe('FriendGroupDetailPage', () => {
   })
 
   it('renders group details correctly', async () => {
-    setupMocks({ id: '1', name: 'Mis Favs', slug: 'mis-favs', members: [] })
+    setupMocks(
+      FriendGroup.fromPrimitives({ id: '1', name: 'Mis Favs', slug: 'mis-favs', members: [] })
+    )
     renderComponent('mis-favs')
 
     expect(await screen.findByText('Mis Favs')).toBeInTheDocument()
@@ -70,16 +74,24 @@ describe('FriendGroupDetailPage', () => {
   })
 
   it('renders members of the group', async () => {
-    setupMocks({ id: '1', name: 'Mis Favs', slug: 'mis-favs', members: ['draculaura'] }, [
-      {
-        name: 'Draculaura',
-        url: '/draculaura',
-        image: '/drac.png',
-        globalStory: 'Story',
-        technicalInfo: {},
-        sections: {},
-      },
-    ])
+    setupMocks(
+      FriendGroup.fromPrimitives({
+        id: '1',
+        name: 'Mis Favs',
+        slug: 'mis-favs',
+        members: ['draculaura'],
+      }),
+      [
+        {
+          name: 'Draculaura',
+          url: '/draculaura',
+          image: '/drac.png',
+          globalStory: 'Story',
+          technicalInfo: {},
+          sections: {},
+        },
+      ]
+    )
     renderComponent('mis-favs')
 
     expect(await screen.findByText('Mis Favs')).toBeInTheDocument()
@@ -88,7 +100,9 @@ describe('FriendGroupDetailPage', () => {
   })
 
   it('opens confirm dialog when delete is clicked and handles cancellation', async () => {
-    setupMocks({ id: '1', name: 'Mis Favs', slug: 'mis-favs', members: [] })
+    setupMocks(
+      FriendGroup.fromPrimitives({ id: '1', name: 'Mis Favs', slug: 'mis-favs', members: [] })
+    )
     const user = userEvent.setup()
 
     renderComponent('mis-favs')
@@ -107,5 +121,47 @@ describe('FriendGroupDetailPage', () => {
       screen.queryByText(/¿Estás segura de que quieres eliminar el grupo "Mis Favs"\?/)
     ).not.toBeInTheDocument()
     expect(mockRemoveGroup).not.toHaveBeenCalled()
+  })
+
+  it('removes a character from the group with double confirmation', async () => {
+    setupMocks(
+      FriendGroup.fromPrimitives({
+        id: '1',
+        name: 'Mis Favs',
+        slug: 'mis-favs',
+        members: ['draculaura'],
+      }),
+      [
+        {
+          name: 'Draculaura',
+          url: '/draculaura',
+          image: '/drac.png',
+          globalStory: 'Story',
+          technicalInfo: {},
+          sections: {},
+        },
+      ]
+    )
+    const user = userEvent.setup()
+
+    renderComponent('mis-favs')
+
+    // Find and click the remove button on the character card
+    const removeButton = await screen.findByRole('button', {
+      name: 'Quitar a Draculaura del grupo',
+    })
+    await user.click(removeButton)
+
+    // Verify confirmation dialog appears
+    expect(
+      screen.getByText(/¿Estás segura de que quieres quitar a Draculaura del grupo "Mis Favs"\?/)
+    ).toBeInTheDocument()
+
+    // Confirm deletion
+    const confirmButton = screen.getByRole('button', { name: 'Quitar del grupo' })
+    await user.click(confirmButton)
+
+    // Verify hook was called
+    expect(mockRemoveCharacterFromGroup).toHaveBeenCalledWith('draculaura', '1')
   })
 })

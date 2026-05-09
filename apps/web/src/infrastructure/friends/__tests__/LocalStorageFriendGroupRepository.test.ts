@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { createFriendGroup } from '../../../domain/friends/FriendGroup'
+import { FriendGroup } from '../../../domain/friends/FriendGroup'
 import { LocalStorageFriendGroupRepository } from '../LocalStorageFriendGroupRepository'
 
 describe('LocalStorageFriendGroupRepository', () => {
@@ -11,17 +11,18 @@ describe('LocalStorageFriendGroupRepository', () => {
   })
 
   it('should save and find all groups', async () => {
-    const group = createFriendGroup({ id: '1', name: 'Vampiras' })
+    const group = FriendGroup.create({ id: '1', name: 'Vampiras' })
 
     await repository.save(group)
     const groups = await repository.findAll()
 
     expect(groups).toHaveLength(1)
+    expect(groups[0]).toBeInstanceOf(FriendGroup)
     expect(groups[0].name).toBe('Vampiras')
   })
 
   it('should find a group by id', async () => {
-    const group = createFriendGroup({ id: '1', name: 'Vampiras' })
+    const group = FriendGroup.create({ id: '1', name: 'Vampiras' })
     await repository.save(group)
     const found = await repository.findById('1')
     expect(found?.name).toBe('Vampiras')
@@ -33,7 +34,7 @@ describe('LocalStorageFriendGroupRepository', () => {
   })
 
   it('should find a group by slug', async () => {
-    const group = createFriendGroup({ id: '1', name: 'Mis Favs' }) // slug will be 'mis-favs'
+    const group = FriendGroup.create({ id: '1', name: 'Mis Favs' }) // slug will be 'mis-favs'
     await repository.save(group)
 
     const found = await repository.findBySlug('mis-favs')
@@ -69,7 +70,7 @@ describe('LocalStorageFriendGroupRepository', () => {
   })
 
   it('should delete a group', async () => {
-    const group = createFriendGroup({ id: '1', name: 'Vampiras' })
+    const group = FriendGroup.create({ id: '1', name: 'Vampiras' })
     await repository.save(group)
 
     await repository.delete('1')

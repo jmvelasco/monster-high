@@ -5,18 +5,20 @@ import { ConfirmDialog } from '../components/ui/ConfirmDialog'
 import type { FriendGroup } from '../domain/friends/FriendGroup'
 import { useCharacters } from '../hooks/useCharacters'
 import { useFriendGroups } from '../hooks/useFriendGroups'
+import type { Character } from '../types/character'
 import { generateSlug } from '../utils/slugUtils'
 import styles from './FriendGroupDetailPage.module.css'
 
 export function FriendGroupDetailPage() {
   const { slug } = useParams<{ slug: string }>()
   const navigate = useNavigate()
-  const { getGroupBySlug, removeGroup } = useFriendGroups()
+  const { getGroupBySlug, removeGroup, removeCharacterFromGroup } = useFriendGroups()
   const { data: characters } = useCharacters()
 
   const [group, setGroup] = useState<FriendGroup | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isConfirmOpen, setIsConfirmOpen] = useState(false)
+  const [characterToRemove, setCharacterToRemove] = useState<Character | null>(null)
 
   useEffect(() => {
     async function loadGroup() {
@@ -49,6 +51,16 @@ export function FriendGroupDetailPage() {
     navigate('/friends')
   }
 
+  const handleRemoveCharacter = async () => {
+    if (!characterToRemove) return
+    const charSlug = generateSlug(characterToRemove.name)
+    await removeCharacterFromGroup(charSlug, group.id)
+    setCharacterToRemove(null)
+
+    const updatedGroup = await getGroupBySlug(group.slug)
+    setGroup(updatedGroup)
+  }
+
   const groupCharacters =
     characters?.filter(char => group.members.includes(generateSlug(char.name))) || []
 
@@ -71,7 +83,19 @@ export function FriendGroupDetailPage() {
           <p className={styles.emptyMessage}>Este grupo no tiene amigas todavía.</p>
         ) : (
           groupCharacters.map(character => (
-            <CharacterCard key={character.name} character={character} variant="list" />
+            <CharacterCard key={character.name} character={character} variant="favorite">
+              <button
+                onClick={e => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  setCharacterToRemove(character)
+                }}
+                className={styles.removeMemberButton}
+                aria-label={`Quitar a ${character.name} del grupo`}
+              >
+                Quitar del grupo
+              </button>
+            </CharacterCard>
           ))
         )}
       </div>
@@ -83,6 +107,15 @@ export function FriendGroupDetailPage() {
         confirmText="Eliminar grupo"
         onConfirm={handleDeleteGroup}
         onCancel={() => setIsConfirmOpen(false)}
+      />
+
+      <ConfirmDialog
+        isOpen={!!characterToRemove}
+        title="Quitar amiga"
+        message={`¿Estás segura de que quieres quitar a ${characterToRemove?.name} del grupo "${group.name}"?`}
+        confirmText="Quitar del grupo"
+        onConfirm={handleRemoveCharacter}
+        onCancel={() => setCharacterToRemove(null)}
       />
     </div>
   )

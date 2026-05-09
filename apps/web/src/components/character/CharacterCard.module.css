@@ -6,9 +6,7 @@
   background-color: var(--mh-white);
   border: 2px solid var(--mh-light-gray);
   transition: transform var(--transition-base), border-color var(--transition-base), box-shadow var(--transition-base);
-  cursor: pointer;
-  text-decoration: none;
-  color: inherit;
+  position: relative;
   content-visibility: auto;
   contain-intrinsic-size: auto 300px;
 }
@@ -19,8 +17,7 @@
   transform: translateY(-4px);
 }
 
-.card:focus,
-.card:focus-visible {
+.card:focus-within {
   outline: 2px solid var(--mh-focus);
   outline-offset: 2px;
 }
@@ -39,6 +36,24 @@
   display: flex;
   flex-direction: column;
   gap: var(--spacing-6);
+  flex: 1;
+}
+
+.imageLink {
+  display: block;
+  text-decoration: none;
+}
+
+.nameLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.nameLink::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
 }
 
 .name {
@@ -46,41 +61,19 @@
   font-weight: 600;
   color: var(--mh-gray);
   text-align: center;
+  margin: 0;
 }
 
 /* Variante Favorito */
 .cardFavorite {
   position: relative;
-  background-color: #FFF5F8;
-  border-color: var(--mh-pink);
 }
 
 .cardFavorite:hover {
-  border-color: var(--mh-hover);
-  background-color: #FFE5F0;
+  transform: translateY(0);
 }
 
-.favoriteButton {
-  width: 100%;
-  background-color: var(--mh-pink);
-  color: var(--mh-white);
-  border: none;
-  padding: var(--spacing-3) var(--spacing-4);
-  font-weight: 600;
-  border-radius: var(--radius-md);
-  cursor: pointer;
-  transition: background-color var(--transition-base);
-}
 
-.favoriteButton:hover {
-  background-color: var(--mh-hover);
-}
-
-.favoriteButton:focus,
-.favoriteButton:focus-visible {
-  outline: 2px solid var(--mh-focus);
-  outline-offset: 2px;
-}
 
 /* Desktop Up */
 @media (min-width: 768px) {
@@ -104,9 +97,5 @@
 
   .card:hover {
     transform: none;
-  }
-
-  .favoriteButton {
-    transition: none;
   }
 }

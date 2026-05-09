@@ -4,6 +4,29 @@ import { beforeEach, describe, expect, it } from 'vitest'
 import type { Character } from '../../../types/character'
 import { CharacterDetail } from '../CharacterDetail'
 
+vi.mock('../../../hooks/useCharacters', () => ({
+  useCharacters: () => ({
+    data: [
+      {
+        name: 'Clawd Wolf',
+        image: 'https://example.com/clawd.jpg',
+        url: 'https://example.com',
+        technicalInfo: {},
+        sections: {},
+      },
+    ],
+  }),
+}))
+
+vi.mock('../../../hooks/useFriendGroups', () => ({
+  useFriendGroups: () => ({
+    groups: [],
+    loadGroups: vi.fn(),
+    addCharacterToGroup: vi.fn(),
+    createGroup: vi.fn(),
+  }),
+}))
+
 describe('CharacterDetail', () => {
   beforeEach(() => {
     localStorage.clear()
@@ -154,7 +177,7 @@ describe('CharacterDetail', () => {
       </MemoryRouter>
     )
 
-    // Unmatched character renders initials
-    expect(screen.getByText('CW')).toBeInTheDocument()
+    // With useCharacters mocked globally, it should find Clawd Wolf and render his image
+    expect(screen.getByRole('img', { name: 'Clawd Wolf' })).toBeInTheDocument()
   })
 })

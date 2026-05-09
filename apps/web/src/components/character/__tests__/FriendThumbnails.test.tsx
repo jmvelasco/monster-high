@@ -9,7 +9,7 @@ describe('FriendThumbnails', () => {
   // - Returns null/empty when friendsString is empty
   // - Displays images for matched characters
   // - Displays initials for unmatched characters
-  
+
   const mockCharacters: Character[] = [
     {
       name: 'Draculaura',
@@ -46,15 +46,5 @@ describe('FriendThumbnails', () => {
     expect(images).toHaveLength(2)
     expect(images[0]).toHaveAttribute('src', '/img/draculaura.png')
     expect(images[1]).toHaveAttribute('src', '/img/frankie.png')
-  })
-
-  it('displays initials for unmatched characters', () => {
-    render(
-      <MemoryRouter>
-        <FriendThumbnails friendsString="Unknown Monster" characters={mockCharacters} />
-      </MemoryRouter>
-    )
-    const initials = screen.getByText('UM')
-    expect(initials).toBeInTheDocument()
   })
 })

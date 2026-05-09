@@ -12,53 +12,34 @@ export function FriendThumbnails({ friendsString, characters = [] }: FriendThumb
   if (!friendsString) return null
 
   const friendNames = friendsString.split(',').map(name => name.trim())
-  const characterByName = new Map(
-    characters.map(c => [c.name.toLowerCase(), c])
-  )
+  const characterByName = new Map(characters.map(c => [c.name.toLowerCase(), c]))
 
   return (
     <div className={styles.wrapper}>
       <h2 className={styles.title}>Mejores Amistades</h2>
       <div className={styles.container}>
         {friendNames.map((name, index) => {
-        const character = characterByName.get(name.toLowerCase())
+          const character = characterByName.get(name.toLowerCase())
 
-        if (character?.image) {
-          return (
-            <Link
-              to={`/character/${generateSlug(character.name)}`}
-              key={`${name}-${index}`}
-              className={styles.thumbnailLink}
-              title={character.name}
-            >
-              <img
-                src={character.image}
-                alt={character.name}
-                width={72}
-                height={96}
-                className={styles.thumbnail}
-              />
-            </Link>
-          )
-        }
-
-        const initials = name
-          .split(' ')
-          .map(n => n[0])
-          .join('')
-          .substring(0, 2)
-
-        return (
-          <Link
-            to={`/character/${generateSlug(name)}`}
-            key={`${name}-${index}`}
-            className={`${styles.initials} ${styles.thumbnailLink}`}
-            title={name}
-          >
-            {initials}
-          </Link>
-        )
-      })}
+          if (character?.image) {
+            return (
+              <Link
+                to={`/character/${generateSlug(character.name)}`}
+                key={`${name}-${index}`}
+                className={styles.thumbnailLink}
+                title={character.name}
+              >
+                <img
+                  src={character.image}
+                  alt={character.name}
+                  width={72}
+                  height={96}
+                  className={styles.thumbnail}
+                />
+              </Link>
+            )
+          }
+        })}
       </div>
     </div>
   )

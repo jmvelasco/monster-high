@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import { createFriendGroup, type FriendGroup } from '../domain/friends/FriendGroup'
+import { FriendGroup } from '../domain/friends/FriendGroup'
 import { LocalStorageFriendGroupRepository } from '../infrastructure/friends/LocalStorageFriendGroupRepository'
 
 const repository = new LocalStorageFriendGroupRepository()
@@ -13,7 +13,7 @@ export function useFriendGroups() {
   }, [])
 
   async function createGroup(name: string) {
-    const group = createFriendGroup({ id: crypto.randomUUID(), name })
+    const group = FriendGroup.create({ id: crypto.randomUUID(), name })
     await repository.save(group)
     await loadGroups()
   }
@@ -21,10 +21,18 @@ export function useFriendGroups() {
   async function addCharacterToGroup(slug: string, groupId: string) {
     const group = await repository.findById(groupId)
     if (!group) return
-    if (group.members.includes(slug)) return
 
-    const updated = { ...group, members: [...group.members, slug] }
-    await repository.save(updated)
+    group.addMember(slug)
+    await repository.save(group)
+    await loadGroups()
+  }
+
+  async function removeCharacterFromGroup(slug: string, groupId: string) {
+    const group = await repository.findById(groupId)
+    if (!group) return
+
+    group.removeMember(slug)
+    await repository.save(group)
     await loadGroups()
   }
 
@@ -37,5 +45,13 @@ export function useFriendGroups() {
     return await repository.findBySlug(slug)
   }, [])
 
-  return { groups, loadGroups, createGroup, addCharacterToGroup, removeGroup, getGroupBySlug }
+  return {
+    groups,
+    loadGroups,
+    createGroup,
+    addCharacterToGroup,
+    removeGroup,
+    getGroupBySlug,
+    removeCharacterFromGroup,
+  }
 }

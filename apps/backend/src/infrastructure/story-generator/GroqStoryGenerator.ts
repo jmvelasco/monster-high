@@ -47,6 +47,8 @@ export class GroqStoryGenerator implements CharacterStoryGenerator {
         3. Focus on appearance, personality, family, and friends.
         4. Maximum 5 or 6 sentences in total.
         5. Add line breaks for better readability, but do not divide the response into sections.
+        6. The story MUST end with a complete closing sentence.
+        7. Prioritize finishing the story over including every detail from the character data.
         
         CHARACTER DATA:
         "${context.substring(0, 15000)}" 
