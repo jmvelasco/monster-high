@@ -85,7 +85,7 @@ export function FriendGroupDetailPage() {
           groupCharacters.map(character => (
             <CharacterCard key={character.name} character={character} variant="favorite">
               <button
-                onClick={(e) => {
+                onClick={e => {
                   e.preventDefault()
                   e.stopPropagation()
                   setCharacterToRemove(character)

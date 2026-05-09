@@ -1,5 +1,8 @@
 import { FriendGroup } from '../../domain/friends/FriendGroup'
-import type { FlatFriendGroup, FriendGroupRepository } from '../../domain/friends/FriendGroupRepository'
+import type {
+  FlatFriendGroup,
+  FriendGroupRepository,
+} from '../../domain/friends/FriendGroupRepository'
 import { generateSlug } from '../../utils/slugUtils'
 
 const STORAGE_KEY = 'monster-high-amigas'
@@ -32,14 +35,14 @@ export class LocalStorageFriendGroupRepository implements FriendGroupRepository 
     } else {
       groups.push(group)
     }
-    const flatGroups = groups.map(g => (g.toFlatObject()))
+    const flatGroups = groups.map(g => g.toFlatObject())
     localStorage.setItem(STORAGE_KEY, JSON.stringify(flatGroups))
   }
 
   async delete(id: string): Promise<void> {
     const groups = await this.findAll()
     const filtered = groups.filter(g => g.id !== id)
-    const flatGroups = filtered.map(g => (g.toFlatObject()))
+    const flatGroups = filtered.map(g => g.toFlatObject())
     localStorage.setItem(STORAGE_KEY, JSON.stringify(flatGroups))
   }
 

@@ -64,7 +64,9 @@ describe('FriendGroupDetailPage', () => {
   })
 
   it('renders group details correctly', async () => {
-    setupMocks(FriendGroup.fromPrimitives({ id: '1', name: 'Mis Favs', slug: 'mis-favs', members: [] }))
+    setupMocks(
+      FriendGroup.fromPrimitives({ id: '1', name: 'Mis Favs', slug: 'mis-favs', members: [] })
+    )
     renderComponent('mis-favs')
 
     expect(await screen.findByText('Mis Favs')).toBeInTheDocument()
@@ -72,16 +74,24 @@ describe('FriendGroupDetailPage', () => {
   })
 
   it('renders members of the group', async () => {
-    setupMocks(FriendGroup.fromPrimitives({ id: '1', name: 'Mis Favs', slug: 'mis-favs', members: ['draculaura'] }), [
-      {
-        name: 'Draculaura',
-        url: '/draculaura',
-        image: '/drac.png',
-        globalStory: 'Story',
-        technicalInfo: {},
-        sections: {},
-      },
-    ])
+    setupMocks(
+      FriendGroup.fromPrimitives({
+        id: '1',
+        name: 'Mis Favs',
+        slug: 'mis-favs',
+        members: ['draculaura'],
+      }),
+      [
+        {
+          name: 'Draculaura',
+          url: '/draculaura',
+          image: '/drac.png',
+          globalStory: 'Story',
+          technicalInfo: {},
+          sections: {},
+        },
+      ]
+    )
     renderComponent('mis-favs')
 
     expect(await screen.findByText('Mis Favs')).toBeInTheDocument()
@@ -90,7 +100,9 @@ describe('FriendGroupDetailPage', () => {
   })
 
   it('opens confirm dialog when delete is clicked and handles cancellation', async () => {
-    setupMocks(FriendGroup.fromPrimitives({ id: '1', name: 'Mis Favs', slug: 'mis-favs', members: [] }))
+    setupMocks(
+      FriendGroup.fromPrimitives({ id: '1', name: 'Mis Favs', slug: 'mis-favs', members: [] })
+    )
     const user = userEvent.setup()
 
     renderComponent('mis-favs')
@@ -112,22 +124,32 @@ describe('FriendGroupDetailPage', () => {
   })
 
   it('removes a character from the group with double confirmation', async () => {
-    setupMocks(FriendGroup.fromPrimitives({ id: '1', name: 'Mis Favs', slug: 'mis-favs', members: ['draculaura'] }), [
-      {
-        name: 'Draculaura',
-        url: '/draculaura',
-        image: '/drac.png',
-        globalStory: 'Story',
-        technicalInfo: {},
-        sections: {},
-      },
-    ])
+    setupMocks(
+      FriendGroup.fromPrimitives({
+        id: '1',
+        name: 'Mis Favs',
+        slug: 'mis-favs',
+        members: ['draculaura'],
+      }),
+      [
+        {
+          name: 'Draculaura',
+          url: '/draculaura',
+          image: '/drac.png',
+          globalStory: 'Story',
+          technicalInfo: {},
+          sections: {},
+        },
+      ]
+    )
     const user = userEvent.setup()
 
     renderComponent('mis-favs')
 
     // Find and click the remove button on the character card
-    const removeButton = await screen.findByRole('button', { name: 'Quitar a Draculaura del grupo' })
+    const removeButton = await screen.findByRole('button', {
+      name: 'Quitar a Draculaura del grupo',
+    })
     await user.click(removeButton)
 
     // Verify confirmation dialog appears
