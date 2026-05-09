@@ -39,23 +39,6 @@ export function FriendThumbnails({ friendsString, characters = [] }: FriendThumb
               </Link>
             )
           }
-
-          const initials = name
-            .split(' ')
-            .map(n => n[0])
-            .join('')
-            .substring(0, 2)
-
-          return (
-            <Link
-              to={`/character/${generateSlug(name)}`}
-              key={`${name}-${index}`}
-              className={`${styles.initials} ${styles.thumbnailLink}`}
-              title={name}
-            >
-              {initials}
-            </Link>
-          )
         })}
       </div>
     </div>

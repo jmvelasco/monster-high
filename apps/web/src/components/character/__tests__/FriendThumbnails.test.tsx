@@ -47,14 +47,4 @@ describe('FriendThumbnails', () => {
     expect(images[0]).toHaveAttribute('src', '/img/draculaura.png')
     expect(images[1]).toHaveAttribute('src', '/img/frankie.png')
   })
-
-  it('displays initials for unmatched characters', () => {
-    render(
-      <MemoryRouter>
-        <FriendThumbnails friendsString="Unknown Monster" characters={mockCharacters} />
-      </MemoryRouter>
-    )
-    const initials = screen.getByText('UM')
-    expect(initials).toBeInTheDocument()
-  })
 })
