@@ -44,6 +44,16 @@ The Friend Groups capability allows users to organize characters into custom col
 - Upon successful deletion, the user is redirected to the main "Friend Groups" list.
 - Deleting the group does NOT remove the characters themselves from the global catalog.
 
+### Scenario 5: Removing a member from a friend group
+**Given** a user is viewing a friend group's detail page
+**When** they click the "Remove" action for a specific character in the group
+**Then** a confirmation dialog should appear asking for verification.
+
+#### Acceptance Criteria:
+- Explicit confirmation is required to remove the character from the group.
+- Removing the character updates the UI immediately and removes them from the group's members list.
+- Removing a non-existent member does not throw errors and leaves the group unchanged.
+
 ## Technical Constraints & Edge Cases
 - **Duplicate Names**: Multiple groups can share the same name but must have different IDs (though visual uniqueness is encouraged).
 - **Empty Groups**: Groups can exist without any members.
