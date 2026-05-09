@@ -1,13 +1,13 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
-import type { FriendGroup } from '../../../domain/friends/FriendGroup'
+import { FriendGroup } from '../../../domain/friends/FriendGroup'
 import { GroupSelector } from '../GroupSelector'
 
 describe('The Group Selector', () => {
   const groups: FriendGroup[] = [
-    { id: '1', name: 'Vampiras', slug: 'vampiras', members: [] },
-    { id: '2', name: 'Lobas', slug: 'lobas', members: ['draculaura'] },
+    FriendGroup.fromPrimitives({ id: '1', name: 'Vampiras', slug: 'vampiras', members: [] }),
+    FriendGroup.fromPrimitives({ id: '2', name: 'Lobas', slug: 'lobas', members: ['draculaura'] }),
   ]
 
   it('displays existing groups as options', () => {
