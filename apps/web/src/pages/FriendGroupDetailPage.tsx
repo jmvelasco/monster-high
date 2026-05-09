@@ -83,7 +83,7 @@ export function FriendGroupDetailPage() {
           <p className={styles.emptyMessage}>Este grupo no tiene amigas todavía.</p>
         ) : (
           groupCharacters.map(character => (
-            <CharacterCard key={character.name} character={character} variant="list">
+            <CharacterCard key={character.name} character={character} variant="favorite">
               <button
                 onClick={(e) => {
                   e.preventDefault()

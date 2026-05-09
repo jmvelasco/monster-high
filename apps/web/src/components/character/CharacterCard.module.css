@@ -67,13 +67,10 @@
 /* Variante Favorito */
 .cardFavorite {
   position: relative;
-  background-color: #FFF5F8;
-  border-color: var(--mh-pink);
 }
 
 .cardFavorite:hover {
-  border-color: var(--mh-hover);
-  background-color: #FFE5F0;
+  transform: translateY(0);
 }
 
 
