@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 import * as cheerio from 'cheerio';
+import { Element } from 'domhandler';
 import { config } from '../../config/config';
 import { Character, CharacterLink, CharacterSections, Section, TechnicalInfo } from '../../domain/entities/Character';
 import { CharacterScraper } from '../../domain/ports/CharacterScraper';
@@ -20,12 +21,13 @@ export class WikiScraper implements CharacterScraper {
         .map((_, element) => this.parseCharacterLink($, element))
         .get()
         .filter((link) => link.name && link.url);
-    } catch (error: any) {
-      throw new Error(`Failed to fetch character list: ${error.message}`);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      throw new Error(`Failed to fetch character list: ${message}`);
     }
   }
 
-  private parseCharacterLink($: cheerio.CheerioAPI, element: any): CharacterLink {
+  private parseCharacterLink($: cheerio.CheerioAPI, element: Element): CharacterLink {
     const anchor = $(element).find('a');
 
     const name = $(anchor).text().trim();
@@ -105,12 +107,12 @@ export class WikiScraper implements CharacterScraper {
     return sections;
   }
 
-  private parseSectionContent($: cheerio.CheerioAPI, heading: any): Section {
+  private parseSectionContent($: cheerio.CheerioAPI, heading: Element): Section {
     const section: Section = {};
     let cursor = $(heading).next();
 
-    while (cursor.length > 0 && (cursor[0] as any).name !== 'h2') {
-      const element = cursor[0] as any;
+    while (cursor.length > 0 && (cursor[0] as Element).name !== 'h2') {
+      const element = cursor[0] as Element;
 
       if (element.name === 'h3') {
         this.parseSubsection($, cursor, section);
@@ -124,15 +126,15 @@ export class WikiScraper implements CharacterScraper {
     return section;
   }
 
-  private parseSubsection(_$: cheerio.CheerioAPI, heading: cheerio.Cheerio<any>, section: Section): void {
+  private parseSubsection(_$: cheerio.CheerioAPI, heading: cheerio.Cheerio<Element>, section: Section): void {
     // Try to get text from span.mw-headline first (real Fandom HTML), fallback to heading text if not found
     const headlineSpan = heading.find('span.mw-headline').text().trim();
     const title = this.toCamelCase(headlineSpan || heading.text().trim());
     const paragraphs: string[] = [];
     let cursor = heading.next();
 
-    while (cursor.length > 0 && !['h2', 'h3'].includes((cursor[0] as any).name)) {
-      if ((cursor[0] as any).name === 'p') {
+    while (cursor.length > 0 && !['h2', 'h3'].includes((cursor[0] as Element).name)) {
+      if ((cursor[0] as Element).name === 'p') {
         const text = cursor
           .text()
           .trim()
@@ -147,7 +149,7 @@ export class WikiScraper implements CharacterScraper {
     }
   }
 
-  private addGeneralParagraph(_$: cheerio.CheerioAPI, cursor: cheerio.Cheerio<any>, section: Section): void {
+  private addGeneralParagraph(_$: cheerio.CheerioAPI, cursor: cheerio.Cheerio<Element>, section: Section): void {
     const text = cursor
       .text()
       .trim()

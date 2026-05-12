@@ -1,5 +1,5 @@
-import { CommandLineProcessor, CLIEngine } from '../CommandLineProcessor';
-import { Command } from '../Command';
+import { Command } from '../../../domain/ports/Command';
+import { CLIEngine, CliParameterBuilder, CommandLineProcessor } from '../CommandLineProcessor';
 
 class MockCommand implements Command {
   name = 'test-cmd';
@@ -16,13 +16,13 @@ class MockCommand implements Command {
 }
 
 class MockCLIEngine implements CLIEngine {
-  registeredHandlers: Record<string, (args: any) => Promise<void>> = {};
+  registeredHandlers: Record<string, (args: Record<string, unknown>) => Promise<void>> = {};
 
   command(
     name: string,
     description: string,
-    builder: (y: any) => any,
-    handler: (args: any) => Promise<void>
+    builder: (y: CliParameterBuilder) => CliParameterBuilder,
+    handler: (args: Record<string, unknown>) => Promise<void>
   ): CLIEngine {
     // Extract the command name (ignoring positionals for this mock)
     const baseName = name.split(' ')[0] || '';
@@ -40,7 +40,7 @@ class MockCLIEngine implements CLIEngine {
     return this;
   }
 
-  async parseAsync(args: string[] = []): Promise<any> {
+  async parseAsync(args: string[] = []): Promise<unknown> {
     const commandName = args[0] || '';
     const handler = this.registeredHandlers[commandName];
     if (handler) {
