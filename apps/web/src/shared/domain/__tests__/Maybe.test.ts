@@ -80,4 +80,21 @@ describe('The Maybe monad', () => {
 
     expect(result.isNone()).toBe(true)
   })
+
+  it('flat maps the value when some', () => {
+    const maybe = Maybe.some(5)
+
+    const result = maybe.flatMap((value) => Maybe.some(value * 3))
+
+    expect(result.isSome()).toBe(true)
+    expect(result.fold(() => 0, (value) => value)).toBe(15)
+  })
+
+  it('does not flat map when none', () => {
+    const maybe = Maybe.none<number>()
+
+    const result = maybe.flatMap((value) => Maybe.some(value * 3))
+
+    expect(result.isNone()).toBe(true)
+  })
 })

@@ -37,4 +37,8 @@ export class Maybe<T> {
       (value) => Maybe.some(fn(value)),
     )
   }
+
+  flatMap<R>(fn: (value: T) => Maybe<R>): Maybe<R> {
+    return Maybe.none<R>()
+  }
 }
