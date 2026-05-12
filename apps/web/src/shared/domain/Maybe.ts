@@ -39,6 +39,9 @@ export class Maybe<T> {
   }
 
   flatMap<R>(fn: (value: T) => Maybe<R>): Maybe<R> {
-    return Maybe.none<R>()
+    return this.fold(
+      () => Maybe.none<R>(),
+      (value) => fn(value),
+    )
   }
 }
