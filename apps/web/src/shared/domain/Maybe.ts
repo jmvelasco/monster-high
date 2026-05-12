@@ -6,7 +6,7 @@ export class Maybe<T> {
   }
 
   static some<T>(value: T): Maybe<T> {
-    return new Maybe<T>()
+    return new Maybe<T>(value)
   }
 
   isNone(): boolean {
