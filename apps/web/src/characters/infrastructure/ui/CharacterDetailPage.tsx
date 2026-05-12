@@ -11,6 +11,14 @@ export function CharacterDetailWiredPage() {
         list: Factory.createListCharactersUseCase(),
         findBySlug: Factory.createFindCharacterBySlugUseCase(),
       }}
+      friendGroupUseCases={{
+        list: Factory.createListFriendGroupsUseCase(),
+        findBySlug: Factory.createFindFriendGroupBySlugUseCase(),
+        create: Factory.createCreateFriendGroupUseCase(),
+        addMember: Factory.createAddMemberToGroupUseCase(),
+        removeMember: Factory.createRemoveMemberFromGroupUseCase(),
+        deleteGroup: Factory.createDeleteFriendGroupUseCase(),
+      }}
     >
       <CharacterDetailPage />
     </AppProviders>

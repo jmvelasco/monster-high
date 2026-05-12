@@ -21,10 +21,19 @@ const characterUseCases = {
   findBySlug: Factory.createFindCharacterBySlugUseCase(),
 }
 
+const friendGroupUseCases = {
+  list: Factory.createListFriendGroupsUseCase(),
+  findBySlug: Factory.createFindFriendGroupBySlugUseCase(),
+  create: Factory.createCreateFriendGroupUseCase(),
+  addMember: Factory.createAddMemberToGroupUseCase(),
+  removeMember: Factory.createRemoveMemberFromGroupUseCase(),
+  deleteGroup: Factory.createDeleteFriendGroupUseCase(),
+}
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <AppProviders characterUseCases={characterUseCases}>
+      <AppProviders characterUseCases={characterUseCases} friendGroupUseCases={friendGroupUseCases}>
         <App />
       </AppProviders>
     </QueryClientProvider>
