@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import type { Character } from '../../../characters/domain/Character'
-import { CharacterCard } from '../../../characters/infrastructure/ui/CharacterCard/CharacterCard'
-import { ConfirmDialog } from '../../../shared/infrastructure/ui/ConfirmDialog/ConfirmDialog'
 import { useCharactersQuery } from '../../../characters/infrastructure/store/Character.queries'
+import { CharacterCard } from '../../../characters/infrastructure/ui/CharacterCard/CharacterCard'
+import { generateSlug } from '../../../shared/domain/slugUtils'
 import { Factory } from '../../../shared/infrastructure/Factory'
 import { AppProviders } from '../../../shared/infrastructure/ui/AppProviders'
-import { generateSlug } from '../../../shared/domain/slugUtils'
-import { useFriendGroupsQuery } from '../store/FriendGroup.queries'
+import { ConfirmDialog } from '../../../shared/infrastructure/ui/ConfirmDialog/ConfirmDialog'
 import { useFriendGroupMutations } from '../store/FriendGroup.mutations'
+import { useFriendGroupsQuery } from '../store/FriendGroup.queries'
 import styles from './FriendGroupDetailPage.module.css'
 
 interface PageState {

@@ -7,15 +7,15 @@ import { ListCharactersUseCase } from '../../../../characters/application/ListCh
 import { CharacterUseCasesProvider } from '../../../../characters/infrastructure/context/CharacterUseCases.context'
 import { InMemoryCharacterRepository } from '../../../../characters/infrastructure/InMemoryCharacterRepository'
 import { CharacterDetail } from '../../../../characters/infrastructure/ui/CharacterDetail/CharacterDetail'
-import { Header } from './Header'
-import { FriendGroupUseCasesProvider } from '../../../../friends/infrastructure/context/FriendGroupUseCases.context'
-import { InMemoryFriendGroupRepository } from '../../../../friends/infrastructure/persistence/InMemoryFriendGroupRepository'
 import { AddMemberToGroupUseCase } from '../../../../friends/application/AddMemberToGroupUseCase'
 import { CreateFriendGroupUseCase } from '../../../../friends/application/CreateFriendGroupUseCase'
 import { DeleteFriendGroupUseCase } from '../../../../friends/application/DeleteFriendGroupUseCase'
 import { FindFriendGroupBySlugUseCase } from '../../../../friends/application/FindFriendGroupBySlugUseCase'
 import { ListFriendGroupsUseCase } from '../../../../friends/application/ListFriendGroupsUseCase'
 import { RemoveMemberFromGroupUseCase } from '../../../../friends/application/RemoveMemberFromGroupUseCase'
+import { FriendGroupUseCasesProvider } from '../../../../friends/infrastructure/context/FriendGroupUseCases.context'
+import { InMemoryFriendGroupRepository } from '../../../../friends/infrastructure/persistence/InMemoryFriendGroupRepository'
+import { Header } from './Header'
 
 const mockCharacter = {
   image: 'https://example.com/draculaura.jpg',
