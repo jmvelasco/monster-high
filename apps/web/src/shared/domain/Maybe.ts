@@ -1,5 +1,9 @@
 export class Maybe<T> {
-  private constructor(private readonly value?: T) {}
+  private readonly value?: T
+
+  private constructor(value?: T) {
+    this.value = value
+  }
 
   static none<T>(): Maybe<T> {
     return new Maybe<T>()

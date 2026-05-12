@@ -1,9 +1,13 @@
-import type { Character } from '../../domain/Character'
-import type { CharacterRepository } from '../../domain/CharacterRepository'
 import { generateSlug } from '../../shared/domain/slugUtils'
+import type { Character } from '../domain/Character'
+import type { CharacterRepository } from '../domain/CharacterRepository'
 
 export class InMemoryCharacterRepository implements CharacterRepository {
-  constructor(private readonly characters: Character[] = []) {}
+  private readonly characters: Character[]
+
+  constructor(characters: Character[] = []) {
+    this.characters = characters
+  }
 
   async findAll(): Promise<Character[]> {
     return this.characters

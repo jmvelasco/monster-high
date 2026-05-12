@@ -2,7 +2,11 @@ import { FriendGroup } from '../domain/FriendGroup'
 import type { FriendGroupRepository } from '../domain/FriendGroupRepository'
 
 export class CreateFriendGroupUseCase {
-  constructor(private readonly repository: FriendGroupRepository) {}
+  private readonly repository: FriendGroupRepository
+
+  constructor(repository: FriendGroupRepository) {
+    this.repository = repository
+  }
 
   async execute(name: string): Promise<void> {
     const group = FriendGroup.create({ id: crypto.randomUUID(), name })

@@ -1,7 +1,11 @@
 import type { FriendGroupRepository } from '../domain/FriendGroupRepository'
 
 export class RemoveMemberFromGroupUseCase {
-  constructor(private readonly repository: FriendGroupRepository) {}
+  private readonly repository: FriendGroupRepository
+
+  constructor(repository: FriendGroupRepository) {
+    this.repository = repository
+  }
 
   async execute(slug: string, groupId: string): Promise<void> {
     const group = await this.repository.findById(groupId)
