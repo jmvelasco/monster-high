@@ -10,7 +10,10 @@ export class Maybe<T> {
   }
 
   static fromNullable<T>(value: T | null | undefined): Maybe<T> {
-    return new Maybe<T>()
+    if (value === null || value === undefined) {
+      return Maybe.none<T>()
+    }
+    return Maybe.some(value)
   }
 
   isNone(): boolean {
