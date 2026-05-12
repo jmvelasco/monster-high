@@ -4,6 +4,11 @@ import { config } from '../../config/config';
 import { Character } from '../../domain/entities/Character';
 import { CharacterStoryGenerator } from '../../domain/ports/CharacterStoryGenerator';
 
+interface GroqApiError {
+  status: number;
+  error: { error: { message: string } };
+}
+
 export class GroqStoryGenerator implements CharacterStoryGenerator {
   private readonly groq: Groq;
 
@@ -30,7 +35,7 @@ export class GroqStoryGenerator implements CharacterStoryGenerator {
       await setTimeout(config.scraping.rateLimitDelay);
 
       return summary;
-    } catch (error: any) {
+    } catch (error: unknown) {
       return this.handleGroqError(error, character);
     }
   }
@@ -56,7 +61,11 @@ export class GroqStoryGenerator implements CharacterStoryGenerator {
         DIRECT RESPONSE FOR CLOE (IN SPANISH FROM SPAIN):`;
   }
 
-  private async handleGroqError(error: any, character: Character): Promise<string> {
+  private async handleGroqError(error: unknown, character: Character): Promise<string> {
+    if (!this.isGroqApiError(error)) {
+      return "This character's story is hidden in the magical mist!";
+    }
+
     if (error.status === 429) {
       await setTimeout(config.ai.rateLimitDelay);
       return this.generateStory(character);
@@ -67,5 +76,14 @@ export class GroqStoryGenerator implements CharacterStoryGenerator {
     }
 
     return "This character's story is hidden in the magical mist!";
+  }
+
+  private isGroqApiError(error: unknown): error is GroqApiError {
+    return (
+      typeof error === 'object' &&
+      error !== null &&
+      'status' in error &&
+      typeof (error as GroqApiError).status === 'number'
+    );
   }
 }

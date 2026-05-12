@@ -11,20 +11,16 @@ import { WikiScraper } from './infrastructure/scraper/WikiScraper';
 import { JsonRepository } from './infrastructure/storage/JsonRepository';
 import { GroqStoryGenerator } from './infrastructure/story-generator/GroqStoryGenerator';
 
-// Composition Root
 const logger = new ConsoleLogger();
-
-const fizzBuzzPresenter = new ColoredConsoleFizzBuzzPresenter();
-const fizzBuzzUseCase = new RunFizzBuzzUseCase(fizzBuzzPresenter);
-
 const scraper = new WikiScraper();
 const storyGenerator = new GroqStoryGenerator();
 const repository = new JsonRepository();
 const generateCharactersUseCase = new GenerateCharacterCatalogUseCase(scraper, storyGenerator, repository, logger);
 
-const commands = [new FizzBuzzCommand(fizzBuzzUseCase), new GenerateCharactersCommand(generateCharactersUseCase)];
+const fizzBuzzPresenter = new ColoredConsoleFizzBuzzPresenter();
+const fizzBuzzUseCase = new RunFizzBuzzUseCase(fizzBuzzPresenter);
 
+const commands = [new FizzBuzzCommand(fizzBuzzUseCase), new GenerateCharactersCommand(generateCharactersUseCase)];
 const engine = new YargsCliEngine(hideBin(process.argv));
 const processor = new CommandLineProcessor(commands, engine);
-
 processor.run();

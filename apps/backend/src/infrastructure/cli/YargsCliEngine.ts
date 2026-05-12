@@ -1,5 +1,5 @@
 import yargs, { Argv } from 'yargs';
-import { CLIEngine } from './CommandLineProcessor';
+import { CLIEngine, CliParameterBuilder } from './CommandLineProcessor';
 
 export class YargsCliEngine implements CLIEngine {
   private instance: Argv;
@@ -11,10 +11,10 @@ export class YargsCliEngine implements CLIEngine {
   command(
     name: string,
     description: string,
-    builder: (y: any) => any,
-    handler: (args: any) => Promise<void>
+    builder: (y: CliParameterBuilder) => CliParameterBuilder,
+    handler: (args: Record<string, unknown>) => Promise<void>
   ): CLIEngine {
-    this.instance = this.instance.command(name, description, builder, handler);
+    this.instance = this.instance.command(name, description, this.adaptBuilder(builder), this.adaptHandler(handler));
     return this;
   }
 
@@ -33,10 +33,23 @@ export class YargsCliEngine implements CLIEngine {
     return this;
   }
 
-  async parseAsync(args?: string[]): Promise<any> {
+  async parseAsync(args?: string[]): Promise<unknown> {
     if (args) {
       return this.instance.parseAsync(args);
     }
     return this.instance.parseAsync();
+  }
+
+  private adaptBuilder(builder: (y: CliParameterBuilder) => CliParameterBuilder) {
+    return (y: Argv): Argv => {
+      builder(y as unknown as CliParameterBuilder);
+      return y;
+    };
+  }
+
+  private adaptHandler(handler: (args: Record<string, unknown>) => Promise<void>) {
+    return async (args: { [key: string]: unknown }): Promise<void> => {
+      await handler(args as Record<string, unknown>);
+    };
   }
 }
