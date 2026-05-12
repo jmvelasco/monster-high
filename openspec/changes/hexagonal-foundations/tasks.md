@@ -16,7 +16,7 @@
 📐 **Skill**: `coding-standards` → Constants close to usage, domain functions
 🔧 **Refactor only** (no new behavior)
 
-- [ ] 2.1 Move `apps/web/src/utils/slugUtils.ts` → `apps/web/src/shared/domain/slugUtils.ts`. Update all imports across the codebase. Run `npx tsc --noEmit` to verify. Delete the `utils/` folder if empty.
+- [x] 2.1 Move `apps/web/src/utils/slugUtils.ts` → `apps/web/src/shared/domain/slugUtils.ts`. Update all imports across the codebase. Run `npx tsc --noEmit` to verify. Delete the `utils/` folder if empty.
 
 ## 3. Characters Domain Layer
 

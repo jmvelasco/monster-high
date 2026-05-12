@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useCharacters } from '../../hooks/useCharacters'
 import { useFriendGroups } from '../../hooks/useFriendGroups'
-import type { Character } from '../../types/character'
+import type { Character } from '../../characters/domain/Character'
 import { generateSlug } from '../../shared/domain/slugUtils'
 import { GroupSelector } from '../friends/GroupSelector'
 import styles from './CharacterDetail.module.css'

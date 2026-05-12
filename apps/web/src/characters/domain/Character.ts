@@ -1,6 +1,3 @@
-/**
- * Subsecciones dentro de cada sección principal
- */
 export interface CharacterSection {
   general?: string[]
   apariencia?: string[]
@@ -12,9 +9,6 @@ export interface CharacterSection {
   [key: string]: string[] | undefined
 }
 
-/**
- * Secciones principales del personaje
- */
 export interface CharacterSections {
   personaje?: CharacterSection
   monstruoClasico?: CharacterSection
@@ -23,9 +17,6 @@ export interface CharacterSections {
   [sectionName: string]: CharacterSection | undefined
 }
 
-/**
- * Información técnica del personaje
- */
 export interface TechnicalInfo {
   edad?: string
   sexo?: string
@@ -35,9 +26,6 @@ export interface TechnicalInfo {
   mejoresAmigos?: string
 }
 
-/**
- * Personaje de Monster High
- */
 export interface Character {
   name: string
   url: string

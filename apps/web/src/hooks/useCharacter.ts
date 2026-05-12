@@ -1,5 +1,5 @@
 import useSWR from 'swr'
-import type { Character } from '../types/character'
+import type { Character } from '../characters/domain/Character'
 import { generateSlug } from '../shared/domain/slugUtils'
 
 const fetcher = (url: string) => fetch(url).then(res => res.json())

@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
-import type { Character } from '../../../types/character'
+import type { Character } from '../../../characters/domain/Character'
 import { CharacterCard } from '../CharacterCard'
 
 describe('CharacterCard', () => {

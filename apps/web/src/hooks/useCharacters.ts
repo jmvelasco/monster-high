@@ -1,5 +1,5 @@
 import useSWR from 'swr'
-import type { Character } from '../types/character'
+import type { Character } from '../characters/domain/Character'
 
 interface UseCharactersResult {
   data: Character[] | undefined

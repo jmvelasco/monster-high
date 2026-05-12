@@ -5,7 +5,7 @@ import { describe, expect, it, vi } from 'vitest'
 import { FriendGroup } from '../../domain/friends/FriendGroup'
 import * as useCharactersModule from '../../hooks/useCharacters'
 import * as useFriendGroupsModule from '../../hooks/useFriendGroups'
-import type { Character } from '../../types/character'
+import type { Character } from '../../characters/domain/Character'
 import { FriendGroupDetailPage } from '../FriendGroupDetailPage'
 
 // Mock the hooks

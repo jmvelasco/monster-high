@@ -5,7 +5,7 @@ import { ConfirmDialog } from '../components/ui/ConfirmDialog'
 import type { FriendGroup } from '../domain/friends/FriendGroup'
 import { useCharacters } from '../hooks/useCharacters'
 import { useFriendGroups } from '../hooks/useFriendGroups'
-import type { Character } from '../types/character'
+import type { Character } from '../characters/domain/Character'
 import { generateSlug } from '../shared/domain/slugUtils'
 import styles from './FriendGroupDetailPage.module.css'
 

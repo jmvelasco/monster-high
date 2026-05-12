@@ -2,7 +2,7 @@ import { render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { SWRConfig } from 'swr'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import type { Character } from '../../types/character'
+import type { Character } from '../../characters/domain/Character'
 import { CharacterDetailPage } from '../CharacterDetailPage'
 
 const mockCharacters: Character[] = [

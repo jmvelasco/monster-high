@@ -1,7 +1,7 @@
 import { renderHook, waitFor } from '@testing-library/react'
 import { SWRConfig } from 'swr'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import type { Character } from '../../types/character'
+import type { Character } from '../../characters/domain/Character'
 import { useCharacters } from '../useCharacters'
 
 describe('useCharacters', () => {

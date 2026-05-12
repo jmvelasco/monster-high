@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import type { Character } from '../../types/character'
+import type { Character } from '../../characters/domain/Character'
 import { generateSlug } from '../../shared/domain/slugUtils'
 import styles from './FriendThumbnails.module.css'
 

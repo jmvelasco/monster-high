@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import { CharacterGrid } from '../CharacterGrid'
-import type { Character } from '../../../types/character'
+import type { Character } from '../../../characters/domain/Character'
 
 const mockCharacter: Character = {
   name: 'Draculaura',
