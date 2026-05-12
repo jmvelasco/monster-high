@@ -5,6 +5,10 @@ export class Maybe<T> {
     return new Maybe<T>()
   }
 
+  static some<T>(value: T): Maybe<T> {
+    return new Maybe<T>()
+  }
+
   isNone(): boolean {
     return this.value === undefined
   }

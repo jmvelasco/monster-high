@@ -16,4 +16,11 @@ describe('The Maybe monad', () => {
     expect(maybe.isNone()).toBe(true)
     expect(maybe.isSome()).toBe(false)
   })
+
+  it('considers some as having a value', () => {
+    const maybe = Maybe.some(42)
+
+    expect(maybe.isSome()).toBe(true)
+    expect(maybe.isNone()).toBe(false)
+  })
 })
