@@ -46,6 +46,9 @@ export class Maybe<T> {
   }
 
   getOrThrow(): T {
-    return undefined as T
+    if (this.isNone()) {
+      throw new Error('Cannot get value of None')
+    }
+    return this.value as T
   }
 }
