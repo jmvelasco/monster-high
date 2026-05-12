@@ -23,32 +23,32 @@
 📐 **Skill**: `frontend-patterns` → hexagonal architecture, `coding-standards` → interfaces for data contracts
 🔁 **TDD** for repository contract tests
 
-- [ ] 3.1 Create `apps/web/src/characters/domain/Character.ts` — move the `Character`, `CharacterSections`, `CharacterSection`, `TechnicalInfo` interfaces from `types/character.ts`. Update all imports. Delete `types/` folder if empty.
-- [ ] 3.2 Create `apps/web/src/characters/domain/CharacterRepository.ts` — interface with `findAll(): Promise<Character[]>` and `findBySlug(slug: string): Promise<Character | null>`.
+- [x] 3.1 Create `apps/web/src/characters/domain/Character.ts` — move the `Character`, `CharacterSections`, `CharacterSection`, `TechnicalInfo` interfaces from `types/character.ts`. Update all imports. Delete `types/` folder if empty.
+- [x] 3.2 Create `apps/web/src/characters/domain/CharacterRepository.ts` — interface with `findAll(): Promise<Character[]>` and `findBySlug(slug: string): Promise<Character | null>`.
 
 ## 4. Characters Infrastructure — HttpCharacterRepository
 
 📐 **Skill**: `frontend-patterns` → infrastructure adapters
 🔁 **TDD**: test the adapter with a fake/stub fetch (ask Tech Lead before using mocks)
 
-- [ ] 4.1 Create `apps/web/src/characters/infrastructure/api/HttpCharacterRepository.ts` implementing `CharacterRepository`. Extracts the fetch logic currently in `useCharacters.ts`.
+- [x] 4.1 Create `apps/web/src/characters/infrastructure/api/HttpCharacterRepository.ts` implementing `CharacterRepository`. Extracts the fetch logic currently in `useCharacters.ts`.
 
 ## 5. Characters Application — Use Cases
 
 📐 **Skill**: `frontend-patterns` → application layer, `coding-standards` → SRP
 🔁 **TDD**: REASON → RED → GREEN → REFACTOR → RE-EVALUATE per case
 
-- [ ] 5.1 Create `apps/web/src/characters/application/ListCharactersUseCase.ts` — receives `CharacterRepository`, `execute()` returns `Promise<Character[]>`.
-- [ ] 5.2 Create `apps/web/src/characters/application/FindCharacterBySlugUseCase.ts` — receives `CharacterRepository`, `execute(slug)` returns `Promise<Character | null>`.
+- [x] 5.1 Create `apps/web/src/characters/application/ListCharactersUseCase.ts` — receives `CharacterRepository`, `execute()` returns `Promise<Character[]>`.
+- [x] 5.2 Create `apps/web/src/characters/application/FindCharacterBySlugUseCase.ts` — receives `CharacterRepository`, `execute(slug)` returns `Promise<Character | null>`.
 
 ## 6. Shared Infrastructure — Factory
 
 📐 **Skill**: `frontend-patterns` → Factory pattern for DI
 🔧 **No TDD** (wiring-only, no logic)
 
-- [ ] 6.1 Create `apps/web/src/shared/infrastructure/Factory.ts` — static methods `createListCharactersUseCase()` and `createFindCharacterBySlugUseCase()`. Internally creates `HttpCharacterRepository` and injects it.
+- [x] 6.1 Create `apps/web/src/shared/infrastructure/Factory.ts` — static methods `createListCharactersUseCase()` and `createFindCharacterBySlugUseCase()`. Internally creates `HttpCharacterRepository` and injects it.
 
 ## 7. Validation
 
-- [ ] 7.1 Run `npm run validate` in the web workspace. All existing tests pass, no compilation errors.
+- [x] 7.1 Run `npm run validate` in the web workspace. All existing tests pass, no compilation errors.
 - [ ] 7.2 Run `npm run format:fix` to ensure code formatting.

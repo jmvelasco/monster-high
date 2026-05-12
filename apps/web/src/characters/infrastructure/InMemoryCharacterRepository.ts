@@ -10,6 +10,6 @@ export class InMemoryCharacterRepository implements CharacterRepository {
   }
 
   async findBySlug(slug: string): Promise<Character | null> {
-    return this.characters.find((character) => generateSlug(character.name) === slug) ?? null
+    return this.characters.find(character => generateSlug(character.name) === slug) ?? null
   }
 }

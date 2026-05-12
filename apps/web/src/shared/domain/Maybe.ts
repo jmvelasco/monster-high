@@ -34,14 +34,14 @@ export class Maybe<T> {
   map<R>(fn: (value: T) => R): Maybe<R> {
     return this.fold(
       () => Maybe.none<R>(),
-      (value) => Maybe.some(fn(value)),
+      value => Maybe.some(fn(value))
     )
   }
 
   flatMap<R>(fn: (value: T) => Maybe<R>): Maybe<R> {
     return this.fold(
       () => Maybe.none<R>(),
-      (value) => fn(value),
+      value => fn(value)
     )
   }
 

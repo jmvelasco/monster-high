@@ -38,7 +38,7 @@ describe('The Maybe monad', () => {
 
     const result = maybe.fold(
       () => 'empty',
-      (value) => value.toUpperCase(),
+      value => value.toUpperCase()
     )
 
     expect(result).toBe('empty')
@@ -49,7 +49,7 @@ describe('The Maybe monad', () => {
 
     const result = maybe.fold(
       () => 'empty',
-      (value) => value.toUpperCase(),
+      value => value.toUpperCase()
     )
 
     expect(result).toBe('HELLO')
@@ -58,16 +58,21 @@ describe('The Maybe monad', () => {
   it('maps the value when some', () => {
     const maybe = Maybe.some(5)
 
-    const result = maybe.map((value) => value * 2)
+    const result = maybe.map(value => value * 2)
 
     expect(result.isSome()).toBe(true)
-    expect(result.fold(() => 0, (value) => value)).toBe(10)
+    expect(
+      result.fold(
+        () => 0,
+        value => value
+      )
+    ).toBe(10)
   })
 
   it('does not map when none', () => {
     const maybe = Maybe.none<number>()
 
-    const result = maybe.map((value) => value * 2)
+    const result = maybe.map(value => value * 2)
 
     expect(result.isNone()).toBe(true)
   })
@@ -75,16 +80,21 @@ describe('The Maybe monad', () => {
   it('flat maps the value when some', () => {
     const maybe = Maybe.some(5)
 
-    const result = maybe.flatMap((value) => Maybe.some(value * 3))
+    const result = maybe.flatMap(value => Maybe.some(value * 3))
 
     expect(result.isSome()).toBe(true)
-    expect(result.fold(() => 0, (value) => value)).toBe(15)
+    expect(
+      result.fold(
+        () => 0,
+        value => value
+      )
+    ).toBe(15)
   })
 
   it('does not flat map when none', () => {
     const maybe = Maybe.none<number>()
 
-    const result = maybe.flatMap((value) => Maybe.some(value * 3))
+    const result = maybe.flatMap(value => Maybe.some(value * 3))
 
     expect(result.isNone()).toBe(true)
   })

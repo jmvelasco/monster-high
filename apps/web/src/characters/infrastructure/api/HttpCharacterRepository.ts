@@ -13,6 +13,6 @@ export class HttpCharacterRepository implements CharacterRepository {
 
   async findBySlug(slug: string): Promise<Character | null> {
     const characters = await this.findAll()
-    return characters.find((character) => generateSlug(character.name) === slug) ?? null
+    return characters.find(character => generateSlug(character.name) === slug) ?? null
   }
 }
