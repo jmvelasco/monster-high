@@ -1,5 +1,6 @@
 import type { Character } from '../../domain/Character'
 import type { CharacterRepository } from '../../domain/CharacterRepository'
+import { generateSlug } from '../../shared/domain/slugUtils'
 
 export class InMemoryCharacterRepository implements CharacterRepository {
   constructor(private readonly characters: Character[] = []) {}
@@ -9,6 +10,6 @@ export class InMemoryCharacterRepository implements CharacterRepository {
   }
 
   async findBySlug(slug: string): Promise<Character | null> {
-    return this.characters.find((character) => character.name === slug) ?? null
+    return this.characters.find((character) => generateSlug(character.name) === slug) ?? null
   }
 }

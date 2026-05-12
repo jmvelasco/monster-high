@@ -5,6 +5,6 @@ export class FindCharacterBySlugUseCase {
   constructor(private readonly repository: CharacterRepository) {}
 
   async execute(slug: string): Promise<Character | null> {
-    return null
+    return this.repository.findBySlug(slug)
   }
 }
