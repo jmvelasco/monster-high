@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import type { Character } from '../characters/domain/Character'
 import { CharacterCard } from '../components/character/CharacterCard'
 import { ConfirmDialog } from '../components/ui/ConfirmDialog'
 import type { FriendGroup } from '../domain/friends/FriendGroup'
 import { useCharacters } from '../hooks/useCharacters'
 import { useFriendGroups } from '../hooks/useFriendGroups'
-import type { Character } from '../characters/domain/Character'
 import { generateSlug } from '../shared/domain/slugUtils'
 import styles from './FriendGroupDetailPage.module.css'
 

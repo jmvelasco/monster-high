@@ -1,5 +1,5 @@
-import { ListCharactersUseCase } from '../../characters/application/ListCharactersUseCase'
 import { FindCharacterBySlugUseCase } from '../../characters/application/FindCharacterBySlugUseCase'
+import { ListCharactersUseCase } from '../../characters/application/ListCharactersUseCase'
 import { HttpCharacterRepository } from '../../characters/infrastructure/api/HttpCharacterRepository'
 
 export class Factory {

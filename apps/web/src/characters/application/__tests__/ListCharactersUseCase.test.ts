@@ -1,6 +1,6 @@
-import { ListCharactersUseCase } from '../ListCharactersUseCase'
-import { InMemoryCharacterRepository } from '../../infrastructure/InMemoryCharacterRepository'
 import type { Character } from '../../domain/Character'
+import { InMemoryCharacterRepository } from '../../infrastructure/InMemoryCharacterRepository'
+import { ListCharactersUseCase } from '../ListCharactersUseCase'
 
 describe('The ListCharacters use case', () => {
   it('lists all available characters', async () => {

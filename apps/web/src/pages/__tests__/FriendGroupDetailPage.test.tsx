@@ -2,10 +2,10 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { describe, expect, it, vi } from 'vitest'
+import type { Character } from '../../characters/domain/Character'
 import { FriendGroup } from '../../domain/friends/FriendGroup'
 import * as useCharactersModule from '../../hooks/useCharacters'
 import * as useFriendGroupsModule from '../../hooks/useFriendGroups'
-import type { Character } from '../../characters/domain/Character'
 import { FriendGroupDetailPage } from '../FriendGroupDetailPage'
 
 // Mock the hooks

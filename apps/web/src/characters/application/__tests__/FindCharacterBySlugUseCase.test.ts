@@ -1,6 +1,6 @@
-import { FindCharacterBySlugUseCase } from '../FindCharacterBySlugUseCase'
-import { InMemoryCharacterRepository } from '../../infrastructure/InMemoryCharacterRepository'
 import type { Character } from '../../domain/Character'
+import { InMemoryCharacterRepository } from '../../infrastructure/InMemoryCharacterRepository'
+import { FindCharacterBySlugUseCase } from '../FindCharacterBySlugUseCase'
 
 describe('The FindCharacterBySlug use case', () => {
   it('finds a character matching the given slug', async () => {
