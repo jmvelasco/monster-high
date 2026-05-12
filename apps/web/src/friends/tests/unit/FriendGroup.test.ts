@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { FriendGroup } from '../FriendGroup'
+import { FriendGroup } from '../../domain/FriendGroup'
 
 describe('FriendGroup Domain Entity', () => {
   it('should create a valid friend group with id, name, slug, and empty members', () => {

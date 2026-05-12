@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { FriendGroup } from '../../../domain/friends/FriendGroup'
+import { FriendGroup } from '../../domain/FriendGroup'
 import { InMemoryFriendGroupRepository } from '../../infrastructure/persistence/InMemoryFriendGroupRepository'
 import { FindFriendGroupBySlugUseCase } from '../../application/FindFriendGroupBySlugUseCase'
 

@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
-import { FriendGroup } from '../../../domain/friends/FriendGroup'
+import { FriendGroup } from '../../../friends/domain/FriendGroup'
 import { GroupSelector } from '../GroupSelector'
 
 describe('The Group Selector', () => {

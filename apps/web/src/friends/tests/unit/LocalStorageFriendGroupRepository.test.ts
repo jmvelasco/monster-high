@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest'
-import { FriendGroup } from '../../../domain/friends/FriendGroup'
-import { LocalStorageFriendGroupRepository } from '../LocalStorageFriendGroupRepository'
+import { FriendGroup } from '../../domain/FriendGroup'
+import { LocalStorageFriendGroupRepository } from '../../infrastructure/persistence/LocalStorageFriendGroupRepository'
 
 describe('LocalStorageFriendGroupRepository', () => {
   let repository: LocalStorageFriendGroupRepository

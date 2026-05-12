@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
-import { FriendGroup } from '../domain/friends/FriendGroup'
-import { LocalStorageFriendGroupRepository } from '../infrastructure/friends/LocalStorageFriendGroupRepository'
+import { FriendGroup } from '../friends/domain/FriendGroup'
+import { LocalStorageFriendGroupRepository } from '../friends/infrastructure/persistence/LocalStorageFriendGroupRepository'
 
 const repository = new LocalStorageFriendGroupRepository()
 

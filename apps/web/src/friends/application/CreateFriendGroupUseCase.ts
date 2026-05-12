@@ -1,5 +1,5 @@
-import { FriendGroup } from '../../domain/friends/FriendGroup'
-import type { FriendGroupRepository } from '../../domain/friends/FriendGroupRepository'
+import { FriendGroup } from '../domain/FriendGroup'
+import type { FriendGroupRepository } from '../domain/FriendGroupRepository'
 
 export class CreateFriendGroupUseCase {
   constructor(private readonly repository: FriendGroupRepository) {}
