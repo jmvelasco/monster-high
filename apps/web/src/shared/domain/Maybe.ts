@@ -25,6 +25,9 @@ export class Maybe<T> {
   }
 
   fold<R>(onNone: () => R, onSome: (value: T) => R): R {
-    return onNone()
+    if (this.isNone()) {
+      return onNone()
+    }
+    return onSome(this.value as T)
   }
 }
