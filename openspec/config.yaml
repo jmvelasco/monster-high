@@ -13,7 +13,7 @@ context: |
     - ./AGENTS - Core practices for all artifacts
     - ./.agents/skills/backend-hexagonal - apps/backend/src/domain, application, infrastructure)
     - ./.agents/skills/react-best-practices - apps/web/src
-    - ./.agents/rules/conding-standards - All artifacts
+    - ./.agents/rules/coding-standards - All artifacts
     - ./.agents/rules/testing-standards - Testing strategy and patterns
     - ./.agents/rules/react-optimization - apps/web/src
     - ./.agents/rules/tdd - TDD 5-step cycle, TPP, inside-out
