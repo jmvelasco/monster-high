@@ -19,7 +19,8 @@
             "regexp": "^\\s+at\\s+.*\\((.*):(\\d+):(\\d+)\\)$",
             "file": 1,
             "line": 2,
-            "column": 3
+            "column": 3,
+            "message": 0
           }
         ],
         "background": {
@@ -53,18 +54,7 @@
       "command": "echo",
       "args": ["🔵 REFACTOR: Improve code"],
       "group": "build"
-    },
-    {
-      "label": "Prepare Antigravity Local Rules",
-      "type": "shell",
-      "command": "sh",
-      "args": ["scripts/setup-antigravity-local.sh"],
-      "presentation": {
-        "reveal": "always",
-        "panel": "new"
-      },
-      "problemMatcher": []
-    },
+    },    
     {
       "label": "Run All Tests",
       "type": "shell",
@@ -114,16 +104,7 @@
         "reveal": "silent",
         "panel": "dedicated"
       },
-      "problemMatcher": {
-        "owner": "typescript",
-        "fileLocation": "relative",
-        "pattern": "$tsc-watch",
-        "background": {
-          "activeOnStart": true,
-          "beginsPattern": "Starting compilation in watch mode",
-          "endsPattern": "(Compilation complete|Found \\d+ error)"
-        }
-      },
+      "problemMatcher": "$tsc-watch",
       "group": "build"
     }
   ]

@@ -22,8 +22,6 @@ data/*.json
 .DS_Store
 
 # Agent rules (generated locally, not versioned)
-.agents/rules/
-.agents/skills/
-.github/instructions/
-.github/copilot-instructions.md
+.agents/**/*
+.github/**/*
 AGENTS.md
