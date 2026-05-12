@@ -25,3 +25,4 @@ data/*.json
 .agents/**/*
 .github/**/*
 AGENTS.md
+openspec/config.yaml
