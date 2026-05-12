@@ -55,4 +55,4 @@
 
 - [x] 7.1 Run `npm run validate --workspace=apps/web`. All tests pass.
 - [x] 7.2 Run `npm run format:fix`.
-- [ ] 7.3 Manual smoke test: navigate all pages in browser, verify nothing is visually broken.
+- [x] 7.3 Manual smoke test: navigate all pages in browser, verify nothing is visually broken.
