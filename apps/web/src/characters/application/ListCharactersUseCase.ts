@@ -5,6 +5,6 @@ export class ListCharactersUseCase {
   constructor(private readonly repository: CharacterRepository) {}
 
   async execute(): Promise<Character[]> {
-    return []
+    return this.repository.findAll()
   }
 }
