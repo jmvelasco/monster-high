@@ -8,6 +8,14 @@ import { InMemoryCharacterRepository } from '../../infrastructure/InMemoryCharac
 import { CharacterUseCasesProvider } from '../../infrastructure/context/CharacterUseCases.context'
 import { CharacterCard } from '../../infrastructure/ui/CharacterCard/CharacterCard'
 import { CharacterDetail } from '../../infrastructure/ui/CharacterDetail/CharacterDetail'
+import { FriendGroupUseCasesProvider } from '../../../friends/infrastructure/context/FriendGroupUseCases.context'
+import { InMemoryFriendGroupRepository } from '../../../friends/infrastructure/persistence/InMemoryFriendGroupRepository'
+import { AddMemberToGroupUseCase } from '../../../friends/application/AddMemberToGroupUseCase'
+import { CreateFriendGroupUseCase } from '../../../friends/application/CreateFriendGroupUseCase'
+import { DeleteFriendGroupUseCase } from '../../../friends/application/DeleteFriendGroupUseCase'
+import { FindFriendGroupBySlugUseCase } from '../../../friends/application/FindFriendGroupBySlugUseCase'
+import { ListFriendGroupsUseCase } from '../../../friends/application/ListFriendGroupsUseCase'
+import { RemoveMemberFromGroupUseCase } from '../../../friends/application/RemoveMemberFromGroupUseCase'
 
 const mockCharacter = {
   image: 'https://example.com/draculaura.jpg',
@@ -17,14 +25,17 @@ const mockCharacter = {
   url: 'https://example.com',
 }
 
-vi.mock('../../../hooks/useFriendGroups', () => ({
-  useFriendGroups: () => ({
-    groups: [],
-    loadGroups: vi.fn(),
-    addCharacterToGroup: vi.fn(),
-    createGroup: vi.fn(),
-  }),
-}))
+function createFriendGroupUseCases() {
+  const repository = new InMemoryFriendGroupRepository()
+  return {
+    list: new ListFriendGroupsUseCase(repository),
+    findBySlug: new FindFriendGroupBySlugUseCase(repository),
+    create: new CreateFriendGroupUseCase(repository),
+    addMember: new AddMemberToGroupUseCase(repository),
+    removeMember: new RemoveMemberFromGroupUseCase(repository),
+    deleteGroup: new DeleteFriendGroupUseCase(repository),
+  }
+}
 
 function createWrapper() {
   const repository = new InMemoryCharacterRepository([])
@@ -32,13 +43,18 @@ function createWrapper() {
     list: new ListCharactersUseCase(repository),
     findBySlug: new FindCharacterBySlugUseCase(repository),
   }
+  const friendGroupUseCases = createFriendGroupUseCases()
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   })
 
   return ({ children }: { children: ReactNode }) => (
     <QueryClientProvider client={queryClient}>
-      <CharacterUseCasesProvider value={characterUseCases}>{children}</CharacterUseCasesProvider>
+      <CharacterUseCasesProvider value={characterUseCases}>
+        <FriendGroupUseCasesProvider value={friendGroupUseCases}>
+          {children}
+        </FriendGroupUseCasesProvider>
+      </CharacterUseCasesProvider>
     </QueryClientProvider>
   )
 }

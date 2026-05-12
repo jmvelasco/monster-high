@@ -1,9 +1,9 @@
-import { useEffect } from 'react'
 import type { Character } from '../../../domain/Character'
 import { useCharactersQuery } from '../../store/Character.queries'
-import { useFriendGroups } from '../../../../hooks/useFriendGroups'
+import { useFriendGroupsQuery } from '../../../../friends/infrastructure/store/FriendGroup.queries'
+import { useFriendGroupMutations } from '../../../../friends/infrastructure/store/FriendGroup.mutations'
 import { generateSlug } from '../../../../shared/domain/slugUtils'
-import { GroupSelector } from '../../../../components/friends/GroupSelector'
+import { GroupSelector } from '../../../../friends/infrastructure/ui/GroupSelector/GroupSelector'
 import styles from './CharacterDetail.module.css'
 import { FriendThumbnails } from '../FriendThumbnails/FriendThumbnails'
 
@@ -12,14 +12,19 @@ interface Props {
 }
 
 export function CharacterDetail(props: Props) {
-  const friendGroups = useFriendGroups()
+  const friendGroupsQuery = useFriendGroupsQuery()
+  const friendGroupMutations = useFriendGroupMutations()
   const charactersQuery = useCharactersQuery()
   const slug = generateSlug(props.character.name)
   const imageSrc = props.character.image || '/images/placeholder-character.svg'
 
-  useEffect(() => {
-    friendGroups.loadGroups()
-  }, [friendGroups.loadGroups])
+  function handleAddToGroup(characterSlug: string, groupId: string) {
+    friendGroupMutations.addMember.mutate({ slug: characterSlug, groupId })
+  }
+
+  function handleCreateGroup(name: string) {
+    friendGroupMutations.create.mutate(name)
+  }
 
   return (
     <article className={styles.detail}>
@@ -48,10 +53,10 @@ export function CharacterDetail(props: Props) {
         </div>
         <div className={styles.groupSelector}>
           <GroupSelector
-            groups={friendGroups.groups}
+            groups={friendGroupsQuery.groups()}
             characterSlug={slug}
-            onAddToGroup={friendGroups.addCharacterToGroup}
-            onCreateGroup={friendGroups.createGroup}
+            onAddToGroup={handleAddToGroup}
+            onCreateGroup={handleCreateGroup}
           />
         </div>
       </div>

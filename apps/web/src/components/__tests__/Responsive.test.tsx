@@ -8,6 +8,14 @@ import { CharacterUseCasesProvider } from '../../characters/infrastructure/conte
 import { InMemoryCharacterRepository } from '../../characters/infrastructure/InMemoryCharacterRepository'
 import { CharacterDetail } from '../../characters/infrastructure/ui/CharacterDetail/CharacterDetail'
 import { Header } from '../Header'
+import { FriendGroupUseCasesProvider } from '../../friends/infrastructure/context/FriendGroupUseCases.context'
+import { InMemoryFriendGroupRepository } from '../../friends/infrastructure/persistence/InMemoryFriendGroupRepository'
+import { AddMemberToGroupUseCase } from '../../friends/application/AddMemberToGroupUseCase'
+import { CreateFriendGroupUseCase } from '../../friends/application/CreateFriendGroupUseCase'
+import { DeleteFriendGroupUseCase } from '../../friends/application/DeleteFriendGroupUseCase'
+import { FindFriendGroupBySlugUseCase } from '../../friends/application/FindFriendGroupBySlugUseCase'
+import { ListFriendGroupsUseCase } from '../../friends/application/ListFriendGroupsUseCase'
+import { RemoveMemberFromGroupUseCase } from '../../friends/application/RemoveMemberFromGroupUseCase'
 
 const mockCharacter = {
   image: 'https://example.com/draculaura.jpg',
@@ -23,13 +31,26 @@ function createWrapper() {
     list: new ListCharactersUseCase(repository),
     findBySlug: new FindCharacterBySlugUseCase(repository),
   }
+  const friendGroupRepository = new InMemoryFriendGroupRepository()
+  const friendGroupUseCases = {
+    list: new ListFriendGroupsUseCase(friendGroupRepository),
+    findBySlug: new FindFriendGroupBySlugUseCase(friendGroupRepository),
+    create: new CreateFriendGroupUseCase(friendGroupRepository),
+    addMember: new AddMemberToGroupUseCase(friendGroupRepository),
+    removeMember: new RemoveMemberFromGroupUseCase(friendGroupRepository),
+    deleteGroup: new DeleteFriendGroupUseCase(friendGroupRepository),
+  }
   const queryClient = new QueryClient({
     defaultOptions: { queries: { retry: false } },
   })
 
   return ({ children }: { children: ReactNode }) => (
     <QueryClientProvider client={queryClient}>
-      <CharacterUseCasesProvider value={characterUseCases}>{children}</CharacterUseCasesProvider>
+      <CharacterUseCasesProvider value={characterUseCases}>
+        <FriendGroupUseCasesProvider value={friendGroupUseCases}>
+          {children}
+        </FriendGroupUseCasesProvider>
+      </CharacterUseCasesProvider>
     </QueryClientProvider>
   )
 }

@@ -1,0 +1,91 @@
+.selector {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  padding: var(--spacing-3);
+  border: 2px solid var(--mh-purple);
+  border-radius: var(--radius-md);
+  background: var(--mh-white, #fff);
+}
+
+.title {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--mh-purple);
+  margin: 0;
+}
+
+.groupList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+}
+
+.groupButton {
+  padding: var(--spacing-1) var(--spacing-2);
+  border: 2px solid var(--mh-light-gray);
+  border-radius: var(--radius-md);
+  background: var(--mh-light-gray);
+  color: var(--mh-gray);
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: all var(--transition-base);
+}
+
+.groupButton:hover {
+  background-color: var(--mh-pink);
+  border-color: var(--mh-pink);
+  color: #fff;
+}
+
+.groupButton:focus-visible {
+  outline: 2px solid var(--mh-pink);
+  outline-offset: 2px;
+}
+
+.inGroup {
+  background-color: var(--mh-pink);
+  border-color: var(--mh-pink);
+  color: #fff;
+}
+
+.createRow {
+  display: flex;
+  gap: var(--spacing-2);
+}
+
+.input {
+  flex: 1;
+  padding: var(--spacing-1) var(--spacing-2);
+  border: 1px solid var(--mh-purple);
+  border-radius: var(--radius-md);
+  font-size: 0.75rem;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--mh-focus);
+  box-shadow: 0 0 0 2px rgba(147, 112, 219, 0.2);
+}
+
+.createButton {
+  padding: var(--spacing-1) var(--spacing-3);
+  background-color: var(--mh-purple);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: all var(--transition-base);
+}
+
+.createButton:hover {
+  background-color: var(--mh-focus);
+}
+
+.createButton:focus-visible {
+  outline: 2px solid var(--mh-focus);
+  outline-offset: 2px;
+}
