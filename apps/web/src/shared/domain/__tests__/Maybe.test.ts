@@ -97,4 +97,18 @@ describe('The Maybe monad', () => {
 
     expect(result.isNone()).toBe(true)
   })
+
+  it('returns the value when getting or throwing from some', () => {
+    const maybe = Maybe.some('hello')
+
+    const result = maybe.getOrThrow()
+
+    expect(result).toBe('hello')
+  })
+
+  it('throws when getting or throwing from none', () => {
+    const maybe = Maybe.none<string>()
+
+    expect(() => maybe.getOrThrow()).toThrow()
+  })
 })

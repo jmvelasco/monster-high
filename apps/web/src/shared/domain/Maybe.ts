@@ -44,4 +44,8 @@ export class Maybe<T> {
       (value) => fn(value),
     )
   }
+
+  getOrThrow(): T {
+    return undefined as T
+  }
 }
