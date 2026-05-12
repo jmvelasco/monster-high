@@ -5,6 +5,6 @@ export class FindFriendGroupBySlugUseCase {
   constructor(private readonly repository: FriendGroupRepository) {}
 
   async execute(slug: string): Promise<FriendGroup | null> {
-    return null
+    return this.repository.findBySlug(slug)
   }
 }
