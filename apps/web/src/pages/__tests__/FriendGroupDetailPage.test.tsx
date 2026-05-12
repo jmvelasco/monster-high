@@ -1,20 +1,21 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import type { ReactNode } from 'react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { describe, expect, it, vi } from 'vitest'
 import type { Character } from '../../characters/domain/Character'
 import { FriendGroup } from '../../domain/friends/FriendGroup'
-import * as useCharactersModule from '../../hooks/useCharacters'
+import { FindCharacterBySlugUseCase } from '../../characters/application/FindCharacterBySlugUseCase'
+import { ListCharactersUseCase } from '../../characters/application/ListCharactersUseCase'
+import { InMemoryCharacterRepository } from '../../characters/infrastructure/InMemoryCharacterRepository'
+import { CharacterUseCasesProvider } from '../../characters/infrastructure/context/CharacterUseCases.context'
 import * as useFriendGroupsModule from '../../hooks/useFriendGroups'
 import { FriendGroupDetailPage } from '../FriendGroupDetailPage'
 
 // Mock the hooks
 vi.mock('../../hooks/useFriendGroups', () => ({
   useFriendGroups: vi.fn(),
-}))
-
-vi.mock('../../hooks/useCharacters', () => ({
-  useCharacters: vi.fn(),
 }))
 
 describe('FriendGroupDetailPage', () => {
@@ -33,20 +34,37 @@ describe('FriendGroupDetailPage', () => {
       removeCharacterFromGroup: mockRemoveCharacterFromGroup,
     })
 
-    vi.mocked(useCharactersModule.useCharacters).mockReturnValue({
-      data: characters,
-      isLoading: false,
-      error: undefined,
+    currentCharacters = characters
+  }
+
+  let currentCharacters: Character[] = []
+
+  function createWrapper() {
+    const repository = new InMemoryCharacterRepository(currentCharacters)
+    const characterUseCases = {
+      list: new ListCharactersUseCase(repository),
+      findBySlug: new FindCharacterBySlugUseCase(repository),
+    }
+    const queryClient = new QueryClient({
+      defaultOptions: { queries: { retry: false } },
     })
+
+    return ({ children }: { children: ReactNode }) => (
+      <QueryClientProvider client={queryClient}>
+        <CharacterUseCasesProvider value={characterUseCases}>{children}</CharacterUseCasesProvider>
+      </QueryClientProvider>
+    )
   }
 
   const renderComponent = (slug: string) => {
+    const wrapper = createWrapper()
     render(
       <MemoryRouter initialEntries={[`/friends/${slug}`]}>
         <Routes>
           <Route path="/friends/:slug" element={<FriendGroupDetailPage />} />
         </Routes>
-      </MemoryRouter>
+      </MemoryRouter>,
+      { wrapper }
     )
   }
 

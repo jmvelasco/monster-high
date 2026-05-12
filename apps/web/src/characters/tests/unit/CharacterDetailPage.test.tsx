@@ -3,12 +3,21 @@ import { render, screen, waitFor } from '@testing-library/react'
 import type { ReactNode } from 'react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import { beforeEach, describe, expect, it } from 'vitest'
-import { FindCharacterBySlugUseCase } from '../../characters/application/FindCharacterBySlugUseCase'
-import { ListCharactersUseCase } from '../../characters/application/ListCharactersUseCase'
-import type { Character } from '../../characters/domain/Character'
-import { InMemoryCharacterRepository } from '../../characters/infrastructure/InMemoryCharacterRepository'
-import { CharacterUseCasesProvider } from '../../characters/infrastructure/context/CharacterUseCases.context'
-import { CharacterDetailPage } from '../CharacterDetailPage'
+import { FindCharacterBySlugUseCase } from '../../application/FindCharacterBySlugUseCase'
+import { ListCharactersUseCase } from '../../application/ListCharactersUseCase'
+import type { Character } from '../../domain/Character'
+import { InMemoryCharacterRepository } from '../../infrastructure/InMemoryCharacterRepository'
+import { CharacterUseCasesProvider } from '../../infrastructure/context/CharacterUseCases.context'
+import { CharacterDetailPage } from '../../infrastructure/ui/CharacterDetailPage'
+
+vi.mock('../../../hooks/useFriendGroups', () => ({
+  useFriendGroups: () => ({
+    groups: [],
+    loadGroups: vi.fn(),
+    addCharacterToGroup: vi.fn(),
+    createGroup: vi.fn(),
+  }),
+}))
 
 const mockCharacters: Character[] = [
   {

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import type { Character } from '../characters/domain/Character'
-import { CharacterCard } from '../components/character/CharacterCard'
+import { CharacterCard } from '../characters/infrastructure/ui/CharacterCard/CharacterCard'
 import { ConfirmDialog } from '../components/ui/ConfirmDialog'
 import type { FriendGroup } from '../domain/friends/FriendGroup'
-import { useCharacters } from '../hooks/useCharacters'
+import { useCharactersQuery } from '../characters/infrastructure/store/Character.queries'
 import { useFriendGroups } from '../hooks/useFriendGroups'
 import { generateSlug } from '../shared/domain/slugUtils'
 import styles from './FriendGroupDetailPage.module.css'
@@ -13,7 +13,7 @@ export function FriendGroupDetailPage() {
   const { slug } = useParams<{ slug: string }>()
   const navigate = useNavigate()
   const { getGroupBySlug, removeGroup, removeCharacterFromGroup } = useFriendGroups()
-  const { data: characters } = useCharacters()
+  const charactersQuery = useCharactersQuery()
 
   const [group, setGroup] = useState<FriendGroup | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -61,8 +61,9 @@ export function FriendGroupDetailPage() {
     setGroup(updatedGroup)
   }
 
-  const groupCharacters =
-    characters?.filter(char => group.members.includes(generateSlug(char.name))) || []
+  const groupCharacters = charactersQuery
+    .characters()
+    .filter(char => group.members.includes(generateSlug(char.name)))
 
   return (
     <div className={styles.page}>

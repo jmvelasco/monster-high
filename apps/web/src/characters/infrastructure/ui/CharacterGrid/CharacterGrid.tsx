@@ -1,13 +1,13 @@
-import type { Character } from '../../characters/domain/Character'
-import { CharacterCard } from './CharacterCard'
+import type { Character } from '../../../domain/Character'
+import { CharacterCard } from '../CharacterCard/CharacterCard'
 import styles from './CharacterGrid.module.css'
 
-interface CharacterGridProps {
+interface Props {
   characters: Character[]
 }
 
-export function CharacterGrid({ characters }: CharacterGridProps) {
-  if (characters.length === 0) {
+export function CharacterGrid(props: Props) {
+  if (props.characters.length === 0) {
     return (
       <div className={styles.empty}>
         <div className={styles.emptyIcon}>👻</div>
@@ -18,7 +18,7 @@ export function CharacterGrid({ characters }: CharacterGridProps) {
 
   return (
     <div className={styles.grid}>
-      {characters.map(character => (
+      {props.characters.map(character => (
         <CharacterCard key={character.name} character={character} variant="list" />
       ))}
     </div>

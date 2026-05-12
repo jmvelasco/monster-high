@@ -1,7 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { CharacterDetailWiredPage } from './characters/infrastructure/ui/CharacterDetailPage'
+import { CharacterListWiredPage } from './characters/infrastructure/ui/CharacterListPage'
 import { Layout } from './components/Layout'
-import { CharacterDetailPage } from './pages/CharacterDetailPage'
-import { CharacterListPage } from './pages/CharacterListPage'
 import { FriendGroupDetailPage } from './pages/FriendGroupDetailPage'
 import { FriendGroupsPage } from './pages/FriendGroupsPage'
 
@@ -10,9 +10,9 @@ function App() {
     <BrowserRouter>
       <Layout>
         <Routes>
-          <Route path="/" element={<CharacterListPage />} />
-          <Route path="/characters" element={<CharacterListPage />} />
-          <Route path="/character/:slug" element={<CharacterDetailPage />} />
+          <Route path="/" element={<CharacterListWiredPage />} />
+          <Route path="/characters" element={<CharacterListWiredPage />} />
+          <Route path="/character/:slug" element={<CharacterDetailWiredPage />} />
           <Route path="/friends" element={<FriendGroupsPage />} />
           <Route path="/friends/:slug" element={<FriendGroupDetailPage />} />
         </Routes>

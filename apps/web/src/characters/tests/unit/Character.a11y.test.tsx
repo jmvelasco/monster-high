@@ -2,12 +2,12 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { render, screen } from '@testing-library/react'
 import type { ReactNode } from 'react'
 import { MemoryRouter } from 'react-router-dom'
-import { FindCharacterBySlugUseCase } from '../../../characters/application/FindCharacterBySlugUseCase'
-import { ListCharactersUseCase } from '../../../characters/application/ListCharactersUseCase'
-import { InMemoryCharacterRepository } from '../../../characters/infrastructure/InMemoryCharacterRepository'
-import { CharacterUseCasesProvider } from '../../../characters/infrastructure/context/CharacterUseCases.context'
-import { CharacterCard } from '../CharacterCard'
-import { CharacterDetail } from '../CharacterDetail'
+import { FindCharacterBySlugUseCase } from '../../application/FindCharacterBySlugUseCase'
+import { ListCharactersUseCase } from '../../application/ListCharactersUseCase'
+import { InMemoryCharacterRepository } from '../../infrastructure/InMemoryCharacterRepository'
+import { CharacterUseCasesProvider } from '../../infrastructure/context/CharacterUseCases.context'
+import { CharacterCard } from '../../infrastructure/ui/CharacterCard/CharacterCard'
+import { CharacterDetail } from '../../infrastructure/ui/CharacterDetail/CharacterDetail'
 
 const mockCharacter = {
   image: 'https://example.com/draculaura.jpg',
@@ -16,6 +16,15 @@ const mockCharacter = {
   technicalInfo: {},
   url: 'https://example.com',
 }
+
+vi.mock('../../../hooks/useFriendGroups', () => ({
+  useFriendGroups: () => ({
+    groups: [],
+    loadGroups: vi.fn(),
+    addCharacterToGroup: vi.fn(),
+    createGroup: vi.fn(),
+  }),
+}))
 
 function createWrapper() {
   const repository = new InMemoryCharacterRepository([])
@@ -36,17 +45,14 @@ function createWrapper() {
 
 describe('CharacterCard - Accesibilidad', () => {
   it('imagen tiene texto alternativo descriptivo', () => {
-    // Arrange
     const characterName = 'Draculaura'
 
-    // Act
     render(
       <MemoryRouter>
         <CharacterCard character={mockCharacter} variant="favorite" />
       </MemoryRouter>
     )
 
-    // Assert
     const image = screen.getByAltText(characterName)
     expect(image).toBeInTheDocument()
     expect(image).toHaveAttribute('src', mockCharacter.image)
@@ -55,11 +61,9 @@ describe('CharacterCard - Accesibilidad', () => {
 
 describe('CharacterDetail - Accesibilidad', () => {
   it('imagen de personaje tiene texto alternativo descriptivo', () => {
-    // Arrange
     const characterName = 'Draculaura'
     const wrapper = createWrapper()
 
-    // Act
     render(
       <MemoryRouter>
         <CharacterDetail character={mockCharacter} />
@@ -67,17 +71,14 @@ describe('CharacterDetail - Accesibilidad', () => {
       { wrapper }
     )
 
-    // Assert
     const image = screen.getByAltText(characterName)
     expect(image).toBeInTheDocument()
     expect(image).toHaveAttribute('src', mockCharacter.image)
   })
 
   it('usa semantic HTML: article para contenedor principal', () => {
-    // Arrange
     const wrapper = createWrapper()
 
-    // Act
     render(
       <MemoryRouter>
         <CharacterDetail character={mockCharacter} />
@@ -85,7 +86,6 @@ describe('CharacterDetail - Accesibilidad', () => {
       { wrapper }
     )
 
-    // Assert
     const article = screen.getByRole('article')
     expect(article).toBeInTheDocument()
   })

@@ -22,7 +22,6 @@
   outline-offset: 2px;
 }
 
-/* Imagen del personaje */
 .image {
   width: 100%;
   aspect-ratio: 1;
@@ -30,7 +29,6 @@
   background-color: var(--mh-light-gray);
 }
 
-/* Contenido de la card */
 .content {
   padding: var(--spacing-3);
   display: flex;
@@ -64,8 +62,8 @@
   margin: 0;
 }
 
-/* Variante Favorito */
 .cardFavorite {
+  composes: card;
   position: relative;
 }
 
@@ -73,9 +71,6 @@
   transform: translateY(0);
 }
 
-
-
-/* Desktop Up */
 @media (min-width: 768px) {
   .card {
     border-radius: var(--radius-lg);

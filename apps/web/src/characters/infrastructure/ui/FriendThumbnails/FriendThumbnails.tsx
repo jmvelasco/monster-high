@@ -1,18 +1,18 @@
 import { Link } from 'react-router-dom'
-import type { Character } from '../../characters/domain/Character'
-import { generateSlug } from '../../shared/domain/slugUtils'
+import type { Character } from '../../../domain/Character'
+import { generateSlug } from '../../../../shared/domain/slugUtils'
 import styles from './FriendThumbnails.module.css'
 
-interface FriendThumbnailsProps {
+interface Props {
   friendsString?: string
   characters?: Character[]
 }
 
-export function FriendThumbnails({ friendsString, characters = [] }: FriendThumbnailsProps) {
-  if (!friendsString) return null
+export function FriendThumbnails(props: Props) {
+  if (!props.friendsString) return null
 
-  const friendNames = friendsString.split(',').map(name => name.trim())
-  const characterByName = new Map(characters.map(c => [c.name.toLowerCase(), c]))
+  const friendNames = props.friendsString.split(',').map(name => name.trim())
+  const characterByName = new Map((props.characters ?? []).map(c => [c.name.toLowerCase(), c]))
 
   return (
     <div className={styles.wrapper}>

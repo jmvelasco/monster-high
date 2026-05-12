@@ -41,7 +41,6 @@
   width: 100%;
   height: auto;
   max-height: 45vh;
-  /* Adapt to available container space */
   aspect-ratio: 3 / 4;
   object-fit: contain;
   border-radius: var(--radius-lg);

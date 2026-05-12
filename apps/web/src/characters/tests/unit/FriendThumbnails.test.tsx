@@ -1,15 +1,10 @@
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { describe, expect, it } from 'vitest'
-import type { Character } from '../../../characters/domain/Character'
-import { FriendThumbnails } from '../FriendThumbnails'
+import type { Character } from '../../domain/Character'
+import { FriendThumbnails } from '../../infrastructure/ui/FriendThumbnails/FriendThumbnails'
 
 describe('FriendThumbnails', () => {
-  // TODO:
-  // - Returns null/empty when friendsString is empty
-  // - Displays images for matched characters
-  // - Displays initials for unmatched characters
-
   const mockCharacters: Character[] = [
     {
       name: 'Draculaura',

@@ -6,7 +6,7 @@ import { FindCharacterBySlugUseCase } from '../../characters/application/FindCha
 import { ListCharactersUseCase } from '../../characters/application/ListCharactersUseCase'
 import { CharacterUseCasesProvider } from '../../characters/infrastructure/context/CharacterUseCases.context'
 import { InMemoryCharacterRepository } from '../../characters/infrastructure/InMemoryCharacterRepository'
-import { CharacterDetail } from '../character/CharacterDetail'
+import { CharacterDetail } from '../../characters/infrastructure/ui/CharacterDetail/CharacterDetail'
 import { Header } from '../Header'
 
 const mockCharacter = {
