@@ -30,4 +30,8 @@ export class Maybe<T> {
     }
     return onSome(this.value as T)
   }
+
+  map<R>(fn: (value: T) => R): Maybe<R> {
+    return Maybe.none<R>()
+  }
 }

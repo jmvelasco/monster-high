@@ -63,4 +63,21 @@ describe('The Maybe monad', () => {
 
     expect(result).toBe('HELLO')
   })
+
+  it('maps the value when some', () => {
+    const maybe = Maybe.some(5)
+
+    const result = maybe.map((value) => value * 2)
+
+    expect(result.isSome()).toBe(true)
+    expect(result.fold(() => 0, (value) => value)).toBe(10)
+  })
+
+  it('does not map when none', () => {
+    const maybe = Maybe.none<number>()
+
+    const result = maybe.map((value) => value * 2)
+
+    expect(result.isNone()).toBe(true)
+  })
 })
