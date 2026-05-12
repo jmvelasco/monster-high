@@ -23,4 +23,22 @@ describe('The Maybe monad', () => {
     expect(maybe.isSome()).toBe(true)
     expect(maybe.isNone()).toBe(false)
   })
+
+  it('creates none from null value', () => {
+    const maybe = Maybe.fromNullable(null)
+
+    expect(maybe.isNone()).toBe(true)
+  })
+
+  it('creates none from undefined value', () => {
+    const maybe = Maybe.fromNullable(undefined)
+
+    expect(maybe.isNone()).toBe(true)
+  })
+
+  it('creates some from non-null value', () => {
+    const maybe = Maybe.fromNullable('hello')
+
+    expect(maybe.isSome()).toBe(true)
+  })
 })

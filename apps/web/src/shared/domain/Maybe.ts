@@ -9,6 +9,10 @@ export class Maybe<T> {
     return new Maybe<T>(value)
   }
 
+  static fromNullable<T>(value: T | null | undefined): Maybe<T> {
+    return new Maybe<T>()
+  }
+
   isNone(): boolean {
     return this.value === undefined
   }
