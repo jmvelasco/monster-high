@@ -32,6 +32,9 @@ export class Maybe<T> {
   }
 
   map<R>(fn: (value: T) => R): Maybe<R> {
-    return Maybe.none<R>()
+    return this.fold(
+      () => Maybe.none<R>(),
+      (value) => Maybe.some(fn(value)),
+    )
   }
 }
