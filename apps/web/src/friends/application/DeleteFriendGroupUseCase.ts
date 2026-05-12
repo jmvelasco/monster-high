@@ -3,5 +3,7 @@ import type { FriendGroupRepository } from '../../domain/friends/FriendGroupRepo
 export class DeleteFriendGroupUseCase {
   constructor(private readonly repository: FriendGroupRepository) {}
 
-  async execute(groupId: string): Promise<void> {}
+  async execute(groupId: string): Promise<void> {
+    return this.repository.delete(groupId)
+  }
 }
