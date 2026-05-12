@@ -1,4 +1,4 @@
-import { generateSlug } from '../../utils/slugUtils'
+import { generateSlug } from '../../shared/domain/slugUtils'
 import type { FlatFriendGroup } from './FriendGroupRepository'
 
 export class FriendGroup {

@@ -3,13 +3,13 @@
 📐 **Skill**: `frontend-patterns` → Maybe Handling
 🔁 **TDD**: REASON → RED → GREEN → REFACTOR → RE-EVALUATE per case
 
-- [ ] 1.1 Create `apps/web/src/shared/domain/Maybe.ts` — implement `Maybe.none()` with `isSome()` returning false, `isNone()` returning true.
-- [ ] 1.2 Implement `Maybe.some(value)` with `isSome()` returning true, value accessible.
-- [ ] 1.3 Implement `Maybe.fromNullable(value)` — returns `None` for null/undefined, `Some` otherwise.
-- [ ] 1.4 Implement `fold(onNone, onSome)` — executes the matching callback and returns its result.
-- [ ] 1.5 Implement `map(fn)` — transforms the value if `Some`, returns `None` if `None`.
-- [ ] 1.6 Implement `flatMap(fn)` — like `map` but the function returns a `Maybe`.
-- [ ] 1.7 Implement `getOrThrow()` — returns value if `Some`, throws if `None`.
+- [x] 1.1 Create `apps/web/src/shared/domain/Maybe.ts` — implement `Maybe.none()` with `isSome()` returning false, `isNone()` returning true.
+- [x] 1.2 Implement `Maybe.some(value)` with `isSome()` returning true, value accessible.
+- [x] 1.3 Implement `Maybe.fromNullable(value)` — returns `None` for null/undefined, `Some` otherwise.
+- [x] 1.4 Implement `fold(onNone, onSome)` — executes the matching callback and returns its result.
+- [x] 1.5 Implement `map(fn)` — transforms the value if `Some`, returns `None` if `None`.
+- [x] 1.6 Implement `flatMap(fn)` — like `map` but the function returns a `Maybe`.
+- [x] 1.7 Implement `getOrThrow()` — returns value if `Some`, throws if `None`.
 
 ## 2. Shared Domain — slugUtils
 

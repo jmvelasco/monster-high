@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import type { Character } from '../../types/character'
-import { generateSlug } from '../../utils/slugUtils'
+import { generateSlug } from '../../shared/domain/slugUtils'
 import styles from './FriendThumbnails.module.css'
 
 interface FriendThumbnailsProps {

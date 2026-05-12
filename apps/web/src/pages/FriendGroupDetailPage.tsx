@@ -6,7 +6,7 @@ import type { FriendGroup } from '../domain/friends/FriendGroup'
 import { useCharacters } from '../hooks/useCharacters'
 import { useFriendGroups } from '../hooks/useFriendGroups'
 import type { Character } from '../types/character'
-import { generateSlug } from '../utils/slugUtils'
+import { generateSlug } from '../shared/domain/slugUtils'
 import styles from './FriendGroupDetailPage.module.css'
 
 export function FriendGroupDetailPage() {
