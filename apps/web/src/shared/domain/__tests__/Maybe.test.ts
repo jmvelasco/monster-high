@@ -41,4 +41,26 @@ describe('The Maybe monad', () => {
 
     expect(maybe.isSome()).toBe(true)
   })
+
+  it('folds to none callback when value is absent', () => {
+    const maybe = Maybe.none<string>()
+
+    const result = maybe.fold(
+      () => 'empty',
+      (value) => value.toUpperCase(),
+    )
+
+    expect(result).toBe('empty')
+  })
+
+  it('folds to some callback when value is present', () => {
+    const maybe = Maybe.some('hello')
+
+    const result = maybe.fold(
+      () => 'empty',
+      (value) => value.toUpperCase(),
+    )
+
+    expect(result).toBe('HELLO')
+  })
 })
