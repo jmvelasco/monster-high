@@ -5,6 +5,6 @@ export class ListFriendGroupsUseCase {
   constructor(private readonly repository: FriendGroupRepository) {}
 
   async execute(): Promise<FriendGroup[]> {
-    return []
+    return this.repository.findAll()
   }
 }
