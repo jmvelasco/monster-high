@@ -1,19 +1,17 @@
-import useSWR from 'swr'
+import { useQuery } from '@tanstack/react-query'
 import type { Character } from '../characters/domain/Character'
-import { generateSlug } from '../shared/domain/slugUtils'
-
-const fetcher = (url: string) => fetch(url).then(res => res.json())
+import { useCharacterUseCases } from '../characters/infrastructure/context/CharacterUseCases.context'
 
 export function useCharacter(slug: string) {
-  const { data: characters, error } = useSWR<Character[]>('/api/characters.json', fetcher)
-
-  const character = characters?.find(character => {
-    return generateSlug(character.name) === slug
+  const characterUseCases = useCharacterUseCases()
+  const query = useQuery<Character | null>({
+    queryKey: ['character', slug],
+    queryFn: () => characterUseCases.findBySlug.execute(slug),
   })
 
   return {
-    data: character,
-    isLoading: !error && !characters,
-    error,
+    data: query.data ?? undefined,
+    isLoading: query.isLoading,
+    error: query.error ?? undefined,
   }
 }

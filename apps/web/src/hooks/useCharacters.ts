@@ -1,5 +1,6 @@
-import useSWR from 'swr'
+import { useQuery } from '@tanstack/react-query'
 import type { Character } from '../characters/domain/Character'
+import { useCharacterUseCases } from '../characters/infrastructure/context/CharacterUseCases.context'
 
 interface UseCharactersResult {
   data: Character[] | undefined
@@ -7,20 +8,16 @@ interface UseCharactersResult {
   isLoading: boolean
 }
 
-const fetcher = async (url: string): Promise<Character[]> => {
-  const response = await fetch(url)
-  if (!response.ok) {
-    throw new Error('Failed to fetch characters')
-  }
-  return response.json()
-}
-
 export function useCharacters(): UseCharactersResult {
-  const { data, error, isLoading } = useSWR<Character[]>('/api/characters.json', fetcher)
+  const characterUseCases = useCharacterUseCases()
+  const query = useQuery<Character[]>({
+    queryKey: ['characters'],
+    queryFn: () => characterUseCases.list.execute(),
+  })
 
   return {
-    data,
-    error,
-    isLoading,
+    data: query.data,
+    error: query.error ?? undefined,
+    isLoading: query.isLoading,
   }
 }

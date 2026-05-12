@@ -1,22 +1,34 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { renderHook, waitFor } from '@testing-library/react'
-import { SWRConfig } from 'swr'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import type { ReactNode } from 'react'
+import { describe, expect, it } from 'vitest'
+import { FindCharacterBySlugUseCase } from '../../characters/application/FindCharacterBySlugUseCase'
+import { ListCharactersUseCase } from '../../characters/application/ListCharactersUseCase'
 import type { Character } from '../../characters/domain/Character'
+import { InMemoryCharacterRepository } from '../../characters/infrastructure/InMemoryCharacterRepository'
+import { CharacterUseCasesProvider } from '../../characters/infrastructure/context/CharacterUseCases.context'
 import { useCharacter } from '../useCharacter'
 
-const wrapper = ({ children }: { children: React.ReactNode }) => (
-  <SWRConfig value={{ provider: () => new Map(), dedupingInterval: 0 }}>{children}</SWRConfig>
-)
-
-describe('useCharacter', () => {
-  beforeEach(() => {
-    vi.clearAllMocks()
+function createWrapper(characters: Character[]) {
+  const repository = new InMemoryCharacterRepository(characters)
+  const characterUseCases = {
+    list: new ListCharactersUseCase(repository),
+    findBySlug: new FindCharacterBySlugUseCase(repository),
+  }
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false } },
   })
 
-  // TODO: Test 1 - Retorna personaje por slug (IN PROGRESS)
+  return ({ children }: { children: ReactNode }) => (
+    <QueryClientProvider client={queryClient}>
+      <CharacterUseCasesProvider value={characterUseCases}>{children}</CharacterUseCasesProvider>
+    </QueryClientProvider>
+  )
+}
+
+describe('useCharacter', () => {
   it('retorna personaje por slug', async () => {
-    // Arrange
-    const mockCharacters: Character[] = [
+    const characters: Character[] = [
       {
         name: 'Draculaura',
         url: 'https://example.com/draculaura',
@@ -24,30 +36,18 @@ describe('useCharacter', () => {
         sections: {},
       },
     ]
+    const wrapper = createWrapper(characters)
 
-    globalThis.fetch = vi.fn(() =>
-      Promise.resolve({
-        ok: true,
-        json: () => Promise.resolve(mockCharacters),
-      } as Response)
-    )
+    const { result } = renderHook(() => useCharacter('draculaura'), { wrapper })
 
-    const slug = 'draculaura'
-
-    // Act
-    const { result } = renderHook(() => useCharacter(slug), { wrapper })
-
-    // Assert
     await waitFor(() => {
       expect(result.current.data).toBeDefined()
       expect(result.current.data?.name).toBe('Draculaura')
     })
   })
 
-  // TODO: Test 2 - Retorna undefined si slug no existe (IN PROGRESS)
   it('retorna undefined si slug no existe', async () => {
-    // Arrange
-    const mockCharacters: Character[] = [
+    const characters: Character[] = [
       {
         name: 'Draculaura',
         url: 'https://example.com/draculaura',
@@ -55,20 +55,10 @@ describe('useCharacter', () => {
         sections: {},
       },
     ]
+    const wrapper = createWrapper(characters)
 
-    globalThis.fetch = vi.fn(() =>
-      Promise.resolve({
-        ok: true,
-        json: () => Promise.resolve(mockCharacters),
-      } as Response)
-    )
+    const { result } = renderHook(() => useCharacter('personaje-inexistente'), { wrapper })
 
-    const slug = 'personaje-inexistente'
-
-    // Act
-    const { result } = renderHook(() => useCharacter(slug), { wrapper })
-
-    // Assert
     await waitFor(() => {
       expect(result.current.isLoading).toBe(false)
     })
@@ -76,14 +66,11 @@ describe('useCharacter', () => {
     expect(result.current.data).toBeUndefined()
   })
 
-  // TODO: Test 3 - Maneja loading state (IN PROGRESS)
   it('maneja loading state', () => {
-    // Arrange
+    const wrapper = createWrapper([])
 
-    // Act
     const { result } = renderHook(() => useCharacter('any-slug'), { wrapper })
 
-    // Assert
     expect(result.current.isLoading).toBe(true)
     expect(result.current.data).toBeUndefined()
     expect(result.current.error).toBeUndefined()

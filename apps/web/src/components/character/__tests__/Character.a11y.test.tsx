@@ -1,5 +1,11 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { render, screen } from '@testing-library/react'
+import type { ReactNode } from 'react'
 import { MemoryRouter } from 'react-router-dom'
+import { FindCharacterBySlugUseCase } from '../../../characters/application/FindCharacterBySlugUseCase'
+import { ListCharactersUseCase } from '../../../characters/application/ListCharactersUseCase'
+import { InMemoryCharacterRepository } from '../../../characters/infrastructure/InMemoryCharacterRepository'
+import { CharacterUseCasesProvider } from '../../../characters/infrastructure/context/CharacterUseCases.context'
 import { CharacterCard } from '../CharacterCard'
 import { CharacterDetail } from '../CharacterDetail'
 
@@ -9,6 +15,23 @@ const mockCharacter = {
   sections: {},
   technicalInfo: {},
   url: 'https://example.com',
+}
+
+function createWrapper() {
+  const repository = new InMemoryCharacterRepository([])
+  const characterUseCases = {
+    list: new ListCharactersUseCase(repository),
+    findBySlug: new FindCharacterBySlugUseCase(repository),
+  }
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false } },
+  })
+
+  return ({ children }: { children: ReactNode }) => (
+    <QueryClientProvider client={queryClient}>
+      <CharacterUseCasesProvider value={characterUseCases}>{children}</CharacterUseCasesProvider>
+    </QueryClientProvider>
+  )
 }
 
 describe('CharacterCard - Accesibilidad', () => {
@@ -34,12 +57,14 @@ describe('CharacterDetail - Accesibilidad', () => {
   it('imagen de personaje tiene texto alternativo descriptivo', () => {
     // Arrange
     const characterName = 'Draculaura'
+    const wrapper = createWrapper()
 
     // Act
     render(
       <MemoryRouter>
         <CharacterDetail character={mockCharacter} />
-      </MemoryRouter>
+      </MemoryRouter>,
+      { wrapper }
     )
 
     // Assert
@@ -50,12 +75,14 @@ describe('CharacterDetail - Accesibilidad', () => {
 
   it('usa semantic HTML: article para contenedor principal', () => {
     // Arrange
+    const wrapper = createWrapper()
 
     // Act
     render(
       <MemoryRouter>
         <CharacterDetail character={mockCharacter} />
-      </MemoryRouter>
+      </MemoryRouter>,
+      { wrapper }
     )
 
     // Assert

@@ -1,10 +1,34 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { render, screen } from '@testing-library/react'
+import type { ReactNode } from 'react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
+import { FindCharacterBySlugUseCase } from '../../characters/application/FindCharacterBySlugUseCase'
+import { ListCharactersUseCase } from '../../characters/application/ListCharactersUseCase'
+import type { Character } from '../../characters/domain/Character'
+import { InMemoryCharacterRepository } from '../../characters/infrastructure/InMemoryCharacterRepository'
+import { CharacterUseCasesProvider } from '../../characters/infrastructure/context/CharacterUseCases.context'
 import { useCharacter } from '../../hooks/useCharacter'
 import { CharacterDetailPage } from '../CharacterDetailPage'
 
 // Mock del hook
 vi.mock('../../hooks/useCharacter')
+
+function createWrapper(characters: Character[] = []) {
+  const repository = new InMemoryCharacterRepository(characters)
+  const characterUseCases = {
+    list: new ListCharactersUseCase(repository),
+    findBySlug: new FindCharacterBySlugUseCase(repository),
+  }
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false } },
+  })
+
+  return ({ children }: { children: ReactNode }) => (
+    <QueryClientProvider client={queryClient}>
+      <CharacterUseCasesProvider value={characterUseCases}>{children}</CharacterUseCasesProvider>
+    </QueryClientProvider>
+  )
+}
 
 describe('CharacterDetailPage - Accesibilidad', () => {
   afterEach(() => {
@@ -88,6 +112,7 @@ describe('CharacterDetailPage - Accesibilidad', () => {
       error: null,
       isLoading: false,
     })
+    const wrapper = createWrapper()
 
     // Act
     render(
@@ -95,7 +120,8 @@ describe('CharacterDetailPage - Accesibilidad', () => {
         <Routes>
           <Route path="/character/:slug" element={<CharacterDetailPage />} />
         </Routes>
-      </MemoryRouter>
+      </MemoryRouter>,
+      { wrapper }
     )
 
     // Assert

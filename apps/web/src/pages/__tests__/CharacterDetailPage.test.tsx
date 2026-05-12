@@ -1,8 +1,13 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { render, screen, waitFor } from '@testing-library/react'
+import type { ReactNode } from 'react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
-import { SWRConfig } from 'swr'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { beforeEach, describe, expect, it } from 'vitest'
+import { FindCharacterBySlugUseCase } from '../../characters/application/FindCharacterBySlugUseCase'
+import { ListCharactersUseCase } from '../../characters/application/ListCharactersUseCase'
 import type { Character } from '../../characters/domain/Character'
+import { InMemoryCharacterRepository } from '../../characters/infrastructure/InMemoryCharacterRepository'
+import { CharacterUseCasesProvider } from '../../characters/infrastructure/context/CharacterUseCases.context'
 import { CharacterDetailPage } from '../CharacterDetailPage'
 
 const mockCharacters: Character[] = [
@@ -23,22 +28,31 @@ const mockCharacters: Character[] = [
   },
 ]
 
-const wrapper = ({ children }: { children: React.ReactNode }) => (
-  <SWRConfig value={{ provider: () => new Map(), dedupingInterval: 0 }}>{children}</SWRConfig>
-)
+function createWrapper(characters: Character[]) {
+  const repository = new InMemoryCharacterRepository(characters)
+  const characterUseCases = {
+    list: new ListCharactersUseCase(repository),
+    findBySlug: new FindCharacterBySlugUseCase(repository),
+  }
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false } },
+  })
+
+  return ({ children }: { children: ReactNode }) => (
+    <QueryClientProvider client={queryClient}>
+      <CharacterUseCasesProvider value={characterUseCases}>{children}</CharacterUseCasesProvider>
+    </QueryClientProvider>
+  )
+}
 
 describe('CharacterDetailPage', () => {
   beforeEach(() => {
     localStorage.clear()
-    globalThis.fetch = vi.fn(() =>
-      Promise.resolve({
-        ok: true,
-        json: () => Promise.resolve(mockCharacters),
-      })
-    ) as unknown as typeof fetch
   })
 
   it('muestra loading state mientras carga', () => {
+    const wrapper = createWrapper(mockCharacters)
+
     render(
       <MemoryRouter initialEntries={['/character/draculaura']}>
         <Routes>
@@ -52,6 +66,8 @@ describe('CharacterDetailPage', () => {
   })
 
   it('renderiza CharacterDetail con datos', async () => {
+    const wrapper = createWrapper(mockCharacters)
+
     render(
       <MemoryRouter initialEntries={['/character/draculaura']}>
         <Routes>
@@ -68,6 +84,8 @@ describe('CharacterDetailPage', () => {
   })
 
   it('muestra 404 si slug no existe', async () => {
+    const wrapper = createWrapper(mockCharacters)
+
     render(
       <MemoryRouter initialEntries={['/character/personaje-inexistente']}>
         <Routes>
@@ -83,6 +101,8 @@ describe('CharacterDetailPage', () => {
   })
 
   it('obtiene slug de URL params', async () => {
+    const wrapper = createWrapper(mockCharacters)
+
     render(
       <MemoryRouter initialEntries={['/character/draculaura']}>
         <Routes>
@@ -98,6 +118,8 @@ describe('CharacterDetailPage', () => {
   })
 
   it('displays the group selector for adding to amigas', async () => {
+    const wrapper = createWrapper(mockCharacters)
+
     render(
       <MemoryRouter initialEntries={['/character/draculaura']}>
         <Routes>
