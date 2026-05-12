@@ -45,7 +45,7 @@ describe('The Amigas Page', () => {
       <MemoryRouter>
         <FriendGroupsPage />
       </MemoryRouter>,
-      { wrapper },
+      { wrapper }
     )
 
     expect(await screen.findByRole('heading', { name: /mis amigas/i })).toBeInTheDocument()
@@ -58,7 +58,7 @@ describe('The Amigas Page', () => {
       <MemoryRouter>
         <FriendGroupsPage />
       </MemoryRouter>,
-      { wrapper },
+      { wrapper }
     )
 
     expect(await screen.findByText(/no tienes grupos de amigas/i)).toBeInTheDocument()
@@ -72,7 +72,7 @@ describe('The Amigas Page', () => {
       <MemoryRouter>
         <FriendGroupsPage />
       </MemoryRouter>,
-      { wrapper },
+      { wrapper }
     )
 
     const input = await screen.findByPlaceholderText(/nombre del grupo/i)
@@ -92,7 +92,7 @@ describe('The Amigas Page', () => {
       <MemoryRouter>
         <FriendGroupsPage />
       </MemoryRouter>,
-      { wrapper },
+      { wrapper }
     )
 
     const input = await screen.findByPlaceholderText(/nombre del grupo/i)
@@ -117,7 +117,7 @@ describe('The Amigas Page', () => {
       <MemoryRouter>
         <FriendGroupsPage />
       </MemoryRouter>,
-      { wrapper },
+      { wrapper }
     )
 
     const input = await screen.findByPlaceholderText(/nombre del grupo/i)

@@ -30,7 +30,7 @@ export function CharacterDetailPage() {
   const charactersQuery = useCharactersQuery()
 
   if (charactersQuery.isLoading) {
-    return <div>Cargando...</div>
+    return <div>Cargando…</div>
   }
 
   if (charactersQuery.errorMessage()) {

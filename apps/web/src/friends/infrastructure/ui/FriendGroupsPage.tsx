@@ -39,7 +39,7 @@ export function FriendGroupsPage() {
   }
 
   if (friendGroupsQuery.isLoading) {
-    return <div>Cargando...</div>
+    return <div>Cargando…</div>
   }
 
   return (

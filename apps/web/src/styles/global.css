@@ -104,4 +104,24 @@ button {
   --transition-fast: 0.15s ease;
   --transition-base: 0.2s ease;
   --transition-slow: 0.3s ease;
+
+  /* Semantic aliases */
+  --font-heading: var(--font-main-title);
+  --font-body: var(--font-ui);
+  --bg-color: var(--mh-light-gray);
+  --text-color: var(--mh-gray);
+  --text-secondary-color: #666666;
+  --border-color: #cccccc;
+  --accent-color: var(--mh-pink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

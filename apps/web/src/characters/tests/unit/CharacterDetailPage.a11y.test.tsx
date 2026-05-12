@@ -65,7 +65,7 @@ describe('CharacterDetailPage - Accesibilidad', () => {
       { wrapper }
     )
 
-    expect(screen.getByText('Cargando...')).toBeInTheDocument()
+    expect(screen.getByText('Cargando…')).toBeInTheDocument()
   })
 
   it('muestra mensaje de error accesible', async () => {

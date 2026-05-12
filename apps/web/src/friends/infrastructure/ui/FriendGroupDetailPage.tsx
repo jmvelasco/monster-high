@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import type { Character } from '../../../characters/domain/Character'
 import { CharacterCard } from '../../../characters/infrastructure/ui/CharacterCard/CharacterCard'
-import { ConfirmDialog } from '../../../components/ui/ConfirmDialog'
+import { ConfirmDialog } from '../../../shared/infrastructure/ui/ConfirmDialog/ConfirmDialog'
 import { useCharactersQuery } from '../../../characters/infrastructure/store/Character.queries'
 import { Factory } from '../../../shared/infrastructure/Factory'
 import { AppProviders } from '../../../shared/infrastructure/ui/AppProviders'
@@ -50,7 +50,7 @@ export function FriendGroupDetailPage() {
   })
 
   if (friendGroupsQuery.isLoading || charactersQuery.isLoading) {
-    return <div className={styles.loading}>Cargando...</div>
+    return <div className={styles.loading}>Cargando…</div>
   }
 
   if (!slug) {
@@ -137,7 +137,7 @@ export function FriendGroupDetailPage() {
       <ConfirmDialog
         isOpen={state.isConfirmOpen}
         title="Eliminar grupo"
-        message={`¿Estás segura de que quieres eliminar el grupo "${group.name}"? Esta acción no se puede deshacer y los personajes perderán esta etiqueta.`}
+        message={`¿Estás segura de que quieres eliminar el grupo “${group.name}”? Esta acción no se puede deshacer y los personajes perderán esta etiqueta.`}
         confirmText="Eliminar grupo"
         onConfirm={handleDeleteGroup}
         onCancel={() => setState(prev => ({ ...prev, isConfirmOpen: false }))}
@@ -146,7 +146,7 @@ export function FriendGroupDetailPage() {
       <ConfirmDialog
         isOpen={!!state.characterToRemove}
         title="Quitar amiga"
-        message={`¿Estás segura de que quieres quitar a ${state.characterToRemove?.name} del grupo "${group.name}"?`}
+        message={`¿Estás segura de que quieres quitar a ${state.characterToRemove?.name} del grupo “${group.name}”?`}
         confirmText="Quitar del grupo"
         onConfirm={handleRemoveCharacter}
         onCancel={() => setState(prev => ({ ...prev, characterToRemove: null }))}

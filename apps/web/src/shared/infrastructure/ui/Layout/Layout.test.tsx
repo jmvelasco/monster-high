@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
-import { Layout } from '../Layout'
+import { Layout } from './Layout'
 
 describe('Layout', () => {
   it('renderiza Header', () => {

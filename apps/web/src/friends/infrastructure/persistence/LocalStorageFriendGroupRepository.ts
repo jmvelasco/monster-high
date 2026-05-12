@@ -1,8 +1,5 @@
 import { FriendGroup } from '../../domain/FriendGroup'
-import type {
-  FlatFriendGroup,
-  FriendGroupRepository,
-} from '../../domain/FriendGroupRepository'
+import type { FlatFriendGroup, FriendGroupRepository } from '../../domain/FriendGroupRepository'
 import { generateSlug } from '../../../shared/domain/slugUtils'
 
 const STORAGE_KEY = 'monster-high-amigas'

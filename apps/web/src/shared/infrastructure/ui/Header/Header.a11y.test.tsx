@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
-import { Header } from '../Header'
+import { Header } from './Header'
 
 describe('Header - Accesibilidad', () => {
   it('header usa semantic HTML con role banner', () => {

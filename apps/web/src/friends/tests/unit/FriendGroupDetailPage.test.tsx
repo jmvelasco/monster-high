@@ -68,7 +68,7 @@ function renderComponent(slug: string, characters: Character[], groups: FriendGr
         <Route path="/friends/:slug" element={<FriendGroupDetailPage />} />
       </Routes>
     </MemoryRouter>,
-    { wrapper },
+    { wrapper }
   )
 }
 
@@ -80,7 +80,12 @@ describe('FriendGroupDetailPage', () => {
   })
 
   it('renders group details correctly', async () => {
-    const group = FriendGroup.fromPrimitives({ id: '1', name: 'Mis Favs', slug: 'mis-favs', members: [] })
+    const group = FriendGroup.fromPrimitives({
+      id: '1',
+      name: 'Mis Favs',
+      slug: 'mis-favs',
+      members: [],
+    })
     renderComponent('mis-favs', [], [group])
 
     expect(await screen.findByText('Mis Favs')).toBeInTheDocument()
@@ -112,7 +117,12 @@ describe('FriendGroupDetailPage', () => {
   })
 
   it('opens confirm dialog when delete is clicked and handles cancellation', async () => {
-    const group = FriendGroup.fromPrimitives({ id: '1', name: 'Mis Favs', slug: 'mis-favs', members: [] })
+    const group = FriendGroup.fromPrimitives({
+      id: '1',
+      name: 'Mis Favs',
+      slug: 'mis-favs',
+      members: [],
+    })
     const user = userEvent.setup()
     renderComponent('mis-favs', [], [group])
 
@@ -120,15 +130,16 @@ describe('FriendGroupDetailPage', () => {
     await user.click(deleteButton)
 
     expect(
-      screen.getByText(/¿Estás segura de que quieres eliminar el grupo "Mis Favs"\?/),
+      screen.getByText(/¿Estás segura de que quieres eliminar el grupo “Mis Favs”\?/)
     ).toBeInTheDocument()
 
     const cancelButton = screen.getByRole('button', { name: 'Cancelar' })
     await user.click(cancelButton)
 
-    expect(
-      screen.queryByText(/¿Estás segura de que quieres eliminar el grupo "Mis Favs"\?/),
-    ).not.toBeInTheDocument()
+    const dialogs = screen.getAllByRole('dialog', { hidden: true })
+    dialogs.forEach(dialog => {
+      expect(dialog).not.toHaveAttribute('open')
+    })
   })
 
   it('shows remove confirmation dialog for a character', async () => {
@@ -157,7 +168,7 @@ describe('FriendGroupDetailPage', () => {
     await user.click(removeButton)
 
     expect(
-      screen.getByText(/¿Estás segura de que quieres quitar a Draculaura del grupo "Mis Favs"\?/),
+      screen.getByText(/¿Estás segura de que quieres quitar a Draculaura del grupo “Mis Favs”\?/)
     ).toBeInTheDocument()
   })
 })

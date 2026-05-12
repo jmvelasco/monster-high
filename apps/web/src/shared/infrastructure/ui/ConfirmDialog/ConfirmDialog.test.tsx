@@ -1,13 +1,27 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
-import { ConfirmDialog } from '../ConfirmDialog'
+import { ConfirmDialog } from './ConfirmDialog'
 
 describe('ConfirmDialog', () => {
-  it('does not render when isOpen is false', () => {
+  beforeEach(() => {
+    HTMLDialogElement.prototype.showModal =
+      HTMLDialogElement.prototype.showModal ||
+      vi.fn(function (this: HTMLDialogElement) {
+        this.setAttribute('open', '')
+      })
+
+    HTMLDialogElement.prototype.close =
+      HTMLDialogElement.prototype.close ||
+      vi.fn(function (this: HTMLDialogElement) {
+        this.removeAttribute('open')
+      })
+  })
+
+  it('renders as a native dialog element', () => {
     render(
       <ConfirmDialog
-        isOpen={false}
+        isOpen={true}
         title="Are you sure?"
         message="This action is irreversible."
         onConfirm={() => {}}
@@ -15,10 +29,10 @@ describe('ConfirmDialog', () => {
       />
     )
 
-    expect(screen.queryByText('Are you sure?')).not.toBeInTheDocument()
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
   })
 
-  it('renders correctly when isOpen is true', () => {
+  it('renders title and message when open', () => {
     render(
       <ConfirmDialog
         isOpen={true}
