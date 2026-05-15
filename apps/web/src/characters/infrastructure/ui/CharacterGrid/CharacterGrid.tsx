@@ -10,7 +10,7 @@ export function CharacterGrid(props: Props) {
   if (props.characters.length === 0) {
     return (
       <div className={styles.empty}>
-        <div className={styles.emptyIcon}>👻</div>
+        <div className={styles.emptyIcon} aria-hidden="true">👻</div>
         <div className={styles.emptyMessage}>No hay personajes disponibles</div>
       </div>
     )

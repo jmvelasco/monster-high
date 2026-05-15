@@ -21,7 +21,7 @@ describe('Header', () => {
 
   it('muestra link a "Amigas"', () => {
     // Arrange
-    const expectedLinkText = '💜 Mis Amigas'
+    const expectedLinkText = 'Mis Amigas'
 
     // Act
     render(
@@ -47,7 +47,7 @@ describe('Header', () => {
     )
 
     // Assert
-    const charactersLink = screen.getByRole('link', { name: '💜 Mis Amigas' })
+    const charactersLink = screen.getByRole('link', { name: /mis amigas/i })
     expect(charactersLink).toHaveAttribute('aria-current', 'page')
   })
 
@@ -63,7 +63,7 @@ describe('Header', () => {
     )
 
     // Assert
-    const favoritesLink = screen.getByRole('link', { name: '💜 Mis Amigas' })
+    const favoritesLink = screen.getByRole('link', { name: /mis amigas/i })
 
     expect(favoritesLink).toHaveAttribute('href')
     // NavLink es por defecto accesible por teclado
@@ -83,6 +83,7 @@ describe('Header', () => {
 
     // Assert
     const header = screen.getByRole('banner')
-    expect(header).toHaveAttribute('aria-label', expectedHeaderLabel)
+    const nav = screen.getByRole('navigation', { name: expectedHeaderLabel })
+    expect(nav).toBeInTheDocument()
   })
 })

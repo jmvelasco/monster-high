@@ -104,7 +104,8 @@ describe('Header - Responsive', () => {
     )
 
     // Assert
-    expect(screen.getByAltText('Monster High Mobile Logo')).toBeInTheDocument()
+    const mobileImg = document.querySelector('img[src*="no-text"]')
+    expect(mobileImg).toBeInTheDocument()
   })
 
   it('renderiza logo/título Monster High en desktop (>1024px)', () => {

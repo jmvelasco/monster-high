@@ -3,7 +3,7 @@ import styles from './Header.module.css'
 
 export function Header() {
   return (
-    <header className={styles.header} aria-label="Navegación principal">
+    <header className={styles.header}>
       <div className={styles.headerContent}>
         <NavLink to="/" className={styles.logo}>
           <img
@@ -14,15 +14,16 @@ export function Header() {
           />
           <img
             src="/images/monster-high-logo-no-text.png"
-            alt="Monster High Mobile Logo"
+            alt=""
+            aria-hidden="true"
             width={64}
             height={64}
           />
         </NavLink>
 
-        <nav className={styles.nav}>
+        <nav className={styles.nav} aria-label="Navegación principal">
           <NavLink to="/friends" className={styles.navLink}>
-            💜 Mis Amigas
+            <span aria-hidden="true">💜</span> Mis Amigas
           </NavLink>
         </nav>
       </div>

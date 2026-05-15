@@ -64,7 +64,7 @@ export function FriendGroupsPage() {
 
       {!friendGroupsQuery.hasGroups() ? (
         <div className={styles.emptyState}>
-          <div className={styles.emptyIcon}>💜</div>
+          <div className={styles.emptyIcon} aria-hidden="true">💜</div>
           <p className={styles.emptyMessage}>No tienes grupos de amigas aún</p>
           <p className={styles.emptySubMessage}>
             Crea tu primer grupo y empieza a organizar tus personajes favoritos
