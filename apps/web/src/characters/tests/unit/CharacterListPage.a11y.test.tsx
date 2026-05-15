@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { render, screen, waitFor } from '@testing-library/react'
 import type { ReactNode } from 'react'
 import { MemoryRouter } from 'react-router-dom'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { FindCharacterBySlugUseCase } from '../../application/FindCharacterBySlugUseCase'
 import { ListCharactersUseCase } from '../../application/ListCharactersUseCase'
 import type { Character } from '../../domain/Character'
@@ -91,6 +91,30 @@ describe('CharacterListPage - Accesibilidad', () => {
 
     await waitFor(() => {
       expect(screen.getByAltText('Draculaura')).toBeInTheDocument()
+    })
+  })
+
+  it('renders an h1 heading for the page', async () => {
+    const mockCharacters: Character[] = [
+      {
+        name: 'Draculaura',
+        image: 'test.jpg',
+        sections: {},
+        technicalInfo: {},
+        url: 'test',
+      },
+    ]
+    const wrapper = createWrapper(mockCharacters)
+
+    render(
+      <MemoryRouter>
+        <CharacterListPage />
+      </MemoryRouter>,
+      { wrapper }
+    )
+
+    await waitFor(() => {
+      expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument()
     })
   })
 })

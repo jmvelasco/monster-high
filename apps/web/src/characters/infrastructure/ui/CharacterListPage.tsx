@@ -35,5 +35,10 @@ export function CharacterListPage() {
     return <div>Error al cargar personajes</div>
   }
 
-  return <CharacterGrid characters={charactersQuery.characters()} />
+  return (
+    <>
+      <h1 className="visually-hidden">Personajes</h1>
+      <CharacterGrid characters={charactersQuery.characters()} />
+    </>
+  )
 }
