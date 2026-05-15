@@ -130,4 +130,21 @@ describe('The Amigas Page', () => {
     const link = screen.getByRole('link', { name: /mis favs/i })
     expect(link).toHaveAttribute('href', '/friends/mis-favs')
   })
+
+  it('creates a group when pressing Enter in the input', async () => {
+    const user = userEvent.setup()
+    const wrapper = createWrapper()
+
+    render(
+      <MemoryRouter>
+        <FriendGroupsPage />
+      </MemoryRouter>,
+      { wrapper }
+    )
+
+    const input = await screen.findByPlaceholderText(/nombre del grupo/i)
+    await user.type(input, 'Fantasmas{Enter}')
+
+    expect(await screen.findByText('Fantasmas')).toBeInTheDocument()
+  })
 })

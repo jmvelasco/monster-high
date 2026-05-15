@@ -77,4 +77,23 @@ describe('The Group Selector', () => {
 
     expect(onCreateGroup).toHaveBeenCalledWith('BFFs')
   })
+
+  it('creates a group when pressing Enter in the input', async () => {
+    const user = userEvent.setup()
+    const onCreateGroup = vi.fn()
+
+    render(
+      <GroupSelector
+        groups={groups}
+        characterSlug="frankie-stein"
+        onAddToGroup={vi.fn()}
+        onCreateGroup={onCreateGroup}
+      />
+    )
+
+    const input = screen.getByPlaceholderText(/nuevo grupo/i)
+    await user.type(input, 'Ghosties{Enter}')
+
+    expect(onCreateGroup).toHaveBeenCalledWith('Ghosties')
+  })
 })

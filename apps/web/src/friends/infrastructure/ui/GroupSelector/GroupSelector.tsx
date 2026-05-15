@@ -36,7 +36,7 @@ export function GroupSelector(props: Props) {
           )
         })}
       </div>
-      <div className={styles.createRow}>
+      <form className={styles.createRow} onSubmit={e => { e.preventDefault(); handleCreate() }}>
         <input
           type="text"
           value={newGroupName}
@@ -44,10 +44,10 @@ export function GroupSelector(props: Props) {
           placeholder="Nuevo grupo"
           className={styles.input}
         />
-        <button onClick={handleCreate} className={styles.createButton}>
+        <button type="submit" className={styles.createButton}>
           Crear
         </button>
-      </div>
+      </form>
     </div>
   )
 }

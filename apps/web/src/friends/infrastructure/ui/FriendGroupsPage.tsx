@@ -48,7 +48,7 @@ export function FriendGroupsPage() {
         <h1 className={styles.title}>Mis Amigas</h1>
       </div>
 
-      <div className={styles.createForm}>
+      <form className={styles.createForm} onSubmit={e => { e.preventDefault(); handleCreateGroup() }}>
         <input
           type="text"
           value={newGroupName}
@@ -56,10 +56,10 @@ export function FriendGroupsPage() {
           placeholder="Nombre del grupo"
           className={styles.input}
         />
-        <button onClick={handleCreateGroup} className={styles.createButton}>
+        <button type="submit" className={styles.createButton}>
           Crear grupo
         </button>
-      </div>
+      </form>
 
       {!friendGroupsQuery.hasGroups() ? (
         <div className={styles.emptyState}>
