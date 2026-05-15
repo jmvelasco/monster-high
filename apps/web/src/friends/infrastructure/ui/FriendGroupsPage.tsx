@@ -54,6 +54,7 @@ export function FriendGroupsPage() {
           value={newGroupName}
           onChange={e => setNewGroupName(e.target.value)}
           placeholder="Nombre del grupo"
+          aria-label="Nombre del grupo"
           className={styles.input}
         />
         <button type="submit" className={styles.createButton}>

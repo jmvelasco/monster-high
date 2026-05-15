@@ -147,4 +147,18 @@ describe('The Amigas Page', () => {
 
     expect(await screen.findByText('Fantasmas')).toBeInTheDocument()
   })
+
+  it('input has an accessible name via aria-label', async () => {
+    const wrapper = createWrapper()
+
+    render(
+      <MemoryRouter>
+        <FriendGroupsPage />
+      </MemoryRouter>,
+      { wrapper }
+    )
+
+    const input = await screen.findByRole('textbox', { name: /nombre del grupo/i })
+    expect(input).toHaveAttribute('aria-label')
+  })
 })

@@ -42,6 +42,7 @@ export function GroupSelector(props: Props) {
           value={newGroupName}
           onChange={e => setNewGroupName(e.target.value)}
           placeholder="Nuevo grupo"
+          aria-label="Nuevo grupo"
           className={styles.input}
         />
         <button type="submit" className={styles.createButton}>

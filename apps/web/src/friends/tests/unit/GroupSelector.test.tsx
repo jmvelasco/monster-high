@@ -96,4 +96,18 @@ describe('The Group Selector', () => {
 
     expect(onCreateGroup).toHaveBeenCalledWith('Ghosties')
   })
+
+  it('input has an accessible name via aria-label', () => {
+    render(
+      <GroupSelector
+        groups={groups}
+        characterSlug="frankie-stein"
+        onAddToGroup={vi.fn()}
+        onCreateGroup={vi.fn()}
+      />
+    )
+
+    const input = screen.getByRole('textbox', { name: /nuevo grupo/i })
+    expect(input).toHaveAttribute('aria-label')
+  })
 })
