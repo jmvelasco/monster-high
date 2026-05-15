@@ -9,8 +9,11 @@ interface LayoutProps {
 export function Layout(props: LayoutProps) {
   return (
     <div className={styles.layout}>
+      <a href="#main-content" className={styles.skipLink}>
+        Saltar al contenido
+      </a>
       <Header />
-      <main className={styles.main}>{props.children}</main>
+      <main id="main-content" className={styles.main}>{props.children}</main>
     </div>
   )
 }

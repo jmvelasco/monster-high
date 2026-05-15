@@ -54,4 +54,18 @@ describe('Layout', () => {
     const header = screen.getByRole('banner')
     expect(header).toBeInTheDocument()
   })
+
+  it('renders a skip link targeting main content', () => {
+    render(
+      <MemoryRouter>
+        <Layout>
+          <div>Content</div>
+        </Layout>
+      </MemoryRouter>
+    )
+
+    const skipLink = screen.getByRole('link', { name: /saltar al contenido/i })
+    expect(skipLink).toHaveAttribute('href', '#main-content')
+    expect(screen.getByRole('main')).toHaveAttribute('id', 'main-content')
+  })
 })
