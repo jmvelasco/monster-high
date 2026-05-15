@@ -82,7 +82,6 @@ describe('Header', () => {
     )
 
     // Assert
-    const header = screen.getByRole('banner')
     const nav = screen.getByRole('navigation', { name: expectedHeaderLabel })
     expect(nav).toBeInTheDocument()
   })

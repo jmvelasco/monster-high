@@ -12,7 +12,8 @@ interface Props {
 export function GroupSelector(props: Props) {
   const [newGroupName, setNewGroupName] = useState('')
 
-  function handleCreate() {
+  function handleCreate(event: React.SubmitEvent) {
+    event.preventDefault()
     if (!newGroupName.trim()) return
     props.onCreateGroup(newGroupName.trim())
     setNewGroupName('')
@@ -36,7 +37,7 @@ export function GroupSelector(props: Props) {
           )
         })}
       </div>
-      <form className={styles.createRow} onSubmit={e => { e.preventDefault(); handleCreate() }}>
+      <form className={styles.createRow} onSubmit={handleCreate}>
         <input
           type="text"
           value={newGroupName}

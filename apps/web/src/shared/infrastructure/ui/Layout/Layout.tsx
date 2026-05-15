@@ -13,7 +13,9 @@ export function Layout(props: LayoutProps) {
         Saltar al contenido
       </a>
       <Header />
-      <main id="main-content" className={styles.main}>{props.children}</main>
+      <main id="main-content" className={styles.main}>
+        {props.children}
+      </main>
     </div>
   )
 }

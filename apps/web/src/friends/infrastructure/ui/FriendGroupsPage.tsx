@@ -32,7 +32,8 @@ export function FriendGroupsPage() {
   const friendGroupMutations = useFriendGroupMutations()
   const [newGroupName, setNewGroupName] = useState('')
 
-  async function handleCreateGroup() {
+  async function handleCreateGroup(event: React.SubmitEvent) {
+    event.preventDefault()
     if (!newGroupName.trim()) return
     await friendGroupMutations.create.mutateAsync(newGroupName.trim())
     setNewGroupName('')
@@ -48,7 +49,7 @@ export function FriendGroupsPage() {
         <h1 className={styles.title}>Mis Amigas</h1>
       </div>
 
-      <form className={styles.createForm} onSubmit={e => { e.preventDefault(); handleCreateGroup() }}>
+      <form className={styles.createForm} onSubmit={handleCreateGroup}>
         <input
           type="text"
           value={newGroupName}
@@ -64,7 +65,9 @@ export function FriendGroupsPage() {
 
       {!friendGroupsQuery.hasGroups() ? (
         <div className={styles.emptyState}>
-          <div className={styles.emptyIcon} aria-hidden="true">💜</div>
+          <div className={styles.emptyIcon} aria-hidden="true">
+            💜
+          </div>
           <p className={styles.emptyMessage}>No tienes grupos de amigas aún</p>
           <p className={styles.emptySubMessage}>
             Crea tu primer grupo y empieza a organizar tus personajes favoritos
