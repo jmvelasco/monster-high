@@ -1,4 +1,4 @@
-import type { FriendGroup } from './FriendGroup'
+import type { FriendGroup } from '../entities/FriendGroup'
 
 export interface FriendGroupRepository {
   findAll(): Promise<FriendGroup[]>

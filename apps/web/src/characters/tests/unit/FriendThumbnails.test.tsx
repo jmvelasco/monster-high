@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
 import { describe, expect, it } from 'vitest'
-import type { Character } from '../../domain/Character'
+import type { Character } from '../../domain/entities/Character'
 import { FriendThumbnails } from '../../infrastructure/ui/FriendThumbnails/FriendThumbnails'
 
 describe('FriendThumbnails', () => {

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import type { FriendGroup } from '../../../domain/FriendGroup'
+import type { FriendGroup } from '../../../domain/entities/FriendGroup'
 import styles from './GroupSelector.module.css'
 
 interface Props {

@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import { FriendGroup } from '../../domain/FriendGroup'
-import { InMemoryFriendGroupRepository } from '../../infrastructure/persistence/InMemoryFriendGroupRepository'
 import { ListFriendGroupsUseCase } from '../../application/ListFriendGroupsUseCase'
+import { FriendGroup } from '../../domain/entities/FriendGroup'
+import { InMemoryFriendGroupRepository } from '../../infrastructure/persistence/InMemoryFriendGroupRepository'
 
 describe('The ListFriendGroupsUseCase', () => {
   it('returns empty list when no groups exist', async () => {

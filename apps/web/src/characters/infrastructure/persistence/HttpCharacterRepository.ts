@@ -1,6 +1,6 @@
 import { generateSlug } from '../../../shared/domain/slugUtils'
-import type { Character } from '../../domain/Character'
-import type { CharacterRepository } from '../../domain/CharacterRepository'
+import type { Character } from '../../domain/entities/Character'
+import type { CharacterRepository } from '../../domain/ports/CharacterRepository'
 
 export class HttpCharacterRepository implements CharacterRepository {
   async findAll(): Promise<Character[]> {

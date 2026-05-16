@@ -1,5 +1,5 @@
-import { generateSlug } from '../../shared/domain/slugUtils'
-import type { FlatFriendGroup } from './FriendGroupRepository'
+import { generateSlug } from '../../../shared/domain/slugUtils'
+import type { FlatFriendGroup } from '../ports/FriendGroupRepository'
 
 export class FriendGroup {
   public readonly id: string

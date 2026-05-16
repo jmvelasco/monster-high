@@ -1,4 +1,4 @@
-import type { Character } from '../../../domain/Character'
+import type { Character } from '../../../domain/entities/Character'
 import { CharacterCard } from '../CharacterCard/CharacterCard'
 import styles from './CharacterGrid.module.css'
 

@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { Maybe } from '../../../shared/domain/Maybe'
-import type { FriendGroup } from '../../domain/FriendGroup'
+import type { FriendGroup } from '../../domain/entities/FriendGroup'
 import { useFriendGroupUseCases } from '../context/FriendGroupUseCases.context'
 
 export const friendGroupsKey = ['friendGroups']

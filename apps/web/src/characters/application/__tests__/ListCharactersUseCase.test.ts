@@ -1,5 +1,5 @@
-import type { Character } from '../../domain/Character'
-import { InMemoryCharacterRepository } from '../../infrastructure/InMemoryCharacterRepository'
+import type { Character } from '../../domain/entities/Character'
+import { InMemoryCharacterRepository } from '../../infrastructure/persistence/InMemoryCharacterRepository'
 import { ListCharactersUseCase } from '../ListCharactersUseCase'
 
 describe('The ListCharacters use case', () => {

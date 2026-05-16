@@ -1,5 +1,5 @@
-import type { Character } from '../domain/Character'
-import type { CharacterRepository } from '../domain/CharacterRepository'
+import type { Character } from '../domain/entities/Character'
+import type { CharacterRepository } from '../domain/ports/CharacterRepository'
 
 export class ListCharactersUseCase {
   private readonly repository: CharacterRepository

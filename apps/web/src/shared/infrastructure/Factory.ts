@@ -1,6 +1,6 @@
 import { FindCharacterBySlugUseCase } from '../../characters/application/FindCharacterBySlugUseCase'
 import { ListCharactersUseCase } from '../../characters/application/ListCharactersUseCase'
-import { HttpCharacterRepository } from '../../characters/infrastructure/api/HttpCharacterRepository'
+import { HttpCharacterRepository } from '../../characters/infrastructure/persistence/HttpCharacterRepository'
 import { AddMemberToGroupUseCase } from '../../friends/application/AddMemberToGroupUseCase'
 import { CreateFriendGroupUseCase } from '../../friends/application/CreateFriendGroupUseCase'
 import { DeleteFriendGroupUseCase } from '../../friends/application/DeleteFriendGroupUseCase'

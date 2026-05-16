@@ -1,5 +1,5 @@
-import type { FriendGroup } from '../domain/FriendGroup'
-import type { FriendGroupRepository } from '../domain/FriendGroupRepository'
+import type { FriendGroup } from '../domain/entities/FriendGroup'
+import type { FriendGroupRepository } from '../domain/ports/FriendGroupRepository'
 
 export class FindFriendGroupBySlugUseCase {
   private readonly repository: FriendGroupRepository

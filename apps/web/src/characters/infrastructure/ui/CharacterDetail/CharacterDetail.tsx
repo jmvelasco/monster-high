@@ -1,11 +1,11 @@
-import type { Character } from '../../../domain/Character'
-import { useCharactersQuery } from '../../store/Character.queries'
-import { useFriendGroupsQuery } from '../../../../friends/infrastructure/store/FriendGroup.queries'
 import { useFriendGroupMutations } from '../../../../friends/infrastructure/store/FriendGroup.mutations'
-import { generateSlug } from '../../../../shared/domain/slugUtils'
+import { useFriendGroupsQuery } from '../../../../friends/infrastructure/store/FriendGroup.queries'
 import { GroupSelector } from '../../../../friends/infrastructure/ui/GroupSelector/GroupSelector'
-import styles from './CharacterDetail.module.css'
+import { generateSlug } from '../../../../shared/domain/slugUtils'
+import type { Character } from '../../../domain/entities/Character'
+import { useCharactersQuery } from '../../store/Character.queries'
 import { FriendThumbnails } from '../FriendThumbnails/FriendThumbnails'
+import styles from './CharacterDetail.module.css'
 
 interface Props {
   character: Character

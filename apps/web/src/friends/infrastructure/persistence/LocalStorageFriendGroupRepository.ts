@@ -1,6 +1,9 @@
-import { FriendGroup } from '../../domain/FriendGroup'
-import type { FlatFriendGroup, FriendGroupRepository } from '../../domain/FriendGroupRepository'
 import { generateSlug } from '../../../shared/domain/slugUtils'
+import { FriendGroup } from '../../domain/entities/FriendGroup'
+import type {
+  FlatFriendGroup,
+  FriendGroupRepository,
+} from '../../domain/ports/FriendGroupRepository'
 
 const STORAGE_KEY = 'monster-high-amigas'
 

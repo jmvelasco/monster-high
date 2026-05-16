@@ -1,4 +1,4 @@
-import type { Character } from './Character'
+import type { Character } from '../entities/Character'
 
 export interface CharacterRepository {
   findAll(): Promise<Character[]>

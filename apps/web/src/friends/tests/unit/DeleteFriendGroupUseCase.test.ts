@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import { FriendGroup } from '../../domain/FriendGroup'
-import { InMemoryFriendGroupRepository } from '../../infrastructure/persistence/InMemoryFriendGroupRepository'
 import { DeleteFriendGroupUseCase } from '../../application/DeleteFriendGroupUseCase'
+import { FriendGroup } from '../../domain/entities/FriendGroup'
+import { InMemoryFriendGroupRepository } from '../../infrastructure/persistence/InMemoryFriendGroupRepository'
 
 describe('The DeleteFriendGroupUseCase', () => {
   it('deletes an existing group', async () => {

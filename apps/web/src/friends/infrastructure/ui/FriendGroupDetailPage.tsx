@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import type { Character } from '../../../characters/domain/Character'
+import type { Character } from '../../../characters/domain/entities/Character'
 import { useCharactersQuery } from '../../../characters/infrastructure/store/Character.queries'
 import { CharacterCard } from '../../../characters/infrastructure/ui/CharacterCard/CharacterCard'
 import { generateSlug } from '../../../shared/domain/slugUtils'

@@ -5,9 +5,9 @@ import { MemoryRouter } from 'react-router-dom'
 import { describe, expect, it, vi } from 'vitest'
 import { FindCharacterBySlugUseCase } from '../../application/FindCharacterBySlugUseCase'
 import { ListCharactersUseCase } from '../../application/ListCharactersUseCase'
-import type { Character } from '../../domain/Character'
-import { InMemoryCharacterRepository } from '../../infrastructure/InMemoryCharacterRepository'
+import type { Character } from '../../domain/entities/Character'
 import { CharacterUseCasesProvider } from '../../infrastructure/context/CharacterUseCases.context'
+import { InMemoryCharacterRepository } from '../../infrastructure/persistence/InMemoryCharacterRepository'
 import { CharacterListPage } from '../../infrastructure/ui/CharacterListPage'
 
 function createWrapper(characters: Character[]) {

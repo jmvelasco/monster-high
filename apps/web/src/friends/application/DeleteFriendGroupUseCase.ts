@@ -1,4 +1,4 @@
-import type { FriendGroupRepository } from '../domain/FriendGroupRepository'
+import type { FriendGroupRepository } from '../domain/ports/FriendGroupRepository'
 
 export class DeleteFriendGroupUseCase {
   private readonly repository: FriendGroupRepository

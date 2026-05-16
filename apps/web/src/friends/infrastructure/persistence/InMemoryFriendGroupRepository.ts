@@ -1,5 +1,5 @@
-import { FriendGroup } from '../../domain/FriendGroup'
-import type { FriendGroupRepository } from '../../domain/FriendGroupRepository'
+import { FriendGroup } from '../../domain/entities/FriendGroup'
+import type { FriendGroupRepository } from '../../domain/ports/FriendGroupRepository'
 
 export class InMemoryFriendGroupRepository implements FriendGroupRepository {
   private groups: FriendGroup[] = []

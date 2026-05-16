@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
-import { FriendGroup } from '../../domain/FriendGroup'
-import { InMemoryFriendGroupRepository } from '../../infrastructure/persistence/InMemoryFriendGroupRepository'
 import { FindFriendGroupBySlugUseCase } from '../../application/FindFriendGroupBySlugUseCase'
+import { FriendGroup } from '../../domain/entities/FriendGroup'
+import { InMemoryFriendGroupRepository } from '../../infrastructure/persistence/InMemoryFriendGroupRepository'
 
 describe('The FindFriendGroupBySlugUseCase', () => {
   it('returns null when group does not exist', async () => {

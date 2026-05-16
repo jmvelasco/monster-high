@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { Maybe } from '../../../shared/domain/Maybe'
 import { generateSlug } from '../../../shared/domain/slugUtils'
-import type { Character } from '../../domain/Character'
+import type { Character } from '../../domain/entities/Character'
 import { useCharacterUseCases } from '../context/CharacterUseCases.context'
 
 export const charactersKey = ['characters']
