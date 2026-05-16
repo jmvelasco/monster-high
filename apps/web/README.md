@@ -6,14 +6,14 @@ Esta app consume un catalogo estatico desde `public/api/characters.json` y ofrec
 
 - listado de personajes
 - detalle por personaje
-- favoritos persistidos en `localStorage`
+- grupos de amigas persistidos en `localStorage`
 
 ## Stack
 
 - React 19
 - React Router 7
 - Vite 7
-- SWR
+- React Query (TanStack Query)
 - TypeScript
 - Vitest + Testing Library
 - ESLint + Prettier
@@ -22,21 +22,44 @@ Esta app consume un catalogo estatico desde `public/api/characters.json` y ofrec
 
 - `/` y `/characters`: listado de personajes
 - `/character/:slug`: detalle de personaje
-- `/favorites`: vista de favoritos
+- `/friends`: grupos de amigas
+- `/friends/:slug`: detalle de grupo
 
 ## Estructura principal
+
+La app sigue una arquitectura hexagonal organizada por vertical slices:
 
 ```text
 apps/web/
 ├── public/
 │   └── api/
 ├── src/
-│   ├── components/
-│   ├── hooks/
-│   ├── pages/
-│   ├── styles/
-│   ├── types/
-│   └── utils/
+│   ├── characters/
+│   │   ├── application/
+│   │   ├── domain/
+│   │   │   ├── entities/
+│   │   │   └── ports/
+│   │   ├── infrastructure/
+│   │   │   ├── context/
+│   │   │   ├── persistence/
+│   │   │   ├── store/
+│   │   │   └── ui/
+│   │   └── tests/
+│   ├── friends/
+│   │   ├── application/
+│   │   ├── domain/
+│   │   │   ├── entities/
+│   │   │   └── ports/
+│   │   ├── infrastructure/
+│   │   │   ├── context/
+│   │   │   ├── persistence/
+│   │   │   ├── store/
+│   │   │   └── ui/
+│   │   └── tests/
+│   ├── shared/
+│   │   ├── domain/
+│   │   └── infrastructure/
+│   └── styles/
 ├── vite.config.ts
 ├── vitest.config.ts
 └── package.json
@@ -44,9 +67,9 @@ apps/web/
 
 ## Datos
 
-- `useCharacters` carga la lista desde `/api/characters.json`.
-- `useCharacter` resuelve un personaje concreto a partir del slug.
-- `useFavorites` gestiona favoritos con almacenamiento local del navegador.
+- `useCharactersQuery` carga la lista desde `/api/characters.json` via React Query.
+- `useFriendGroupsQuery` y `useFriendGroupMutations` gestionan grupos de amigas con almacenamiento en `localStorage`.
+- Los use cases se inyectan via Context providers (`AppProviders`).
 
 La app no consume directamente el backend de scraping en tiempo real.
 
