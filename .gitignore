@@ -22,7 +22,7 @@ data/*.json
 .DS_Store
 
 # Agent rules (generated locally, not versioned)
-.agents/**/*
-.github/**/*
-AGENTS.md
-openspec/config.yaml
+# .agents/**/*
+# .github/**/*
+# AGENTS.md
+# openspec/config.yaml
