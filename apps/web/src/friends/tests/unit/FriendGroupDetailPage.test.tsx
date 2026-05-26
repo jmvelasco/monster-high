@@ -18,7 +18,7 @@ import { RemoveMemberFromGroupUseCase } from '../../application/RemoveMemberFrom
 import { FriendGroup } from '../../domain/entities/FriendGroup'
 import { FriendGroupUseCasesProvider } from '../../infrastructure/context/FriendGroupUseCases.context'
 import { InMemoryFriendGroupRepository } from '../../infrastructure/persistence/InMemoryFriendGroupRepository'
-import { FriendGroupDetailPage } from '../../infrastructure/ui/FriendGroupDetailPage'
+import { FriendGroupDetailPage } from '../../infrastructure/ui/FriendGroupDetailPage/FriendGroupDetailPage'
 
 function createWrapper(characters: Character[], groups: FriendGroup[]) {
   const charRepository = new InMemoryCharacterRepository(characters)

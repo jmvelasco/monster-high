@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Factory } from '../../../shared/infrastructure/Factory'
-import { AppProviders } from '../../../shared/infrastructure/ui/AppProviders'
-import { useFriendGroupMutations } from '../store/FriendGroup.mutations'
-import { useFriendGroupsQuery } from '../store/FriendGroup.queries'
+import { Factory } from '../../../../shared/infrastructure/Factory'
+import { AppProviders } from '../../../../shared/infrastructure/ui/AppProviders'
+import { useFriendGroupMutations } from '../../store/FriendGroup.mutations'
+import { useFriendGroupsQuery } from '../../store/FriendGroup.queries'
 import styles from './FriendGroupsPage.module.css'
 
 export function FriendGroupsWiredPage() {

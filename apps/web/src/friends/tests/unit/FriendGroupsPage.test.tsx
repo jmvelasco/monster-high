@@ -12,7 +12,7 @@ import { ListFriendGroupsUseCase } from '../../application/ListFriendGroupsUseCa
 import { RemoveMemberFromGroupUseCase } from '../../application/RemoveMemberFromGroupUseCase'
 import { FriendGroupUseCasesProvider } from '../../infrastructure/context/FriendGroupUseCases.context'
 import { InMemoryFriendGroupRepository } from '../../infrastructure/persistence/InMemoryFriendGroupRepository'
-import { FriendGroupsPage } from '../../infrastructure/ui/FriendGroupsPage'
+import { FriendGroupsPage } from '../../infrastructure/ui/FriendGroupsPage/FriendGroupsPage'
 
 function createWrapper() {
   const repository = new InMemoryFriendGroupRepository()
