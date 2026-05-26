@@ -1,0 +1,34 @@
+name: "🛡️ Architecture Environment Gate"
+
+on:
+  pull_request:
+    branches: [ gh-600 ] # 🎯 Filtrado exclusivo hacia tu rama de simulación
+
+jobs:
+  validate-layers:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 📥 Clonar repositorio
+      uses: actions/checkout@v4
+
+    - name: 🟢 Configurar Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'npm'
+
+    - name: 📦 Instalar dependencias del Monorepo
+      run: npm ci # Se ejecuta en la raíz para instalar todo el monorepo
+
+    - name: ⚙️ Validar Backend (Tipos + Capas Hexagonales)
+      working-directory: apps/backend # 🏠 Cambia el contexto a la carpeta del backend
+      run: |
+        npx tsc --noEmit
+        npx eslint . --max-warnings 0
+
+    - name: ⚙️ Validar Frontend (Tipos + Slices Verticales)
+      working-directory: apps/web # 🏠 Cambia el contexto a la carpeta del frontend
+      run: |
+        npx tsc --noEmit
+        npx eslint . --max-warnings 0
