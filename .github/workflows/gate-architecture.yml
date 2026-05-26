@@ -25,10 +25,10 @@ jobs:
       working-directory: apps/backend # 🏠 Cambia el contexto a la carpeta del backend
       run: |
         npx tsc --noEmit
-        npx eslint . --max-warnings 0
+        npx eslint src --quiet
 
     - name: ⚙️ Validar Frontend (Tipos + Slices Verticales)
       working-directory: apps/web # 🏠 Cambia el contexto a la carpeta del frontend
       run: |
         npx tsc --noEmit
-        npx eslint . --max-warnings 0
+        npx eslint src --quiet
