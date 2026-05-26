@@ -1,52 +1,43 @@
 import { FindCharacterBySlugUseCase } from '../../characters/application/FindCharacterBySlugUseCase'
 import { ListCharactersUseCase } from '../../characters/application/ListCharactersUseCase'
-import { HttpCharacterRepository } from '../../characters/infrastructure/persistence/HttpCharacterRepository'
 import { AddMemberToGroupUseCase } from '../../friends/application/AddMemberToGroupUseCase'
 import { CreateFriendGroupUseCase } from '../../friends/application/CreateFriendGroupUseCase'
 import { DeleteFriendGroupUseCase } from '../../friends/application/DeleteFriendGroupUseCase'
 import { FindFriendGroupBySlugUseCase } from '../../friends/application/FindFriendGroupBySlugUseCase'
 import { ListFriendGroupsUseCase } from '../../friends/application/ListFriendGroupsUseCase'
 import { RemoveMemberFromGroupUseCase } from '../../friends/application/RemoveMemberFromGroupUseCase'
-import { LocalStorageFriendGroupRepository } from '../../friends/infrastructure/persistence/LocalStorageFriendGroupRepository'
+import { characterRepository, friendGroupRepository } from './repositories'
 
 export class Factory {
   static createListCharactersUseCase(): ListCharactersUseCase {
-    const repository = new HttpCharacterRepository()
-    return new ListCharactersUseCase(repository)
+    return new ListCharactersUseCase(characterRepository)
   }
 
   static createFindCharacterBySlugUseCase(): FindCharacterBySlugUseCase {
-    const repository = new HttpCharacterRepository()
-    return new FindCharacterBySlugUseCase(repository)
+    return new FindCharacterBySlugUseCase(characterRepository)
   }
 
   static createListFriendGroupsUseCase(): ListFriendGroupsUseCase {
-    const repository = new LocalStorageFriendGroupRepository()
-    return new ListFriendGroupsUseCase(repository)
+    return new ListFriendGroupsUseCase(friendGroupRepository)
   }
 
   static createFindFriendGroupBySlugUseCase(): FindFriendGroupBySlugUseCase {
-    const repository = new LocalStorageFriendGroupRepository()
-    return new FindFriendGroupBySlugUseCase(repository)
+    return new FindFriendGroupBySlugUseCase(friendGroupRepository)
   }
 
   static createCreateFriendGroupUseCase(): CreateFriendGroupUseCase {
-    const repository = new LocalStorageFriendGroupRepository()
-    return new CreateFriendGroupUseCase(repository)
+    return new CreateFriendGroupUseCase(friendGroupRepository)
   }
 
   static createAddMemberToGroupUseCase(): AddMemberToGroupUseCase {
-    const repository = new LocalStorageFriendGroupRepository()
-    return new AddMemberToGroupUseCase(repository)
+    return new AddMemberToGroupUseCase(friendGroupRepository)
   }
 
   static createRemoveMemberFromGroupUseCase(): RemoveMemberFromGroupUseCase {
-    const repository = new LocalStorageFriendGroupRepository()
-    return new RemoveMemberFromGroupUseCase(repository)
+    return new RemoveMemberFromGroupUseCase(friendGroupRepository)
   }
 
   static createDeleteFriendGroupUseCase(): DeleteFriendGroupUseCase {
-    const repository = new LocalStorageFriendGroupRepository()
-    return new DeleteFriendGroupUseCase(repository)
+    return new DeleteFriendGroupUseCase(friendGroupRepository)
   }
 }
