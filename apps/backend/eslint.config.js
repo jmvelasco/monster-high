@@ -26,8 +26,44 @@ module.exports = [
       ...prettierConfig.rules,
       '@typescript-eslint/explicit-module-boundary-types': 0,
       '@typescript-eslint/no-explicit-any': 1,
-      'no-console': 1,
+      'no-console': 0,
       'prettier/prettier': 1,
+    },
+  },
+  {
+    files: ['src/domain/**/*.ts'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['**/application/**', '**/application'],
+              message: 'Domain must not import from the Application layer.',
+            },
+            {
+              group: ['**/infrastructure/**', '**/infrastructure'],
+              message: 'Domain must not import from the Infrastructure layer.',
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: ['src/application/**/*.ts'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['**/infrastructure/**', '**/infrastructure'],
+              message: 'Application must not import from the Infrastructure layer.',
+            },
+          ],
+        },
+      ],
     },
   },
 ];
