@@ -13,7 +13,7 @@ import { InMemoryFriendGroupRepository } from '../../../friends/infrastructure/p
 import { FindCharacterBySlugUseCase } from '../../application/FindCharacterBySlugUseCase'
 import { ListCharactersUseCase } from '../../application/ListCharactersUseCase'
 import { CharacterUseCasesProvider } from '../../infrastructure/context/CharacterUseCases.context'
-import { InMemoryCharacterRepository } from '../../infrastructure/persistence/InMemoryCharacterRepository'
+import { InMemoryCharacterRepository } from '../fakes/InMemoryCharacterRepository'
 import { CharacterCard } from '../../infrastructure/ui/CharacterCard/CharacterCard'
 import { CharacterDetail } from '../../infrastructure/ui/CharacterDetail/CharacterDetail'
 

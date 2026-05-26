@@ -45,11 +45,7 @@ describe('ColoredConsoleFizzBuzzPresenter', () => {
 
     presenter.present(results);
 
-    const expected = [
-      `${COLORS.odd}1${RESET}`,
-      `${COLORS.even}2${RESET}`,
-      `${COLORS.fizz}Fizz${RESET}`,
-    ].join(' ');
+    const expected = [`${COLORS.odd}1${RESET}`, `${COLORS.even}2${RESET}`, `${COLORS.fizz}Fizz${RESET}`].join(' ');
     expect(logSpy).toHaveBeenCalledWith(expected);
   });
 
