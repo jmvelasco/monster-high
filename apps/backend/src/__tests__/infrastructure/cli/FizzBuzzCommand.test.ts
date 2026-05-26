@@ -1,7 +1,7 @@
-import { FizzBuzzCommand } from '../commands/FizzBuzzCommand';
+import { FizzBuzzCommand } from '../../../infrastructure/cli/commands/FizzBuzzCommand';
 import { RunFizzBuzzUseCase } from '../../../application/RunFizzBuzzUseCase';
-import { FizzBuzzPresenter } from '../../../domain/FizzBuzzPresenter';
-import { FizzBuzzResult } from '../../../domain/FizzBuzz';
+import { FizzBuzzPresenter } from '../../../domain/ports/FizzBuzzPresenter';
+import { FizzBuzzResult } from '../../../domain/entities/FizzBuzz';
 
 class SpyPresenter implements FizzBuzzPresenter {
   presentedResults: FizzBuzzResult[] = [];

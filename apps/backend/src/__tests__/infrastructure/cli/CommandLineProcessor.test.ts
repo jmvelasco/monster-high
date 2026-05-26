@@ -1,5 +1,5 @@
 import { Command } from '../../../domain/ports/Command';
-import { CLIEngine, CliParameterBuilder, CommandLineProcessor } from '../CommandLineProcessor';
+import { CLIEngine, CliParameterBuilder, CommandLineProcessor } from '../../../infrastructure/cli/CommandLineProcessor';
 
 class MockCommand implements Command {
   name = 'test-cmd';

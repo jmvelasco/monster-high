@@ -1,4 +1,4 @@
-import { GenerateCharactersCommand } from '../commands/GenerateCharactersCommand';
+import { GenerateCharactersCommand } from '../../../infrastructure/cli/commands/GenerateCharactersCommand';
 import { GenerateCharacterCatalogUseCase } from '../../../application/GenerateCharacterCatalogUseCase';
 
 class StubUseCase extends GenerateCharacterCatalogUseCase {
