@@ -1,0 +1,24 @@
+name: "🚀 CD: Despliegue Autónomo a Producción"
+
+on:
+  push:
+    branches:
+      - gh-600 # Se dispara automáticamente al consolidar código en nuestra rama principal
+
+jobs:
+  deploy:
+    name: 🌍 Executing Production Deployment
+    runs-on: ubuntu-latest
+    
+    # 🎯 Vínculo al entorno protegido (Casing idéntico al de tu captura)
+    environment: Production
+
+    steps:
+      - name: 📥 Checkout del código
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Simular Despliegue de Infraestructura
+        run: |
+          echo "Iniciando la mutación del entorno de producción..."
+          echo "Desplegando artefactos generados de forma autónoma..."
+          echo "¡Despliegue completado con éxito en producción!"
