@@ -1,24 +1,30 @@
-name: "🚀 CD: Despliegue Autónomo a Producción"
+name: "🚀 Architecture Deployment Gate"
 
 on:
   push:
-    branches:
-      - gh-600 # Se dispara automáticamente al consolidar código en nuestra rama principal
+    branches: [ gh-600 ] # Se dispara de forma determinista al consolidar código aquí
 
 jobs:
-  deploy:
-    name: 🌍 Executing Production Deployment
+  release-and-deploy:
     runs-on: ubuntu-latest
-    
-    # 🎯 Vínculo al entorno protegido (Casing idéntico al de tu captura)
-    environment: Production
+    environment: Production # 🛡️ Forzar la pausa síncrona (HITL) en el servidor
 
     steps:
-      - name: 📥 Checkout del código
-        uses: actions/checkout@v4
+    - name: 📥 Clonar repositorio
+      uses: actions/checkout@v4
 
-      - name: ⚙️ Simular Despliegue de Infraestructura
-        run: |
-          echo "Iniciando la mutación del entorno de producción..."
-          echo "Desplegando artefactos generados de forma autónoma..."
-          echo "¡Despliegue completado con éxito en producción!"
+    - name: 🟢 Configurar Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'npm'
+
+    - name: 📦 Instalar dependencias del Monorepo
+      run: npm ci
+
+    - name: 🚀 Desplegar en Vercel (Solo post-aprobación humana)
+      run: npx vercel deploy --prod --yes
+      env:
+        VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        VERCEL_ORG_ID: ${{ vars.VERCEL_ORG_ID }}
+        VERCEL_PROJECT_ID: ${{ vars.VERCEL_PROJECT_ID }}
