@@ -19,16 +19,7 @@ jobs:
         cache: 'npm'
 
     - name: 📦 Instalar dependencias del Monorepo
-      run: npm ci # Se ejecuta en la raíz para instalar todo el monorepo
+      run: npm ci # Instala el árbol completo de dependencias en la raíz
 
-    - name: ⚙️ Validar Backend (Tipos + Capas Hexagonales)
-      working-directory: apps/backend # 🏠 Cambia el contexto a la carpeta del backend
-      run: |
-        npx tsc --noEmit
-        npx eslint src --quiet
-
-    - name: ⚙️ Validar Frontend (Tipos + Slices Verticales)
-      working-directory: apps/web # 🏠 Cambia el contexto a la carpeta del frontend
-      run: |
-        npx tsc --noEmit
-        npx eslint src --quiet
+    - name: 🚀 Ejecutar Hard Policy Gate (Verificación de Capas Hexagonales)
+      run: npx tsx scripts/validate-architecture.ts

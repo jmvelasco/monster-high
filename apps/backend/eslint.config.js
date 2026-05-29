@@ -45,6 +45,10 @@ module.exports = [
               group: ['**/infrastructure/**', '**/infrastructure'],
               message: 'Domain must not import from the Infrastructure layer.',
             },
+            {
+              group: ['axios', 'node-fetch', 'cheerio'],
+              message: 'Domain is strictly forbidden from importing third-party infrastructure packages.',
+            },
           ],
         },
       ],

@@ -15,3 +15,4 @@
 # 3. Archivos Globales de Configuración del Monorepo (Evitar mutaciones de entorno)
 /package.json                               @jmvelasco
 /.github/workflows/                         @jmvelasco
+/scripts/validate-architecture.ts           @jmvelasco
