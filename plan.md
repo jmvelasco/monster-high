@@ -1,4 +1,4 @@
-# Plan: Auto-copy generated JSON to frontend public folder after catalog generation
+# [ARCHIVED] Plan: Auto-copy generated JSON to frontend public folder after catalog generation
 
 ## Scope
 After `GenerateCharacterCatalogUseCase.execute()` completes successfully, copy the generated
