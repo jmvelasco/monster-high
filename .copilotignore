@@ -12,5 +12,7 @@
 # Proteger el archivo de persistencia de datos de simulación si se considera sensible
 **/monsterHighCharacters.json
 
-# Bloquear el acceso a las cachés de almacenamiento local del IDE
+# Bloquear el acceso a las cachés de almacenamiento local del IDE y metamemoria
 **/workspaceStorage/
+**/.memories/*
+**/memories/**
