@@ -72,7 +72,7 @@ describe('The GenerateCharacterCatalog UseCase', () => {
       Character.fromDetails({
         name: 'Cleo de Nilo',
         url: '/Cleo',
-        technicalInfo: { dummy: 'value' },
+        technicalInfo: { mejoresAmigos: 'Draculaura, Clawdeen' },
         sections: {},
         image: 'cleo.png',
       })
@@ -82,7 +82,7 @@ describe('The GenerateCharacterCatalog UseCase', () => {
       Character.fromDetails({
         name: 'Draculaura',
         url: '/Draculaura',
-        technicalInfo: { dummy: 'value' },
+        technicalInfo: { mejoresAmigos: 'Cleo de Nilo, Frankie' },
         sections: {},
         image: 'draculaura.png',
       })
@@ -102,7 +102,12 @@ describe('The GenerateCharacterCatalog UseCase', () => {
 
     scraper.characters.set(
       '/Cleo',
-      Character.fromDetails({ name: 'Cleo de Nilo', url: '/Cleo', technicalInfo: { dummy: 'value' }, sections: {} })
+      Character.fromDetails({
+        name: 'Cleo de Nilo',
+        url: '/Cleo',
+        technicalInfo: { mejoresAmigos: 'Draculaura' },
+        sections: {},
+      })
     );
     scraper.characters.set(
       '/Draculaura',
@@ -122,7 +127,12 @@ describe('The GenerateCharacterCatalog UseCase', () => {
 
     scraper.characters.set(
       '/Cleo',
-      Character.fromDetails({ name: 'Cleo de Nilo', url: '/Cleo', technicalInfo: { dummy: 'value' }, sections: {} })
+      Character.fromDetails({
+        name: 'Cleo de Nilo',
+        url: '/Cleo',
+        technicalInfo: { mejoresAmigos: 'Draculaura' },
+        sections: {},
+      })
     );
     // Draculaura intentionally not added
 
@@ -139,11 +149,21 @@ describe('The GenerateCharacterCatalog UseCase', () => {
 
     scraper.characters.set(
       '/Cleo',
-      Character.fromDetails({ name: 'Cleo de Nilo', url: '/Cleo', technicalInfo: { dummy: 'value' }, sections: {} })
+      Character.fromDetails({
+        name: 'Cleo de Nilo',
+        url: '/Cleo',
+        technicalInfo: { mejoresAmigos: 'Draculaura' },
+        sections: {},
+      })
     );
     scraper.characters.set(
       '/Draculaura',
-      Character.fromDetails({ name: 'Draculaura', url: '/Draculaura', technicalInfo: { dummy: 'value' }, sections: {} })
+      Character.fromDetails({
+        name: 'Draculaura',
+        url: '/Draculaura',
+        technicalInfo: { mejoresAmigos: 'Cleo de Nilo' },
+        sections: {},
+      })
     );
 
     storyGenerator.failForUrls.add('/Draculaura');
@@ -161,11 +181,21 @@ describe('The GenerateCharacterCatalog UseCase', () => {
 
     scraper.characters.set(
       '/Cleo',
-      Character.fromDetails({ name: 'Cleo de Nilo', url: '/Cleo', technicalInfo: { dummy: 'value' }, sections: {} })
+      Character.fromDetails({
+        name: 'Cleo de Nilo',
+        url: '/Cleo',
+        technicalInfo: { mejoresAmigos: 'Draculaura' },
+        sections: {},
+      })
     );
     scraper.characters.set(
       '/Draculaura',
-      Character.fromDetails({ name: 'Draculaura', url: '/Draculaura', technicalInfo: { dummy: 'value' }, sections: {} })
+      Character.fromDetails({
+        name: 'Draculaura',
+        url: '/Draculaura',
+        technicalInfo: { mejoresAmigos: 'Cleo de Nilo' },
+        sections: {},
+      })
     );
 
     let saveCallCount = 0;
@@ -178,5 +208,37 @@ describe('The GenerateCharacterCatalog UseCase', () => {
     await useCase.execute();
 
     expect(saveCallCount).toBeGreaterThanOrEqual(2);
+  });
+
+  it('skips a character and does not save it when its friends list is empty', async () => {
+    const link1: CharacterLink = { name: 'Cleo de Nilo', url: '/Cleo' };
+    const link2: CharacterLink = { name: 'Draculaura', url: '/Draculaura' };
+    scraper.links = [link1, link2];
+
+    scraper.characters.set(
+      '/Cleo',
+      Character.fromDetails({
+        name: 'Cleo de Nilo',
+        url: '/Cleo',
+        technicalInfo: { mejoresAmigos: 'Draculaura, Clawdeen' },
+        sections: {},
+        image: 'cleo.png',
+      })
+    );
+    scraper.characters.set(
+      '/Draculaura',
+      Character.fromDetails({
+        name: 'Draculaura',
+        url: '/Draculaura',
+        technicalInfo: { edad: '1600' }, // no mejoresAmigos
+        sections: {},
+        image: 'draculaura.png',
+      })
+    );
+
+    await useCase.execute();
+
+    expect(repository.savedCharacters).toHaveLength(1);
+    expect(repository.savedCharacters[0]?.name).toBe('Cleo de Nilo');
   });
 });
