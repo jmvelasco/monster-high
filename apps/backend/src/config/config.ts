@@ -23,6 +23,7 @@ export const config = {
   storage: {
     outputDir: path.resolve(__dirname, '../../../../data'), // Adjusted path for monorepo structure
     outputFile: 'monsterHighCharacters.json',
+    frontendPublicPath: path.resolve(__dirname, '../../../../apps/web/public/api/characters.json'),
   },
 };
 

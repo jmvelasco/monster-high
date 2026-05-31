@@ -39,6 +39,11 @@ export class GenerateCharacterCatalogUseCase {
         continue;
       }
 
+      if (!enriched.hasFriends()) {
+        this.logger.log(`⚠️ Skipping ${link.name} (No friends list).`);
+        continue;
+      }
+
       publishedCharacters.push(enriched);
       await this.repository.saveAll(publishedCharacters);
     }

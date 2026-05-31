@@ -11,6 +11,26 @@ jobs:
     steps:
     - name: 📥 Clonar repositorio
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: 🔍 Verificar plan.md obligatorio
+      run: |
+        CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
+        echo "Archivos modificados en este PR:"
+        echo "$CHANGED_FILES"
+        if ! echo "$CHANGED_FILES" | grep -qE '(^|/)plan\.md$'; then
+          echo ""
+          echo "❌ POLÍTICA DE PLANIFICACIÓN OBLIGATORIA VIOLADA"
+          echo "──────────────────────────────────────────────────────────────"
+          echo "Este Pull Request no incluye ningún archivo plan.md añadido o"
+          echo "modificado. La Fase de Planificación es obligatoria antes de"
+          echo "cualquier modificación de código. Documenta tu plan en un"
+          echo "archivo plan.md y vuelve a enviar el Pull Request."
+          echo "──────────────────────────────────────────────────────────────"
+          exit 1
+        fi
+        echo "✅ Archivo plan.md detectado. Fase de Planificación validada correctamente."
 
     - name: 🟢 Configurar Node.js
       uses: actions/setup-node@v4

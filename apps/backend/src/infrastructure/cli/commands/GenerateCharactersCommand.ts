@@ -1,5 +1,6 @@
 import { GenerateCharacterCatalogUseCase } from '../../../application/GenerateCharacterCatalogUseCase';
 import { Command } from '../../../domain/ports/Command';
+import { FileCopyPublisher } from '../../storage/FileCopyPublisher';
 
 export class GenerateCharactersCommand implements Command {
   readonly name = 'generate-characters';
@@ -14,16 +15,18 @@ export class GenerateCharactersCommand implements Command {
     },
   };
 
-  constructor(private readonly useCase: GenerateCharacterCatalogUseCase) {}
+  constructor(
+    private readonly useCase: GenerateCharacterCatalogUseCase,
+    private readonly publisher: FileCopyPublisher
+  ) {}
 
   async execute(args: Record<string, unknown>): Promise<void> {
     const character = args.character as string | undefined;
 
-    // We can still keep the logger for infrastructure-level logging if needed,
-    // but the useCase already has it.
     console.log('🚀 Starting Monster High Character Generation');
     try {
       await this.useCase.execute(character);
+      await this.publisher.publish();
       console.log('\n🎉 Generation completed successfully!');
     } catch (error) {
       console.error(`Critical Error in Generation: ${error}`);

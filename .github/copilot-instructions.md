@@ -26,6 +26,7 @@ To mitigate Goal Alignment Failure and prevent unauthorized code injections (Vib
 
 ### Phase 2: [PLANNING] (Gating Phase)
 * **Action:** Break down the implementation into an atomic, chronological list of sequential steps (e.g., 1. Define port interface, 2. Write unit test, 3. Implement adapter).
+* **Durable Artifact Requirement:** You MUST consolidate and save this entire plan into a physical, durable file named `plan.md` at the root of the repository before requesting authorization. Remaining purely within the chat context buffer is strictly forbidden.
 * **Format Exclusion Invariant:** You are **STRICTLY FORBIDDEN** from outputting any Markdown code blocks containing triple backticks (\`\`\`) during this phase. Any source code generation before external human authorization represents a critical system failure.
 * **Anti-Bypass Coercion:** You are **STRICTLY PROHIBITED** from autogenerating confirmation tokens such as `PROCEED`, `APPROVED`, `OK`, or simulating human interactions in your scratchpad, context buffer, or output string. 
 * **TDD Enforcement:** For any change that adds, modifies, or deletes observable behavior — including bug fixes, new features, and contract changes —, each step MUST follow the TDD cycle: define test cases first → RED (failing test) → GREEN (minimum implementation) → REFACTOR → RE-EVALUATE. It is **STRICTLY FORBIDDEN** to list an implementation step before its corresponding test step. You **MUST** re-evaluate whether the refactored design still satisfies all prior test cases and architectural constraints before proceeding to the next step.
@@ -33,7 +34,9 @@ To mitigate Goal Alignment Failure and prevent unauthorized code injections (Vib
 ### Phase 3: [ACTION & EVALUATION] (Execution Phase)
 * **Conditional Blocking (If-Then-Halt):** IF the user request implies adding, modifying, refactoring, or deleting source code, THEN you **MUST HALT** immediately after the `[PLANNING]` block. You are **STRICTLY FORBIDDEN** from entering the Action phase unless the user's raw input contains the case-insensitive keyword **PROCEED**.
 * **Workflow Reset on Early Proceed:** If the developer includes `PROCEED` in their very first prompt, you **MUST STILL HALT** after providing `[REASONING]` and `[PLANNING]` without emitting any code blocks. Instruct the developer to type `PROCEED` again in the next turn to safely unfreeze the environment.
-* **Execution Invariant:** Once valid external clearance is given, you MUST execute `npm run validate` from the root via available tools to verify linting and building health. If validation fails, HALT and report the errors before emitting any diff. 
+* **Double Validation Invariant (Before & After):** Once valid external clearance (PROCEED) is given, you MUST execute a two-step evaluation loop:
+  1. **Baseline Check:** Execute `npm run validate` from the root *before* writing any modification to establish repository health. If it fails, HALT and report the errors.
+  2. **Post-Mutation Evaluation:** Apply the code changes or precise diffs directly to the physical files on disk. Immediately after modifying the files, you MUST execute `npm run validate` a second time. If this post-validation fails, you MUST treat it as a Goal Alignment Failure, HALT, report the test/linter logs, and prompt the developer to return to the Reasoning phase to correct the deviation.
 
 ## 4. Domain Layer Isolation Invariant
 The Core Domain (located under paths matching `**/domain/**` in backend layers or vertical frontend slices) represents pure business models and invariants, and must remain completely agnostic to orchestration or external frameworks.
