@@ -7,8 +7,9 @@ interface Props {
   emptyMessage?: string
 }
 
-export function CharacterGrid({ characters, emptyMessage = 'No hay personajes disponibles' }: Props) {
-  if (characters.length === 0) {
+export function CharacterGrid(props: Props) {
+  const emptyMessage = props.emptyMessage ?? 'No hay personajes disponibles'
+  if (props.characters.length === 0) {
     return (
       <div className={styles.empty}>
         <div className={styles.emptyIcon} aria-hidden="true">
@@ -21,7 +22,7 @@ export function CharacterGrid({ characters, emptyMessage = 'No hay personajes di
 
   return (
     <div className={styles.grid}>
-      {characters.map(character => (
+      {props.characters.map(character => (
         <CharacterCard key={character.name} character={character} variant="list" />
       ))}
     </div>

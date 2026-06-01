@@ -6,7 +6,7 @@ interface SearchInputProps {
   onReset: () => void
 }
 
-export function SearchInput({ value, onChange, onReset }: SearchInputProps) {
+export function SearchInput(props: SearchInputProps) {
   return (
     <div className={styles.container}>
       <label className={styles.srOnly} htmlFor="character-search">
@@ -17,16 +17,16 @@ export function SearchInput({ value, onChange, onReset }: SearchInputProps) {
         type="search"
         role="searchbox"
         className={styles.input}
-        value={value}
+        value={props.value}
         placeholder="Buscar personaje..."
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => props.onChange(e.target.value)}
       />
-      {value !== '' && (
+      {props.value !== '' && (
         <button
           type="button"
           className={styles.resetButton}
           aria-label="Limpiar búsqueda"
-          onClick={onReset}
+          onClick={props.onReset}
         >
           ✕
         </button>
