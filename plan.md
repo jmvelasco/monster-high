@@ -1,178 +1,139 @@
-# [ARCHIVED] Plan: Auto-copy generated JSON to frontend public folder after catalog generation
+# Plan: Footer con autoría y motivación (feat/footer-author-info → gh-600)
 
-## Scope
-After `GenerateCharacterCatalogUseCase.execute()` completes successfully, copy the generated
-`monsterHighCharacters.json` from the backend data directory to `apps/web/public/api/characters.json`
-so the frontend can consume the freshest data immediately.
-
-Architecture placement: exclusively `infrastructure/storage/` (new adapter `FileCopyPublisher`).
-No domain port needed — this is a purely operational infrastructure concern.
+## TL;DR
+Añadir un componente `Footer` estático al layout compartido del frontend, mostrando la dedicatoria
+a Cloe y la práctica deliberada como motivación. El componente vivirá en
+`shared/infrastructure/ui/Footer/`, siguiendo el mismo patrón que `Header`. Se ejecuta bajo ciclo
+TDD estricto con rama independiente y PR a `gh-600`.
 
 ---
 
-## Step 1 — Config: add frontend public path
+## FASE 0 — Infraestructura Git + Baseline
 
-**File:** `apps/backend/src/config/config.ts`
+**Paso 1 (git):** Verificar rama actual con `git branch --show-current` y confirmar que `gh-600`
+existe localmente o en remoto con `git fetch origin`.
 
-Add `storage.frontendPublicPath` resolving to
-`path.resolve(__dirname, '../../../../../apps/web/public/api/characters.json')`.
-No test needed — config is a value object with no logic.
+**Paso 2 (git):** Crear rama de feature a partir de `gh-600`:
+`git checkout gh-600 && git pull origin gh-600 && git checkout -b feat/footer-author-info`
 
----
-
-## Step 2 — `FileCopyPublisher` adapter: RED
-
-**File:** `apps/backend/src/__tests__/infrastructure/storage/FileCopyPublisher.test.ts`
-
-Write tests:
-- `publish()` copies source file content to destination path.
-- `publish()` creates destination directory if it does not exist.
-- `publish()` throws a descriptive error when the source file does not exist.
-
-TDD gate: run `npm run test --workspace=apps/backend` → all new cases must FAIL.
+**Paso 3 (validate — HALT si falla):** Ejecutar `npm run validate` desde la raíz para establecer
+la salud del repositorio antes de cualquier cambio. Si falla, reportar y detener.
 
 ---
 
-## Step 3 — `FileCopyPublisher` adapter: GREEN
+## FASE 1 — TDD: RED (Contrato de tests)
 
-**File:** `apps/backend/src/infrastructure/storage/FileCopyPublisher.ts`
+**Paso 4 (test — RED):** Crear `apps/web/src/shared/tests/unit/Footer.test.tsx`.
+Definir los siguientes casos de prueba (el componente aún no existe → RED):
+  - "renderiza el landmark semántico footer" — `screen.getByRole('contentinfo')` existe
+  - "muestra la dedicatoria a Cloe" — texto visible que mencione "Cloe"
+  - "muestra la motivación de práctica deliberada" — texto que mencione "práctica deliberada"
+  - "muestra el año en el copyright" — texto que incluya el año actual (2026)
+  - "tiene aria-label descriptivo en el footer" — accesibilidad del landmark
 
-Implement `FileCopyPublisher` with a `publish(): Promise<void>` method that:
-1. Ensures destination directory exists (`fs.mkdir` with `recursive: true`).
-2. Copies source to destination (`fs.copyFile`).
-
-TDD gate: run `npm run test --workspace=apps/backend` → all Step 2 cases must PASS.
-
----
-
-## Step 4 — `FileCopyPublisher` adapter: REFACTOR → RE-EVALUATE
-
-Review `FileCopyPublisher` for clarity and duplication.
-Confirm all Step 2 tests still pass.
+**Paso 5 (validate parcial — confirmar RED):** Ejecutar `npm run test --workspace=apps/web` para
+confirmar que los nuevos tests fallan (RED). Si ya pasan sin implementación, el contrato no cubre
+comportamiento nuevo — revisar.
 
 ---
 
-## Step 5 — `GenerateCharactersCommand` integration: RED
+## FASE 2 — TDD: GREEN (Implementación mínima)
 
-**File:** `apps/backend/src/__tests__/infrastructure/cli/GenerateCharactersCommand.test.ts` (existing or new)
+**Paso 6 (implementar Footer.tsx):** Crear
+`apps/web/src/shared/infrastructure/ui/Footer/Footer.tsx`.
+Estructura mínima: elemento `<footer>` con `aria-label="Información del proyecto"`, un contenedor
+`.footerContent`, y dos secciones:
+  - `.dedication` — texto con "Hecho con 💜 para Cloe" + subtexto sobre práctica deliberada
+  - `.copyright` — "© 2026 · Práctica deliberada"
+Importar el CSS Module desde `./Footer.module.css`.
 
-Add tests:
-- `publisher.publish()` is called exactly once after a successful `useCase.execute()`.
-- `publisher.publish()` is NOT called if `useCase.execute()` throws.
+**Paso 7 (implementar Footer.module.css):** Crear
+`apps/web/src/shared/infrastructure/ui/Footer/Footer.module.css`.
+Patrones a replicar del Header:
+  - `.footer`: `background-color: var(--mh-black)`, padding con `--spacing-3`/`--spacing-4`
+  - `.footerContent`: `max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column;
+    align-items: center; gap: var(--spacing-2); text-align: center`
+  - `.dedication`: `font-family: var(--font-story)` (Learning Curve), `color: var(--mh-pink)`,
+    `font-size: var(--text-xl)`
+  - `.copyright`: `color: var(--mh-gray)`, `font-size: var(--text-sm)`
+  - `@media (min-width: 768px)`: padding extendido, gap mayor
 
-TDD gate: run `npm run test --workspace=apps/backend` → new cases must FAIL.
+**Paso 8 (modificar Layout.tsx):** Importar `Footer` en
+`apps/web/src/shared/infrastructure/ui/Layout/Layout.tsx` y añadir `<Footer />` después del cierre
+de `</main>` y antes del cierre del `</div>`. No se requieren cambios en `Layout.module.css` — el
+patrón flex column con `flex: 1` en `.main` ya implementa sticky footer.
 
----
-
-## Step 6 — `GenerateCharactersCommand` integration: GREEN
-
-**File:** `apps/backend/src/infrastructure/cli/commands/GenerateCharactersCommand.ts`
-
-Inject `FileCopyPublisher` (typed via an interface or directly) as a constructor dependency.
-Call `await this.publisher.publish()` after `await this.useCase.execute(character)` inside the `try` block.
-
-TDD gate: run `npm run test --workspace=apps/backend` → all Step 5 cases must PASS.
-
----
-
-## Step 7 — Integration: REFACTOR → RE-EVALUATE
-
-Confirm clean typing, no domain layer imports, all prior tests green.
-
----
-
-## Step 8 — Wiring in composition root
-
-**File:** `apps/backend/src/index.ts`
-
-Instantiate `FileCopyPublisher` with paths from `config.storage` and inject into `GenerateCharactersCommand`.
+**Paso 9 (validate parcial — confirmar GREEN):** Ejecutar `npm run test --workspace=apps/web` para
+confirmar que todos los tests (incluyendo los nuevos) pasan. Si hay fallos, corregir sin alterar el
+contrato de tests.
 
 ---
 
-## Step 9 — Final validation
+## FASE 3 — REFACTOR + Validación Completa
 
-Run `npm run validate` from repo root. Must pass 100%.
+**Paso 10 (re-evaluar):** Revisar que el Footer sea coherente visualmente con el Header:
+  - Mismo `max-width: 1200px` y colores del design system
+  - Ningún import de librerías de infraestructura (`axios`, `groq-sdk`, etc.) en el componente
+  - No se han roto tests existentes de `CharacterCard`, `CharacterGrid`, `Header`, `Layout`, etc.
 
----
-
-# [ARCHIVED] Plan: Domain validation — character must have a non-empty friends list before being saved
-
-## Scope
-Add a domain invariant to `Character` that expresses whether the character has a declared friends list.
-Enforce that invariant in `GenerateCharacterCatalogUseCase` so that characters without friends are
-skipped (never reach `CharacterRepository.saveAll`).
+**Paso 11 (validate completa — HALT si falla):** Ejecutar `npm run validate` desde la raíz
+(backend + frontend + linting). Si falla, reportar el log completo, detener y retornar a Reasoning.
 
 ---
 
-## Step 1 — Domain entity: RED
+## FASE 4 — Commit + PR
 
-**File:** `apps/backend/src/__tests__/domain/Character.test.ts`
+**Paso 12 (git commit):** Commit atómico con mensaje convencional:
+`feat(web): add Footer component with Cloe dedication and deliberate practice motivation`
 
-Add a `describe('hasFriends()')` block with the following test cases:
+**Paso 13 (git push):** Publicar la rama:
+`git push origin feat/footer-author-info`
 
-- Returns `false` when `technicalInfo.mejoresAmigos` is absent.
-- Returns `false` when `technicalInfo.mejoresAmigos` is an empty string `""`.
-- Returns `false` when `technicalInfo.mejoresAmigos` is a whitespace-only string `"  "`.
-- Returns `true` when `technicalInfo.mejoresAmigos` contains a non-empty value like `"Draculaura, Clawdeen"`.
-
-**TDD gate:** Run `npm run test --workspace=apps/backend` → all four new cases must FAIL (method does not exist yet).
-
----
-
-## Step 2 — Domain entity: GREEN
-
-**File:** `apps/backend/src/domain/entities/Character.ts`
-
-Add a public method `hasFriends(): boolean` that returns `true` if and only if
-`this.technicalInfo.mejoresAmigos` is a non-empty, non-whitespace string.
-
-**TDD gate:** Run `npm run test --workspace=apps/backend` → the four new cases in Step 1 must now PASS.
-All pre-existing tests must remain green.
+**Paso 14 (PR):** Abrir Pull Request desde `feat/footer-author-info` → `gh-600` usando
+`gh pr create`:
+  - `--base gh-600`
+  - `--title "feat(web): add Footer with author info and deliberate practice motivation"`
+  - `--body` describiendo el cambio: componente Footer estático en shared/infrastructure/ui, con
+    dedicatoria a Cloe y contexto de práctica deliberada, bajo ciclo TDD.
 
 ---
 
-## Step 3 — Domain entity: REFACTOR → RE-EVALUATE
+## Archivos relevantes
 
-Review `hasFriends()` for clarity and consistency with the existing `isEmpty()` style.
-Re-run `npm run test --workspace=apps/backend` → full green.
+**A modificar:**
+  - `apps/web/src/shared/infrastructure/ui/Layout/Layout.tsx` — añadir `<Footer />` tras `</main>`
+  - `apps/web/src/shared/infrastructure/ui/Layout/Layout.module.css` — sin cambios necesarios
 
----
+**Referencia estructural:**
+  - `apps/web/src/shared/infrastructure/ui/Header/Header.tsx`
+  - `apps/web/src/shared/infrastructure/ui/Header/Header.module.css`
+  - `apps/web/src/styles/global.css` — variables CSS (--mh-black, --mh-pink, --font-story, etc.)
 
-## Step 4 — Application use case: RED
-
-**File:** `apps/backend/src/__tests__/application/GenerateCharacterCatalogUseCase.test.ts`
-
-Add a new `it(...)` test case:
-
-> *"skips a character and does not save it when its friends list is empty"*
-
-The test constructs two characters: one with `technicalInfo: { mejoresAmigos: 'Draculaura' }` and
-one with `technicalInfo: {}` (no friends). It expects the repository to contain only the character
-that has friends.
-
-**TDD gate:** Run `npm run test --workspace=apps/backend` → new case must FAIL (use case does not yet filter by `hasFriends()`).
+**Nuevos archivos a crear (en orden cronológico):**
+  1. `apps/web/src/shared/tests/unit/Footer.test.tsx` — suite TDD (se crea ANTES del componente)
+  2. `apps/web/src/shared/infrastructure/ui/Footer/Footer.tsx`
+  3. `apps/web/src/shared/infrastructure/ui/Footer/Footer.module.css`
 
 ---
 
-## Step 5 — Application use case: GREEN
+## Verificación
 
-**File:** `apps/backend/src/application/GenerateCharacterCatalogUseCase.ts`
-
-In `execute()`, after the existing `character.isEmpty()` guard, add:
-
-```
-if (!enriched.hasFriends()) {
-  this.logger.log(`⚠️ Skipping ${link.name} (No friends list).`);
-  continue;
-}
-```
-
-**TDD gate:** Run `npm run test --workspace=apps/backend` → the new case in Step 4 must PASS.
-All pre-existing tests must remain green.
+1. `npm run test --workspace=apps/web` tras Paso 5 → al menos 5 tests en RED (Footer no existe)
+2. `npm run test --workspace=apps/web` tras Paso 9 → todos los tests en GREEN
+3. `npm run validate` (root) tras Paso 11 → 0 errores, 0 fallos
+4. `git log --oneline -5` → confirmar commit atómico con mensaje convencional en inglés
+5. `gh pr view` → confirmar PR abierto con base `gh-600`
+6. Inspección visual en `vite dev` (opcional): footer visible en todas las rutas
 
 ---
 
-## Step 6 — Application use case: REFACTOR → RE-EVALUATE
+## Decisiones y alcance
 
-Verify the guard reads naturally alongside the existing `isEmpty()` guard.
-Run `npm run validate` (full monorepo) → must be fully green before marking this plan complete.
+- **Incluido:** Componente Footer estático, 5 tests TDD, integración en Layout, rama y PR.
+- **Excluido:** Links externos, formularios de contacto, i18n, animaciones, cambios al Header o rutas.
+- **Diseño:** Fondo `--mh-black` (simetría con Header); fuente Learning Curve (`--font-story`) para
+  la dedicatoria — calidez personal sin romper el design system.
+- **Sin cambios al backend:** El Footer es 100% frontend estático — ningún port, use case ni
+  adapter necesario.
+- **Invariante de capa:** Footer no importa nada de `domain/`, `application/`, ni SDKs externos —
+  es presentación pura bajo `shared/infrastructure/ui/`.
