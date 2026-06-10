@@ -1,4 +1,4 @@
-# [ARCHIVED] Plan: Búsqueda reactiva con debounce en CharacterListPage
+# [ARCHIVED] Plan: Feature - Búsqueda reactiva con debounce en CharacterListPage
 
 ## TL;DR
 Implementar filtrado as-you-type por nombre en `CharacterListPage`. La búsqueda se ejecuta de forma
