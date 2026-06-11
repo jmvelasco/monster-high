@@ -2,7 +2,7 @@ name: "🚀 Architecture Deployment Gate"
 
 on:
   push:
-    branches: [ gh-600 ] # Se dispara de forma determinista al consolidar código aquí
+    branches: [ main ] # Se dispara de forma determinista al consolidar código aquí
 
 jobs:
   release-and-deploy:
