@@ -1,0 +1,96 @@
+.page {
+  padding: var(--spacing-6);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.loading,
+.notFound {
+  padding: var(--spacing-12);
+  text-align: center;
+  font-size: var(--text-xl);
+  color: var(--text-color);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--spacing-8);
+}
+
+.title {
+  font-size: var(--text-4_5xl);
+  font-weight: 800;
+  margin: 0 0 var(--spacing-2) 0;
+  color: var(--text-color);
+}
+
+.memberCount {
+  font-size: var(--text-lg);
+  color: var(--text-color-secondary);
+  margin: 0;
+}
+
+.deleteButton {
+  background: var(--mh-white);
+  border: 1px solid var(--danger-color);
+  color: var(--danger-color);
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.deleteButton:hover {
+  background: var(--danger-color);
+  color: var(--mh-white);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--spacing-6);
+}
+
+.emptyMessage {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: var(--spacing-12);
+  background: var(--mh-light-gray);
+  border-radius: var(--radius-lg);
+  color: var(--text-color-secondary);
+  font-size: var(--text-lg);
+}
+
+.backButton {
+  margin-top: var(--spacing-4);
+  background: var(--mh-pink);
+  color: var(--mh-white);
+  border: none;
+  padding: var(--spacing-3) var(--spacing-6);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.removeMemberButton {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  margin-top: var(--spacing-2);
+  background: var(--mh-white);
+  border: 1px solid var(--danger-color);
+  color: var(--danger-color);
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.removeMemberButton:hover {
+  background: var(--danger-color);
+  color: var(--mh-white);
+}

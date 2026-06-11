@@ -1,0 +1,27 @@
+name: "🛡️ Architecture Environment Gate"
+
+on:
+  pull_request:
+    branches: [ gh-600 ] # 🎯 Filtrado exclusivo hacia tu rama de simulación
+
+jobs:
+  validate-layers:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 📥 Clonar repositorio
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: 🟢 Configurar Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        cache: 'npm'
+
+    - name: 📦 Instalar dependencias del Monorepo
+      run: npm ci # Instala el árbol completo de dependencias en la raíz
+
+    - name: 🚀 Ejecutar Hard Policy Gate (Verificación de Capas Hexagonales)
+      run: npx tsx scripts/validate-architecture.ts

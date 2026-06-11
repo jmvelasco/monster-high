@@ -49,4 +49,29 @@ describe('Character Model', () => {
     expect(enriched.globalStory).toBe(story);
     expect(character.globalStory).toBeUndefined(); // Immutable
   });
+
+  describe('hasFriends()', () => {
+    test('should return false when mejoresAmigos is absent from technicalInfo', () => {
+      const character = Character.fromDetails({ ...mockDetails, technicalInfo: { age: '15' } });
+      expect(character.hasFriends()).toBe(false);
+    });
+
+    test('should return false when mejoresAmigos is an empty string', () => {
+      const character = Character.fromDetails({ ...mockDetails, technicalInfo: { mejoresAmigos: '' } });
+      expect(character.hasFriends()).toBe(false);
+    });
+
+    test('should return false when mejoresAmigos is a whitespace-only string', () => {
+      const character = Character.fromDetails({ ...mockDetails, technicalInfo: { mejoresAmigos: '   ' } });
+      expect(character.hasFriends()).toBe(false);
+    });
+
+    test('should return true when mejoresAmigos contains a non-empty value', () => {
+      const character = Character.fromDetails({
+        ...mockDetails,
+        technicalInfo: { mejoresAmigos: 'Draculaura, Clawdeen' },
+      });
+      expect(character.hasFriends()).toBe(true);
+    });
+  });
 });

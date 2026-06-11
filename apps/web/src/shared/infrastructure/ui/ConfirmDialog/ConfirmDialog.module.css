@@ -1,0 +1,74 @@
+.dialog {
+  margin: auto;
+  border: none;
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-6);
+  width: 90%;
+  max-width: 400px;
+  box-shadow: var(--shadow-lg);
+  animation: slideUp var(--transition-slow) ease-out;
+  overscroll-behavior: contain;
+}
+
+.dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+}
+
+.title {
+  margin: 0 0 var(--spacing-3) 0;
+  font-size: var(--text-xl);
+  color: var(--text-color);
+}
+
+.message {
+  margin: 0 0 var(--spacing-6) 0;
+  color: var(--text-color-secondary);
+  line-height: 1.5;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-3);
+}
+
+.cancelButton {
+  padding: var(--spacing-2) var(--spacing-4);
+  border: 1px solid var(--mh-light-gray);
+  background: var(--mh-white);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-weight: 500;
+  transition: background var(--transition-base);
+}
+
+.cancelButton:hover {
+  background: var(--mh-light-gray);
+}
+
+.confirmButton {
+  padding: var(--spacing-2) var(--spacing-4);
+  border: none;
+  background: var(--danger-color);
+  color: var(--mh-white);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-weight: 500;
+  transition: background var(--transition-base);
+}
+
+.confirmButton:hover {
+  background: var(--danger-color-hover);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

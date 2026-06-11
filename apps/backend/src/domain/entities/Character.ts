@@ -44,6 +44,10 @@ export class Character {
     return !hasTechnicalInfo && !hasSections && !hasImage;
   }
 
+  hasFriends(): boolean {
+    return !!this.technicalInfo.mejoresAmigos?.trim();
+  }
+
   private flattenSection(sectionName: string, subsections: Section): string {
     return Object.entries(subsections)
       .map(([title, content]) => {

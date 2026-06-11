@@ -12,5 +12,4 @@ module.exports = {
     '!apps/**/src/**/*.spec.ts',
   ],
   modulePathIgnorePatterns: ['<rootDir>/dist/', '<rootDir>/lib/', '<rootDir>/node_modules/'],
-  verbose: true,
 };

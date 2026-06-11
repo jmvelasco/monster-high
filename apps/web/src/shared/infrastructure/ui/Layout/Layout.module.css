@@ -1,0 +1,26 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.skipLink {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  z-index: 1000;
+  padding: var(--spacing-2) var(--spacing-4);
+  background: var(--primary-color);
+  color: var(--mh-white);
+}
+
+.skipLink:focus {
+  top: 0;
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
