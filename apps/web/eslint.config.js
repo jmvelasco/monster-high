@@ -20,4 +20,40 @@ export default defineConfig([
       globals: globals.browser,
     },
   },
+  {
+    files: ['src/**/domain/**/*.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['**/application/**', '**/application'],
+              message: 'Domain must not import from the Application layer.',
+            },
+            {
+              group: ['**/infrastructure/**', '**/infrastructure'],
+              message: 'Domain must not import from the Infrastructure layer.',
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
+    files: ['src/**/application/**/*.{ts,tsx}'],
+    rules: {
+      'no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              group: ['**/infrastructure/**', '**/infrastructure'],
+              message: 'Application must not import from the Infrastructure layer.',
+            },
+          ],
+        },
+      ],
+    },
+  },
 ])

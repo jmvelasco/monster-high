@@ -1,6 +1,7 @@
 import { Factory } from '../../../shared/infrastructure/Factory'
 import { AppProviders } from '../../../shared/infrastructure/ui/AppProviders'
-import { useCharactersQuery } from '../store/Character.queries'
+import { useCharacterSearch } from '../store/Character.search'
+import { SearchInput } from './SearchInput/SearchInput'
 import { CharacterGrid } from './CharacterGrid/CharacterGrid'
 
 export function CharacterListWiredPage() {
@@ -25,20 +26,25 @@ export function CharacterListWiredPage() {
 }
 
 export function CharacterListPage() {
-  const charactersQuery = useCharactersQuery()
+  const { isLoading, errorMessage, searchTerm, setSearchTerm, resetSearch, filteredCharacters } =
+    useCharacterSearch()
 
-  if (charactersQuery.isLoading) {
+  if (isLoading) {
     return <div>Cargando personajes...</div>
   }
 
-  if (charactersQuery.errorMessage()) {
+  if (errorMessage()) {
     return <div>Error al cargar personajes</div>
   }
 
   return (
     <>
       <h1 className="visually-hidden">Personajes</h1>
-      <CharacterGrid characters={charactersQuery.characters()} />
+      <SearchInput value={searchTerm} onChange={setSearchTerm} onReset={resetSearch} />
+      <CharacterGrid
+        characters={filteredCharacters()}
+        emptyMessage={searchTerm !== '' ? 'No se encontraron personajes' : undefined}
+      />
     </>
   )
 }

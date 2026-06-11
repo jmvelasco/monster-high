@@ -8,7 +8,7 @@ import { FindCharacterBySlugUseCase } from '../../../characters/application/Find
 import { ListCharactersUseCase } from '../../../characters/application/ListCharactersUseCase'
 import type { Character } from '../../../characters/domain/entities/Character'
 import { CharacterUseCasesProvider } from '../../../characters/infrastructure/context/CharacterUseCases.context'
-import { InMemoryCharacterRepository } from '../../../characters/infrastructure/persistence/InMemoryCharacterRepository'
+import { InMemoryCharacterRepository } from '../../../characters/tests/fakes/InMemoryCharacterRepository'
 import { AddMemberToGroupUseCase } from '../../application/AddMemberToGroupUseCase'
 import { CreateFriendGroupUseCase } from '../../application/CreateFriendGroupUseCase'
 import { DeleteFriendGroupUseCase } from '../../application/DeleteFriendGroupUseCase'
@@ -18,7 +18,7 @@ import { RemoveMemberFromGroupUseCase } from '../../application/RemoveMemberFrom
 import { FriendGroup } from '../../domain/entities/FriendGroup'
 import { FriendGroupUseCasesProvider } from '../../infrastructure/context/FriendGroupUseCases.context'
 import { InMemoryFriendGroupRepository } from '../../infrastructure/persistence/InMemoryFriendGroupRepository'
-import { FriendGroupDetailPage } from '../../infrastructure/ui/FriendGroupDetailPage'
+import { FriendGroupDetailPage } from '../../infrastructure/ui/FriendGroupDetailPage/FriendGroupDetailPage'
 
 function createWrapper(characters: Character[], groups: FriendGroup[]) {
   const charRepository = new InMemoryCharacterRepository(characters)

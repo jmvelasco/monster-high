@@ -23,6 +23,6 @@ data/*.json
 
 # Agent rules (generated locally, not versioned)
 .agents/**/*
-.github/**/*
+.github/copilot-instructions.md
 AGENTS.md
 openspec/config.yaml

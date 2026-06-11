@@ -1,0 +1,18 @@
+# =========================================================================
+# 🚫 COPILOT CENSURE FILTER - NO EXFILTRACIÓN DE DATOS
+# =========================================================================
+
+# Censurar cualquier archivo de variables de entorno en cualquier aplicación
+**/.env
+**/.env.local
+**/.env.production
+**/.env.development
+**/.env.example
+
+# Proteger el archivo de persistencia de datos de simulación si se considera sensible
+**/monsterHighCharacters.json
+
+# Bloquear el acceso a las cachés de almacenamiento local del IDE y metamemoria
+**/workspaceStorage/
+**/.memories/*
+**/memories/**

@@ -48,4 +48,14 @@ describe('CharacterGrid', () => {
     expect(screen.getByText('Clawdeen Wolf')).toBeInTheDocument()
     expect(screen.getByText('Frankie Stein')).toBeInTheDocument()
   })
+
+  it('cuando emptyMessage se provee explícitamente y characters está vacío, renderiza ese mensaje', () => {
+    render(
+      <BrowserRouter>
+        <CharacterGrid characters={[]} emptyMessage="No se encontraron personajes" />
+      </BrowserRouter>
+    )
+
+    expect(screen.getByText('No se encontraron personajes')).toBeInTheDocument()
+  })
 })

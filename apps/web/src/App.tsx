@@ -1,8 +1,8 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { CharacterDetailWiredPage } from './characters/infrastructure/ui/CharacterDetailPage'
 import { CharacterListWiredPage } from './characters/infrastructure/ui/CharacterListPage'
-import { FriendGroupDetailWiredPage } from './friends/infrastructure/ui/FriendGroupDetailPage'
-import { FriendGroupsWiredPage } from './friends/infrastructure/ui/FriendGroupsPage'
+import { FriendGroupDetailWiredPage } from './friends/infrastructure/ui/FriendGroupDetailPage/FriendGroupDetailPage'
+import { FriendGroupsWiredPage } from './friends/infrastructure/ui/FriendGroupsPage/FriendGroupsPage'
 import { Layout } from './shared/infrastructure/ui/Layout/Layout'
 
 function App() {

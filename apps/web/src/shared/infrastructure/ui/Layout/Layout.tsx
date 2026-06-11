@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { Footer } from '../Footer/Footer'
 import { Header } from '../Header/Header'
 import styles from './Layout.module.css'
 
@@ -16,6 +17,7 @@ export function Layout(props: LayoutProps) {
       <main id="main-content" className={styles.main}>
         {props.children}
       </main>
+      <Footer />
     </div>
   )
 }

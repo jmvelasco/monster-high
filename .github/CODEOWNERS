@@ -1,0 +1,18 @@
+# =============================================================================
+# 🛡️ MATRIZ DE GOBERNANZA ARQUITECTÓNICA - AGENTES DE IA (GH-600)
+# =============================================================================
+# Las siguientes rutas críticas congelan de forma síncrona el flujo del agente
+# y requieren la firma criptográfica/manual de un revisor humano.
+
+# 1. Capa de Dominio del Backend (Arquitectura Hexagonal)
+/apps/backend/src/domain/                   @jmvelasco
+
+# 2. Capas de Dominio en los Vertical Slices del Frontend (Web)
+/apps/web/src/characters/domain/            @jmvelasco
+/apps/web/src/friends/domain/               @jmvelasco
+/apps/web/src/shared/domain/                @jmvelasco
+
+# 3. Archivos Globales de Configuración del Monorepo (Evitar mutaciones de entorno)
+/package.json                               @jmvelasco
+/.github/workflows/                         @jmvelasco
+/scripts/validate-architecture.ts           @jmvelasco

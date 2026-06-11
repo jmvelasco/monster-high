@@ -6,7 +6,7 @@ import { FindCharacterBySlugUseCase } from '../../application/FindCharacterBySlu
 import { ListCharactersUseCase } from '../../application/ListCharactersUseCase'
 import type { Character } from '../../domain/entities/Character'
 import { CharacterUseCasesProvider } from '../../infrastructure/context/CharacterUseCases.context'
-import { InMemoryCharacterRepository } from '../../infrastructure/persistence/InMemoryCharacterRepository'
+import { InMemoryCharacterRepository } from '../fakes/InMemoryCharacterRepository'
 import { useCharactersQuery } from '../../infrastructure/store/Character.queries'
 
 function createWrapper(characters: Character[]) {
