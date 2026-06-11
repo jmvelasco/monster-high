@@ -99,8 +99,18 @@ Notas:
 - React 19
 - React Router 7
 - Vite 7
+- SWR
 - Vitest
 - ESLint + Prettier
+
+---
+
+## Workflow Git actual
+
+Las ramas principales actuales del repositorio son:
+
+- `main`
+- `development`
 
 ---
 
@@ -262,6 +272,37 @@ npm run format:fix
 
 - Backend: Jest con umbral global de cobertura del 80%.
 - Frontend: Vitest con umbrales de cobertura del 80% para lineas, funciones, ramas y statements.
+- El workflow del repo sigue las guias de XP, TDD y refactorizacion incremental descritas en `.github/copilot-instructions.md` y `.github/instructions/`.
+
+Si trabajas en VS Code, puedes revisar `.vscode/README.md` para ver las tasks disponibles del workspace.
+
+---
+
+## Documentacion
+
+Los ADR disponibles actualmente en `docs/adr/` son:
+
+- `001-monorepo-structure.md`
+- `002-multi-ide-configuration.md`
+- `003-frontend-framework-selection.md`
+
+---
+
+## Trabajo con agentes de IA
+
+El repositorio incluye instrucciones y skills para guiar a los agentes al trabajar sobre el codigo:
+
+- `.github/copilot-instructions.md`
+- `.github/instructions/`
+- `.agents/skills/backend-hexagonal/`
+- `.agents/skills/react-best-practices/`
+- `scripts/setup-antigravity-local.sh`
+
+`.github/` actua como fuente de verdad versionada para la guia de agentes. Si necesitas preparar una copia local para Antigravity en otra maquina, puedes materializarla con `scripts/setup-antigravity-local.sh`.
+
+Estas guias refuerzan reglas de arquitectura, TDD, calidad y estilo de implementacion.
+
+---
 
 ## Licencia
 

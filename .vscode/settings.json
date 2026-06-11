@@ -1,0 +1,21 @@
+{
+  "files.associations": {
+    "*.md": "markdown"
+  },
+  "editor.rulers": [80, 120],
+  "typescript.preferences.includePackageJsonAutoImports": "off",
+  "jest.runMode": "watch",
+  "testing.automaticallyOpenPeekView": "failureInVisibleDocument",
+  "testing.followRunningTest": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit"
+  },
+  "workbench.colorCustomizations": {
+    "terminal.background": "#0C1021",
+    "terminal.foreground": "#43D9AD"
+  },
+  "emmet.includeLanguages": {
+    "typescript": "javascript"
+  }
+}
